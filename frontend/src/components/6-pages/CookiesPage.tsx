@@ -5,8 +5,6 @@ import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { List, ListItem } from "../2-atoms/List";
 import { Span } from "../2-atoms/Span";
-import { ActionButton } from "../3-molecules/ActionButton";
-import { Card, CardContent } from "../3-molecules/Card";
 import {
 	Table,
 	TableBody,
@@ -16,6 +14,8 @@ import {
 	TableRow,
 } from "../2-atoms/Table";
 import { Text } from "../2-atoms/Text";
+import { ActionButton } from "../3-molecules/ActionButton";
+import { Card, CardContent } from "../3-molecules/Card";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
 type CookieCategory = {

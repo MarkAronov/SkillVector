@@ -9,8 +9,8 @@ import {
 } from "lucide-react";
 import { Grid } from "../2-atoms/Grid";
 import { ListItem } from "../2-atoms/List";
-import { Hero } from "../3-molecules/Hero";
 import { CTACard } from "../3-molecules/CTACard";
+import { Hero } from "../3-molecules/Hero";
 import { IconCard } from "../3-molecules/IconCard";
 import { PageTemplate } from "../5-templates/PageTemplate";
 

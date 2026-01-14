@@ -1,6 +1,6 @@
 /**
  * IONS: Design Tokens - Typography
- * 
+ *
  * Font families, sizes, weights, and line heights.
  */
 
@@ -15,7 +15,14 @@ export const typography = {
 			"Segoe UI Symbol",
 			"Noto Color Emoji",
 		],
-		serif: ["ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif"],
+		serif: [
+			"ui-serif",
+			"Georgia",
+			"Cambria",
+			"Times New Roman",
+			"Times",
+			"serif",
+		],
 		mono: [
 			"ui-monospace",
 			"SFMono-Regular",
@@ -27,23 +34,23 @@ export const typography = {
 			"monospace",
 		],
 	},
-	
+
 	fontSize: {
-		xs: ["0.75rem", { lineHeight: "1rem" }],      // 12px
-		sm: ["0.875rem", { lineHeight: "1.25rem" }],  // 14px
-		base: ["1rem", { lineHeight: "1.5rem" }],     // 16px
-		lg: ["1.125rem", { lineHeight: "1.75rem" }],  // 18px
-		xl: ["1.25rem", { lineHeight: "1.75rem" }],   // 20px
-		"2xl": ["1.5rem", { lineHeight: "2rem" }],    // 24px
+		xs: ["0.75rem", { lineHeight: "1rem" }], // 12px
+		sm: ["0.875rem", { lineHeight: "1.25rem" }], // 14px
+		base: ["1rem", { lineHeight: "1.5rem" }], // 16px
+		lg: ["1.125rem", { lineHeight: "1.75rem" }], // 18px
+		xl: ["1.25rem", { lineHeight: "1.75rem" }], // 20px
+		"2xl": ["1.5rem", { lineHeight: "2rem" }], // 24px
 		"3xl": ["1.875rem", { lineHeight: "2.25rem" }], // 30px
-		"4xl": ["2.25rem", { lineHeight: "2.5rem" }],   // 36px
-		"5xl": ["3rem", { lineHeight: "1" }],           // 48px
-		"6xl": ["3.75rem", { lineHeight: "1" }],        // 60px
-		"7xl": ["4.5rem", { lineHeight: "1" }],         // 72px
-		"8xl": ["6rem", { lineHeight: "1" }],           // 96px
-		"9xl": ["8rem", { lineHeight: "1" }],           // 128px
+		"4xl": ["2.25rem", { lineHeight: "2.5rem" }], // 36px
+		"5xl": ["3rem", { lineHeight: "1" }], // 48px
+		"6xl": ["3.75rem", { lineHeight: "1" }], // 60px
+		"7xl": ["4.5rem", { lineHeight: "1" }], // 72px
+		"8xl": ["6rem", { lineHeight: "1" }], // 96px
+		"9xl": ["8rem", { lineHeight: "1" }], // 128px
 	},
-	
+
 	fontWeight: {
 		thin: "100",
 		extralight: "200",
@@ -55,7 +62,7 @@ export const typography = {
 		extrabold: "800",
 		black: "900",
 	},
-	
+
 	lineHeight: {
 		none: "1",
 		tight: "1.25",
@@ -64,7 +71,7 @@ export const typography = {
 		relaxed: "1.625",
 		loose: "2",
 	},
-	
+
 	letterSpacing: {
 		tighter: "-0.05em",
 		tight: "-0.025em",

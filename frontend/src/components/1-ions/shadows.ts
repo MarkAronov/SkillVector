@@ -1,6 +1,6 @@
 /**
  * IONS: Design Tokens - Shadows
- * 
+ *
  * Shadow definitions for depth and elevation in the design system.
  */
 
@@ -14,7 +14,7 @@ export const shadows = {
 	"2xl": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
 	inner: "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
 	none: "none",
-	
+
 	// Custom glass shadows
 	glass: {
 		light: "0 2px 4px rgba(0, 0, 0, 0.05), 0 8px 16px rgba(0, 0, 0, 0.08)",

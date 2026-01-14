@@ -127,7 +127,7 @@ export const Footer = () => {
 										<li key={link.label}>
 											{"href" in link ? (
 												<a
-													href={(link as any).href}
+													href={(link as { href: string; label: string }).href}
 													target="_blank"
 													rel="noopener noreferrer"
 													className="text-foreground/80 hover:text-foreground/95 transition-colors inline-flex items-center gap-1"

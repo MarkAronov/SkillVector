@@ -1,7 +1,7 @@
-import { ActionButton } from "./ActionButton";
-import { Card, CardContent } from "./Card";
 import { Heading } from "../2-atoms/Heading";
 import { Text } from "../2-atoms/Text";
+import { ActionButton } from "./ActionButton";
+import { Card, CardContent } from "./Card";
 
 interface CTAAction {
 	label: string;

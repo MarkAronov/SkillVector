@@ -1,7 +1,7 @@
 import type * as React from "react";
 import { cn } from "@/lib/utils";
-import { Badge } from "../2-atoms/Badge";
 import { Glass } from "../1-ions/Glass";
+import { Badge } from "../2-atoms/Badge";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
 
 interface SkillsTooltipProps {
@@ -26,12 +26,8 @@ export function SkillsTooltip({
 					className={cn("px-3 py-2 max-w-xs z-[9999]", className)}
 				>
 					<div className="flex flex-wrap gap-1.5">
-						{skills.map((skill, index) => (
-							<Badge
-								key={`${skill}-${index}`}
-								variant="secondary"
-								className="text-xs"
-							>
+						{skills.map((skill) => (
+							<Badge key={skill} variant="secondary" className="text-xs">
 								{skill}
 							</Badge>
 						))}

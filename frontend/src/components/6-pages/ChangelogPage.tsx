@@ -6,10 +6,10 @@ import { Heading } from "../2-atoms/Heading";
 import { Link } from "../2-atoms/Link";
 import { List, ListItem } from "../2-atoms/List";
 import { Span } from "../2-atoms/Span";
-import { Card, CardContent } from "../3-molecules/Card";
-import { Hero } from "../3-molecules/Hero";
 import { Text } from "../2-atoms/Text";
+import { Card, CardContent } from "../3-molecules/Card";
 import { ErrorMessage } from "../3-molecules/ErrorMessage";
+import { Hero } from "../3-molecules/Hero";
 import { LoadingState } from "../3-molecules/LoadingState";
 import { PageTemplate } from "../5-templates/PageTemplate";
 

@@ -112,6 +112,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 										const isTruncated = skill.length > 10;
 										const badge = (
 											<Badge
+												key={skill}
 												variant="secondary"
 												className="text-xs truncate max-w-20"
 											>
@@ -212,6 +213,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 								const isTruncated = skill.length > 10;
 								const badge = (
 									<Badge
+										key={skill}
 										variant="secondary"
 										className="text-xs truncate max-w-20"
 									>

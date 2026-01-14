@@ -1,8 +1,8 @@
-import { Card, CardContent } from "../3-molecules/Card";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { List, ListItem } from "../2-atoms/List";
 import { Text } from "../2-atoms/Text";
+import { Card, CardContent } from "../3-molecules/Card";
 import { CodeBlock } from "../3-molecules/CodeBlock";
 import { PageTemplate } from "../5-templates/PageTemplate";
 

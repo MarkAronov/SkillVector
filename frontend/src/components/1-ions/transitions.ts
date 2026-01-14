@@ -1,6 +1,6 @@
 /**
  * IONS: Design Tokens - Transitions
- * 
+ *
  * Animation timing functions and durations for consistent motion.
  */
 
@@ -15,14 +15,14 @@ export const transitions = {
 		700: "700ms",
 		1000: "1000ms",
 	},
-	
+
 	timing: {
 		linear: "linear",
 		in: "cubic-bezier(0.4, 0, 1, 1)",
 		out: "cubic-bezier(0, 0, 0.2, 1)",
 		inOut: "cubic-bezier(0.4, 0, 0.2, 1)",
 	},
-	
+
 	// Common transition presets
 	presets: {
 		fast: "150ms cubic-bezier(0.4, 0, 0.2, 1)",

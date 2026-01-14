@@ -120,7 +120,15 @@ export const ResourcesPage = () => {
 				</div>
 			</div>
 			{/* API Section */}
-			<Div id="api" ref={apiRef as any} className="max-w-5xl mx-auto px-4 mb-8">
+			<Div
+				id="api"
+				ref={
+					apiRef as React.RefObject<HTMLDivElement> as React.RefObject<
+						HTMLDivElement & { scrollIntoView: () => void }
+					>
+				}
+				className="max-w-5xl mx-auto px-4 mb-8"
+			>
 				<Heading variant="section" className="mb-4">
 					API Reference
 				</Heading>
@@ -135,7 +143,11 @@ export const ResourcesPage = () => {
 			{/* SDK Section */}
 			<Div
 				id="sdk"
-				ref={sdkRef as any}
+				ref={
+					sdkRef as React.RefObject<HTMLDivElement> as React.RefObject<
+						HTMLDivElement & { scrollIntoView: () => void }
+					>
+				}
 				className="max-w-5xl mx-auto px-4 mb-16"
 			>
 				<Heading variant="section" className="mb-4">

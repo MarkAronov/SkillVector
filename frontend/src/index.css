@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "tw-animate-css";
+@import "tw-animate-css/prefix";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -61,11 +61,11 @@
 
 	/* Core backgrounds */
 	--background: oklch(0.985 0.002 270);
-	--foreground: oklch(0.145 0.015 270);
+	--foreground: oklch(0.2 0.015 270);
 	--card: oklch(0.995 0.002 270);
-	--card-foreground: oklch(0.145 0.015 270);
+	--card-foreground: oklch(0.2 0.015 270);
 	--popover: oklch(0.995 0.002 270);
-	--popover-foreground: oklch(0.145 0.015 270);
+	--popover-foreground: oklch(0.2 0.015 270);
 
 	/* Primary: Indigo #6366f1 */
 	--primary: oklch(0.585 0.233 264);
@@ -77,7 +77,7 @@
 
 	/* Muted */
 	--muted: oklch(0.965 0.005 270);
-	--muted-foreground: oklch(0.45 0.02 270);
+	--muted-foreground: oklch(0.35 0.02 270);
 
 	/* Accent: Pink #ec4899 */
 	--accent: oklch(0.656 0.241 354);
@@ -110,7 +110,7 @@
 
 	/* Sidebar */
 	--sidebar: oklch(0.975 0.005 270);
-	--sidebar-foreground: oklch(0.145 0.015 270);
+	--sidebar-foreground: oklch(0.2 0.015 270);
 	--sidebar-primary: oklch(0.585 0.233 264);
 	--sidebar-primary-foreground: oklch(0.985 0 0);
 	--sidebar-accent: oklch(0.955 0.02 292);
@@ -302,6 +302,12 @@
 		opacity: 0.05;
 	}
 
+	/* Helper: remove glass border and shadow for specific cases (e.g., footer) */
+	.glass.no-glass-border {
+		border: 0;
+		box-shadow: none;
+	}
+
 	/* Avatar: nonagon-shaped (matches site logo outline) */
 	.avatar-nonagon {
 		/* Use the same 9-point polygon as the logo path (percent coords) */
@@ -317,7 +323,7 @@
 			19.805% 13.998%
 		);
 		-webkit-clip-path: polygon(
-			50% 3%,
+			50% 3%,                                                                                                           
 			80.195% 13.998%,
 			96.248% 41.842%,
 			90.702% 73.5%,

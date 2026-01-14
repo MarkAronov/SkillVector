@@ -4,73 +4,67 @@ import {
 	createRouter,
 } from "@tanstack/react-router";
 import { lazy } from "react";
-import { SearchPage } from "./components/pages/SearchPage";
+import { SearchPage } from "./components/6-pages/SearchPage";
 
 // Lazy load pages for code splitting
 // SearchPage is eagerly loaded since it's the main landing page
 const AboutPage = lazy(() =>
-	import("./components/pages/AboutPage").then((m) => ({
+	import("./components/6-pages/AboutPage").then((m) => ({
 		default: m.AboutPage,
 	})),
 );
-// ApiPage is the largest chunk (Scalar) - definitely lazy load
-const ApiPage = lazy(() =>
-	import("./components/pages/ApiPage").then((m) => ({ default: m.ApiPage })),
-);
+
 const ChangelogPage = lazy(() =>
-	import("./components/pages/ChangelogPage").then((m) => ({
+	import("./components/6-pages/ChangelogPage").then((m) => ({
 		default: m.ChangelogPage,
 	})),
 );
-const ContactPage = lazy(() =>
-	import("./components/pages/ContactPage").then((m) => ({
-		default: m.ContactPage,
+
+const ResourcesPage = lazy(() =>
+	import("./components/6-pages/ResourcesPage").then((m) => ({
+		default: m.ResourcesPage,
 	})),
 );
 const CookiesPage = lazy(() =>
-	import("./components/pages/CookiesPage").then((m) => ({
+	import("./components/6-pages/CookiesPage").then((m) => ({
 		default: m.CookiesPage,
 	})),
 );
 const FeaturesPage = lazy(() =>
-	import("./components/pages/FeaturesPage").then((m) => ({
+	import("./components/6-pages/FeaturesPage").then((m) => ({
 		default: m.FeaturesPage,
 	})),
 );
-const SdkDocsPage = lazy(() =>
-	import("./components/pages/SdkDocsPage").then((m) => ({
-		default: m.SdkDocsPage,
-	})),
-);
+
 const HowItWorksPage = lazy(() =>
-	import("./components/pages/HowItWorksPage").then((m) => ({
+	import("./components/6-pages/HowItWorksPage").then((m) => ({
 		default: m.HowItWorksPage,
 	})),
 );
 const IntegrationsPage = lazy(() =>
-	import("./components/pages/IntegrationsPage").then((m) => ({
+	import("./components/6-pages/IntegrationsPage").then((m) => ({
 		default: m.IntegrationsPage,
 	})),
 );
 const PrivacyPage = lazy(() =>
-	import("./components/pages/PrivacyPage").then((m) => ({
+	import("./components/6-pages/PrivacyPage").then((m) => ({
 		default: m.PrivacyPage,
 	})),
 );
 const SupportPage = lazy(() =>
-	import("./components/pages/SupportPage").then((m) => ({
+	import("./components/6-pages/SupportPage").then((m) => ({
 		default: m.SupportPage,
 	})),
 );
 const TermsPage = lazy(() =>
-	import("./components/pages/TermsPage").then((m) => ({
+	import("./components/6-pages/TermsPage").then((m) => ({
 		default: m.TermsPage,
 	})),
 );
 
 // Hidden route - browse all people
 const BrowsePage = lazy(() =>
-	import("./components/pages/BrowsePage").then((m) => ({
+	import("./components/6-pages/BrowsePage").then((m) => ({
 		default: m.BrowsePage,
 	})),
 );
@@ -97,13 +91,21 @@ const featuresRoute = createRoute({
 const apiRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/api",
-	component: ApiPage,
+	// Keep legacy route functional but render the new combined ResourcesPage
+	component: ResourcesPage,
+});
+
+const resourcesRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/resources",
+	component: ResourcesPage,
 });
 
 const contactRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/contact",
-	component: ContactPage,
+	// Render SupportPage which now includes the contact form
+	component: SupportPage,
 });
 
 // Placeholder routes
@@ -158,7 +160,8 @@ const cookiesRoute = createRoute({
 const sdkRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/sdk",
-	component: SdkDocsPage,
+	// Keep legacy behavior but render combined resources hub
+	component: ResourcesPage,
 });
 
 // Hidden route - browse all people (not in nav)
@@ -173,6 +176,7 @@ const routeTree = rootRoute.addChildren([
 	indexRoute,
 	featuresRoute,
 	apiRoute,
+	resourcesRoute,
 	contactRoute,
 	aboutRoute,
 	howItWorksRoute,

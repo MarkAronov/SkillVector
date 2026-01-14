@@ -9,6 +9,23 @@
 			"destination": "/index.html"
 		}
 	],
+	"redirects": [
+		{
+			"source": "/api",
+			"destination": "/resources",
+			"statusCode": 301
+		},
+		{
+			"source": "/api/(.*)",
+			"destination": "/resources/$1",
+			"statusCode": 301
+		},
+		{
+			"source": "/sdk",
+			"destination": "/resources#sdk",
+			"statusCode": 301
+		}
+	],
 	"headers": [
 		{
 			"source": "/assets/(.*)",

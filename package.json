@@ -64,12 +64,12 @@
 			"biome check --fix"
 		],
 		"frontend/src/components/**/*.{tsx,jsx}": [
-			"bash -c 'cd frontend && biome format --write \"${0#frontend/}\"'",
-			"bash -c 'cd frontend && biome check --fix \"${0#frontend/}\"'"
+			"bash -c 'if [[ \"$0\" != *\"src/components/ui/\"* ]]; then cd frontend && biome format --write \"${0#frontend/}\" && biome check --fix \"${0#frontend/}\"; fi'",
+			"git add"
 		],
 		"frontend/src/**/*.{ts,tsx,js,jsx}": [
-			"bash -c 'cd frontend && biome format --write \"${0#frontend/}\"'",
-			"bash -c 'cd frontend && biome check --fix \"${0#frontend/}\"'"
+			"bash -c 'if [[ \"$0\" != *\"src/components/ui/\"* ]]; then cd frontend && biome format --write \"${0#frontend/}\" && biome check --fix \"${0#frontend/}\"; fi'",
+			"git add"
 		],
 		"src/**/*.{css,scss}": [
 			"biome format --write"

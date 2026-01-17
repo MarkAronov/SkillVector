@@ -3,9 +3,9 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as React from "react";
 import {
 	Tooltip as ShadcnTooltip,
-	TooltipTrigger as ShadcnTooltipTrigger,
 	type TooltipContent as ShadcnTooltipContent,
 	TooltipProvider as ShadcnTooltipProvider,
+	TooltipTrigger as ShadcnTooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 

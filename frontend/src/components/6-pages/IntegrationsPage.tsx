@@ -7,29 +7,45 @@ import {
 	Database,
 	FileJson,
 	FileText,
+	Github,
 	Globe,
 	Layers,
 	Server,
 	Sparkles,
+	SquareArrowOutUpRight,
 } from "lucide-react";
 import type { ReactNode } from "react";
 import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
 import { Div } from "../2-atoms/Div";
-import { Grid } from "../2-atoms/Grid";
 import { Heading } from "../2-atoms/Heading";
 import { Section } from "../2-atoms/Section";
+import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
 import { ActionButton } from "../3-molecules/ActionButton";
 import { Card, CardContent } from "../3-molecules/Card";
-import { Hero } from "../3-molecules/Hero";
 import { StatusBadge } from "../3-molecules/StatusBadge";
+import { CardGrid } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "../ui/table";
 
 type Integration = {
 	icon: ReactNode;
 	title: string;
 	description: string;
 	status: "ready" | "soon" | "planned";
+	links?: {
+		docs?: string;
+		github?: string;
+		internal?: string;
+	};
 };
 
 type IntegrationCategory = {
@@ -50,6 +66,10 @@ const categories: IntegrationCategory[] = [
 				title: "OpenAI",
 				description: "Industry-leading embeddings with text-embedding-3 models",
 				status: "ready",
+				links: {
+					docs: "https://platform.openai.com/docs",
+					github: "https://github.com/openai/openai-node",
+				},
 			},
 			{
 				icon: <Sparkles className="h-6 w-6" />,
@@ -57,24 +77,40 @@ const categories: IntegrationCategory[] = [
 				description:
 					"High-quality Claude embeddings with semantic understanding",
 				status: "ready",
+				links: {
+					docs: "https://docs.anthropic.com",
+					github: "https://github.com/anthropics/anthropic-sdk-typescript",
+				},
 			},
 			{
 				icon: <Sparkles className="h-6 w-6" />,
 				title: "Google Gemini",
 				description: "Google's latest embeddings with multimodal capabilities",
 				status: "ready",
+				links: {
+					docs: "https://ai.google.dev",
+					github: "https://github.com/google-gemini/generative-ai-js",
+				},
 			},
 			{
 				icon: <Sparkles className="h-6 w-6" />,
 				title: "HuggingFace",
 				description: "Access thousands of open-source embedding models",
 				status: "ready",
+				links: {
+					docs: "https://huggingface.co/docs",
+					github: "https://github.com/huggingface/huggingface.js",
+				},
 			},
 			{
 				icon: <Sparkles className="h-6 w-6" />,
 				title: "Ollama",
 				description: "Run models locally for complete data privacy",
 				status: "ready",
+				links: {
+					docs: "https://ollama.com/library",
+					github: "https://github.com/ollama/ollama",
+				},
 			},
 		],
 	},
@@ -89,6 +125,10 @@ const categories: IntegrationCategory[] = [
 				description:
 					"Advanced filtering, HNSW indexing, and scalable architecture",
 				status: "ready",
+				links: {
+					docs: "https://qdrant.tech/documentation/",
+					github: "https://github.com/qdrant/qdrant",
+				},
 			},
 		],
 	},
@@ -102,12 +142,20 @@ const categories: IntegrationCategory[] = [
 				title: "RESTful API",
 				description: "OpenAPI 3.0 spec with interactive documentation",
 				status: "ready",
+				links: {
+					internal: "/api",
+					github: SOCIAL_LINKS.github,
+				},
 			},
 			{
 				icon: <Code className="h-6 w-6" />,
 				title: "TypeScript SDK",
 				description: "Type-safe SDK with full IntelliSense support",
 				status: "ready",
+				links: {
+					internal: "/sdk",
+					github: EXTERNAL_LINKS.sdkTypescript,
+				},
 			},
 		],
 	},
@@ -121,18 +169,30 @@ const categories: IntegrationCategory[] = [
 				title: "Docker",
 				description: "Containerized deployment with Docker Compose",
 				status: "ready",
+				links: {
+					docs: "https://docs.docker.com/",
+					github: SOCIAL_LINKS.github,
+				},
 			},
 			{
 				icon: <Cloud className="h-6 w-6" />,
 				title: "Render",
 				description: "One-click deployment with automatic scaling",
 				status: "ready",
+				links: {
+					docs: "https://render.com/docs",
+					github: SOCIAL_LINKS.github,
+				},
 			},
 			{
 				icon: <Layers className="h-6 w-6" />,
 				title: "Kubernetes",
 				description: "Helm charts for cloud-native deployments",
 				status: "soon",
+				links: {
+					docs: "https://kubernetes.io/docs/",
+					github: SOCIAL_LINKS.github,
+				},
 			},
 		],
 	},
@@ -146,18 +206,30 @@ const categories: IntegrationCategory[] = [
 				title: "CSV Import",
 				description: "Upload profiles with automatic field mapping",
 				status: "ready",
+				links: {
+					docs: "https://en.wikipedia.org/wiki/Comma-separated_values",
+					github: SOCIAL_LINKS.github,
+				},
 			},
 			{
 				icon: <FileJson className="h-6 w-6" />,
 				title: "JSON Import",
 				description: "Structured data with nested fields and custom schemas",
 				status: "ready",
+				links: {
+					docs: "https://www.json.org/json-en.html",
+					github: SOCIAL_LINKS.github,
+				},
 			},
 			{
 				icon: <FileText className="h-6 w-6" />,
 				title: "Plain Text",
 				description: "Intelligent parsing with AI extraction",
 				status: "ready",
+				links: {
+					docs: "https://en.wikipedia.org/wiki/Plain_text",
+					github: SOCIAL_LINKS.github,
+				},
 			},
 		],
 	},
@@ -171,12 +243,19 @@ const categories: IntegrationCategory[] = [
 				title: "LinkedIn API",
 				description: "Direct integration for profile synchronization",
 				status: "planned",
+				links: {
+					docs: "https://learn.microsoft.com/linkedin/",
+				},
 			},
 			{
 				icon: <Code className="h-6 w-6" />,
 				title: "GitHub API",
 				description: "Import developer profiles with contribution analysis",
 				status: "planned",
+				links: {
+					docs: "https://docs.github.com/en/rest",
+					github: "https://github.com/github/rest-api-description",
+				},
 			},
 			{
 				icon: <Layers className="h-6 w-6" />,
@@ -189,74 +268,212 @@ const categories: IntegrationCategory[] = [
 ];
 
 export const IntegrationsPage = () => {
-	const navigate = useNavigate();
+	useNavigate();
 	return (
 		<PageTemplate title="Integrations">
 			{/* Hero Section */}
-			<Hero
-				title="Powerful "
-				brand="Integrations"
-				subtitle="Connect SkillVector with your favorite tools and services for seamless talent search."
-			/>
+			<Div className="text-center mb-16">
+				<Heading variant="hero">
+					<Span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
+						Integrations
+					</Span>
+				</Heading>
+				<Text variant="lead" className="max-w-2xl mx-auto">
+					Connect SkillVector with your favorite tools and services for seamless
+					talent search.
+				</Text>
+			</Div>
 
 			{/* Integration Categories */}
-			{categories.map((category) => (
-				<Section key={category.title} className="mb-12 lg:mb-16">
-					<Div variant="flex" className="mb-6">
-						<Div className="text-primary">{category.icon}</Div>
-						<Div>
-							<Heading variant="section">{category.title}</Heading>
-							<Text className="text-muted-foreground">
-								{category.description}
-							</Text>
-						</Div>
-					</Div>
-
-					<Grid variant="cards">
-						{category.integrations.map((integration) => (
-							<Card
-								variant="hover"
-								key={integration.title}
-								aria-label={integration.title}
-							>
-								<CardContent>
-									<Div variant="flex">
-										<Div className="shrink-0 text-primary">
-											{integration.icon}
-										</Div>
-										<Div className="flex-1 min-w-0">
-											<Div className="flex items-center gap-2 mb-2 flex-wrap">
-												<Heading variant="subsection">
-													{integration.title}
-												</Heading>
-												<StatusBadge status={integration.status} />
-											</Div>
-											<Text variant="small">{integration.description}</Text>
-											{integration.title === "TypeScript SDK" && (
-												<Div className="mt-4 flex gap-3">
-													<ActionButton
-														variant="primary"
-														onClick={() => navigate({ to: "/sdk" })}
-													>
-														View SDK
-													</ActionButton>
-													<ActionButton
-														variant="outline"
-														href={EXTERNAL_LINKS.sdkTypescript}
-														external
-													>
-														View on GitHub
-													</ActionButton>
-												</Div>
-											)}
-										</Div>
+			<Section>
+				<CardGrid
+					maxColumns={1}
+					gap="lg"
+					items={categories.map((category) => ({
+						id: category.title,
+						title: category.title,
+						centered: false,
+						customContent: (
+							<Div className="flex flex-col gap-6">
+								<Div variant="flex" className="items-start gap-4">
+									<Div className="text-primary shrink-0">{category.icon}</Div>
+									<Div className="min-w-0">
+										<Heading variant="section" className="mb-1">
+											{category.title}
+										</Heading>
+										<Text variant="muted">{category.description}</Text>
 									</Div>
-								</CardContent>
-							</Card>
-						))}
-					</Grid>
-				</Section>
-			))}
+								</Div>
+
+								{(() => {
+									const hasAnyActions = category.integrations.some(
+										(i) =>
+											i.links?.docs || i.links?.github || i.links?.internal,
+									);
+									return (
+										<Table>
+											<TableHeader>
+												<TableRow>
+													<TableHead>Integration</TableHead>
+													<TableHead className="hidden sm:table-cell">
+														Description
+													</TableHead>
+													<TableHead>Status</TableHead>
+													{hasAnyActions && (
+														<TableHead className="hidden sm:table-cell text-right">
+															Actions
+														</TableHead>
+													)}
+												</TableRow>
+											</TableHeader>
+											<TableBody>
+												{category.integrations.map((integration) => {
+													const actions = {
+														internal: integration.links?.internal,
+														docs: integration.links?.docs,
+														github: integration.links?.github,
+													};
+													const hasRowActions =
+														actions.internal || actions.docs || actions.github;
+
+													return (
+														<TableRow key={integration.title}>
+															<TableCell className="font-medium">
+																<Div
+																	variant="flex"
+																	className="items-center gap-3"
+																>
+																	<Div className="text-primary shrink-0">
+																		{integration.icon}
+																	</Div>
+																	<Div className="min-w-0">
+																		<Span className="truncate">
+																			{integration.title}
+																		</Span>
+																		<Text
+																			variant="small"
+																			className="mt-1 text-muted-foreground sm:hidden"
+																		>
+																			{integration.description}
+																		</Text>
+																		{hasRowActions && (
+																			<Div className="mt-2 flex flex-wrap gap-1.5 sm:hidden">
+																				{actions.internal && (
+																					<ActionButton
+																						className="p-1.5 min-w-0"
+																						to={actions.internal}
+																						ariaLabel="Open"
+																					>
+																						<SquareArrowOutUpRight className="h-3.5 w-3.5" />
+																					</ActionButton>
+																				)}
+																				{actions.docs && (
+																					<ActionButton
+																						variant="outline"
+																						className="p-1.5 min-w-0"
+																						href={actions.docs}
+																						external
+																						ariaLabel="Documentation"
+																					>
+																						<FileText className="h-3.5 w-3.5" />
+																					</ActionButton>
+																				)}
+																				{actions.github && (
+																					<ActionButton
+																						variant="outline"
+																						className="p-1.5 min-w-0"
+																						href={actions.github}
+																						external
+																						ariaLabel="GitHub Repository"
+																					>
+																						<Github className="h-3.5 w-3.5" />
+																					</ActionButton>
+																				)}
+																			</Div>
+																		)}
+																	</Div>
+																</Div>
+															</TableCell>
+															<TableCell className="hidden sm:table-cell text-muted-foreground">
+																{integration.description}
+															</TableCell>
+															<TableCell>
+																<StatusBadge status={integration.status} />
+															</TableCell>
+															{hasAnyActions && (
+																<TableCell className="hidden sm:table-cell text-right">
+																	{hasRowActions ? (
+																		<Div className="flex flex-wrap justify-end gap-1.5">
+																			{actions.internal && (
+																				<Tooltip delayDuration={200}>
+																					<TooltipTrigger asChild>
+																						<ActionButton
+																							className="p-1.5 min-w-0"
+																							to={actions.internal}
+																							ariaLabel="Open"
+																						>
+																							<SquareArrowOutUpRight className="h-3.5 w-3.5" />
+																						</ActionButton>
+																					</TooltipTrigger>
+																					<TooltipContent>Open</TooltipContent>
+																				</Tooltip>
+																			)}
+																			{actions.docs && (
+																				<Tooltip delayDuration={200}>
+																					<TooltipTrigger asChild>
+																						<ActionButton
+																							variant="outline"
+																							className="p-1.5 min-w-0"
+																							href={actions.docs}
+																							external
+																							ariaLabel="Documentation"
+																						>
+																							<FileText className="h-3.5 w-3.5" />
+																						</ActionButton>
+																					</TooltipTrigger>
+																					<TooltipContent>
+																						Documentation
+																					</TooltipContent>
+																				</Tooltip>
+																			)}
+																			{actions.github && (
+																				<Tooltip delayDuration={200}>
+																					<TooltipTrigger asChild>
+																						<ActionButton
+																							variant="outline"
+																							className="p-1.5 min-w-0"
+																							href={actions.github}
+																							external
+																							ariaLabel="GitHub Repository"
+																						>
+																							<Github className="h-3.5 w-3.5" />
+																						</ActionButton>
+																					</TooltipTrigger>
+																					<TooltipContent>
+																						GitHub
+																					</TooltipContent>
+																				</Tooltip>
+																			)}
+																		</Div>
+																	) : (
+																		<Span className="text-muted-foreground">
+																			—
+																		</Span>
+																	)}
+																</TableCell>
+															)}
+														</TableRow>
+													);
+												})}
+											</TableBody>
+										</Table>
+									);
+								})()}
+							</Div>
+						),
+					}))}
+				/>
+			</Section>
 
 			{/* CTA Section */}
 			<Card variant="hover" aria-label="Request custom integration">

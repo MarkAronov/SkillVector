@@ -1,7 +1,8 @@
 import type { PersonSearchResult } from "@/types/search.types";
+import { Avatar, AvatarFallback } from "../2-atoms/Avatar";
 import { Badge } from "../2-atoms/Badge";
 import { Link } from "../2-atoms/Link";
-import { TooltipWrapper as Tooltip } from "../2-atoms/Tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
 import { Card } from "./Card";
 import { SkillsTooltip } from "./SkillsTooltip";
 import { TruncatedText } from "./TruncatedText";
@@ -42,10 +43,10 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 	// Relevance badge classes based on score (low: red, mid: orange, high: green)
 	const relevanceClass =
 		person.score >= 0.66
-			? "bg-success/10 text-success border-success/30"
+			? "bg-success/10 text-success border-success/30 h-6 py-1"
 			: person.score >= 0.33
-				? "bg-warning/10 text-warning border-warning/30"
-				: "bg-destructive/10 text-destructive border-destructive/30";
+				? "bg-warning/10 text-warning border-warning/30 h-6 py-1"
+				: "bg-destructive/10 text-destructive border-destructive/30 h-6 py-1";
 
 	// derive initials for avatar (used in both grid and row views)
 	const initials = (p.name || "U")
@@ -60,12 +61,14 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 		return (
 			<Card className="hover:shadow-md transition-shadow">
 				<div className="bg-linear-to-r from-primary/5 to-primary/10 h-20 -m-6 mb-2 rounded-t-lg" />
-				<div className="p-4 -mt-16">
+				<div className="p-6 -mt-16">
 					<div className="flex gap-4">
 						{/* Avatar */}
-						<div className="w-16 h-16 shrink-0 avatar-nonagon bg-primary dark:bg-primary flex items-center justify-center text-primary-foreground font-semibold">
-							{initials}
-						</div>
+						<Avatar variant="nonagon" className="w-16 h-16">
+							<AvatarFallback className="bg-primary dark:bg-primary text-primary-foreground font-semibold">
+								{initials}
+							</AvatarFallback>
+						</Avatar>
 						{/* Content */}
 						<div className="flex-1 min-w-0">
 							<div className="flex items-start justify-between gap-4">
@@ -107,31 +110,44 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 
 							{/* Skills */}
 							{skillsArray.length > 0 && (
-								<div className="mt-3 flex flex-wrap gap-1">
+								<div className="mt-3 flex flex-wrap gap-1 items-center">
 									{skillsArray.slice(0, 5).map((skill: string) => {
 										const isTruncated = skill.length > 10;
+										const badgeContent = isTruncated
+											? `${skill.substring(0, 10)}…`
+											: skill;
+
 										const badge = (
 											<Badge
-												key={skill}
 												variant="secondary"
-												className="text-xs truncate max-w-20"
+												className="text-xs truncate max-w-20 h-6 py-1 select-none"
 											>
-												{isTruncated ? `${skill.substring(0, 10)}…` : skill}
+												{badgeContent}
 											</Badge>
 										);
-										return isTruncated ? (
-											<Tooltip key={skill} content={skill} variant="badge">
+
+										if (isTruncated) {
+											return (
+												<Tooltip key={skill}>
+													<TooltipTrigger asChild>{badge}</TooltipTrigger>
+													<TooltipContent variant="badge">
+														{skill}
+													</TooltipContent>
+												</Tooltip>
+											);
+										}
+
+										return (
+											<div key={skill} className="leading-none flex">
 												{badge}
-											</Tooltip>
-										) : (
-											<div key={skill}>{badge}</div>
+											</div>
 										);
 									})}
 									{skillsArray.length > 5 && (
 										<SkillsTooltip skills={skillsArray.slice(5)}>
 											<Badge
 												variant="secondary"
-												className="text-xs cursor-help"
+												className="text-xs cursor-help h-6 py-1"
 											>
 												+{skillsArray.length - 5}
 											</Badge>
@@ -143,16 +159,19 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 							{/* Email */}
 							{p.email && (
 								<div className="mt-3">
-									<Tooltip content={p.email}>
-										<Link
-											href={`mailto:${p.email}`}
-											external
-											className="text-xs text-primary hover:underline truncate block"
-										>
-											{p.email.length > 30
-												? `${p.email.substring(0, 30)}…`
-												: p.email}
-										</Link>
+									<Tooltip delayDuration={200}>
+										<TooltipTrigger asChild>
+											<Link
+												href={`mailto:${p.email}`}
+												external
+												className="text-xs text-primary hover:underline truncate block"
+											>
+												{p.email.length > 30
+													? `${p.email.substring(0, 30)}…`
+													: p.email}
+											</Link>
+										</TooltipTrigger>
+										<TooltipContent>{p.email}</TooltipContent>
 									</Tooltip>
 								</div>
 							)}
@@ -174,12 +193,14 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 	return (
 		<Card className="hover:shadow-md transition-shadow h-full flex flex-col">
 			<div className="bg-linear-to-r from-primary/5 to-primary/10 h-12" />
-			<div className="px-4 pb-4 flex-1 flex flex-col">
+			<div className="px-6 pb-6 flex-1 flex flex-col">
 				{/* Avatar overlapping header */}
-				<div className="flex justify-center -mt-8 mb-2">
-					<div className="w-16 h-16 avatar-nonagon bg-primary dark:bg-primary flex items-center justify-center text-primary-foreground font-semibold">
-						{initials}
-					</div>
+				<div className="flex justify-center -mt-8 mb-3">
+					<Avatar variant="nonagon" className="w-16 h-16">
+						<AvatarFallback className="bg-primary dark:bg-primary text-primary-foreground font-semibold">
+							{initials}
+						</AvatarFallback>
+					</Avatar>
 				</div>
 
 				{/* Info */}
@@ -208,29 +229,43 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 				{/* Skills */}
 				{skillsArray.length > 0 && (
 					<div className="mb-3">
-						<div className="flex flex-wrap gap-1 justify-center">
+						<div className="flex flex-wrap gap-1 justify-center items-center">
 							{skillsArray.slice(0, 4).map((skill: string) => {
 								const isTruncated = skill.length > 10;
+								const badgeContent = isTruncated
+									? `${skill.substring(0, 10)}…`
+									: skill;
+
 								const badge = (
 									<Badge
-										key={skill}
 										variant="secondary"
-										className="text-xs truncate max-w-20"
+										className="text-xs truncate max-w-20 h-6 py-1 select-none"
 									>
-										{isTruncated ? `${skill.substring(0, 10)}…` : skill}
+										{badgeContent}
 									</Badge>
 								);
-								return isTruncated ? (
-									<Tooltip key={skill} content={skill} variant="badge">
+
+								if (isTruncated) {
+									return (
+										<Tooltip key={skill} delayDuration={200}>
+											<TooltipTrigger asChild>{badge}</TooltipTrigger>
+											<TooltipContent variant="badge">{skill}</TooltipContent>
+										</Tooltip>
+									);
+								}
+
+								return (
+									<div key={skill} className="leading-none flex">
 										{badge}
-									</Tooltip>
-								) : (
-									<div key={skill}>{badge}</div>
+									</div>
 								);
 							})}
 							{skillsArray.length > 4 && (
 								<SkillsTooltip skills={skillsArray.slice(4)}>
-									<Badge variant="secondary" className="text-xs cursor-help">
+									<Badge
+										variant="secondary"
+										className="text-xs cursor-help h-6 py-1"
+									>
 										+{skillsArray.length - 4}
 									</Badge>
 								</SkillsTooltip>
@@ -242,18 +277,22 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 				{/* Email */}
 				{p.email && (
 					<div className="text-center text-xs mb-4 flex-1 flex items-end justify-center">
-						<Tooltip content={p.email}>
-							<Link
-								href={`mailto:${p.email}`}
-								external
-								className="text-primary hover:underline truncate block"
-							>
-								{p.email.length > 25 ? `${p.email.substring(0, 25)}…` : p.email}
-							</Link>
+						<Tooltip delayDuration={200}>
+							<TooltipTrigger asChild>
+								<Link
+									href={`mailto:${p.email}`}
+									external
+									className="text-primary hover:underline truncate block"
+								>
+									{p.email.length > 25
+										? `${p.email.substring(0, 25)}…`
+										: p.email}
+								</Link>
+							</TooltipTrigger>
+							<TooltipContent>{p.email}</TooltipContent>{" "}
 						</Tooltip>
 					</div>
 				)}
-
 				{/* Relevance */}
 				<div className="flex justify-center pt-2 border-t">
 					<Badge variant="default" className={`text-xs ${relevanceClass}`}>

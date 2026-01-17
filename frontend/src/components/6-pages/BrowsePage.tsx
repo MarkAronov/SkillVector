@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { usePeople } from "@/hooks/usePeople";
-import { Div } from "../2-atoms/Div";
 import { Text } from "../2-atoms/Text";
 import { ErrorMessage } from "../3-molecules/ErrorMessage";
 import { Hero } from "../3-molecules/Hero";
 import { LoadingState } from "../3-molecules/LoadingState";
 import { PersonCard } from "../3-molecules/PersonCard";
 import { ViewToggle } from "../3-molecules/ViewToggle";
+import { CardGrid } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
 export function BrowsePage() {
@@ -56,14 +56,9 @@ export function BrowsePage() {
 						</Text>
 					</div>
 
-					<Div
-						className={
-							view === "grid" || window.innerWidth < 768
-								? "grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-								: "space-y-4"
-						}
-					>
-						{data.people.map((person) => {
+					<CardGrid
+						maxColumns={view === "grid" ? 3 : 1}
+						items={data.people.map((person) => {
 							const personData = {
 								id: String(person.id),
 								score: 0,
@@ -90,15 +85,19 @@ export function BrowsePage() {
 
 							const mobileView = window.innerWidth < 768 ? "grid" : view;
 
-							return (
-								<PersonCard
-									key={person.id}
-									person={personData}
-									view={mobileView}
-								/>
-							);
+							return {
+								id: String(person.id),
+								noWrapper: true,
+								customContent: (
+									<PersonCard
+										key={person.id}
+										person={personData}
+										view={mobileView}
+									/>
+								),
+							};
 						})}
-					</Div>
+					/>
 				</>
 			)}
 		</PageTemplate>

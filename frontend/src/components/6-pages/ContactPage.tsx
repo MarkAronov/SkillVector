@@ -8,10 +8,10 @@ import { Heading } from "../2-atoms/Heading";
 import { Input } from "../2-atoms/Input";
 import { Label } from "../2-atoms/Label";
 import { Link } from "../2-atoms/Link";
+import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
 import { Textarea } from "../2-atoms/Textarea";
 import { Card, CardContent } from "../3-molecules/Card";
-import { Hero } from "../3-molecules/Hero";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
 export const ContactPage = () => {
@@ -67,11 +67,16 @@ export const ContactPage = () => {
 	return (
 		<PageTemplate title="Contact">
 			{/* Hero Section */}
-			<Hero
-				title="Get in"
-				brand="Touch"
-				subtitle="Have questions? We'd love to hear from you."
-			/>
+			<Div className="text-center mb-16">
+				<Heading variant="hero">
+					<Span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
+						Get in Touch
+					</Span>
+				</Heading>
+				<Text variant="lead" className="max-w-2xl mx-auto">
+					Have questions? We'd love to hear from you.
+				</Text>
+			</Div>
 
 			{/* Contact Form and Information */}
 			<Grid variant="responsive" className="grid-cols-1 md:grid-cols-1">
@@ -141,7 +146,7 @@ export const ContactPage = () => {
 						<Heading as="h2" variant="card" className="mb-6">
 							Contact Information
 						</Heading>
-						<Div variant="spacer">
+						<Div variant="stack">
 							<Div variant="flex">
 								<Mail className="h-6 w-6 text-primary mt-1" />
 								<Div>

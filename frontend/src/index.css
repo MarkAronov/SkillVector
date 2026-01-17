@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css/prefix";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -60,11 +61,11 @@
 	--radius: 0.625rem;
 
 	/* Core backgrounds */
-	--background: oklch(0.985 0.002 270);
+	--background: oklch(0.995 0 0);
 	--foreground: oklch(0.2 0.015 270);
-	--card: oklch(0.995 0.002 270);
+	--card: oklch(1 0 0);
 	--card-foreground: oklch(0.2 0.015 270);
-	--popover: oklch(0.995 0.002 270);
+	--popover: oklch(1 0 0);
 	--popover-foreground: oklch(0.2 0.015 270);
 
 	/* Primary: Indigo #6366f1 */
@@ -76,7 +77,7 @@
 	--secondary-foreground: oklch(0.985 0 0);
 
 	/* Muted */
-	--muted: oklch(0.965 0.005 270);
+	--muted: oklch(0.978 0.003 270);
 	--muted-foreground: oklch(0.35 0.02 270);
 
 	/* Accent: Pink #ec4899 */
@@ -97,8 +98,8 @@
 	--brand-accent: oklch(0.656 0.241 354); /* Pink */
 
 	/* UI elements */
-	--border: oklch(0.905 0.01 270);
-	--input: oklch(0.905 0.01 270);
+	--border: oklch(0.92 0.008 270);
+	--input: oklch(0.92 0.008 270);
 	--ring: oklch(0.585 0.233 264);
 
 	/* Charts - Indigo palette */
@@ -109,13 +110,13 @@
 	--chart-5: oklch(0.769 0.189 70);
 
 	/* Sidebar */
-	--sidebar: oklch(0.975 0.005 270);
+	--sidebar: oklch(0.99 0.002 270);
 	--sidebar-foreground: oklch(0.2 0.015 270);
 	--sidebar-primary: oklch(0.585 0.233 264);
 	--sidebar-primary-foreground: oklch(0.985 0 0);
-	--sidebar-accent: oklch(0.955 0.02 292);
+	--sidebar-accent: oklch(0.968 0.015 292);
 	--sidebar-accent-foreground: oklch(0.25 0.015 270);
-	--sidebar-border: oklch(0.905 0.01 270);
+	--sidebar-border: oklch(0.92 0.008 270);
 	--sidebar-ring: oklch(0.585 0.233 264);
 
 	/* Glass variables */
@@ -246,7 +247,20 @@
 	}
 }
 
-/* Reusable matte frosted glass component */
+/* ============================================
+   GLASS COMPONENT - Pure Visual Primitive
+   ============================================
+   Provides ONLY glassmorphism effects:
+   - Backdrop blur and saturation
+   - Semi-transparent background
+   - Noise texture overlay
+
+   Components using Glass are responsible for:
+   - Borders
+   - Shadows
+   - Padding
+   - Layout structure
+   ============================================ */
 @layer components {
 	.glass {
 		/* Frosted glass blur - higher for matte effect */
@@ -256,11 +270,6 @@
 		-webkit-backdrop-filter: blur(var(--glass-blur))
 			saturate(var(--glass-saturate));
 		background-color: rgba(var(--glass-bg-rgb), var(--glass-bg-alpha));
-		border: 1px solid rgba(var(--glass-border-rgb), var(--glass-border-alpha));
-		box-shadow:
-			0 8px 32px rgba(var(--glass-shadow-rgb), var(--glass-shadow-alpha)),
-			inset 0 2px 4px rgba(255, 255, 255, 0.25),
-			inset 0 -2px 4px rgba(0, 0, 0, 0.15);
 		border-radius: var(--radius);
 		/* Grainy texture overlay */
 		position: relative;
@@ -282,7 +291,6 @@
 
 	/* Slightly heavier glass card variant used for panels */
 	.glass-card {
-		padding: 1.5rem 1.5rem;
 		border-radius: 0.75rem;
 		--glass-bg-alpha: 0.5;
 		--glass-blur: 24px;
@@ -292,56 +300,12 @@
 	.glass-pronounced {
 		--glass-blur: 24px;
 		--glass-bg-alpha: 0.45;
-		--glass-border-alpha: 0.5;
-		box-shadow:
-			0 16px 48px rgba(var(--glass-shadow-rgb), 0.1),
-			inset 0 1px 0 rgba(255, 255, 255, 0.2);
 	}
 
 	.glass-pronounced::before {
 		opacity: 0.05;
 	}
 
-	/* Helper: remove glass border and shadow for specific cases (e.g., footer) */
-	.glass.no-glass-border {
-		border: 0;
-		box-shadow: none;
-	}
-
-	/* Avatar: nonagon-shaped (matches site logo outline) */
-	.avatar-nonagon {
-		/* Use the same 9-point polygon as the logo path (percent coords) */
-		clip-path: polygon(
-			50% 3%,
-			80.195% 13.998%,
-			96.248% 41.842%,
-			90.702% 73.5%,
-			66.07% 94.167%,
-			33.926% 94.167%,
-			9.298% 73.5%,
-			3.752% 41.842%,
-			19.805% 13.998%
-		);
-		-webkit-clip-path: polygon(
-			50% 3%,                                                                                                           
-			80.195% 13.998%,
-			96.248% 41.842%,
-			90.702% 73.5%,
-			66.07% 94.167%,
-			33.926% 94.167%,
-			9.298% 73.5%,
-			3.752% 41.842%,
-			19.805% 13.998%
-		);
-		overflow: hidden;
-		display: inline-grid;
-		place-items: center;
-	}
-
-	/* Fallback for older browsers - preserve rounded look */
-	.avatar-nonagon.fallback {
-		border-radius: 0.5rem;
-	}
 	.dark .glass {
 		--glass-bg-rgb: 20, 20, 28;
 		--glass-bg-alpha: 0.45;
@@ -357,52 +321,14 @@
 		opacity: 0.06;
 		mix-blend-mode: soft-light;
 	}
-
-	/* Scalar API Reference styling */
-	.scalar-wrapper {
-		--scalar-font: "Outfit", system-ui, sans-serif;
-	}
-
-	/* Force Scalar dark mode via data attribute */
-	.scalar-wrapper[data-scalar-theme="dark"] {
-		color-scheme: dark;
-	}
-
-	.scalar-wrapper[data-scalar-theme="dark"] .scalar-api-reference,
-	.scalar-wrapper[data-scalar-theme="dark"] .dark-mode,
-	.scalar-wrapper[data-scalar-theme="dark"] [class*="scalar"] {
-		--scalar-color-1: oklch(98% 0 0);
-		--scalar-color-2: oklch(75% 0 0);
-		--scalar-color-3: oklch(55% 0 0);
-		--scalar-background-1: oklch(12% 0 0);
-		--scalar-background-2: oklch(15% 0 0);
-		--scalar-background-3: oklch(18% 0 0);
-		--scalar-border-color: oklch(25% 0 0);
-		background-color: oklch(12% 0 0);
-	}
-
-	.scalar-wrapper[data-scalar-theme="light"] {
-		color-scheme: light;
-	}
-
-	.scalar-wrapper[data-scalar-theme="light"] .scalar-api-reference,
-	.scalar-wrapper[data-scalar-theme="light"] .light-mode,
-	.scalar-wrapper[data-scalar-theme="light"] [class*="scalar"] {
-		--scalar-color-1: oklch(15% 0 0);
-		--scalar-color-2: oklch(35% 0 0);
-		--scalar-color-3: oklch(55% 0 0);
-		--scalar-background-1: oklch(100% 0 0);
-		--scalar-background-2: oklch(97% 0 0);
-		--scalar-background-3: oklch(94% 0 0);
-		--scalar-border-color: oklch(85% 0 0);
-		background-color: oklch(100% 0 0);
-	}
 }
 
-/* Hide Scalar's theme toggle to force it to follow app theme */
-.scalar-wrapper [data-testid="theme-toggle"],
-.scalar-wrapper button[aria-label*="theme" i],
-.scalar-wrapper button[aria-label*="dark" i] {
-	display: none;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+	}
+  body {
+    @apply bg-background text-foreground;
+	}
 }
 

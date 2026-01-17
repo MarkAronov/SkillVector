@@ -1,26 +1,17 @@
-import { CONTACT } from "@/constants/site";
 import { Div } from "../2-atoms/Div";
-import { Grid } from "../2-atoms/Grid";
 import { Heading } from "../2-atoms/Heading";
-import { Link } from "../2-atoms/Link";
-import { List, ListItem } from "../2-atoms/List";
+import { Section } from "../2-atoms/Section";
+import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
-import { Card, CardContent } from "../3-molecules/Card";
-import { Hero } from "../3-molecules/Hero";
+import { CardGrid, type CardGridItem } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
-type PrivacySection = {
-	title: string;
-	content?: string;
-	subsections?: { title: string; content: string }[];
-	items?: string[];
-};
-
-const privacySections: PrivacySection[] = [
+const privacySections: CardGridItem[] = [
 	{
 		title: "1. Introduction",
 		content:
 			'SkillVector ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard information when you use our professional search platform. As an open-source project, transparency is core to our values.',
+		centered: false,
 	},
 	{
 		title: "2. Information We Collect",
@@ -41,6 +32,7 @@ const privacySections: PrivacySection[] = [
 					"We may collect IP addresses, browser types, and device information for security and analytics purposes.",
 			},
 		],
+		centered: false,
 	},
 	{
 		title: "3. How We Use Your Information",
@@ -51,6 +43,7 @@ const privacySections: PrivacySection[] = [
 			"To communicate with you about service updates and support",
 			"To comply with legal obligations and prevent misuse",
 		],
+		centered: false,
 	},
 	{
 		title: "4. Data Storage and Security",
@@ -61,6 +54,7 @@ const privacySections: PrivacySection[] = [
 			"Access controls and authentication protect your data from unauthorized access",
 			"Regular security audits and updates maintain system integrity",
 		],
+		centered: false,
 	},
 	{
 		title: "5. Third-Party Services",
@@ -71,6 +65,7 @@ const privacySections: PrivacySection[] = [
 			"Each provider has their own privacy policy and data handling practices",
 			"Self-hosted deployments using Ollama keep all data on your infrastructure",
 		],
+		centered: false,
 	},
 	{
 		title: "6. Your Rights",
@@ -82,16 +77,19 @@ const privacySections: PrivacySection[] = [
 			"Request information about how your data is used",
 			"Lodge a complaint with data protection authorities",
 		],
+		centered: false,
 	},
 	{
 		title: "7. Open Source Considerations",
 		content:
 			"SkillVector is open source under the MIT license. If you self-host SkillVector, you are responsible for compliance with applicable privacy laws and regulations. We provide the tools, but data handling practices are determined by each deployment.",
+		centered: false,
 	},
 	{
 		title: "8. Changes to This Policy",
 		content:
 			"We may update this Privacy Policy periodically. Changes will be posted on this page with an updated revision date. Continued use of SkillVector after changes constitutes acceptance of the updated policy.",
+		centered: false,
 	},
 ];
 
@@ -99,77 +97,24 @@ export const PrivacyPage = () => {
 	return (
 		<PageTemplate title="Privacy Policy">
 			{/* Hero Section */}
-			<Hero
-				title="Privacy "
-				brand="Policy"
-				subtitle="How we collect, use, and protect your information"
-			/>
-			<Text variant="muted" className="text-center mt-4">
-				Last updated: November 24, 2025
-			</Text>
+			<Div className="text-center mb-16">
+				<Heading variant="hero">
+					<Span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
+						Privacy Policy
+					</Span>
+				</Heading>
+				<Text variant="lead" className="max-w-2xl mx-auto">
+					How we collect, use, and protect your information
+				</Text>
+				<Text variant="small" className="mt-4">
+					Last updated: December 24, 2025
+				</Text>
+			</Div>
 
 			{/* Privacy Sections */}
-			<Grid variant="features">
-				{privacySections.map((section) => (
-					<Card variant="hover" key={section.title} aria-label={section.title}>
-						<CardContent>
-							<Heading variant="subsection" className="mb-3 lg:mb-4">
-								{section.title}
-							</Heading>
-
-							{section.content && (
-								<Text variant="small" className="mb-3">
-									{section.content}
-								</Text>
-							)}
-
-							{section.subsections && (
-								<Div className="space-y-3 lg:space-y-4">
-									{section.subsections.map((sub) => (
-										<Div key={sub.title}>
-											<Text variant="subheading" className="mb-2">
-												{sub.title}
-											</Text>
-											<Text variant="small">{sub.content}</Text>
-										</Div>
-									))}
-								</Div>
-							)}
-
-							{section.items && (
-								<List variant="spaced">
-									{section.items.map((item) => (
-										<ListItem key={item} variant="bullet">
-											{item}
-										</ListItem>
-									))}
-								</List>
-							)}
-						</CardContent>
-					</Card>
-				))}
-
-				{/* Contact Section */}
-				<Card variant="hover" aria-label="Contact Us">
-					<CardContent>
-						<Heading variant="subsection" className="mb-3 lg:mb-4">
-							9. Contact Us
-						</Heading>
-						<Text variant="small">
-							If you have questions about this Privacy Policy or how we handle
-							your data, please contact us at:{" "}
-							<Link
-								href={`mailto:${CONTACT.email}`}
-								variant="primary"
-								external={false}
-								className="hover:underline"
-							>
-								{CONTACT.email}
-							</Link>
-						</Text>
-					</CardContent>
-				</Card>
-			</Grid>
+			<Section>
+				<CardGrid items={privacySections} maxColumns={1} />
+			</Section>
 		</PageTemplate>
 	);
 };

@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 interface ActionButtonProps {
 	variant?: "primary" | "outline";
@@ -34,7 +35,7 @@ export function ActionButton({
 	disabled = false,
 	ariaLabel,
 }: ActionButtonProps) {
-	const styles = `${baseStyles} ${variantStyles[variant]} ${className}`;
+	const styles = cn(baseStyles, variantStyles[variant], className);
 
 	// External link
 	if (href && external) {

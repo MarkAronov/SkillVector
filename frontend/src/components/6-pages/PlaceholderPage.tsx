@@ -22,7 +22,7 @@ export const PlaceholderPage = ({
 					variant="pronounced"
 					constrain
 					maxWidthClass="max-w-3xl"
-					className="text-center"
+					className="text-center p-8 lg:p-12 border border-white/20 dark:border-white/10 shadow-lg"
 				>
 					<Heading variant="hero" className="mb-4">
 						{title}

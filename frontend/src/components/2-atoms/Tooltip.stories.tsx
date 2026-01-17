@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { TooltipWrapper as Tooltip } from "./Tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 
 const meta = {
 	title: "atoms/Tooltip",
@@ -14,47 +14,69 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-	args: {
-		content: "This is a tooltip message",
-		children: (
-			<span className="underline cursor-help">Hover or long-press me</span>
-		),
-	},
+	render: () => (
+		<Tooltip delayDuration={200}>
+			<TooltipTrigger asChild>
+				<span className="underline cursor-help">Hover or long-press me</span>
+			</TooltipTrigger>
+			<TooltipContent>This is a tooltip message</TooltipContent>
+		</Tooltip>
+	),
 };
 
 export const LongContent: Story = {
-	args: {
-		content: "This is a much longer tooltip that might wrap on some screens",
-		children: (
-			<span className="underline cursor-help">Hover for longer text</span>
-		),
-	},
+	render: () => (
+		<Tooltip delayDuration={200}>
+			<TooltipTrigger asChild>
+				<span className="underline cursor-help">Hover for longer text</span>
+			</TooltipTrigger>
+			<TooltipContent>
+				This is a much longer tooltip that might wrap on some screens
+			</TooltipContent>
+		</Tooltip>
+	),
 };
 
 export const TopPosition: Story = {
-	args: {
-		content: "Positioned above",
-		children: <span className="underline cursor-help">Hover me</span>,
-	},
+	render: () => (
+		<Tooltip>
+			<TooltipTrigger asChild>
+				<span className="underline cursor-help">Positioned above</span>
+			</TooltipTrigger>
+			<TooltipContent>Hover me</TooltipContent>
+		</Tooltip>
+	),
 };
 
 export const BottomPosition: Story = {
-	args: {
-		content: "Positioned below",
-		children: <span className="underline cursor-help">Hover me</span>,
-	},
+	render: () => (
+		<Tooltip>
+			<TooltipTrigger asChild>
+				<span className="underline cursor-help">Positioned below</span>
+			</TooltipTrigger>
+			<TooltipContent>Hover me</TooltipContent>
+		</Tooltip>
+	),
 };
 
 export const LeftPosition: Story = {
-	args: {
-		content: "Positioned left",
-		children: <span className="underline cursor-help">Hover me</span>,
-	},
+	render: () => (
+		<Tooltip>
+			<TooltipTrigger asChild>
+				<span className="underline cursor-help">Positioned left</span>
+			</TooltipTrigger>
+			<TooltipContent>Hover me</TooltipContent>
+		</Tooltip>
+	),
 };
 
 export const RightPosition: Story = {
-	args: {
-		content: "Positioned right",
-		children: <span className="underline cursor-help">Hover me</span>,
-	},
+	render: () => (
+		<Tooltip>
+			<TooltipTrigger asChild>
+				<span className="underline cursor-help">Positioned right</span>
+			</TooltipTrigger>
+			<TooltipContent>Hover me</TooltipContent>
+		</Tooltip>
+	),
 };

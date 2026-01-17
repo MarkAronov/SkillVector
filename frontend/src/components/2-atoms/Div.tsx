@@ -1,7 +1,21 @@
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
-type DivVariant = "default" | "flex" | "center" | "code" | "spacer";
+/**
+ * Div Component - Semantic container with common layouts
+ *
+ * Provides commonly-used layout patterns. For one-off custom layouts,
+ * use regular <div> with Tailwind classes directly.
+ *
+ * Variants:
+ * - default: Plain container
+ * - flex: Horizontal flexbox with gap (common pattern)
+ * - center: Centered content (both axes)
+ * - stack: Vertical spacing (common for content)
+ * - codeBlock: Code display styling
+ */
+
+type DivVariant = "default" | "flex" | "center" | "stack" | "codeBlock";
 
 interface DivProps extends ComponentProps<"div"> {
 	variant?: DivVariant;
@@ -12,10 +26,10 @@ interface DivProps extends ComponentProps<"div"> {
 
 const variantClasses: Record<DivVariant, string> = {
 	default: "",
-	flex: "flex gap-4 items-start",
-	center: "flex justify-center items-center",
-	code: "bg-muted/50 rounded-lg p-4",
-	spacer: "space-y-4",
+	flex: "flex gap-4 items-start", // Common horizontal layout
+	center: "flex justify-center items-center", // Center content
+	stack: "space-y-4", // Vertical content stacking (renamed from "spacer")
+	codeBlock: "bg-muted/50 rounded-lg p-4", // Code display (renamed from "code")
 };
 
 function Div({

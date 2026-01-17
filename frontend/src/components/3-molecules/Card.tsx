@@ -2,6 +2,31 @@ import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Glass } from "../1-ions/Glass";
 
+/**
+ * Card Component
+ *
+ * Separation of Concerns:
+ * - Glass: Provides ONLY glassmorphism effects (backdrop-filter, background blur, noise texture)
+ * - Card: Provides ALL depth styling (borders, shadows, padding, layout structure)
+ *
+ * This ensures clear responsibility boundaries and prevents style conflicts.
+ *
+ * Spacing System:
+ * - Card padding is defined once using CSS custom properties
+ * - All subcomponents reference the same spacing values
+ * - Modify spacing globally by changing the CSS variables
+ */
+
+// Card spacing constants - single source of truth
+const CARD_PADDING = "2rem"; // 32px base (p-8), 3rem (48px) on lg+ breakpoint (lg:p-12)
+const CARD_SPACING = {
+	padding: CARD_PADDING,
+	paddingX: "px-8 lg:px-12",
+	paddingY: "py-8 lg:py-12",
+	paddingTop: "pt-8 lg:pt-12",
+	paddingBottom: "pb-8 lg:pb-12",
+};
+
 type CardVariant = "default" | "hover" | "feature";
 
 interface CardProps extends ComponentProps<"div"> {
@@ -39,30 +64,16 @@ function Card({
 			data-slot="card"
 			className={cn(
 				"text-card-foreground flex flex-col",
-				"border-2 border-white/20 dark:border-white/10",
-				// Main depth shadows
-				"shadow-[0_2px_4px_rgba(0,0,0,0.05),0_8px_16px_rgba(0,0,0,0.08),0_20px_40px_rgba(0,0,0,0.12)]",
-				"dark:shadow-[0_2px_4px_rgba(0,0,0,0.3),0_8px_16px_rgba(0,0,0,0.4),0_20px_40px_rgba(0,0,0,0.5)]",
+				"backdrop-blur-sm bg-white/40 dark:bg-black/30",
+				"rounded-2xl",
+				"shadow-lg shadow-black/5 dark:shadow-black/20",
+				"border border-white/20 dark:border-white/10",
 				"relative overflow-hidden z-10",
-				// Side edges for thickness
-				"*:relative *:z-10",
-				"transform-gpu",
 				variantClasses[variant],
 				fillClass,
 				minHClass,
 				className,
 			)}
-			style={{
-				boxShadow: `
-					0 2px 4px rgba(0, 0, 0, 0.05),
-					0 8px 16px rgba(0, 0, 0, 0.08),
-					0 20px 40px rgba(0, 0, 0, 0.12),
-					inset 0 1px 0 rgba(255, 255, 255, 0.3),
-					inset 0 -1px 0 rgba(0, 0, 0, 0.15),
-					inset 2px 0 0 rgba(255, 255, 255, 0.1),
-					inset -2px 0 0 rgba(0, 0, 0, 0.1)
-				`,
-			}}
 			{...props}
 		>
 			{children}
@@ -84,7 +95,11 @@ function CardHeader({
 }: CardHeaderProps) {
 	if (icon) {
 		return (
-			<div data-slot="card-header" className={cn("p-6", className)} {...props}>
+			<div
+				data-slot="card-header"
+				className={cn(CARD_SPACING.paddingY, CARD_SPACING.paddingX, className)}
+				{...props}
+			>
 				<div className="flex flex-col items-center text-center gap-4">
 					<div className={cn("shrink-0", iconColor)}>{icon}</div>
 					<div className="w-full">{children}</div>
@@ -96,7 +111,7 @@ function CardHeader({
 	return (
 		<div
 			data-slot="card-header"
-			className={cn("px-6 pt-6", className)}
+			className={cn(CARD_SPACING.paddingX, CARD_SPACING.paddingTop, className)}
 			{...props}
 		>
 			{children}
@@ -138,7 +153,11 @@ function CardContent({
 	return (
 		<div
 			data-slot="card-content"
-			className={cn("px-6 pb-6", centered && "text-center", className)}
+			className={cn(
+				"p-8 lg:p-12 flex flex-col h-full",
+				centered && "text-center",
+				className,
+			)}
 			{...props}
 		/>
 	);
@@ -148,7 +167,12 @@ function CardFooter({ className, ...props }: ComponentProps<"div">) {
 	return (
 		<div
 			data-slot="card-footer"
-			className={cn("flex items-center px-6 pb-6", className)}
+			className={cn(
+				CARD_SPACING.paddingX,
+				CARD_SPACING.paddingBottom,
+				"flex items-center",
+				className,
+			)}
 			{...props}
 		/>
 	);

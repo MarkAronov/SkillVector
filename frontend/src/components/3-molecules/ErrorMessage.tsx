@@ -1,4 +1,5 @@
 import { AlertCircle, AlertTriangle, Info } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Text } from "../2-atoms/Text";
 import { Card, CardContent } from "./Card";
 
@@ -35,17 +36,19 @@ export const ErrorMessage = ({
 		variant === "error" ? "Error" : variant === "warning" ? "Warning" : "Info";
 
 	return (
-		<Card variant="hover" className={`${variantStyles[variant]} ${className}`}>
-			<CardContent>
-				<div className="flex gap-3">
-					{variantIcons[variant]}
-					<div className="flex-1">
-						<Text className="font-semibold">{title || defaultTitle}:</Text>
-						<Text className="mt-1">{message}</Text>
-						{children}
+		<div className={cn(variantStyles[variant], "rounded-lg", className)}>
+			<Card variant="hover">
+				<CardContent>
+					<div className="flex gap-3">
+						{variantIcons[variant]}
+						<div className="flex-1">
+							<Text className="font-semibold">{title || defaultTitle}:</Text>
+							<Text className="mt-1">{message}</Text>
+							{children}
+						</div>
 					</div>
-				</div>
-			</CardContent>
-		</Card>
+				</CardContent>
+			</Card>
+		</div>
 	);
 };

@@ -4,10 +4,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useTheme } from "../../hooks/useTheme";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
+import { Section } from "../2-atoms/Section";
 import { Card, CardContent } from "../3-molecules/Card";
 import { CodeBlock } from "../3-molecules/CodeBlock";
 import { Hero } from "../3-molecules/Hero";
+import { CardGrid } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
+import "./ApiPage.css";
 
 export const ResourcesPage = () => {
 	const { effectiveTheme } = useTheme();
@@ -153,39 +156,41 @@ export const ResourcesPage = () => {
 				<Heading variant="section" className="mb-4">
 					SDKs
 				</Heading>
-				<Div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-					<Card variant="hover" fill>
-						<CardContent>
-							<Heading as="h2" variant="card" className="mb-2">
-								Install
-							</Heading>
-							<CodeBlock language="bash" code={install} />
-						</CardContent>
-					</Card>
+				<Section>
+					<CardGrid>
+						<Card variant="hover" fill>
+							<CardContent>
+								<Heading as="h2" variant="card" className="mb-2">
+									Install
+								</Heading>
+								<CodeBlock language="bash" code={install} />
+							</CardContent>
+						</Card>
 
-					<Card variant="hover" fill>
-						<CardContent>
-							<Heading as="h2" variant="card" className="mb-2">
-								Quick Start
-							</Heading>
-							<CodeBlock language="ts" code={quickUse} />
-						</CardContent>
-					</Card>
+						<Card variant="hover" fill>
+							<CardContent>
+								<Heading as="h2" variant="card" className="mb-2">
+									Quick Start
+								</Heading>
+								<CodeBlock language="ts" code={quickUse} />
+							</CardContent>
+						</Card>
 
-					<Card variant="hover" fill>
-						<CardContent>
-							<Heading as="h2" variant="card" className="mb-2">
-								Features
-							</Heading>
-							<ul className="list-disc pl-4">
-								<li>Search & pagination helpers</li>
-								<li>Filters support with `searchWithFilters`</li>
-								<li>Retries and exponential backoff</li>
-								<li>TypeScript types for strict typing</li>
-							</ul>
-						</CardContent>
-					</Card>
-				</Div>
+						<Card variant="hover" fill>
+							<CardContent>
+								<Heading as="h2" variant="card" className="mb-2">
+									Features
+								</Heading>
+								<ul className="list-disc pl-4">
+									<li>Search & pagination helpers</li>
+									<li>Filters support with `searchWithFilters`</li>
+									<li>Retries and exponential backoff</li>
+									<li>TypeScript types for strict typing</li>
+								</ul>
+							</CardContent>
+						</Card>
+					</CardGrid>
+				</Section>
 			</Div>
 		</PageTemplate>
 	);

@@ -5,12 +5,14 @@ import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Link } from "../2-atoms/Link";
 import { List, ListItem } from "../2-atoms/List";
+import { Section } from "../2-atoms/Section";
 import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
 import { Card, CardContent } from "../3-molecules/Card";
 import { ErrorMessage } from "../3-molecules/ErrorMessage";
 import { Hero } from "../3-molecules/Hero";
 import { LoadingState } from "../3-molecules/LoadingState";
+import { CardGrid } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
 interface GitHubRelease {
@@ -136,19 +138,21 @@ export const ChangelogPage = () => {
 			{/* Releases */}
 			{!loading && !error && (
 				<>
-					<List variant="spaced" className="mb-8">
-						{currentReleases.length === 0 ? (
-							<Card variant="hover">
-								<CardContent centered>
-									<Text variant="muted">No releases available yet.</Text>
-								</CardContent>
-							</Card>
-						) : (
-							currentReleases.map((release) => (
-								<ListItem key={release.version}>
+					<Section>
+						<CardGrid maxColumns={1} gap="lg">
+							{currentReleases.length === 0 ? (
+								<Card variant="hover" fill>
+									<CardContent centered>
+										<Text variant="muted">No releases available yet.</Text>
+									</CardContent>
+								</Card>
+							) : (
+								currentReleases.map((release) => (
 									<Card
 										variant="hover"
 										aria-label={`Version ${release.version}`}
+										fill
+										key={release.version}
 									>
 										<CardContent>
 											<Div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
@@ -203,12 +207,10 @@ export const ChangelogPage = () => {
 											</List>
 										</CardContent>
 									</Card>
-								</ListItem>
-							))
-						)}
-					</List>
-
-					{/* Pagination */}
+								))
+							)}
+						</CardGrid>
+					</Section>
 					{totalPages > 1 && (
 						<Div className="flex items-center justify-center gap-2 mb-16">
 							<button
@@ -283,16 +285,15 @@ export const ChangelogPage = () => {
 			)}
 
 			{/* CTA Section */}
-			<Card
-				aria-label="View releases on GitHub"
-				className="text-center p-8 lg:p-12"
-			>
-				<Heading variant="section" className="mb-4">
-					Stay Updated
-				</Heading>
-				<Text variant="lead" className="text-muted-foreground mb-6">
-					Follow our GitHub repository for the latest updates and releases
-				</Text>
+			<Card aria-label="View releases on GitHub">
+				<CardContent centered>
+					<Heading variant="section" className="mb-4">
+						Stay Updated
+					</Heading>
+					<Text variant="lead" className="text-muted-foreground mb-6">
+						Follow our GitHub repository for the latest updates and releases
+					</Text>
+				</CardContent>
 			</Card>
 		</PageTemplate>
 	);

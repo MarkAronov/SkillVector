@@ -1,20 +1,26 @@
 import { Slot } from "@radix-ui/react-slot";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as React from "react";
-
+import {
+	Tooltip as ShadcnTooltip,
+	TooltipTrigger as ShadcnTooltipTrigger,
+	type TooltipContent as ShadcnTooltipContent,
+	TooltipProvider as ShadcnTooltipProvider,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+
+/**
+ * Tooltip Component
+ *
+ * Wraps shadcn/ui Tooltip with SkillVector customizations.
+ * Adds badge variant and custom arrow styling.
+ */
 
 function TooltipProvider({
 	delayDuration = 0,
 	...props
 }: React.ComponentProps<typeof TooltipPrimitive.Provider>) {
-	return (
-		<TooltipPrimitive.Provider
-			data-slot="tooltip-provider"
-			delayDuration={delayDuration}
-			{...props}
-		/>
-	);
+	return <ShadcnTooltipProvider delayDuration={delayDuration} {...props} />;
 }
 
 function Tooltip({
@@ -22,16 +28,12 @@ function Tooltip({
 }: React.ComponentProps<typeof TooltipPrimitive.Root>) {
 	return (
 		<TooltipProvider>
-			<TooltipPrimitive.Root data-slot="tooltip" {...props} />
+			<ShadcnTooltip {...props} />
 		</TooltipProvider>
 	);
 }
 
-function TooltipTrigger({
-	...props
-}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
-	return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />;
-}
+const TooltipTrigger = ShadcnTooltipTrigger;
 
 function TooltipContent({
 	className,
@@ -40,7 +42,7 @@ function TooltipContent({
 	asChild = false,
 	children,
 	...props
-}: React.ComponentProps<typeof TooltipPrimitive.Content> & {
+}: React.ComponentProps<typeof ShadcnTooltipContent> & {
 	variant?: "default" | "badge";
 	asChild?: boolean;
 }) {
@@ -52,7 +54,7 @@ function TooltipContent({
 			{children}
 			<TooltipPrimitive.Arrow
 				className={cn(
-					"z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]",
+					"z-50 size-2.5 translate-y-[calc(-50%-2px)] rotate-45 rounded-[2px]",
 					variant === "badge"
 						? "bg-primary fill-primary border-primary"
 						: "bg-secondary fill-secondary border-secondary",
@@ -67,7 +69,7 @@ function TooltipContent({
 				data-slot="tooltip-content"
 				sideOffset={sideOffset}
 				className={cn(
-					"z-[9999]",
+					"z-9999",
 					!asChild &&
 						"animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance border",
 					!asChild && variant === "badge"
@@ -84,36 +86,4 @@ function TooltipContent({
 	);
 }
 
-// Wrapper component for backward compatibility
-interface TooltipWrapperProps {
-	content: React.ReactNode;
-	children: React.ReactNode;
-	className?: string;
-	variant?: "default" | "badge";
-	delayDuration?: number;
-}
-
-function TooltipWrapper({
-	content,
-	children,
-	className,
-	variant = "default",
-	delayDuration = 200,
-}: TooltipWrapperProps) {
-	return (
-		<Tooltip delayDuration={delayDuration}>
-			<TooltipTrigger asChild>{children}</TooltipTrigger>
-			<TooltipContent variant={variant} className={className}>
-				{content}
-			</TooltipContent>
-		</Tooltip>
-	);
-}
-
-export {
-	Tooltip,
-	TooltipTrigger,
-	TooltipContent,
-	TooltipProvider,
-	TooltipWrapper,
-};
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };

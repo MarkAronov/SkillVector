@@ -7,15 +7,30 @@ interface HeroProps extends ComponentProps<"div"> {
 	title: string;
 	subtitle: string;
 	brand?: string;
+	/** Custom gradient class (defaults to brand gradient) */
+	gradientClass?: string;
+	/** Override default layout */
+	centered?: boolean;
 }
 
-function Hero({ className, title, subtitle, brand, ...props }: HeroProps) {
+function Hero({
+	className,
+	title,
+	subtitle,
+	brand,
+	gradientClass = "bg-linear-to-r from-primary to-secondary",
+	centered = true,
+	...props
+}: HeroProps) {
 	return (
-		<div className={cn("text-center mb-16", className)} {...props}>
+		<div
+			className={cn(centered && "text-center", "mb-16", className)}
+			{...props}
+		>
 			<Heading variant="hero">
 				{title}{" "}
 				{brand && (
-					<span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
+					<span className={cn(gradientClass, "bg-clip-text text-transparent")}>
 						{brand}
 					</span>
 				)}

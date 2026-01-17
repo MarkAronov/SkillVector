@@ -3,6 +3,7 @@ import type { PersonSearchResult, SearchResult } from "@/types/search.types";
 import { Card } from "../3-molecules/Card";
 import { PersonCard } from "../3-molecules/PersonCard";
 import { ViewToggle } from "../3-molecules/ViewToggle";
+import { CardGrid } from "../4-organisms/CardGrid";
 
 interface SearchResultsProps {
 	data: SearchResult;
@@ -218,27 +219,20 @@ export function SearchResults({ data, isLoading }: SearchResultsProps) {
 				</div>
 
 				{uniquePeople.length > 0 ? (
-					view === "grid" ? (
-						<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-							{uniquePeople.map((item, index) => (
+					<CardGrid
+						maxColumns={view === "grid" ? 3 : 1}
+						items={uniquePeople.map((item, index) => ({
+							id: `${item.person.name}-${index}`,
+							noWrapper: true,
+							customContent: (
 								<PersonCard
 									key={`${item.person.name}-${index}`}
 									person={item}
-									view="grid"
+									view={view}
 								/>
-							))}
-						</div>
-					) : (
-						<div className="space-y-4">
-							{uniquePeople.map((item, index) => (
-								<PersonCard
-									key={`${item.person.name}-${index}`}
-									person={item}
-									view="row"
-								/>
-							))}
-						</div>
-					)
+							),
+						}))}
+					/>
 				) : (
 					<Card className="p-6 text-center text-muted-foreground">
 						<p>No people found matching your search criteria.</p>

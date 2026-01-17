@@ -5,6 +5,7 @@ import { useTheme } from "../../hooks/useTheme";
 import { Div } from "../2-atoms/Div";
 import { Hero } from "../3-molecules/Hero";
 import { PageTemplate } from "../5-templates/PageTemplate";
+import "./ApiPage.css";
 
 export const ApiPage = () => {
 	const { effectiveTheme } = useTheme();

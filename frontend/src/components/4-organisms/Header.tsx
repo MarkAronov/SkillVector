@@ -79,7 +79,7 @@ export function Header() {
 				<Glass
 					asChild
 					variant="panel"
-					className="backdrop-blur-sm bg-white/40 dark:bg-black/30 rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/20"
+					className="backdrop-blur-sm bg-white/40 dark:bg-black/30 rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/20 border border-white/20 dark:border-white/10"
 				>
 					<header>
 						<nav className="container mx-auto px-3 lg:px-4">
@@ -90,7 +90,7 @@ export function Header() {
 									className="flex items-center gap-3 hover:opacity-80 transition-opacity"
 								>
 									<Logo size="md" />
-									<span className="text-lg lg:text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+									<span className="text-lg lg:text-xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
 										SkillVector
 									</span>
 								</Link>

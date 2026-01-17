@@ -7,53 +7,52 @@ import {
 	Users,
 	Zap,
 } from "lucide-react";
-import { Grid } from "../2-atoms/Grid";
-import { ListItem } from "../2-atoms/List";
+import { Section } from "../2-atoms/Section";
 import { CTACard } from "../3-molecules/CTACard";
 import { Hero } from "../3-molecules/Hero";
-import { IconCard } from "../3-molecules/IconCard";
+import { CardGrid, type CardGridItem } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
-export const FeaturesPage = () => {
-	const features = [
-		{
-			icon: <Search className="h-6 w-6" />,
-			title: "Semantic Search",
-			description:
-				"Find talent based on meaning, not just keywords. Our AI understands context and intent.",
-		},
-		{
-			icon: <Zap className="h-6 w-6" />,
-			title: "Lightning Fast",
-			description:
-				"Built on Bun runtime and Qdrant vector database for sub-second search results.",
-		},
-		{
-			icon: <Code className="h-6 w-6" />,
-			title: "Multi-AI Provider",
-			description:
-				"Choose from OpenAI, Anthropic, Google Gemini, Ollama, or HuggingFace.",
-		},
-		{
-			icon: <Shield className="h-6 w-6" />,
-			title: "Type-Safe API",
-			description:
-				"Full TypeScript implementation with comprehensive type safety and validation.",
-		},
-		{
-			icon: <Cloud className="h-6 w-6" />,
-			title: "Scalable Architecture",
-			description:
-				"Vector database-backed architecture that scales with your needs.",
-		},
-		{
-			icon: <Users className="h-6 w-6" />,
-			title: "Multi-Format Support",
-			description:
-				"Parse and index data from CSV, JSON, and TXT files automatically.",
-		},
-	];
+const features: CardGridItem[] = [
+	{
+		icon: <Search className="h-6 w-6" />,
+		title: "Semantic Search",
+		description:
+			"Find talent based on meaning, not just keywords. Our AI understands context and intent.",
+	},
+	{
+		icon: <Zap className="h-6 w-6" />,
+		title: "Lightning Fast",
+		description:
+			"Built on Bun runtime and Qdrant vector database for sub-second search results.",
+	},
+	{
+		icon: <Code className="h-6 w-6" />,
+		title: "Multi-AI Provider",
+		description:
+			"Choose from OpenAI, Anthropic, Google Gemini, Ollama, or HuggingFace.",
+	},
+	{
+		icon: <Shield className="h-6 w-6" />,
+		title: "Type-Safe API",
+		description:
+			"Full TypeScript implementation with comprehensive type safety and validation.",
+	},
+	{
+		icon: <Cloud className="h-6 w-6" />,
+		title: "Scalable Architecture",
+		description:
+			"Vector database-backed architecture that scales with your needs.",
+	},
+	{
+		icon: <Users className="h-6 w-6" />,
+		title: "Multi-Format Support",
+		description:
+			"Parse and index data from CSV, JSON, and TXT files automatically.",
+	},
+];
 
+export const FeaturesPage = () => {
 	return (
 		<PageTemplate title="Features">
 			{/* Hero Section */}
@@ -64,17 +63,9 @@ export const FeaturesPage = () => {
 			/>
 
 			{/* Features Grid */}
-			<Grid variant="cards">
-				{features.map((feature) => (
-					<ListItem key={feature.title}>
-						<IconCard
-							icon={feature.icon}
-							title={feature.title}
-							description={feature.description}
-						/>
-					</ListItem>
-				))}
-			</Grid>
+			<Section>
+				<CardGrid items={features} maxColumns={2} gap="lg" />
+			</Section>
 
 			{/* Call to Action */}
 			<CTACard

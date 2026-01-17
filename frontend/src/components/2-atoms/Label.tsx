@@ -1,18 +1,11 @@
 import type { ComponentProps } from "react";
-import { cn } from "@/lib/utils";
+import { Label as ShadcnLabel } from "@/components/ui/label";
 
-interface LabelProps extends ComponentProps<"label"> {}
+/**
+ * Label Component
+ *
+ * Re-exports shadcn/ui Label.
+ */
 
-function Label({ className, children, ...props }: LabelProps) {
-	return (
-		// biome-ignore lint/a11y/noLabelWithoutControl: This is a generic label component that forwards props like htmlFor
-		<label
-			className={cn("block text-sm font-medium mb-2", className)}
-			{...props}
-		>
-			{children}
-		</label>
-	);
-}
-
-export { Label, type LabelProps };
+export { ShadcnLabel as Label };
+export type LabelProps = ComponentProps<typeof ShadcnLabel>;

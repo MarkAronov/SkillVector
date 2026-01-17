@@ -1,64 +1,42 @@
 import type { ComponentProps } from "react";
+import {
+	Table as ShadcnTable,
+	TableBody as ShadcnTableBody,
+	TableCaption as ShadcnTableCaption,
+	TableCell as ShadcnTableCell,
+	TableFooter as ShadcnTableFooter,
+	TableHead as ShadcnTableHead,
+	TableHeader as ShadcnTableHeader,
+	TableRow as ShadcnTableRow,
+} from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
-interface TableProps extends ComponentProps<"table"> {}
+/**
+ * Table Components
+ *
+ * Wraps shadcn/ui Table with SkillVector customizations.
+ * Adds variant support for different cell styles.
+ */
 
-function Table({ className, ...props }: TableProps) {
-	return (
-		<div className="overflow-x-auto">
-			<table
-				className={cn("w-full text-sm border-collapse", className)}
-				{...props}
-			/>
-		</div>
-	);
-}
+type TableProps = ComponentProps<typeof ShadcnTable>;
 
-interface TableHeaderProps extends ComponentProps<"thead"> {}
+const Table = ShadcnTable;
+const TableHeader = ShadcnTableHeader;
+const TableBody = ShadcnTableBody;
+const TableRow = ShadcnTableRow;
+const TableHead = ShadcnTableHead;
+const TableFooter = ShadcnTableFooter;
+const TableCaption = ShadcnTableCaption;
 
-function TableHeader({ className, ...props }: TableHeaderProps) {
-	return <thead className={cn(className)} {...props} />;
-}
-
-interface TableBodyProps extends ComponentProps<"tbody"> {}
-
-function TableBody({ className, ...props }: TableBodyProps) {
-	return <tbody className={cn(className)} {...props} />;
-}
-
-interface TableRowProps extends ComponentProps<"tr"> {}
-
-function TableRow({ className, ...props }: TableRowProps) {
-	return (
-		<tr
-			className={cn("border-b border-border/50 last:border-0", className)}
-			{...props}
-		/>
-	);
-}
-
-interface TableHeadProps extends ComponentProps<"th"> {}
-
-function TableHead({ className, ...props }: TableHeadProps) {
-	return (
-		<th
-			className={cn(
-				"text-left py-3 px-4 font-semibold border-b border-border",
-				className,
-			)}
-			{...props}
-		/>
-	);
-}
-
-interface TableCellProps extends ComponentProps<"td"> {
+// Custom TableCell with variant support
+interface TableCellProps extends ComponentProps<typeof ShadcnTableCell> {
 	variant?: "default" | "code" | "muted";
 }
 
 const cellVariants = {
-	default: "py-3 px-4",
-	code: "py-3 px-4 font-mono text-xs lg:text-sm",
-	muted: "py-3 px-4 text-muted-foreground",
+	default: "",
+	code: "font-mono text-xs lg:text-sm",
+	muted: "text-muted-foreground",
 };
 
 function TableCell({
@@ -66,7 +44,12 @@ function TableCell({
 	variant = "default",
 	...props
 }: TableCellProps) {
-	return <td className={cn(cellVariants[variant], className)} {...props} />;
+	return (
+		<ShadcnTableCell
+			className={cn(cellVariants[variant], className)}
+			{...props}
+		/>
+	);
 }
 
 export {
@@ -76,10 +59,8 @@ export {
 	TableRow,
 	TableHead,
 	TableCell,
+	TableFooter,
+	TableCaption,
 	type TableProps,
-	type TableHeaderProps,
-	type TableBodyProps,
-	type TableRowProps,
-	type TableHeadProps,
 	type TableCellProps,
 };

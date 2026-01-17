@@ -3,6 +3,22 @@ import type { CSSProperties, HTMLAttributes } from "react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
+/**
+ * Glass Component - Pure Visual Primitive
+ *
+ * Provides ONLY glassmorphism effects:
+ * - Backdrop blur and saturation
+ * - Semi-transparent background
+ * - Subtle noise texture overlay
+ * - Border radius
+ *
+ * Does NOT provide:
+ * - Borders (components handle their own)
+ * - Shadows (components handle their own)
+ * - Padding (components handle their own)
+ * - Layout structure (components handle their own)
+ */
+
 export interface GlassProps extends HTMLAttributes<HTMLDivElement> {
 	asChild?: boolean;
 	variant?: "card" | "panel" | "default" | "pronounced";

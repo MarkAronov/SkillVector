@@ -1,14 +1,20 @@
-import { Heart, Target, Users, Zap } from "lucide-react";
-import { Grid } from "../2-atoms/Grid";
+import {
+	Brain,
+	Database,
+	Heart,
+	Layers,
+	Target,
+	Users,
+	Zap,
+} from "lucide-react";
 import { Heading } from "../2-atoms/Heading";
-import { List, ListItem } from "../2-atoms/List";
+import { Section } from "../2-atoms/Section";
 import { Text } from "../2-atoms/Text";
-import { Card, CardContent } from "../3-molecules/Card";
 import { Hero } from "../3-molecules/Hero";
-import { IconCard } from "../3-molecules/IconCard";
+import { CardGrid, type CardGridItem } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
-const values = [
+const capabilities: CardGridItem[] = [
 	{
 		icon: <Target className="h-6 w-6" />,
 		title: "Precision",
@@ -28,27 +34,27 @@ const values = [
 			"Built to handle millions of profiles with consistent performance.",
 	},
 	{
-		icon: <Heart className="h-6 w-6" />,
-		title: "Open Source",
-		description: "Transparent, community-driven development under MIT license.",
-	},
-];
-
-const techStack = [
-	{
+		icon: <Brain className="h-6 w-6" />,
 		title: "AI & Embeddings",
 		description:
 			"Support for multiple AI providers (OpenAI, Anthropic, Google Gemini, HuggingFace, Ollama) with flexible embedding model selection.",
 	},
 	{
+		icon: <Database className="h-6 w-6" />,
 		title: "Vector Database",
 		description:
 			"Qdrant vector database for high-performance similarity search and scalable storage.",
 	},
 	{
+		icon: <Layers className="h-6 w-6" />,
 		title: "Modern Web Stack",
 		description:
 			"React 19 frontend with TanStack Router, Tailwind CSS, and a robust Node.js backend with TypeScript.",
+	},
+	{
+		icon: <Heart className="h-6 w-6" />,
+		title: "Open Source",
+		description: "Transparent, community-driven development under MIT license.",
 	},
 ];
 
@@ -63,46 +69,41 @@ export const AboutPage = () => {
 			/>
 
 			{/* Mission Section */}
-			<Card variant="hover" aria-label="Our Mission" className="mb-8 lg:mb-12">
-				<CardContent>
-					<Heading variant="section">Our Mission</Heading>
-					<Text className="mb-4">
-						SkillVector was built to solve a fundamental problem in talent
-						discovery: traditional keyword-based search fails to capture the
-						nuanced relationships between skills, experiences, and expertise.
-					</Text>
-					<Text>
-						By leveraging advanced AI embeddings and vector similarity search,
-						we enable organizations to find the right professionals based on
-						what they can do, not just what keywords appear in their profiles.
-					</Text>
-				</CardContent>
-			</Card>
-			{/* Values Grid */}
-			<Grid variant="features">
-				{values.map(({ icon, title, description }) => (
-					<ListItem key={title}>
-						<IconCard icon={icon} title={title} description={description} />
-					</ListItem>
-				))}
-			</Grid>
+			<Section>
+				<CardGrid
+					items={[
+						{
+							title: "Our Mission",
+							customContent: (
+								<>
+									<Heading variant="section" className="mb-4">
+										Our Mission
+									</Heading>
+									<Text className="mb-4">
+										SkillVector was built to solve a fundamental problem in
+										talent discovery: traditional keyword-based search fails to
+										capture the nuanced relationships between skills,
+										experiences, and expertise.
+									</Text>
+									<Text>
+										By leveraging advanced AI embeddings and vector similarity
+										search, we enable organizations to find the right
+										professionals based on what they can do, not just what
+										keywords appear in their profiles.
+									</Text>
+								</>
+							),
+						},
+					]}
+					maxColumns={1}
+					gap="lg"
+				/>
+			</Section>
 
-			{/* Technology Stack Section */}
-			<Card variant="hover" aria-label="Technology Stack">
-				<CardContent>
-					<Heading variant="section">Technology Stack</Heading>
-					<List variant="spaced">
-						{techStack.map(({ title, description }) => (
-							<ListItem key={title}>
-								<Text variant="subheading" className="mb-2">
-									{title}
-								</Text>
-								<Text variant="small">{description}</Text>
-							</ListItem>
-						))}
-					</List>
-				</CardContent>
-			</Card>
+			{/* Capabilities & Technology Stack */}
+			<Section>
+				<CardGrid items={capabilities} maxColumns={2} gap="lg" />
+			</Section>
 		</PageTemplate>
 	);
 };

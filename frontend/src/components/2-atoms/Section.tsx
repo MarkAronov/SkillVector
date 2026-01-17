@@ -8,7 +8,7 @@ interface SectionProps extends ComponentProps<"section"> {
 }
 
 const variantClasses: Record<SectionVariant, string> = {
-	default: "",
+	default: "mb-8 lg:mb-12",
 	hero: "text-center mb-16",
 	spaced: "mb-8 lg:mb-12",
 	compact: "mb-4 lg:mb-6",

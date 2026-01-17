@@ -38,7 +38,7 @@ export function SearchBar({
 		<Glass
 			variant="card"
 			constrain
-			className="w-full flex items-center rounded-full overflow-hidden p-0"
+			className="w-full flex items-center rounded-full overflow-hidden p-0 border border-white/20 dark:border-white/10 shadow-md"
 		>
 			<input
 				type="text"

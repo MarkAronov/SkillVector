@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { TooltipWrapper as Tooltip } from "../2-atoms/Tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
 
 interface TruncatedTextProps {
 	text: string;
@@ -22,8 +22,11 @@ export function TruncatedText({
 	}
 
 	return (
-		<Tooltip content={text}>
-			<span className={cn("cursor-help", className)}>{displayText}</span>
+		<Tooltip delayDuration={200}>
+			<TooltipTrigger asChild>
+				<span className={cn("cursor-help", className)}>{displayText}</span>
+			</TooltipTrigger>
+			<TooltipContent>{text}</TooltipContent>
 		</Tooltip>
 	);
 }

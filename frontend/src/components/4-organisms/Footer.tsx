@@ -110,7 +110,7 @@ export const Footer = () => {
 		<>
 			{/* Background tint overlay - fades in gradually when approaching bottom */}
 			<div
-				className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-700 ease-out bg-gradient-to-t from-white/40 via-transparent to-transparent dark:from-black/40 dark:via-transparent dark:to-transparent"
+				className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-700 ease-out bg-linear-to-t from-white/40 via-transparent to-transparent dark:from-black/40 dark:via-transparent dark:to-transparent"
 				style={{ opacity: scrollOpacity }}
 				aria-hidden="true"
 			/>

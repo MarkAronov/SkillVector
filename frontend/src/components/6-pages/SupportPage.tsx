@@ -1,18 +1,25 @@
-import { Link } from "@tanstack/react-router";
 import { Book, Github, Mail, MessageCircle } from "lucide-react";
+import type { ReactNode } from "react";
 import { CONTACT, EXTERNAL_LINKS } from "@/constants/site";
 import { Div } from "../2-atoms/Div";
-import { Grid } from "../2-atoms/Grid";
 import { Heading } from "../2-atoms/Heading";
-import { Link as AtomsLink } from "../2-atoms/Link";
 import { Section } from "../2-atoms/Section";
+import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
 import { ActionButton } from "../3-molecules/ActionButton";
-import { Card, CardContent } from "../3-molecules/Card";
-import { Hero } from "../3-molecules/Hero";
+import { CardGrid, type CardGridItem } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
-const supportOptions = [
+type SupportOption = {
+	icon: ReactNode;
+	title: string;
+	description: string;
+	linkText: string;
+	href: string;
+	isInternal: boolean;
+};
+
+const supportOptions: SupportOption[] = [
 	{
 		icon: <Book className="h-6 w-6" />,
 		title: "Documentation",
@@ -47,31 +54,36 @@ const supportOptions = [
 	},
 ];
 
-const faqs = [
+const faqs: CardGridItem[] = [
 	{
-		question: "What file formats are supported for profile uploads?",
-		answer:
+		title: "What file formats are supported for profile uploads?",
+		description:
 			"SkillVector supports CSV, JSON, and plain text (TXT) formats. Each format has specific requirements for field naming and structure, which you can find in our API documentation.",
+		centered: false,
 	},
 	{
-		question: "Which AI providers can I use for embeddings?",
-		answer:
+		title: "Which AI providers can I use for embeddings?",
+		description:
 			"We support OpenAI, Anthropic (Claude), Google Gemini, HuggingFace models, and Ollama for local deployments. You can configure your preferred provider via environment variables.",
+		centered: false,
 	},
 	{
-		question: "How does semantic search differ from keyword search?",
-		answer:
+		title: "How does semantic search differ from keyword search?",
+		description:
 			'Semantic search understands the meaning and context of your query, not just exact word matches. For example, searching for "machine learning expert" will also find profiles mentioning "AI researcher" or "deep learning engineer" because these concepts are semantically related.',
+		centered: false,
 	},
 	{
-		question: "Is SkillVector open source?",
-		answer:
+		title: "Is SkillVector open source?",
+		description:
 			"Yes! SkillVector is open source under the MIT license. You can view the source code, contribute, and deploy your own instance on GitHub.",
+		centered: false,
 	},
 	{
-		question: "How do I deploy SkillVector in production?",
-		answer:
+		title: "How do I deploy SkillVector in production?",
+		description:
 			"We provide Docker support and deployment guides for various platforms. Check our documentation for detailed setup instructions, including Qdrant configuration and environment variable setup.",
+		centered: false,
 	},
 ];
 
@@ -79,84 +91,97 @@ export const SupportPage = () => {
 	return (
 		<PageTemplate title="Support">
 			{/* Hero Section */}
-			<Hero
-				title=""
-				brand="Support"
-				subtitle="Get help with SkillVector and find answers to common questions"
-			/>
+			<Div className="text-center mb-16">
+				<Heading variant="hero">
+					<Span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
+						Support
+					</Span>
+				</Heading>
+				<Text variant="lead" className="max-w-2xl mx-auto">
+					Get help with SkillVector and find answers to common questions
+				</Text>
+			</Div>
 
 			{/* Support Options */}
-			<Grid variant="cards">
-				{supportOptions.map((option) => (
-					<Card variant="hover" key={option.title} aria-label={option.title}>
-						<CardContent centered>
-							<Div className="mb-4 text-primary flex justify-center">
-								{option.icon}
+			<Section>
+				<CardGrid
+					items={supportOptions.map((opt) => ({
+						id: opt.title,
+						icon: opt.icon,
+						title: opt.title,
+						description: opt.description,
+						centered: true,
+						customContent: (
+							<Div className="flex flex-col h-full text-center">
+								<Div>
+									<Div className="mb-4 text-primary flex justify-center">
+										{opt.icon}
+									</Div>
+									<Heading variant="subsection" className="mb-2">
+										{opt.title}
+									</Heading>
+									<Text className="mb-4">{opt.description}</Text>
+								</Div>
+								<Div className="mt-auto">
+									{opt.isInternal ? (
+										<ActionButton to={opt.href} aria-label={opt.linkText}>
+											{opt.linkText}
+										</ActionButton>
+									) : (
+										<ActionButton
+											href={opt.href}
+											external={!opt.href.startsWith("mailto:")}
+											aria-label={opt.linkText}
+										>
+											{opt.linkText}
+										</ActionButton>
+									)}
+								</Div>
 							</Div>
-							<Heading variant="subsection" className="mb-2">
-								{option.title}
-							</Heading>
-							<Text className="mb-4">{option.description}</Text>
-							{option.isInternal ? (
-								<Link
-									to={option.href}
-									aria-label={option.linkText}
-									className="inline-flex items-center gap-2 text-primary dark:text-primary font-medium hover:underline"
-								>
-									{option.linkText}
-								</Link>
-							) : (
-								<AtomsLink
-									href={option.href}
-									external={!option.href.startsWith("mailto:")}
-									variant="primary"
-									aria-label={option.linkText}
-									className="inline-flex items-center gap-2 font-medium hover:underline"
-								>
-									{option.linkText}
-								</AtomsLink>
-							)}
-						</CardContent>
-					</Card>
-				))}
-			</Grid>
+						),
+					}))}
+					maxColumns={2}
+					gap="lg"
+				/>
+			</Section>
 
 			{/* FAQ Section */}
 			<Section>
 				<Heading variant="section" className="mb-8 text-center">
 					Frequently Asked Questions
 				</Heading>
-				<Grid variant="features">
-					{faqs.map((faq) => (
-						<Card variant="hover" key={faq.question} aria-label={faq.question}>
-							<CardContent>
-								<Heading variant="subsection" className="mb-2">
-									{faq.question}
-								</Heading>
-								<Text>{faq.answer}</Text>
-							</CardContent>
-						</Card>
-					))}
-				</Grid>
+				<CardGrid items={faqs} maxColumns={1} />
 			</Section>
 
 			{/* CTA Section */}
-			<Card variant="hover" aria-label="Contact support">
-				<CardContent centered>
-					<Heading variant="section" className="mb-4">
-						Still Need Help?
-					</Heading>
-					<Text variant="lead" className="mb-6">
-						Our team is ready to assist you with any questions or issues.
-					</Text>
-					<ActionButton
-						href={`mailto:${CONTACT.email}`}
-						aria-label="Contact our support team"
-					>
-						Contact Support
-					</ActionButton>
-				</CardContent>
-			</Card>
+			<Section>
+				<CardGrid
+					items={[
+						{
+							title: "Still Need Help?",
+							centered: false,
+							customContent: (
+								<>
+									<Heading variant="section" className="mb-4">
+										Still Need Help?
+									</Heading>
+									<Text variant="lead" className="mb-6">
+										Our team is ready to assist you with any questions or
+										issues.
+									</Text>
+									<ActionButton
+										href={`mailto:${CONTACT.email}`}
+										aria-label="Contact our support team"
+									>
+										Contact Support
+									</ActionButton>
+								</>
+							),
+						},
+					]}
+					maxColumns={1}
+				/>
+			</Section>
 		</PageTemplate>
 	);
 };

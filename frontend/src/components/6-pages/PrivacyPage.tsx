@@ -1,8 +1,5 @@
-import { Div } from "../2-atoms/Div";
-import { Heading } from "../2-atoms/Heading";
 import { Section } from "../2-atoms/Section";
-import { Span } from "../2-atoms/Span";
-import { Text } from "../2-atoms/Text";
+import { Hero } from "../3-molecules/Hero";
 import { CardGrid, type CardGridItem } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
@@ -97,19 +94,11 @@ export const PrivacyPage = () => {
 	return (
 		<PageTemplate title="Privacy Policy">
 			{/* Hero Section */}
-			<Div className="text-center mb-16">
-				<Heading variant="hero">
-					<Span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
-						Privacy Policy
-					</Span>
-				</Heading>
-				<Text variant="lead" className="max-w-2xl mx-auto">
-					How we collect, use, and protect your information
-				</Text>
-				<Text variant="small" className="mt-4">
-					Last updated: December 24, 2025
-				</Text>
-			</Div>
+			<Hero
+				title="Privacy"
+				brand="Policy"
+				subtitle="How we collect, use, and protect your information"
+			/>
 
 			{/* Privacy Sections */}
 			<Section>

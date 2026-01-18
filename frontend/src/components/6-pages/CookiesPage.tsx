@@ -15,6 +15,7 @@ import {
 } from "../2-atoms/Table";
 import { Text } from "../2-atoms/Text";
 import { Card, CardContent } from "../3-molecules/Card";
+import { Hero } from "../3-molecules/Hero";
 import { CardGrid } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
@@ -85,19 +86,11 @@ export const CookiesPage = () => {
 	return (
 		<PageTemplate title="Cookie Policy">
 			{/* Hero Section */}
-			<Div className="text-center mb-16">
-				<Heading variant="hero">
-					<Span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
-						Cookie Policy
-					</Span>
-				</Heading>
-				<Text variant="lead" className="max-w-2xl mx-auto">
-					Learn how SkillVector uses cookies to enhance your experience
-				</Text>
-				<Text variant="small" className="mt-4">
-					Last updated: December 24, 2025
-				</Text>
-			</Div>
+			<Hero
+				title="Cookie"
+				brand="Policy"
+				subtitle="Learn how SkillVector uses cookies to enhance your experience"
+			/>
 
 			{/* Introduction */}
 			<Section>

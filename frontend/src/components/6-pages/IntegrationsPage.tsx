@@ -19,11 +19,11 @@ import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Section } from "../2-atoms/Section";
-import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
-import { ActionButton } from "../3-molecules/ActionButton";
-import { Card, CardContent } from "../3-molecules/Card";
+import { Tooltip, TooltipContent, TooltipTriggertip, Tooltip2oatomsoTooltipTrigger } from "../2-atoms/Tooltip";
+import { ActionButtonionButton";3moleculesActionButton
+import { Card,nCardContent tent } from "../3-molecCard
+import { Hero-molecules/Hero";Hero
 import { StatusBadge } from "../3-molecules/StatusBadge";
 import { CardGrid } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
@@ -272,17 +272,11 @@ export const IntegrationsPage = () => {
 	return (
 		<PageTemplate title="Integrations">
 			{/* Hero Section */}
-			<Div className="text-center mb-16">
-				<Heading variant="hero">
-					<Span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
-						Integrations
-					</Span>
-				</Heading>
-				<Text variant="lead" className="max-w-2xl mx-auto">
-					Connect SkillVector with your favorite tools and services for seamless
-					talent search.
-				</Text>
-			</Div>
+			<Hero
+				title="Integrations"
+				brand="Hub"
+				subtitle="Connect SkillVector with your favorite tools and services for seamless talent search."
+			/>
 
 			{/* Integration Categories */}
 			<Section>

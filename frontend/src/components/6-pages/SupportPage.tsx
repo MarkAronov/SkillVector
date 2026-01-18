@@ -4,9 +4,9 @@ import { CONTACT, EXTERNAL_LINKS } from "@/constants/site";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Section } from "../2-atoms/Section";
-import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
-import { ActionButton } from "../3-molecules/ActionButton";
+import { ActionButtononButton } from "../3-moActionButtonles/ActionButton";
+import { Hero"../3-molecules/Hero";Hero
 import { CardGrid, type CardGridItem } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
@@ -91,16 +91,11 @@ export const SupportPage = () => {
 	return (
 		<PageTemplate title="Support">
 			{/* Hero Section */}
-			<Div className="text-center mb-16">
-				<Heading variant="hero">
-					<Span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
-						Support
-					</Span>
-				</Heading>
-				<Text variant="lead" className="max-w-2xl mx-auto">
-					Get help with SkillVector and find answers to common questions
-				</Text>
-			</Div>
+			<Hero
+				title="Support"
+				brand="Center"
+				subtitle="Get help with SkillVector and find answers to common questions"
+			/>
 
 			{/* Support Options */}
 			<Section>

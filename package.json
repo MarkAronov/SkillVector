@@ -1,5 +1,9 @@
 {
 	"name": "skillvector",
+	"resolutions": {
+		"jws": "^4.0.0",
+		"undici": "^6.23.0"
+	},
 	"scripts": {
 		"start": "SKIP_STATIC_DATA=true bun run src/index.ts",
 		"dev": "bun run --hot src/index.ts",

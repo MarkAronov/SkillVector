@@ -19,6 +19,7 @@ import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Section } from "../2-atoms/Section";
+import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
 import { ActionButton } from "../3-molecules/ActionButton";

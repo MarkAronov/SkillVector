@@ -20,10 +20,10 @@ import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Section } from "../2-atoms/Section";
 import { Text } from "../2-atoms/Text";
-import { Tooltip, TooltipContent, TooltipTriggertip, Tooltip2oatomsoTooltipTrigger } from "../2-atoms/Tooltip";
-import { ActionButtonionButton";3moleculesActionButton
-import { Card,nCardContent tent } from "../3-molecCard
-import { Hero-molecules/Hero";Hero
+import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
+import { ActionButton } from "../3-molecules/ActionButton";
+import { Card, CardContent } from "../3-molecules/Card";
+import { Hero } from "../3-molecules/Hero";
 import { StatusBadge } from "../3-molecules/StatusBadge";
 import { CardGrid } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";

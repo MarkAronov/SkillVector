@@ -50,7 +50,8 @@ if docker info > /dev/null 2>&1; then
     docker build . --file Dockerfile --quiet > /dev/null || exit 1
     echo "✓ Docker build passed"
 else
-    echo "[WARN] Docker is not running. Skipping Docker build check."
+    echo "[ERROR] Docker is not running. Aborting pre-push - start Docker and try again." >&2
+    exit 1
 fi
 echo ""
 

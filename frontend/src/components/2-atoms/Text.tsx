@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import type { ComponentProps, ElementType } from "react";
 import { cn } from "@/lib/utils";
 
 type TextVariant =
@@ -12,6 +12,7 @@ type TextVariant =
 
 interface TextProps extends ComponentProps<"p"> {
 	variant?: TextVariant;
+	as?: ElementType;
 }
 
 const variantClasses: Record<TextVariant, string> = {
@@ -24,8 +25,15 @@ const variantClasses: Record<TextVariant, string> = {
 	subheading: "text-base lg:text-lg font-semibold",
 };
 
-function Text({ className, variant = "body", ...props }: TextProps) {
-	return <p className={cn(variantClasses[variant], className)} {...props} />;
+function Text({
+	className,
+	variant = "body",
+	as: Component = "p",
+	...props
+}: TextProps) {
+	return (
+		<Component className={cn(variantClasses[variant], className)} {...props} />
+	);
 }
 
 export { Text, type TextProps, type TextVariant };

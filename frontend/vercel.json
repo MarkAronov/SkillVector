@@ -11,18 +11,23 @@
 	],
 	"redirects": [
 		{
+			"source": "/resources",
+			"destination": "/documentation",
+			"statusCode": 301
+		},
+		{
 			"source": "/api",
-			"destination": "/resources",
+			"destination": "/documentation",
 			"statusCode": 301
 		},
 		{
 			"source": "/api/(.*)",
-			"destination": "/resources/$1",
+			"destination": "/documentation/$1",
 			"statusCode": 301
 		},
 		{
 			"source": "/sdk",
-			"destination": "/resources#sdk",
+			"destination": "/documentation#sdk",
 			"statusCode": 301
 		}
 	],

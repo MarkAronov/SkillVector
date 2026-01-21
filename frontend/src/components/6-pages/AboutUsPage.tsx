@@ -79,13 +79,13 @@ export const AboutPage = () => {
 									<Heading variant="section" className="mb-4">
 										Our Mission
 									</Heading>
-									<Text className="mb-4">
+									<Text variant="body" className="mb-4">
 										SkillVector was built to solve a fundamental problem in
 										talent discovery: traditional keyword-based search fails to
 										capture the nuanced relationships between skills,
 										experiences, and expertise.
 									</Text>
-									<Text>
+									<Text variant="body">
 										By leveraging advanced AI embeddings and vector similarity
 										search, we enable organizations to find the right
 										professionals based on what they can do, not just what

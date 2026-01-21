@@ -9,6 +9,7 @@ type BadgeStatus =
 interface StatusBadgeProps {
 	status: BadgeStatus;
 	label?: string;
+	className?: string;
 }
 
 const statusConfig: Record<BadgeStatus, { style: string; label: string }> = {
@@ -40,13 +41,13 @@ const statusConfig: Record<BadgeStatus, { style: string; label: string }> = {
 	},
 };
 
-export function StatusBadge({ status, label }: StatusBadgeProps) {
+export function StatusBadge({ status, label, className }: StatusBadgeProps) {
 	const config = statusConfig[status];
 	const displayLabel = label || config.label;
 
 	return (
 		<span
-			className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${config.style}`}
+			className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${config.style} ${className ?? ""}`}
 		>
 			{displayLabel}
 		</span>

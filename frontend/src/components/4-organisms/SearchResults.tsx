@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { PersonSearchResult, SearchResult } from "@/types/search.types";
+import { Text } from "../2-atoms/Text";
 import { Card } from "../3-molecules/Card";
 import { PersonCard } from "../3-molecules/PersonCard";
 import { ViewToggle } from "../3-molecules/ViewToggle";
@@ -177,10 +178,12 @@ export function SearchResults({ data, isLoading }: SearchResultsProps) {
 	if (!data.success && data.error) {
 		return (
 			<Card className="mt-8 p-6 border-red-200 text-red-700">
-				<h2 className="text-xl font-semibold mb-2">Error</h2>
+				<h2 className="text-lg lg:text-xl font-semibold mb-2">Error</h2>
 				<p className="text-red-600">{data.error}</p>
 				{data.details && (
-					<p className="text-sm text-red-500 mt-2">{data.details}</p>
+					<Text variant="small" className="text-red-500 mt-2">
+						{data.details}
+					</Text>
 				)}
 			</Card>
 		);
@@ -191,7 +194,7 @@ export function SearchResults({ data, isLoading }: SearchResultsProps) {
 			{/* AI Answer Section */}
 			{data.answer && (
 				<Card className="p-6 border-primary/30">
-					<h2 className="text-xl font-semibold mb-2">AI Summary</h2>
+					<h2 className="text-lg lg:text-xl font-semibold mb-2">AI Summary</h2>
 					<p className="text-foreground whitespace-pre-wrap">{data.answer}</p>
 				</Card>
 			)}
@@ -199,14 +202,14 @@ export function SearchResults({ data, isLoading }: SearchResultsProps) {
 			{/* Results Section */}
 			<div>
 				<div className="flex items-center justify-between mb-4">
-					<h2 className="text-xl font-semibold">
+					<h2 className="text-lg lg:text-xl font-semibold">
 						{uniquePeople.length > 0 ? (
 							<>
 								Found {uniquePeople.length} people
 								{uniquePeople.length !== people.length && (
-									<span className="text-sm text-muted-foreground ml-2">
+									<Text variant="small" className="ml-2" as="span">
 										({people.length - uniquePeople.length} duplicates removed)
-									</span>
+									</Text>
 								)}
 							</>
 						) : (
@@ -236,7 +239,9 @@ export function SearchResults({ data, isLoading }: SearchResultsProps) {
 				) : (
 					<Card className="p-6 text-center text-muted-foreground">
 						<p>No people found matching your search criteria.</p>
-						<p className="text-sm mt-2">Try adjusting your search terms.</p>
+						<Text variant="small" className="mt-2">
+							Try adjusting your search terms.
+						</Text>
 					</Card>
 				)}
 			</div>

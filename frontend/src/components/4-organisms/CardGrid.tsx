@@ -25,6 +25,53 @@ import { Card, CardContent } from "../3-molecules/Card";
  * - Multi-column layouts (maxColumns={2|3}): Cards have equal heights by default (stretchCards=true)
  * - Override: Set stretchCards explicitly to override automatic behavior
  *
+ * CUSTOM CONTENT STANDARDS (CRITICAL - MUST FOLLOW):
+ * When using customContent instead of the default renderer, you MUST maintain consistency:
+ *
+ * 1. WIDTH & LAYOUT:
+ *    - Use noWrapper: true and provide your own <Card fill>
+ *    - ALWAYS add `fill` prop to Card to match grid cell width
+ *    - Example: <Card fill><CardContent>...</CardContent></Card>
+ *
+ * 2. PADDING:
+ *    - Use <CardContent> which applies standard p-8 lg:p-12
+ *    - Never use custom padding classes on Card wrapper
+ *    - CardContent handles all internal spacing automatically
+ *
+ * 3. TYPOGRAPHY:
+ *    - Headings: Use <Heading variant="section|subsection|card">
+ *    - Body text: Use <Text variant="body"> (text-sm lg:text-base)
+ *    - Lead text: Use <Text variant="lead"> (text-base lg:text-xl)
+ *    - Small text: Use <Text variant="small"> (text-xs lg:text-sm)
+ *    - Muted text: Use <Text variant="muted">
+ *    - NEVER use inline text size classes (text-sm, text-base, etc.)
+ *
+ * 4. SPACING:
+ *    - Section headings: mb-4 (standard)
+ *    - Body paragraphs: mb-4 (standard)
+ *    - Lead text: mb-6 (more breathing room)
+ *    - Buttons/CTAs: mt-auto (for bottom alignment in flex layouts)
+ *
+ * 5. CORRECT PATTERN:
+ *    items={[{
+ *      noWrapper: true,
+ *      customContent: (
+ *        <Card fill>
+ *          <CardContent className="flex flex-col gap-6">
+ *            <Heading variant="section" className="mb-4">Title</Heading>
+ *            <Text variant="body" className="mb-4">Description</Text>
+ *            <Text variant="lead" className="mb-6">Lead text</Text>
+ *          </CardContent>
+ *        </Card>
+ *      )
+ *    }]}
+ *
+ * 6. INCORRECT PATTERNS (DO NOT USE):
+ *    ❌ <Card> without fill prop (causes 932px instead of 960px width)
+ *    ❌ <div className="p-4"> custom padding (inconsistent with design system)
+ *    ❌ <p className="text-sm"> inline typography (breaks responsive scaling)
+ *    ❌ <h3 className="text-xl"> raw HTML headings (inconsistent styling)
+ *
  * Automatically adapts to viewport width:
  * - Mobile (< 768px): 1 column
  * - Tablet (768px - 1023px): 2 columns
@@ -135,6 +182,9 @@ interface CardGridBaseProps {
 
 	/** Custom render function for card content */
 	renderCard?: (item: CardGridItem) => ReactNode;
+
+	/** Enforce default card wrapper and baseline typography for custom content */
+	enforceCustomContent?: boolean;
 }
 
 type CardGridProps = CardGridBaseProps &
@@ -162,17 +212,37 @@ const columnClasses: Record<MaxColumns, string> = {
 /**
  * Default card renderer based on HowItWorksPage design
  */
-function defaultCardRenderer(item: CardGridItem): ReactNode {
+function defaultCardRenderer(
+	item: CardGridItem,
+	enforceCustomContent: boolean,
+): ReactNode {
+	const customContentWrapperClassName = enforceCustomContent
+		? "flex flex-col gap-6 text-sm lg:text-base [&_p]:text-sm [&_p]:lg:text-base [&_span]:text-sm [&_span]:lg:text-base [&_th]:text-xs [&_th]:lg:text-sm [&_td]:text-xs [&_td]:lg:text-sm [&_button]:text-sm [&_button]:lg:text-base [&_a]:text-sm [&_a]:lg:text-base [&>div>div>svg]:h-6 [&>div>div>svg]:w-6"
+		: undefined;
 	// If noWrapper is true, render customContent directly without Card wrapper
-	if (item.noWrapper && item.customContent) {
+	if (item.noWrapper && item.customContent && !enforceCustomContent) {
 		return item.customContent;
+	}
+
+	if (
+		process.env.NODE_ENV !== "production" &&
+		item.noWrapper &&
+		item.customContent &&
+		enforceCustomContent
+	) {
+		// eslint-disable-next-line no-console
+		console.warn(
+			"CardGrid: noWrapper is ignored when enforceCustomContent is enabled. Remove noWrapper or disable enforceCustomContent.",
+		);
 	}
 
 	return (
 		<Card aria-label={item.ariaLabel || item.title} fill>
 			<CardContent centered={item.centered ?? !item.step}>
 				{item.customContent ? (
-					item.customContent
+					<Div className={customContentWrapperClassName}>
+						{item.customContent}
+					</Div>
 				) : (
 					<>
 						{/* Step-based layout (HowItWorksPage style) */}
@@ -221,7 +291,7 @@ function defaultCardRenderer(item: CardGridItem): ReactNode {
 												{item.tags.map((tag) => (
 													<Span
 														key={tag}
-														className="px-2 py-1 bg-background rounded text-sm"
+														className="px-2 py-1 bg-background rounded text-xs lg:text-sm"
 													>
 														{tag}
 													</Span>
@@ -350,6 +420,7 @@ function CardGrid({
 	gap = "md",
 	containerClassName,
 	stretchCards,
+	enforceCustomContent = false,
 	as = "div",
 	renderCard,
 	className,
@@ -369,7 +440,9 @@ function CardGrid({
 	);
 
 	const Component = as as ElementType;
-	const cardRenderer = renderCard || defaultCardRenderer;
+	const cardRenderer =
+		renderCard ||
+		((item: CardGridItem) => defaultCardRenderer(item, enforceCustomContent));
 
 	// Support backward compatibility with children
 	if (children) {

@@ -82,7 +82,7 @@ export const FeaturesPage = () => {
 				}}
 				secondaryAction={{
 					label: "View API Docs",
-					to: "/api",
+					to: "/documentation#api",
 					variant: "outline",
 					ariaLabel: "View API Docs",
 				}}

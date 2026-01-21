@@ -9,8 +9,8 @@ import { Logo } from "../2-atoms/Logo";
 const navigationItems = [
 	{ to: "/", label: "Search" },
 	{ to: "/features", label: "Features" },
-	{ to: "/resources#api", label: "API" },
-	{ to: "/resources#sdk", label: "SDK" },
+	{ to: "/documentation#api", label: "API" },
+	{ to: "/documentation#sdk", label: "SDK" },
 	{ href: SOCIAL_LINKS.github, label: "GitHub", external: true },
 ];
 

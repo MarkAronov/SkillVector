@@ -1,7 +1,7 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { ExternalLink, Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { CONTACT, SITE_CONFIG, SOCIAL_LINKS } from "@/constants/site";
+import { SITE_CONFIG, SOCIAL_LINKS } from "@/constants/site";
 
 const footerSections = [
 	{
@@ -16,15 +16,13 @@ const footerSections = [
 		links: [
 			{ to: "/", label: "Search" },
 			{ to: "/features", label: "Features" },
-			{ to: "/resources#api", label: "API Documentation" },
 			{ to: "/integrations", label: "Integrations" },
 		],
 	},
 	{
 		title: "Resources",
 		links: [
-			{ to: "/resources", label: "Documentation" },
-			{ to: "/resources#sdk", label: "SDK" },
+			{ to: "/documentation", label: "Documentation" },
 			{ to: "/support", label: "Support" },
 			{ to: "/changelog", label: "Changelog" },
 		],
@@ -35,7 +33,6 @@ const footerSections = [
 			{ to: "/privacy", label: "Privacy Policy" },
 			{ to: "/terms", label: "Terms of Service" },
 			{ to: "/cookies", label: "Cookie Policy" },
-			{ to: "/support", label: "Contact & Support" },
 		],
 	},
 ];
@@ -52,9 +49,10 @@ const socialLinks = [
 		label: "LinkedIn",
 	},
 	{
-		href: `mailto:${CONTACT.email}`,
+		href: "/support#contact",
 		icon: Mail,
 		label: "Email",
+		isInternal: true,
 	},
 ];
 
@@ -118,7 +116,10 @@ export const Footer = () => {
 				<div className="max-w-5xl mx-auto px-3 lg:px-4 py-6 lg:py-8">
 					<div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8 justify-items-center">
 						{footerSections.map((section) => (
-							<div key={section.title} className="space-y-2 lg:space-y-3">
+							<div
+								key={section.title}
+								className="space-y-2 lg:space-y-3 min-w-[140px]"
+							>
 								<h3 className="text-xs lg:text-sm font-semibold text-foreground/90">
 									{section.title}
 								</h3>
@@ -160,7 +161,16 @@ export const Footer = () => {
 						<div className="flex items-center gap-3 lg:gap-4">
 							{socialLinks.map((social) => {
 								const Icon = social.icon;
-								return (
+								return social.isInternal ? (
+									<Link
+										key={social.label}
+										to={social.href}
+										className="text-foreground/80 hover:text-foreground/95 transition-colors"
+										aria-label={social.label}
+									>
+										<Icon className="h-4 w-4 lg:h-5 lg:w-5" />
+									</Link>
+								) : (
 									<a
 										key={social.label}
 										href={social.href}

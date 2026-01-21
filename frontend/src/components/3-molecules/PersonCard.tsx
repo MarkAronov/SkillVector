@@ -162,8 +162,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 									<Tooltip delayDuration={200}>
 										<TooltipTrigger asChild>
 											<Link
-												href={`mailto:${p.email}`}
-												external
+												to="/support#contact"
 												className="text-xs text-primary hover:underline truncate block"
 											>
 												{p.email.length > 30
@@ -205,7 +204,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 
 				{/* Info */}
 				<div className="text-center mb-4">
-					<h3 className="font-semibold text-base truncate">
+					<h3 className="font-semibold text-sm lg:text-base truncate">
 						<TruncatedText text={p.name || "Unknown"} maxLength={25} />
 					</h3>
 					<p className="text-sm text-muted-foreground mt-1 truncate">
@@ -280,8 +279,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 						<Tooltip delayDuration={200}>
 							<TooltipTrigger asChild>
 								<Link
-									href={`mailto:${p.email}`}
-									external
+									to="/support#contact"
 									className="text-primary hover:underline truncate block"
 								>
 									{p.email.length > 25

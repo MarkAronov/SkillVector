@@ -58,7 +58,7 @@ type IntegrationCategory = {
 
 const categories: IntegrationCategory[] = [
 	{
-		icon: <Brain className="h-6 w-6" />,
+		icon: <Brain className="h-8 w-8" />,
 		title: "AI Providers",
 		description: "Multiple AI embedding models for flexible deployment",
 		integrations: [
@@ -116,7 +116,7 @@ const categories: IntegrationCategory[] = [
 		],
 	},
 	{
-		icon: <Database className="h-6 w-6" />,
+		icon: <Database className="h-8 w-8" />,
 		title: "Vector Database",
 		description: "High-performance vector storage and similarity search",
 		integrations: [
@@ -134,7 +134,7 @@ const categories: IntegrationCategory[] = [
 		],
 	},
 	{
-		icon: <Code className="h-6 w-6" />,
+		icon: <Code className="h-8 w-8" />,
 		title: "Development Tools",
 		description: "APIs and SDKs for seamless integration",
 		integrations: [
@@ -144,7 +144,7 @@ const categories: IntegrationCategory[] = [
 				description: "OpenAPI 3.0 spec with interactive documentation",
 				status: "ready",
 				links: {
-					internal: "/api",
+					internal: "/documentation#api",
 					github: SOCIAL_LINKS.github,
 				},
 			},
@@ -154,14 +154,14 @@ const categories: IntegrationCategory[] = [
 				description: "Type-safe SDK with full IntelliSense support",
 				status: "ready",
 				links: {
-					internal: "/sdk",
+					internal: "/documentation#sdk",
 					github: EXTERNAL_LINKS.sdkTypescript,
 				},
 			},
 		],
 	},
 	{
-		icon: <Cloud className="h-6 w-6" />,
+		icon: <Cloud className="h-8 w-8" />,
 		title: "Deployment Platforms",
 		description: "Deploy SkillVector anywhere",
 		integrations: [
@@ -198,7 +198,7 @@ const categories: IntegrationCategory[] = [
 		],
 	},
 	{
-		icon: <Layers className="h-6 w-6" />,
+		icon: <Layers className="h-8 w-8" />,
 		title: "Data Formats",
 		description: "Flexible profile data ingestion",
 		integrations: [
@@ -235,7 +235,7 @@ const categories: IntegrationCategory[] = [
 		],
 	},
 	{
-		icon: <Cpu className="h-6 w-6" />,
+		icon: <Cpu className="h-8 w-8" />,
 		title: "Future Integrations",
 		description: "Upcoming integrations and features",
 		integrations: [
@@ -284,6 +284,7 @@ export const IntegrationsPage = () => {
 				<CardGrid
 					maxColumns={1}
 					gap="lg"
+					enforceCustomContent
 					items={categories.map((category) => ({
 						id: category.title,
 						title: category.title,
@@ -293,7 +294,7 @@ export const IntegrationsPage = () => {
 								<Div variant="flex" className="items-start gap-4">
 									<Div className="text-primary shrink-0">{category.icon}</Div>
 									<Div className="min-w-0">
-										<Heading variant="section" className="mb-1">
+										<Heading variant="card" className="mb-1">
 											{category.title}
 										</Heading>
 										<Text variant="muted">{category.description}</Text>
@@ -306,11 +307,11 @@ export const IntegrationsPage = () => {
 											i.links?.docs || i.links?.github || i.links?.internal,
 									);
 									return (
-										<Table>
+										<Table className="w-full table-fixed [&_th]:h-8 [&_td]:py-1.5">
 											<TableHeader>
 												<TableRow>
 													<TableHead>Integration</TableHead>
-													<TableHead className="hidden sm:table-cell">
+													<TableHead className="hidden sm:table-cell w-[45%]">
 														Description
 													</TableHead>
 													<TableHead>Status</TableHead>
@@ -333,7 +334,7 @@ export const IntegrationsPage = () => {
 
 													return (
 														<TableRow key={integration.title}>
-															<TableCell className="font-medium">
+															<TableCell className="font-medium min-w-0">
 																<Div
 																	variant="flex"
 																	className="items-center gap-3"
@@ -347,7 +348,7 @@ export const IntegrationsPage = () => {
 																		</Span>
 																		<Text
 																			variant="small"
-																			className="mt-1 text-muted-foreground sm:hidden"
+																			className="mt-1 sm:hidden whitespace-normal break-words"
 																		>
 																			{integration.description}
 																		</Text>
@@ -389,11 +390,14 @@ export const IntegrationsPage = () => {
 																	</Div>
 																</Div>
 															</TableCell>
-															<TableCell className="hidden sm:table-cell text-muted-foreground">
+															<TableCell className="hidden sm:table-cell text-muted-foreground text-xs lg:text-sm whitespace-normal break-words">
 																{integration.description}
 															</TableCell>
 															<TableCell>
-																<StatusBadge status={integration.status} />
+																<StatusBadge
+																	status={integration.status}
+																	className="px-1 py-0 !text-[14px] !leading-none"
+																/>
 															</TableCell>
 															{hasAnyActions && (
 																<TableCell className="hidden sm:table-cell text-right">

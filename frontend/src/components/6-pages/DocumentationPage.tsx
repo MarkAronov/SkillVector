@@ -5,6 +5,7 @@ import { useTheme } from "../../hooks/useTheme";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Section } from "../2-atoms/Section";
+import { Text } from "../2-atoms/Text";
 import { Card, CardContent } from "../3-molecules/Card";
 import { CodeBlock } from "../3-molecules/CodeBlock";
 import { Hero } from "../3-molecules/Hero";
@@ -17,12 +18,12 @@ import {
 } from "../ui/accordion";
 import "./DocumentationPage.css";
 
-export const ResourcesPage = () => {
+export const DocumentationPage = () => {
 	const { effectiveTheme } = useTheme();
 	const isDark = effectiveTheme === "dark";
 	const apiRef = useRef<HTMLDivElement | null>(null);
 	const sdkRef = useRef<HTMLDivElement | null>(null);
-	const [_activeTab, _setActiveTab] = useState<"api" | "sdk">(
+	const [activeTab, setActiveTab] = useState<"api" | "sdk">(
 		typeof window !== "undefined" && window.location.hash === "#sdk"
 			? "sdk"
 			: "api",
@@ -236,16 +237,47 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 }`;
 
 	return (
-		<PageTemplate title="Resources">
+		<PageTemplate title="Documentation">
 			<Div className="max-w-5xl mx-auto px-4 py-8 lg:py-12">
 				<Hero
-					title="Resources"
+					title="Documentation"
 					brand="Docs"
 					subtitle="API reference, SDKs, and developer guides"
 				/>
 			</Div>
 
-			{/* Sticky navigation removed */}
+			{/* Sticky tab navigation (API / SDK) */}
+			<div className="sticky top-16 z-50">
+				<div className="max-w-5xl mx-auto px-4 mb-6">
+					<nav
+						aria-label="Documentation navigation"
+						className="bg-background/80 backdrop-blur-sm border border-border rounded-md inline-flex"
+					>
+						<button
+							type="button"
+							className={`px-4 py-2 text-sm font-medium rounded-l-md transition-colors ${activeTab === "api" ? "bg-primary/10 text-primary" : "text-foreground/80 hover:text-foreground/95"}`}
+							aria-current={activeTab === "api" ? "true" : undefined}
+							onClick={() => {
+								apiRef.current?.scrollIntoView({ behavior: "smooth" });
+								setActiveTab("api");
+							}}
+						>
+							API Reference
+						</button>
+						<button
+							type="button"
+							className={`px-4 py-2 text-sm font-medium rounded-r-md transition-colors ${activeTab === "sdk" ? "bg-primary/10 text-primary" : "text-foreground/80 hover:text-foreground/95"}`}
+							aria-current={activeTab === "sdk" ? "true" : undefined}
+							onClick={() => {
+								sdkRef.current?.scrollIntoView({ behavior: "smooth" });
+								setActiveTab("sdk");
+							}}
+						>
+							SDK
+						</button>
+					</nav>
+				</div>
+			</div>
 			{/* API Section */}
 			<Div
 				id="api"
@@ -287,9 +319,9 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 							<Heading as="h2" variant="card" className="mb-4">
 								Installation
 							</Heading>
-							<p className="text-sm text-muted-foreground mb-4">
+							<Text variant="small" className="mb-4">
 								Choose your preferred package manager:
-							</p>
+							</Text>
 							<Accordion type="single" collapsible className="w-full">
 								<AccordionItem value="npm">
 									<AccordionTrigger>npm</AccordionTrigger>
@@ -330,9 +362,9 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 								<AccordionItem value="basic">
 									<AccordionTrigger>Basic Search</AccordionTrigger>
 									<AccordionContent>
-										<p className="text-sm text-muted-foreground mb-3">
+										<Text variant="small" className="mb-3">
 											Perform a simple search with query, limit, and offset:
-										</p>
+										</Text>
 										<CodeBlock language="ts" code={basicSearch} />
 									</AccordionContent>
 								</AccordionItem>
@@ -340,9 +372,9 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 								<AccordionItem value="filters">
 									<AccordionTrigger>Search with Filters</AccordionTrigger>
 									<AccordionContent>
-										<p className="text-sm text-muted-foreground mb-3">
+										<Text variant="small" className="mb-3">
 											Apply filters for skills, experience, and location:
-										</p>
+										</Text>
 										<CodeBlock language="ts" code={filterSearch} />
 									</AccordionContent>
 								</AccordionItem>
@@ -350,9 +382,9 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 								<AccordionItem value="pagination">
 									<AccordionTrigger>Pagination</AccordionTrigger>
 									<AccordionContent>
-										<p className="text-sm text-muted-foreground mb-3">
+										<Text variant="small" className="mb-3">
 											Handle paginated results across multiple requests:
-										</p>
+										</Text>
 										<CodeBlock language="ts" code={paginationExample} />
 									</AccordionContent>
 								</AccordionItem>
@@ -360,9 +392,9 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 								<AccordionItem value="error">
 									<AccordionTrigger>Error Handling</AccordionTrigger>
 									<AccordionContent>
-										<p className="text-sm text-muted-foreground mb-3">
+										<Text variant="small" className="mb-3">
 											Properly handle errors and implement retry logic:
-										</p>
+										</Text>
 										<CodeBlock language="ts" code={errorHandling} />
 									</AccordionContent>
 								</AccordionItem>
@@ -370,10 +402,10 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 								<AccordionItem value="config">
 									<AccordionTrigger>Custom Configuration</AccordionTrigger>
 									<AccordionContent>
-										<p className="text-sm text-muted-foreground mb-3">
+										<Text variant="small" className="mb-3">
 											Configure client with custom timeout, retries, and
 											headers:
-										</p>
+										</Text>
 										<CodeBlock language="ts" code={customConfig} />
 									</AccordionContent>
 								</AccordionItem>
@@ -381,9 +413,9 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 								<AccordionItem value="batch">
 									<AccordionTrigger>Batch Operations</AccordionTrigger>
 									<AccordionContent>
-										<p className="text-sm text-muted-foreground mb-3">
+										<Text variant="small" className="mb-3">
 											Execute multiple search queries in parallel:
-										</p>
+										</Text>
 										<CodeBlock language="ts" code={batchSearch} />
 									</AccordionContent>
 								</AccordionItem>
@@ -391,10 +423,10 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 								<AccordionItem value="complex">
 									<AccordionTrigger>Complex Filtering</AccordionTrigger>
 									<AccordionContent>
-										<p className="text-sm text-muted-foreground mb-3">
+										<Text variant="small" className="mb-3">
 											Advanced filtering with multiple criteria and
 											post-processing:
-										</p>
+										</Text>
 										<CodeBlock language="ts" code={complexFilters} />
 									</AccordionContent>
 								</AccordionItem>
@@ -402,9 +434,9 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 								<AccordionItem value="stream">
 									<AccordionTrigger>Streaming Results</AccordionTrigger>
 									<AccordionContent>
-										<p className="text-sm text-muted-foreground mb-3">
+										<Text variant="small" className="mb-3">
 											Stream large result sets using async generators:
-										</p>
+										</Text>
 										<CodeBlock language="ts" code={streamResults} />
 									</AccordionContent>
 								</AccordionItem>
@@ -424,10 +456,10 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 									<span className="text-primary">⚡</span>
 									Type Safety
 								</h4>
-								<p className="text-sm text-muted-foreground">
+								<Text variant="small">
 									Full TypeScript support with comprehensive type definitions
 									for all API responses and requests.
-								</p>
+								</Text>
 							</CardContent>
 						</Card>
 
@@ -437,10 +469,10 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 									<span className="text-primary">🔄</span>
 									Auto Retry
 								</h4>
-								<p className="text-sm text-muted-foreground">
+								<Text variant="small">
 									Built-in retry logic with exponential backoff to handle
 									transient failures gracefully.
-								</p>
+								</Text>
 							</CardContent>
 						</Card>
 
@@ -450,10 +482,10 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 									<span className="text-primary">🎯</span>
 									Advanced Filtering
 								</h4>
-								<p className="text-sm text-muted-foreground">
+								<Text variant="small">
 									Powerful filtering capabilities including skills, experience
 									levels, locations, and custom criteria.
-								</p>
+								</Text>
 							</CardContent>
 						</Card>
 
@@ -463,10 +495,10 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 									<span className="text-primary">📄</span>
 									Pagination Support
 								</h4>
-								<p className="text-sm text-muted-foreground">
+								<Text variant="small">
 									Easy-to-use pagination helpers for handling large result sets
 									efficiently.
-								</p>
+								</Text>
 							</CardContent>
 						</Card>
 
@@ -476,10 +508,10 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 									<span className="text-primary">⚙️</span>
 									Configurable
 								</h4>
-								<p className="text-sm text-muted-foreground">
+								<Text variant="small">
 									Customize timeout, retries, base URL, and other client
 									settings to fit your needs.
-								</p>
+								</Text>
 							</CardContent>
 						</Card>
 
@@ -489,10 +521,10 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 									<span className="text-primary">🚀</span>
 									Performance
 								</h4>
-								<p className="text-sm text-muted-foreground">
+								<Text variant="small">
 									Lightweight and optimized for performance with minimal
 									dependencies.
-								</p>
+								</Text>
 							</CardContent>
 						</Card>
 					</div>
@@ -502,4 +534,4 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 	);
 };
 
-export default ResourcesPage;
+export default DocumentationPage;

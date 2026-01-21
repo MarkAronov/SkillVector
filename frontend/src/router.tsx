@@ -9,7 +9,7 @@ import { SearchPage } from "./components/6-pages/SearchPage";
 // Lazy load pages for code splitting
 // SearchPage is eagerly loaded since it's the main landing page
 const AboutPage = lazy(() =>
-	import("./components/6-pages/AboutPage").then((m) => ({
+	import("./components/6-pages/AboutUsPage").then((m) => ({
 		default: m.AboutPage,
 	})),
 );
@@ -20,9 +20,9 @@ const ChangelogPage = lazy(() =>
 	})),
 );
 
-const ResourcesPage = lazy(() =>
-	import("./components/6-pages/ResourcesPage").then((m) => ({
-		default: m.ResourcesPage,
+const DocumentationPage = lazy(() =>
+	import("./components/6-pages/DocumentationPage").then((m) => ({
+		default: m.DocumentationPage,
 	})),
 );
 const CookiesPage = lazy(() =>
@@ -57,7 +57,7 @@ const SupportPage = lazy(() =>
 	})),
 );
 const TermsPage = lazy(() =>
-	import("./components/6-pages/TermsPage").then((m) => ({
+	import("./components/6-pages/TermsOfServicePage").then((m) => ({
 		default: m.TermsPage,
 	})),
 );
@@ -88,27 +88,12 @@ const featuresRoute = createRoute({
 	component: FeaturesPage,
 });
 
-const apiRoute = createRoute({
+const documentationRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/api",
-	// Keep legacy route functional but render the new combined ResourcesPage
-	component: ResourcesPage,
+	path: "/documentation",
+	component: DocumentationPage,
 });
 
-const resourcesRoute = createRoute({
-	getParentRoute: () => rootRoute,
-	path: "/resources",
-	component: ResourcesPage,
-});
-
-const contactRoute = createRoute({
-	getParentRoute: () => rootRoute,
-	path: "/contact",
-	// Render SupportPage which now includes the contact form
-	component: SupportPage,
-});
-
-// Placeholder routes
 const aboutRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/about",
@@ -157,13 +142,6 @@ const cookiesRoute = createRoute({
 	component: CookiesPage,
 });
 
-const sdkRoute = createRoute({
-	getParentRoute: () => rootRoute,
-	path: "/sdk",
-	// Keep legacy behavior but render combined resources hub
-	component: ResourcesPage,
-});
-
 // Hidden route - browse all people (not in nav)
 const browseRoute = createRoute({
 	getParentRoute: () => rootRoute,
@@ -175,9 +153,7 @@ const browseRoute = createRoute({
 const routeTree = rootRoute.addChildren([
 	indexRoute,
 	featuresRoute,
-	apiRoute,
-	resourcesRoute,
-	contactRoute,
+	documentationRoute,
 	aboutRoute,
 	howItWorksRoute,
 	integrationsRoute,
@@ -186,7 +162,6 @@ const routeTree = rootRoute.addChildren([
 	privacyRoute,
 	termsRoute,
 	cookiesRoute,
-	sdkRoute,
 	browseRoute,
 ]);
 

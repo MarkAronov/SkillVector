@@ -94,7 +94,7 @@ export const HowItWorksPage = () => {
 											Try Demo
 										</ActionButton>
 										<ActionButton
-											to="/api"
+											to="/documentation#api"
 											variant="outline"
 											aria-label="View API Docs"
 										>

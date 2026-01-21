@@ -46,7 +46,7 @@ export function SearchBar({
 				value={value}
 				onChange={(e) => setValue(e.target.value)}
 				onKeyPress={handleKeyPress}
-				className="flex-1 h-12 px-5 bg-transparent border-none outline-none text-base text-foreground placeholder:text-muted-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+				className="flex-1 h-12 px-5 bg-transparent border-none outline-none text-sm lg:text-base text-foreground placeholder:text-muted-foreground disabled:opacity-50 disabled:cursor-not-allowed"
 				disabled={isLoading}
 			/>
 			<div className="h-8 w-px bg-border" />

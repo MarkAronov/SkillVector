@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ExternalLink, Github, Package, Twitter } from "lucide-react";
-import { SocialMediaCard } from "./SocialMediaCard";
+import { SocialMediaCard } from "./PromoCard";
 
 const meta = {
 	title: "Molecules/SocialMediaCard",

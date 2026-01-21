@@ -42,7 +42,7 @@ export const PlaceholderPage = ({
 							This page is currently under construction. Check back soon for
 							updates!
 						</Text>
-					<ActionButton to="/search" aria-label="Back to Search">
+						<ActionButton to="/search" aria-label="Back to Search">
 							<ArrowLeft className="h-4 w-4" />
 							Back to Search
 						</ActionButton>

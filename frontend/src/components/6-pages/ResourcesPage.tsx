@@ -45,7 +45,7 @@ export const ResourcesPage = () => {
 			hideDarkModeToggle: true,
 			hideClientButton: true,
 			showSidebar: true,
-			showDeveloperTools: false,
+			showDeveloperTools: "never" as const,
 			showToolbar: false,
 			operationTitleSource: "summary" as const,
 			theme: "alternate" as const,
@@ -444,7 +444,7 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 							</CardContent>
 						</Card>
 
-						<Card variant="outline" fill>
+						<Card variant="default" fill>
 							<CardContent className="p-4">
 								<h4 className="font-semibold mb-2 flex items-center gap-2">
 									<span className="text-primary">🎯</span>
@@ -457,7 +457,7 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 							</CardContent>
 						</Card>
 
-						<Card variant="outline" fill>
+						<Card variant="default" fill>
 							<CardContent className="p-4">
 								<h4 className="font-semibold mb-2 flex items-center gap-2">
 									<span className="text-primary">📄</span>
@@ -470,7 +470,7 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 							</CardContent>
 						</Card>
 
-						<Card variant="outline" fill>
+						<Card variant="default" fill>
 							<CardContent className="p-4">
 								<h4 className="font-semibold mb-2 flex items-center gap-2">
 									<span className="text-primary">⚙️</span>
@@ -483,7 +483,7 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 							</CardContent>
 						</Card>
 
-						<Card variant="outline" fill>
+						<Card variant="default" fill>
 							<CardContent className="p-4">
 								<h4 className="font-semibold mb-2 flex items-center gap-2">
 									<span className="text-primary">🚀</span>

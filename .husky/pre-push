@@ -47,8 +47,18 @@ echo ""
 # 6. Docker Check (catches containerization issues)
 echo "→ [6/7] Verifying Docker build..."
 if docker info > /dev/null 2>&1; then
-    docker build . --file Dockerfile --quiet > /dev/null || exit 1
-    echo "✓ Docker build passed"
+    TMP_IID_FILE="$(mktemp -t sv_iid.XXXXXX 2>/dev/null || echo /tmp/sv_iid.$$)"
+    # Build and write the image id to a temp file so we can remove it later
+    docker build . --file Dockerfile --iidfile "$TMP_IID_FILE" --force-rm --quiet > /dev/null || { echo "[ERROR] Docker build failed" >&2; rm -f "$TMP_IID_FILE"; exit 1; }
+    IMAGE_ID="$(cat "$TMP_IID_FILE" 2>/dev/null || true)"
+    if [ -n "$IMAGE_ID" ]; then
+        # Remove the image we just created to avoid leaving local artifacts
+        docker rmi "$IMAGE_ID" > /dev/null 2>&1 || echo "[WARN] Failed to remove Docker image $IMAGE_ID"
+        echo "✓ Docker build passed and image removed"
+    else
+        echo "✓ Docker build passed (no image id found)"
+    fi
+    rm -f "$TMP_IID_FILE" || true
 else
     echo "[ERROR] Docker is not running. Aborting pre-push - start Docker and try again." >&2
     exit 1

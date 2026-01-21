@@ -14,7 +14,7 @@ const footerSections = [
 	{
 		title: "Product",
 		links: [
-			{ to: "/", label: "Search" },
+			{ to: "/search", label: "Search" },
 			{ to: "/features", label: "Features" },
 			{ to: "/integrations", label: "Integrations" },
 		],

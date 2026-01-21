@@ -17,7 +17,7 @@ import { PageTemplate } from "../5-templates/PageTemplate";
 
 export function SearchPage() {
 	const navigate = useNavigate();
-	const searchParams = useSearchParams({ from: "/" });
+	const searchParams = useSearchParams({ from: "/search" });
 	const query = (searchParams as { q?: string }).q || "";
 	const [offset, setOffset] = useState(0);
 	const [accumulatedData, setAccumulatedData] = useState<SearchResult | null>(
@@ -65,7 +65,7 @@ export function SearchPage() {
 			refetch();
 		} else {
 			navigate({
-				to: "/",
+				to: "/search",
 				search: newQuery.trim() ? { q: newQuery } : {},
 			});
 		}

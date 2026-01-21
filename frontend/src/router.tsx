@@ -2,8 +2,10 @@ import {
 	createRootRoute,
 	createRoute,
 	createRouter,
+	useNavigate,
+	useSearch as useSearchParams,
 } from "@tanstack/react-router";
-import { lazy } from "react";
+import { lazy, useEffect } from "react";
 import { SearchPage } from "./components/6-pages/SearchPage";
 
 // Lazy load pages for code splitting
@@ -73,9 +75,24 @@ const BrowsePage = lazy(() =>
 const rootRoute = createRootRoute();
 
 // Define routes
+function RedirectToSearch() {
+	const navigate = useNavigate();
+	const search = useSearchParams({ from: "/search" });
+	useEffect(() => {
+		navigate({ to: "/search", search: search as Record<string, unknown> });
+	}, [navigate, search]);
+	return null;
+}
+
 const indexRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/",
+	component: RedirectToSearch,
+});
+
+const searchRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/search",
 	component: SearchPage,
 	validateSearch: (search: Record<string, unknown>): { q?: string } => ({
 		q: (search.q as string) || undefined,
@@ -152,6 +169,7 @@ const browseRoute = createRoute({
 // Create route tree
 const routeTree = rootRoute.addChildren([
 	indexRoute,
+	searchRoute,
 	featuresRoute,
 	documentationRoute,
 	aboutRoute,

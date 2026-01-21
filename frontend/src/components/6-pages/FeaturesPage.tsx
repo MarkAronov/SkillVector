@@ -77,7 +77,7 @@ export const FeaturesPage = () => {
 							Try Search <ArrowRight className="h-4 w-4" />
 						</>
 					) as unknown as string,
-					to: "/",
+					to: "/search",
 					ariaLabel: "Try Search",
 				}}
 				secondaryAction={{

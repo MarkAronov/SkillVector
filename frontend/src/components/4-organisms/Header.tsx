@@ -7,7 +7,7 @@ import { Glass } from "../1-ions/Glass";
 import { Logo } from "../2-atoms/Logo";
 
 const navigationItems = [
-	{ to: "/", label: "Search" },
+	{ to: "/search", label: "Search" },
 	{ to: "/features", label: "Features" },
 	{ to: "/documentation#api", label: "API" },
 	{ to: "/documentation#sdk", label: "SDK" },

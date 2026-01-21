@@ -90,7 +90,7 @@ export const HowItWorksPage = () => {
 										Experience semantic search in action with our live demo
 									</Text>
 									<Div className="flex gap-4 justify-center flex-wrap">
-										<ActionButton to="/" aria-label="Try Demo">
+										<ActionButton to="/search" aria-label="Try Demo">
 											Try Demo
 										</ActionButton>
 										<ActionButton

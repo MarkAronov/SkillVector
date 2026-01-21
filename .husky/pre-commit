@@ -1,3 +1,19 @@
+# Run gitleaks for secrets detection
+echo "[>>] Running gitleaks secrets scan..."
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks protect --staged --verbose --redact || {
+    echo "[ERROR] Secrets detected! Review the output above and remove sensitive data."
+    echo "To skip this check (NOT RECOMMENDED), use: SKIP_GITLEAKS=1 git commit"
+    exit 1
+  }
+  echo "✓ No secrets detected"
+else
+  echo "[WARN] gitleaks not installed. Install: https://github.com/gitleaks/gitleaks#installing"
+  echo "  brew install gitleaks  (macOS)"
+  echo "  winget install gitleaks  (Windows)"
+fi
+echo ""
+
 # Run lint-staged for staged files
 
 # Prefer bunx when available (fast), otherwise fall back to npx for compatibility on Windows

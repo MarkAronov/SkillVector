@@ -1,2 +1,11 @@
 # Run lint-staged for staged files
-bunx lint-staged
+
+# Prefer bunx when available (fast), otherwise fall back to npx for compatibility on Windows
+if command -v bunx >/dev/null 2>&1; then
+  bunx lint-staged
+elif command -v npx >/dev/null 2>&1; then
+  npx lint-staged
+else
+  echo "[ERROR] Neither bunx nor npx found; cannot run lint-staged."
+  exit 1
+fi

@@ -33,6 +33,8 @@
 		"audit:frontend": "cd frontend && bun audit || echo 'Frontend audit failed'",
 		"audit:sdk": "cd sdk/typescript && bun audit || echo 'SDK audit failed'",
 		"audit:all": "bun run audit:backend && bun run audit:frontend && bun run audit:sdk",
+		"security:nuclei": "nuclei -u http://localhost:3001 -t security/nuclei-templates/ -severity high,critical -stats",
+		"security:nuclei:full": "nuclei -u http://localhost:3001 -t security/nuclei-templates/ -t nuclei-templates/http/ -severity medium,high,critical -stats",
 		"build:all": "bun run build:backend && bun run build:sdk && bun run build:frontend",
 		"ci-local": "bun run check:all && bun run typecheck:all && bun run test && bun run build:all"
 	},

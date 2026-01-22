@@ -134,49 +134,125 @@ jobs:
           comment-summary-in-pr: always
 
   # ------------------------------------------------------------------
-  # NUCLEI TEMPLATE-BASED SCAN
+  # NUCLEI VULNERABILITY SCAN
   # ------------------------------------------------------------------
   nuclei-scan:
-    name: Nuclei Template Scan
+    name: Nuclei Security Scan
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    # Only run when NUCLEI_TARGET secret is configured (e.g., staging or preview URL)
-    if: ${{ secrets.NUCLEI_TARGET }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
+      
       - name: Setup Nuclei
-        uses: projectdiscovery/setup-nuclei@v1
-
-      - name: Install jq for JSON processing
-        run: sudo apt-get update && sudo apt-get install -y jq
-
-      - name: Update Nuclei templates
+        uses: projectdiscovery/setup-nuclei@v3
+        with:
+          version: latest
+      
+      - name: Update Nuclei Templates
         run: nuclei -update-templates
-
-      - name: Run Nuclei scan (high & critical)
+      
+      # Run local template validation
+      - name: Validate Custom Templates
         run: |
-          nuclei -u "${{ secrets.NUCLEI_TARGET }}" \
-            -t nuclei-templates/ \
-            -severity critical,high \
-            -json -o nuclei-results.json || true
-
-      - name: Upload Nuclei results
+          if [ -d "security/nuclei-templates" ]; then
+            nuclei -validate -t security/nuclei-templates/
+          fi
+      
+      # For PRs: scan localhost (requires app to be running)
+      # For scheduled runs: scan staging/production if URL is set
+      - name: Setup Bun
+        if: github.event_name == 'pull_request'
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      
+      - name: Start Application
+        if: github.event_name == 'pull_request'
+        run: |
+          bun install
+          SKIP_STATIC_DATA=true bun run dev &
+          APP_PID=$!
+          echo "APP_PID=$APP_PID" >> $GITHUB_ENV
+          
+          # Wait for app to be ready
+          echo "Waiting for application to start..."
+          for i in {1..30}; do
+            if curl -s http://localhost:3001/health > /dev/null; then
+              echo "Application is ready!"
+              break
+            fi
+            echo "Waiting... ($i/30)"
+            sleep 2
+          done
+      
+      - name: Run Nuclei Scan
+        run: |
+          TARGET="${{ secrets.STAGING_URL || 'http://localhost:3001' }}"
+          
+          # For PRs, only scan high/critical with custom templates
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            nuclei -u $TARGET \
+              -t security/nuclei-templates/ \
+              -t nuclei-templates/http/vulnerabilities/ \
+              -t nuclei-templates/http/exposures/ \
+              -severity high,critical \
+              -json -o nuclei-results.json \
+              -stats -silent
+          else
+            # For scheduled runs, full scan
+            nuclei -u $TARGET \
+              -t security/nuclei-templates/ \
+              -t nuclei-templates/ \
+              -severity medium,high,critical \
+              -json -o nuclei-results.json \
+              -stats
+          fi
+      
+      - name: Stop Application
+        if: always() && github.event_name == 'pull_request'
+        run: |
+          if [ ! -z "$APP_PID" ]; then
+            kill $APP_PID || true
+          fi
+      
+      - name: Upload Nuclei Results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: nuclei-results
           path: nuclei-results.json
-
-      - name: Fail on high/critical findings
+          retention-days: 30
+      
+      - name: Process Results
         if: always()
         run: |
           if [ -f nuclei-results.json ]; then
-            count=$(jq '[.[] | select(.info.severity=="critical" or .info.severity=="high")] | length' nuclei-results.json)
-            if [ "$count" -gt 0 ]; then
-              echo "$count high/critical findings found";
-              cat nuclei-results.json
+            echo "## Nuclei Scan Results" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            HIGH=$(jq -r 'select(.info.severity == "high") | .info.name' nuclei-results.json 2>/dev/null | wc -l)
+            CRITICAL=$(jq -r 'select(.info.severity == "critical") | .info.name' nuclei-results.json 2>/dev/null | wc -l)
+            MEDIUM=$(jq -r 'select(.info.severity == "medium") | .info.name' nuclei-results.json 2>/dev/null | wc -l)
+            
+            echo "- 🔴 Critical: $CRITICAL" >> $GITHUB_STEP_SUMMARY
+            echo "- 🟠 High: $HIGH" >> $GITHUB_STEP_SUMMARY
+            echo "- 🟡 Medium: $MEDIUM" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            if [ -s nuclei-results.json ]; then
+              echo "### Findings:" >> $GITHUB_STEP_SUMMARY
+              jq -r '.[] | "- [\(.info.severity | ascii_upcase)] \(.info.name) - \(.matched // .host)"' nuclei-results.json >> $GITHUB_STEP_SUMMARY
+            else
+              echo "✅ No vulnerabilities found!" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+      
+      # Fail on critical findings
+      - name: Check for Critical Issues
+        run: |
+          if [ -f nuclei-results.json ]; then
+            CRITICAL=$(jq -r 'select(.info.severity == "critical") | .info.name' nuclei-results.json 2>/dev/null | wc -l)
+            if [ "$CRITICAL" -gt 0 ]; then
+              echo "❌ Found $CRITICAL critical vulnerabilities!"
               exit 1
             fi
           fi

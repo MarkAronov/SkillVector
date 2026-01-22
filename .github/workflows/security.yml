@@ -132,3 +132,51 @@ jobs:
           fail-on-severity: moderate
           deny-licenses: GPL-3.0, AGPL-3.0
           comment-summary-in-pr: always
+
+  # ------------------------------------------------------------------
+  # NUCLEI TEMPLATE-BASED SCAN
+  # ------------------------------------------------------------------
+  nuclei-scan:
+    name: Nuclei Template Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Only run when NUCLEI_TARGET secret is configured (e.g., staging or preview URL)
+    if: ${{ secrets.NUCLEI_TARGET }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Nuclei
+        uses: projectdiscovery/setup-nuclei@v1
+
+      - name: Install jq for JSON processing
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Update Nuclei templates
+        run: nuclei -update-templates
+
+      - name: Run Nuclei scan (high & critical)
+        run: |
+          nuclei -u "${{ secrets.NUCLEI_TARGET }}" \
+            -t nuclei-templates/ \
+            -severity critical,high \
+            -json -o nuclei-results.json || true
+
+      - name: Upload Nuclei results
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuclei-results
+          path: nuclei-results.json
+
+      - name: Fail on high/critical findings
+        if: always()
+        run: |
+          if [ -f nuclei-results.json ]; then
+            count=$(jq '[.[] | select(.info.severity=="critical" or .info.severity=="high")] | length' nuclei-results.json)
+            if [ "$count" -gt 0 ]; then
+              echo "$count high/critical findings found";
+              cat nuclei-results.json
+              exit 1
+            fi
+          fi

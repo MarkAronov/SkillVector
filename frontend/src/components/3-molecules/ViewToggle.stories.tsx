@@ -13,5 +13,12 @@ export default meta;
 type Story = StoryObj<typeof ViewToggle>;
 
 export const Default: Story = {
-	render: () => <ViewToggle view="grid" onViewChange={() => {}} />,
+	render: () => (
+		<ViewToggle
+			view="grid"
+			onViewChange={() => {
+				/* Storybook demo - no action needed */
+			}}
+		/>
+	),
 };

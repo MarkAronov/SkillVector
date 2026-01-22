@@ -165,7 +165,9 @@ export function SearchResults({ data, isLoading }: SearchResultsProps) {
 	useEffect(() => {
 		try {
 			localStorage.setItem("resultsView", view);
-		} catch {}
+		} catch {
+			/* Ignore localStorage errors - not critical */
+		}
 	}, [view]);
 
 	if (isLoading) {

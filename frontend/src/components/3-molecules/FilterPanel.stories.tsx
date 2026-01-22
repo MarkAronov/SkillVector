@@ -146,7 +146,9 @@ export const WithActiveFilters: Story = {
 		variant: "compact",
 		search: {
 			value: "v1.0",
-			onChange: () => {},
+			onChange: () => {
+				/* Storybook demo - no action needed */
+			},
 			placeholder: "Search...",
 			icon: <Search className="h-5 w-5" />,
 		},

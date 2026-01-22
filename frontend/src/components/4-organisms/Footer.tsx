@@ -139,7 +139,7 @@ export const Footer = () => {
 											) : (
 												<Link
 													to={link.to}
-													className={`${location.pathname === link.to.split("#")[0] ? "text-primary hover:text-primary/80" : "text-foreground/80 hover:text-foreground/95"} transition-colors`}
+													className={`${(link.to ?? "").split("#")[0] === location.pathname ? "text-primary hover:text-primary/80" : "text-foreground/80 hover:text-foreground/95"} transition-colors`}
 												>
 													{link.label}
 												</Link>

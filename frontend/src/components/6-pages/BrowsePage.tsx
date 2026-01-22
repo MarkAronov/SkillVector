@@ -24,7 +24,9 @@ export function BrowsePage() {
 	useEffect(() => {
 		try {
 			localStorage.setItem("resultsView", view);
-		} catch {}
+		} catch {
+			/* Ignore localStorage errors - not critical */
+		}
 	}, [view]);
 
 	return (

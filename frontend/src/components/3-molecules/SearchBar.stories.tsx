@@ -13,5 +13,11 @@ export default meta;
 type Story = StoryObj<typeof SearchBar>;
 
 export const Default: Story = {
-	render: () => <SearchBar onSearch={() => {}} />,
+	render: () => (
+		<SearchBar
+			onSearch={() => {
+				/* Storybook demo - no action needed */
+			}}
+		/>
+	),
 };

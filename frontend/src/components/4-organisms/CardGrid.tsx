@@ -230,10 +230,7 @@ function defaultCardRenderer(
 		item.customContent &&
 		enforceCustomContent
 	) {
-		// eslint-disable-next-line no-console
-		console.warn(
-			"CardGrid: noWrapper is ignored when enforceCustomContent is enabled. Remove noWrapper or disable enforceCustomContent.",
-		);
+		// noWrapper is ignored when enforceCustomContent is enabled
 	}
 
 	return (

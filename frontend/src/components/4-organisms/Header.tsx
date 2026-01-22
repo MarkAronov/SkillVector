@@ -38,7 +38,7 @@ export function Header() {
 		isMobile = false,
 	) => {
 		const isActive =
-			!item.external && location.pathname === item.to.split("#")[0];
+			!item.external && (item.to ?? "").split("#")[0] === location.pathname;
 		const className = isMobile
 			? `${isActive ? "text-primary" : "text-muted-foreground"} hover:text-primary transition-colors font-medium`
 			: `${isActive ? "text-primary" : "text-foreground/90"} hover:text-primary transition-colors font-medium text-sm lg:text-base`;

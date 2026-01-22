@@ -1,9 +1,6 @@
-import {
-	useNavigate,
-	useSearch as useSearchParams,
-} from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { useSearch } from "@/hooks/useSearch";
+import { useSearch as useSearchAPI } from "@/hooks/useSearch";
 import type { SearchResult } from "@/types/search.types";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
@@ -17,15 +14,15 @@ import { PageTemplate } from "../5-templates/PageTemplate";
 
 export function SearchPage() {
 	const navigate = useNavigate();
-	const searchParams = useSearchParams({ from: "/search" });
-	const query = (searchParams as { q?: string }).q || "";
+	const searchParams = useSearch({ from: "/search" });
+	const query = searchParams.q || "";
 	const [offset, setOffset] = useState(0);
 	const [accumulatedData, setAccumulatedData] = useState<SearchResult | null>(
 		null,
 	);
 	const limit = 10;
 
-	const { data, isLoading, error, refetch } = useSearch(query, {
+	const { data, isLoading, error, refetch } = useSearchAPI(query, {
 		enabled: true,
 		limit,
 		offset,

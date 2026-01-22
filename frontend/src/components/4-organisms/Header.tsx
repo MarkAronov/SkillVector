@@ -9,8 +9,7 @@ import { Logo } from "../2-atoms/Logo";
 const navigationItems = [
 	{ to: "/search", label: "Search" },
 	{ to: "/features", label: "Features" },
-	{ to: "/documentation#api", label: "API" },
-	{ to: "/documentation#sdk", label: "SDK" },
+	{ to: "/documentation", label: "Documentation" },
 	{ href: SOCIAL_LINKS.github, label: "GitHub", external: true },
 ];
 
@@ -39,7 +38,7 @@ export function Header() {
 		isMobile = false,
 	) => {
 		const isActive =
-			!item.external && location.pathname + location.hash === item.to;
+			!item.external && location.pathname === item.to.split("#")[0];
 		const className = isMobile
 			? `${isActive ? "text-primary" : "text-muted-foreground"} hover:text-primary transition-colors font-medium`
 			: `${isActive ? "text-primary" : "text-foreground/90"} hover:text-primary transition-colors font-medium text-sm lg:text-base`;

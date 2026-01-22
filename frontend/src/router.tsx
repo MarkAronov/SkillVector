@@ -2,8 +2,8 @@ import {
 	createRootRoute,
 	createRoute,
 	createRouter,
+	useLocation,
 	useNavigate,
-	useSearch as useSearchParams,
 } from "@tanstack/react-router";
 import { lazy, useEffect } from "react";
 import { SearchPage } from "./components/6-pages/SearchPage";
@@ -77,10 +77,13 @@ const rootRoute = createRootRoute();
 // Define routes
 function RedirectToSearch() {
 	const navigate = useNavigate();
-	const search = useSearchParams({ from: "/search" });
+	const location = useLocation();
 	useEffect(() => {
-		navigate({ to: "/search", search: search as Record<string, unknown> });
-	}, [navigate, search]);
+		navigate({
+			to: "/search",
+			search: location.search as Record<string, unknown>,
+		});
+	}, [navigate, location.search]);
 	return null;
 }
 

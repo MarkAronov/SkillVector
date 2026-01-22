@@ -60,6 +60,7 @@ const listAvailableModels = async (baseUrl: string): Promise<string[]> => {
 		const data = (await response.json()) as { models?: { name: string }[] };
 		return data.models?.map((model) => model.name) || [];
 	} catch (error) {
+		// biome-ignore lint/suspicious/noConsole: Intentional warning for Ollama connection issues
 		console.warn("Could not fetch Ollama models:", error);
 		return [];
 	}

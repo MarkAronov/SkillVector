@@ -17,8 +17,10 @@ interface BrevoApiError {
 const apiInstance = new TransactionalEmailsApi();
 const apiKey = process.env.BREVO_API_KEY;
 if (!apiKey) {
+	// biome-ignore lint/suspicious/noConsole: Configuration error needs direct output
 	console.error("BREVO_API_KEY not set!");
 } else {
+	// biome-ignore lint/suspicious/noConsole: Configuration logging at startup
 	console.log("Brevo API key configured:", `${apiKey.substring(0, 10)}...`);
 	apiInstance.setApiKey(TransactionalEmailsApiApiKeys.apiKey, apiKey);
 }
@@ -81,15 +83,18 @@ export const sendContactEmail = async (
 		};
 
 		try {
+			// biome-ignore lint/suspicious/noConsole: Email sending debug log
 			console.log("Sending email via Brevo:", {
 				to: CONTACT_TO_EMAIL,
 				from: _CONTACT_FROM_EMAIL,
 				subject: `${CONTACT_SUBJECT_PREFIX} ${validatedData.name}`,
 			});
 			await apiInstance.sendTransacEmail(sendSmtpEmail);
+			// biome-ignore lint/suspicious/noConsole: Email success confirmation
 			console.log("Brevo email sent successfully:");
 		} catch (brevoError: unknown) {
 			const error = brevoError as BrevoApiError;
+			// biome-ignore lint/suspicious/noConsole: Brevo API error details for debugging
 			console.error("Brevo API error:", {
 				message: error.message,
 				status: error.status,
@@ -103,6 +108,7 @@ export const sendContactEmail = async (
 
 		return { success: true };
 	} catch (error) {
+		// biome-ignore lint/suspicious/noConsole: Contact service error logging
 		console.error("Error sending contact email:", error);
 		if (error instanceof z.ZodError) {
 			return { success: false, error: error.issues[0].message };

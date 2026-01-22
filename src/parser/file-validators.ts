@@ -38,6 +38,7 @@ export const validateFileType = (
 /**
  * Validate file content matches declared type
  */
+// biome-ignore lint/suspicious/useAwait: Async for interface consistency and future extensibility
 export const validateFileContent = async (
 	declaredType: "csv" | "json" | "text",
 	content: string,

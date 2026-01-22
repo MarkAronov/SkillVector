@@ -766,21 +766,12 @@ export const hybridSearch = async (
 	}
 
 	try {
-		console.log("[hybridSearch] Starting search with query:", query);
-		console.log("[hybridSearch] Filters:", JSON.stringify(filters, null, 2));
-		console.log("[hybridSearch] Limit:", limit, "Collection:", collection);
-
 		// Ensure collection exists with proper indexes
 		await ensureCollectionExists(collection);
-		console.log("[hybridSearch] Collection exists confirmed");
 
 		// Generate embedding for vector search
 		const embeddingsProvider = initEmbeddings();
 		const vectors = await embeddingsProvider.embedDocuments([query]);
-		console.log(
-			"[hybridSearch] Generated embeddings, vector length:",
-			vectors.length,
-		);
 
 		if (vectors.length === 0) {
 			return {
@@ -801,20 +792,6 @@ export const hybridSearch = async (
 		// that won't match exact values like "San Diego, USA" or "Software Architect"
 		// The vector search will handle semantic matching for these
 
-		if (filters?.location) {
-			console.log(
-				"[hybridSearch] Skipping location filter (keyword index, exact match only):",
-				filters.location,
-			);
-		}
-
-		if (filters?.role) {
-			console.log(
-				"[hybridSearch] Skipping role filter (keyword index, exact match only):",
-				filters.role,
-			);
-		}
-
 		if (filters?.skills) {
 			// Text match for skills - data_skills is indexed as 'text' with word tokenizer
 			const skillsText = Array.isArray(filters.skills)
@@ -825,10 +802,6 @@ export const hybridSearch = async (
 				match: { text: skillsText },
 			};
 			filterConditions.push(skillsFilter);
-			console.log(
-				"[hybridSearch] Added skills filter:",
-				JSON.stringify(skillsFilter),
-			);
 		}
 
 		if (
@@ -849,20 +822,7 @@ export const hybridSearch = async (
 					filters.maxExperience;
 			}
 			filterConditions.push(rangeFilter);
-			console.log(
-				"[hybridSearch] Added experience filter:",
-				JSON.stringify(rangeFilter),
-			);
 		}
-
-		console.log(
-			"[hybridSearch] Total filter conditions:",
-			filterConditions.length,
-		);
-		console.log(
-			"[hybridSearch] Filter conditions:",
-			JSON.stringify(filterConditions, null, 2),
-		);
 
 		// Execute vector search with metadata filtering
 		const searchParams = {
@@ -872,23 +832,8 @@ export const hybridSearch = async (
 			filter:
 				filterConditions.length > 0 ? { must: filterConditions } : undefined,
 		};
-		console.log(
-			"[hybridSearch] Executing Qdrant search with params:",
-			JSON.stringify(
-				{
-					...searchParams,
-					vector: `[${vectors[0].length} dimensions]`,
-				},
-				null,
-				2,
-			),
-		);
 
 		const result = await qdrantClient.search(collection, searchParams);
-		console.log(
-			"[hybridSearch] Search completed, results count:",
-			result.length,
-		);
 
 		// Define type for payload with optional _boostedBy property
 		type BoostedPayload = Record<string, unknown> & { _boostedBy?: string };
@@ -950,21 +895,15 @@ export const hybridSearch = async (
 			return { ...point, score };
 		});
 
-		const boostedCount = boostedResults.filter(
+		const _boostedCount = boostedResults.filter(
 			(p) => (p.payload as BoostedPayload)._boostedBy,
 		).length;
-		console.log("[hybridSearch] Metadata-boosted results count:", boostedCount);
 
 		// Filter out low-quality results (relevance threshold)
 		// This prevents nonsense queries from returning random results
 		const RELEVANCE_THRESHOLD = 0.3; // Adjust this threshold as needed
 		const filteredResults = boostedResults.filter(
 			(point) => (point.score || 0) >= RELEVANCE_THRESHOLD,
-		);
-
-		console.log(
-			`[hybridSearch] Results after relevance filter (>=${RELEVANCE_THRESHOLD}):`,
-			filteredResults.length,
 		);
 
 		// Format results
@@ -974,11 +913,6 @@ export const hybridSearch = async (
 			content: (point.payload?.content as string) || "",
 			metadata: point.payload || {},
 		}));
-
-		console.log(
-			"[hybridSearch] Formatted results count:",
-			formattedResults.length,
-		);
 
 		log(
 			"DB_HYBRID_SEARCH",
@@ -996,11 +930,6 @@ export const hybridSearch = async (
 			message: `Found ${formattedResults.length} results`,
 		};
 	} catch (error) {
-		console.error("[hybridSearch] ERROR:", error);
-		console.error("[hybridSearch] Error details:", {
-			message: error instanceof Error ? error.message : String(error),
-			stack: error instanceof Error ? error.stack : undefined,
-		});
 		log("DB_HYBRID_SEARCH_ERROR", { error: String(error) }, 2);
 		return {
 			success: false,
@@ -1038,6 +967,7 @@ export const createLangChainVectorStore = async (): Promise<VectorStore> => {
 
 		// Create a mock implementation that satisfies the VectorStore interface
 		const mockVectorStore = {
+			// biome-ignore lint/suspicious/useAwait: Must be async to match VectorStore interface
 			async similaritySearch(query: string, k = 5) {
 				log("DB_FALLBACK_SEARCH", { query }, 2);
 				return [
@@ -1051,9 +981,11 @@ export const createLangChainVectorStore = async (): Promise<VectorStore> => {
 					}),
 				].slice(0, k);
 			},
+			// biome-ignore lint/suspicious/useAwait: Must be async to match VectorStore interface
 			async addDocuments(documents: Document[]) {
 				log("DB_FALLBACK_ADD", { count: documents.length.toString() }, 2);
 			},
+			// biome-ignore lint/suspicious/useAwait: Must be async to match VectorStore interface
 			async delete() {
 				log("DB_FALLBACK_DELETE", {}, 2);
 			},

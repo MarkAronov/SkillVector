@@ -14,6 +14,7 @@ contactRouter.post("/", async (c) => {
 			return c.json({ error: result.error }, 400);
 		}
 	} catch (error) {
+		// biome-ignore lint/suspicious/noConsole: Error logging for contact endpoint
 		console.error("Contact route error:", error);
 		return c.json({ error: "Internal server error" }, 500);
 	}

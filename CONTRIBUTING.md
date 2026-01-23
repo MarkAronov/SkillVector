@@ -84,7 +84,13 @@ If you prefer not to install security tools locally (gitleaks, nuclei), you can 
 - Skip gitleaks: `SKIP_GITLEAKS=1 git commit`
 - Skip Nuclei: `SKIP_NUCLEI=1 git push`
 
-CI/CD will still run these checks on pull requests.
+To keep local pushes fast, the pre-push hook runs only the quick checks by default. To run the full set of long checks locally (security audits, builds, Docker validation, and Nuclei scans), set the `FULL_PRE_PUSH` environment variable when pushing:
+
+- Bash (macOS/Linux/WSL/Git Bash): `FULL_PRE_PUSH=1 git push`
+- PowerShell: `$env:FULL_PRE_PUSH=1; git push`
+- CMD: `set FULL_PRE_PUSH=1 && git push`
+
+CI/CD will still run the full checks on pull requests and merges to `main`.
 
 ### Pull Request Process
 

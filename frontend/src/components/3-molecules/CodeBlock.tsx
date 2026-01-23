@@ -16,8 +16,9 @@ export const CodeBlock = ({ language, code }: CodeBlockProps) => {
 
 	return (
 		<div className="relative">
-			<pre className="bg-muted p-4 rounded-md overflow-x-auto">
-				<code className={`language-${language}`}>{code}</code>
+			{/* Allow pre to wrap on small screens while preserving whitespace, but still support horizontal scroll when desired */}
+			<pre className="bg-muted p-4 rounded-md overflow-x-auto max-w-full w-full whitespace-pre-wrap break-words">
+				<code className={`language-${language} block w-full`}>{code}</code>
 			</pre>
 			<button
 				type="button"

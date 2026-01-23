@@ -1,18 +1,24 @@
 # Run gitleaks for secrets detection
-echo "[>>] Running gitleaks secrets scan..."
-if command -v gitleaks >/dev/null 2>&1; then
-  gitleaks protect --staged --verbose --redact || {
-    echo "[ERROR] Secrets detected! Review the output above and remove sensitive data."
-    echo "To skip this check (NOT RECOMMENDED), use: SKIP_GITLEAKS=1 git commit"
-    exit 1
-  }
-  echo "✓ No secrets detected"
+if [ "$SKIP_GITLEAKS" != "1" ]; then
+    echo "[>>] Running gitleaks secrets scan..."
+    if command -v gitleaks >/dev/null 2>&1; then
+      gitleaks protect --staged --verbose --redact || {
+        echo "[ERROR] Secrets detected! Review the output above and remove sensitive data."
+        echo "To skip this check (NOT RECOMMENDED), use: SKIP_GITLEAKS=1 git commit"
+        exit 1
+      }
+      echo "✓ No secrets detected"
+    else
+      echo "[WARN] gitleaks not installed. Install: https://github.com/gitleaks/gitleaks#installing"
+      echo "  brew install gitleaks  (macOS)"
+      echo "  winget install gitleaks  (Windows)"
+      echo "  To skip this check, use: SKIP_GITLEAKS=1 git commit"
+    fi
+    echo ""
 else
-  echo "[WARN] gitleaks not installed. Install: https://github.com/gitleaks/gitleaks#installing"
-  echo "  brew install gitleaks  (macOS)"
-  echo "  winget install gitleaks  (Windows)"
+    echo "[>>] Skipping gitleaks secrets scan (SKIP_GITLEAKS=1)"
+    echo ""
 fi
-echo ""
 
 # Run lint-staged for staged files
 

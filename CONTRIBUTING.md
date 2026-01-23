@@ -73,6 +73,19 @@ Please review our [Code of Conduct](CODE_OF_CONDUCT.md) and follow it when contr
    git commit -m "feat: add description of your changes"
    ```
 
+### Pre-commit and Pre-push Hooks
+
+This project uses Husky to run automated checks before commits and pushes:
+
+- **Pre-commit**: Runs linting, type checking, and secrets scanning with gitleaks
+- **Pre-push**: Runs comprehensive checks including tests, builds, security audits, and vulnerability scanning with Nuclei
+
+If you prefer not to install security tools locally (gitleaks, nuclei), you can skip them:
+- Skip gitleaks: `SKIP_GITLEAKS=1 git commit`
+- Skip Nuclei: `SKIP_NUCLEI=1 git push`
+
+CI/CD will still run these checks on pull requests.
+
 ### Pull Request Process
 
 1. Push your branch to GitHub

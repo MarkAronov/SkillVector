@@ -66,42 +66,48 @@ fi
 echo ""
 
 # 7. Nuclei Security Scan (catches security vulnerabilities)
-echo "→ [7/7] Running Nuclei security scan..."
-if command -v nuclei > /dev/null 2>&1; then
-    # Start app in background
-    SKIP_STATIC_DATA=true bun run dev > /dev/null 2>&1 &
-    APP_PID=$!
-    
-    # Wait for app to start (max 15 seconds)
-    for i in {1..15}; do
-        if curl -s http://localhost:3001/health > /dev/null 2>&1; then
-            break
+if [ "$SKIP_NUCLEI" != "1" ]; then
+    echo "→ [7/7] Running Nuclei security scan..."
+    if command -v nuclei > /dev/null 2>&1; then
+        # Start app in background
+        SKIP_STATIC_DATA=true bun run dev > /dev/null 2>&1 &
+        APP_PID=$!
+        
+        # Wait for app to start (max 15 seconds)
+        for i in {1..15}; do
+            if curl -s http://localhost:3001/health > /dev/null 2>&1; then
+                break
+            fi
+            sleep 1
+        done
+        
+        # Run nuclei with only high/critical severity custom templates
+        nuclei -u http://localhost:3001 \
+            -t security/nuclei-templates/ \
+            -severity high,critical \
+            -silent -no-color > /dev/null 2>&1
+        NUCLEI_EXIT=$?
+        
+        # Stop the app
+        kill $APP_PID 2>/dev/null || true
+        wait $APP_PID 2>/dev/null || true
+        
+        if [ $NUCLEI_EXIT -ne 0 ]; then
+            echo "[ERROR] Nuclei found security issues. Run 'bun run security:nuclei' for details." >&2
+            exit 1
         fi
-        sleep 1
-    done
-    
-    # Run nuclei with only high/critical severity custom templates
-    nuclei -u http://localhost:3001 \
-        -t security/nuclei-templates/ \
-        -severity high,critical \
-        -silent -no-color > /dev/null 2>&1
-    NUCLEI_EXIT=$?
-    
-    # Stop the app
-    kill $APP_PID 2>/dev/null || true
-    wait $APP_PID 2>/dev/null || true
-    
-    if [ $NUCLEI_EXIT -ne 0 ]; then
-        echo "[ERROR] Nuclei found security issues. Run 'bun run security:nuclei' for details." >&2
-        exit 1
+        echo "✓ Nuclei scan passed"
+    else
+        echo "[WARN] Nuclei not installed. Install: https://github.com/projectdiscovery/nuclei#install"
+        echo "      macOS: brew install nuclei"
+        echo "      Windows: choco install nuclei"
+        echo "      Linux: https://github.com/projectdiscovery/nuclei/releases"
+        echo "      To skip this check, use: SKIP_NUCLEI=1 git push"
     fi
-    echo "✓ Nuclei scan passed"
+    echo ""
 else
-    echo "[WARN] Nuclei not installed. Install: https://github.com/projectdiscovery/nuclei#install"
-    echo "      macOS: brew install nuclei"
-    echo "      Windows: choco install nuclei"
-    echo "      Linux: https://github.com/projectdiscovery/nuclei/releases"
+    echo "→ [7/7] Skipping Nuclei security scan (SKIP_NUCLEI=1)"
+    echo ""
 fi
-echo ""
 
 echo "[OK] All pre-push checks passed! Safe to push."

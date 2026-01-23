@@ -90,6 +90,26 @@ To keep local pushes fast, the pre-push hook runs only the quick checks by defau
 - PowerShell: `$env:FULL_PRE_PUSH=1; git push`
 - CMD: `set FULL_PRE_PUSH=1 && git push`
 
+You can also control workflow runs using commit message markers or workflow_dispatch inputs. Add any of the following markers to a commit message to skip specific jobs or run partial/full workflows:
+
+- `[skip-backend]` - skip backend CI
+- `[skip-frontend]` - skip frontend CI and storybook
+- `[skip-sdk]` - skip SDK CI
+- `[skip-gitleaks]` - skip secrets scan in Security workflow
+- `[skip-docker-scan]` - skip Docker scans in Security workflow
+- `[skip-codeql]` - skip CodeQL analysis in Security workflow
+- `[skip-dependency-review]` - skip Dependency Review (PRs)
+- `[skip-nuclei]` - skip Nuclei scan in Security workflow
+- `[skip-deploy]` - skip deploy steps
+- `[run-partial]` - run only CI + Deploy; skips long security scans
+- `[run-full]` - force full pipeline via workflow_dispatch
+
+You can trigger these manually by adding the marker to your commit message, or use `workflow_dispatch` with the corresponding inputs in the Actions UI.
+
+Convenience npm scripts:
+- `npm run push:full` → runs full pre-push locally (`FULL_PRE_PUSH=1 git push`)
+- `npm run push:partial` → creates a temporary empty commit with `[run-partial]`, pushes, and then reverts the local commit (convenience helper)
+
 CI/CD will still run the full checks on pull requests and merges to `main`.
 
 ### Pull Request Process

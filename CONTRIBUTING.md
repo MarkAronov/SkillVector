@@ -106,6 +106,25 @@ You can also control workflow runs using commit message markers or workflow_disp
 
 You can trigger these manually by adding the marker to your commit message, or use `workflow_dispatch` with the corresponding inputs in the Actions UI.
 
+Dockerized security tools
+
+- Hooks can fall back to Dockerized tools if native binaries are missing. To force Docker usage in hooks set:
+  - `USE_DOCKER_TOOLS=1` (force Docker for all supported tools)
+  - `DOCKER_GITLEAKS=1` (force Docker for gitleaks)
+  - `DOCKER_NUCLEI=1` (force Docker for nuclei)
+
+Examples:
+- gitleaks (Docker): `docker run --rm -v "$(pwd)":/repo -w /repo ghcr.io/gitleaks/gitleaks:latest protect --staged --verbose --redact`
+- nuclei (Docker): `docker run --rm -v "$(pwd)/security/nuclei-templates":/templates projectdiscovery/nuclei:latest -u http://host.docker.internal:3001 -t /templates -severity high,critical -stats`
+
+Notes:
+- On Windows/macOS use `host.docker.internal:3001` to let the container reach your local dev server; on Linux you can use `--network host` and `localhost`.
+- Hooks prefer a native binary, then fallback to Docker when available (unless forced via `DOCKER_*` env vars).
+- You can also run the provided npm scripts:
+  - `npm run security:gitleaks:docker`
+  - `npm run security:nuclei:docker`
+  - `npm run security:trivy:docker`
+
 Convenience npm scripts:
 - `npm run push:full` → runs full pre-push locally (`FULL_PRE_PUSH=1 git push`)
 - `npm run push:partial` → creates a temporary empty commit with `[run-partial]`, pushes, and then reverts the local commit (convenience helper)

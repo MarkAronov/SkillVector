@@ -1,19 +1,45 @@
 # Run gitleaks for secrets detection
 if [ "$SKIP_GITLEAKS" != "1" ]; then
     echo "[>>] Running gitleaks secrets scan..."
-    if command -v gitleaks >/dev/null 2>&1; then
+
+    # If developer explicitly asks for Docker or forces Docker usage, prefer Docker
+    if [ "$DOCKER_GITLEAKS" = "1" ] || [ "$USE_DOCKER_TOOLS" = "1" ]; then
+      if command -v docker >/dev/null 2>&1; then
+        echo "→ Using Dockerized gitleaks (ghcr.io/gitleaks/gitleaks:latest)"
+        docker run --rm -v "$(pwd)":/repo -w /repo ghcr.io/gitleaks/gitleaks:latest protect --staged --verbose --redact || {
+          echo "[ERROR] Dockerized gitleaks detected secrets or failed."
+          exit 1
+        }
+        echo "✓ No secrets detected (docker)"
+      else
+        echo "[WARN] Docker not found; cannot run dockerized gitleaks."
+        echo "  Install Docker or install gitleaks locally. To skip this check: SKIP_GITLEAKS=1 git commit"
+        exit 1
+      fi
+
+    # Prefer native binary when available
+    elif command -v gitleaks >/dev/null 2>&1; then
       gitleaks protect --staged --verbose --redact || {
         echo "[ERROR] Secrets detected! Review the output above and remove sensitive data."
         echo "To skip this check (NOT RECOMMENDED), use: SKIP_GITLEAKS=1 git commit"
         exit 1
       }
       echo "✓ No secrets detected"
+
+    # Fallback to Docker if installed
+    elif command -v docker >/dev/null 2>&1; then
+      echo "→ gitleaks not installed locally; using Dockerized gitleaks"
+      docker run --rm -v "$(pwd)":/repo -w /repo ghcr.io/gitleaks/gitleaks:latest protect --staged --verbose --redact || {
+        echo "[ERROR] Dockerized gitleaks detected secrets or failed."
+        exit 1
+      }
+      echo "✓ No secrets detected (docker)"
+
     else
-      echo "[WARN] gitleaks not installed. Install: https://github.com/gitleaks/gitleaks#installing"
-      echo "  brew install gitleaks  (macOS)"
-      echo "  winget install gitleaks  (Windows)"
+      echo "[WARN] gitleaks not installed and Docker is not available. Install gitleaks or Docker to enable secrets scanning."
       echo "  To skip this check, use: SKIP_GITLEAKS=1 git commit"
     fi
+
     echo ""
 else
     echo "[>>] Skipping gitleaks secrets scan (SKIP_GITLEAKS=1)"

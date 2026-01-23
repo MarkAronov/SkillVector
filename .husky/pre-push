@@ -70,11 +70,14 @@ if [ "$FULL_PRE_PUSH" = "1" ]; then
     # 7. Nuclei Security Scan (catches security vulnerabilities)
     if [ "$SKIP_NUCLEI" != "1" ]; then
         echo "→ [7/7] Running Nuclei security scan..."
-        if command -v nuclei > /dev/null 2>&1; then
-            # Start app in background
+
+    # If developer asked for Docker usage or forced via USE_DOCKER_TOOLS, prefer Docker
+    if [ "$DOCKER_NUCLEI" = "1" ] || [ "$USE_DOCKER_TOOLS" = "1" ]; then
+        if command -v docker >/dev/null 2>&1; then
+            echo "→ Using Dockerized nuclei (projectdiscovery/nuclei:latest)"
             SKIP_STATIC_DATA=true bun run dev > /dev/null 2>&1 &
             APP_PID=$!
-            
+
             # Wait for app to start (max 15 seconds)
             for i in {1..15}; do
                 if curl -s http://localhost:3001/health > /dev/null 2>&1; then
@@ -82,31 +85,92 @@ if [ "$FULL_PRE_PUSH" = "1" ]; then
                 fi
                 sleep 1
             done
-            
-            # Run nuclei with only high/critical severity custom templates
-            nuclei -u http://localhost:3001 \
-                -t security/nuclei-templates/ \
+
+            # Run nuclei in docker; mount local templates and target host.docker.internal for Windows/macOS compatibility
+            docker run --rm -v "$(pwd)/security/nuclei-templates":/templates projectdiscovery/nuclei:latest \
+                -u http://host.docker.internal:3001 \
+                -t /templates \
                 -severity high,critical \
                 -silent -no-color > /dev/null 2>&1
             NUCLEI_EXIT=$?
-            
+
             # Stop the app
             kill $APP_PID 2>/dev/null || true
             wait $APP_PID 2>/dev/null || true
-            
+
             if [ $NUCLEI_EXIT -ne 0 ]; then
-                echo "[ERROR] Nuclei found security issues. Run 'bun run security:nuclei' for details." >&2
+                echo "[ERROR] Dockerized Nuclei found security issues. Run 'bun run security:nuclei:docker' for details." >&2
                 exit 1
             fi
-            echo "✓ Nuclei scan passed"
+            echo "✓ Nuclei scan passed (docker)"
         else
-            echo "[WARN] Nuclei not installed. Install: https://github.com/projectdiscovery/nuclei#install"
-            echo "      macOS: brew install nuclei"
-            echo "      Windows: choco install nuclei"
-            echo "      Linux: https://github.com/projectdiscovery/nuclei/releases"
+            echo "[WARN] Docker is not available; cannot run Dockerized nuclei. Install Docker or install nuclei locally."
             echo "      To skip this check, use: SKIP_NUCLEI=1 git push"
+            exit 1
         fi
-        echo ""
+
+    # Prefer native binary when available
+    elif command -v nuclei > /dev/null 2>&1; then
+        # Start app in background
+        SKIP_STATIC_DATA=true bun run dev > /dev/null 2>&1 &
+        APP_PID=$!
+        
+        # Wait for app to start (max 15 seconds)
+        for i in {1..15}; do
+            if curl -s http://localhost:3001/health > /dev/null 2>&1; then
+                break
+            fi
+            sleep 1
+        done
+        
+        # Run nuclei with only high/critical severity custom templates
+        nuclei -u http://localhost:3001 \
+            -t security/nuclei-templates/ \
+            -severity high,critical \
+            -silent -no-color > /dev/null 2>&1
+        NUCLEI_EXIT=$?
+        
+        # Stop the app
+        kill $APP_PID 2>/dev/null || true
+        wait $APP_PID 2>/dev/null || true
+        
+        if [ $NUCLEI_EXIT -ne 0 ]; then
+            echo "[ERROR] Nuclei found security issues. Run 'bun run security:nuclei' for details." >&2
+            exit 1
+        fi
+        echo "✓ Nuclei scan passed"
+
+    # Fallback to Docker if installed
+    elif command -v docker >/dev/null 2>&1; then
+        echo "→ nuclei not installed locally; using Dockerized nuclei"
+        SKIP_STATIC_DATA=true bun run dev > /dev/null 2>&1 &
+        APP_PID=$!
+
+        for i in {1..15}; do
+            if curl -s http://localhost:3001/health > /dev/null 2>&1; then
+                break
+            fi
+            sleep 1
+        done
+
+        docker run --rm -v "$(pwd)/security/nuclei-templates":/templates projectdiscovery/nuclei:latest \
+            -u http://host.docker.internal:3001 \
+            -t /templates \
+            -severity high,critical \
+            -silent -no-color > /dev/null 2>&1
+        NUCLEI_EXIT=$?
+
+        kill $APP_PID 2>/dev/null || true
+        wait $APP_PID 2>/dev/null || true
+
+        if [ $NUCLEI_EXIT -ne 0 ]; then
+            echo "[ERROR] Dockerized Nuclei found security issues. Run 'bun run security:nuclei:docker' for details." >&2
+            exit 1
+        fi
+        echo "✓ Nuclei scan passed (docker)"
+
+    else
+        echo "[WARN] Nuclei not installed and Docker is not available. Install nuclei or Docker to enable scanning."
     else
         echo "→ [7/7] Skipping Nuclei security scan (SKIP_NUCLEI=1)"
         echo ""

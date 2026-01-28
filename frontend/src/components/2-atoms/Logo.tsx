@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { SIZING } from "../1-ions";
 
 interface LogoProps {
 	className?: string;
@@ -6,9 +7,9 @@ interface LogoProps {
 }
 
 const sizes = {
-	sm: "h-6 w-6",
-	md: "h-8 w-8",
-	lg: "h-12 w-12",
+	sm: SIZING.ICON.lg,
+	md: SIZING.ICON.xl,
+	lg: SIZING.ICON["2xl"],
 };
 
 export const Logo = ({ className = "", size = "md" }: LogoProps) => {

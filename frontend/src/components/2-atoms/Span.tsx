@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
+import { BORDERS } from "../1-ions";
 
 type SpanVariant = "default" | "code" | "badge" | "tag" | "muted";
 
@@ -10,9 +11,8 @@ interface SpanProps extends ComponentProps<"span"> {
 const variantClasses: Record<SpanVariant, string> = {
 	default: "",
 	code: "font-mono text-xs lg:text-sm",
-	badge:
-		"px-2.5 py-1 bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary rounded text-sm font-medium",
-	tag: "px-2 py-1 bg-muted/50 rounded text-xs",
+	badge: `px-2.5 py-1 bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary ${BORDERS.RADIUS.sm} text-sm font-medium`,
+	tag: `px-2 py-1 bg-muted/50 ${BORDERS.RADIUS.sm} text-xs`,
 	muted: "text-muted-foreground",
 };
 

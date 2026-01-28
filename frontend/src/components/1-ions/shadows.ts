@@ -4,7 +4,7 @@
  * Shadow definitions for depth and elevation in the design system.
  */
 
-export const shadows = {
+const baseShadows = {
 	xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
 	sm: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
 	DEFAULT: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
@@ -40,4 +40,18 @@ export const shadows = {
 	},
 } as const;
 
+// Uppercase alias for consistency with other ions
+export const SHADOWS = {
+	xs: "shadow-xs",
+	sm: "shadow-sm",
+	DEFAULT: "shadow",
+	md: "shadow-md",
+	lg: "shadow-lg",
+	xl: "shadow-xl",
+	"2xl": "shadow-2xl",
+	inner: "shadow-inner",
+	none: "shadow-none",
+} as const;
+
+export const shadows = baseShadows;
 export type ShadowToken = keyof typeof shadows;

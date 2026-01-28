@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import type { ReactNode } from "react";
+import { SIZING } from "../1-ions";
 import { List, ListItem } from "../2-atoms/List";
 import { Text } from "../2-atoms/Text";
 
@@ -19,7 +20,7 @@ export const FeatureList = ({
 	className = "",
 }: FeatureListProps) => {
 	const IconComponent = icon || (
-		<Check className={`h-5 w-5 ${iconColor} shrink-0 mt-0.5`} />
+		<Check className={`${SIZING.ICON.md} ${iconColor} shrink-0 mt-0.5`} />
 	);
 
 	return (

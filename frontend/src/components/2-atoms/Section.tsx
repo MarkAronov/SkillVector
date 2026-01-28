@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
+import { SPACING } from "../1-ions";
 
 type SectionVariant = "default" | "hero" | "spaced" | "compact";
 
@@ -8,10 +9,10 @@ interface SectionProps extends ComponentProps<"section"> {
 }
 
 const variantClasses: Record<SectionVariant, string> = {
-	default: "mb-8 lg:mb-12",
-	hero: "text-center mb-16",
-	spaced: "mb-8 lg:mb-12",
-	compact: "mb-4 lg:mb-6",
+	default: SPACING.SECTION.sm,
+	hero: `text-center ${SPACING.SECTION.lg}`,
+	spaced: SPACING.SECTION.md,
+	compact: SPACING.SECTION.xs,
 };
 
 function Section({ className, variant = "default", ...props }: SectionProps) {

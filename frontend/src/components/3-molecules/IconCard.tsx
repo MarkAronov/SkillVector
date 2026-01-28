@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { SPACING } from "../1-ions";
 import { Heading } from "../2-atoms/Heading";
 import { Text } from "../2-atoms/Text";
 import { Card, CardContent, CardHeader } from "./Card";
@@ -60,10 +61,12 @@ export const IconCardWithContent = ({
 			className={`h-full ${className}`}
 		>
 			<CardContent>
-				<div className="flex items-start gap-4 mb-4">
+				<div className={`flex items-start ${SPACING.GAP.md} mb-4`}>
 					<div className="shrink-0 text-primary">{icon}</div>
 					<div className="flex-1 min-w-0">
-						<div className="flex items-center gap-2 mb-2 flex-wrap">
+						<div
+							className={`flex items-center ${SPACING.GAP.sm} mb-2 flex-wrap`}
+						>
 							<Heading variant="subsection">{title}</Heading>
 							{badge}
 						</div>

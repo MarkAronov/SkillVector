@@ -1,14 +1,25 @@
 import { ApiReferenceReact } from "@scalar/api-reference-react";
 import "@scalar/api-reference-react/style.css";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+	FileText,
+	Gauge,
+	Layers,
+	RefreshCw,
+	Settings,
+	Target,
+} from "lucide-react";
+import { useEffect, useMemo, useRef } from "react";
 import { useTheme } from "../../hooks/useTheme";
+import { BORDERS, LAYOUT } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
+import { ScrollArea } from "../2-atoms/ScrollArea";
 import { Section } from "../2-atoms/Section";
 import { Text } from "../2-atoms/Text";
 import { Card, CardContent } from "../3-molecules/Card";
 import { CodeBlock } from "../3-molecules/CodeBlock";
 import { Hero } from "../3-molecules/Hero";
+import { CardGrid, type CardGridItem } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
 import {
 	Accordion,
@@ -18,16 +29,50 @@ import {
 } from "../ui/accordion";
 import "./DocumentationPage.css";
 
+const features: CardGridItem[] = [
+	{
+		icon: <FileText className="h-6 w-6" />,
+		title: "Type Safety",
+		description:
+			"Full TypeScript support with comprehensive type definitions for all API responses and requests.",
+	},
+	{
+		icon: <RefreshCw className="h-6 w-6" />,
+		title: "Auto Retry",
+		description:
+			"Built-in retry logic with exponential backoff to handle transient failures gracefully.",
+	},
+	{
+		icon: <Target className="h-6 w-6" />,
+		title: "Advanced Filtering",
+		description:
+			"Powerful filtering capabilities including skills, experience levels, locations, and custom criteria.",
+	},
+	{
+		icon: <Layers className="h-6 w-6" />,
+		title: "Pagination Support",
+		description:
+			"Easy-to-use pagination helpers for handling large result sets efficiently.",
+	},
+	{
+		icon: <Settings className="h-6 w-6" />,
+		title: "Configurable",
+		description:
+			"Customize timeout, retries, base URL, and other client settings to fit your needs.",
+	},
+	{
+		icon: <Gauge className="h-6 w-6" />,
+		title: "Performance",
+		description:
+			"Lightweight and optimized for performance with minimal dependencies.",
+	},
+];
+
 export const DocumentationPage = () => {
 	const { effectiveTheme } = useTheme();
 	const isDark = effectiveTheme === "dark";
 	const apiRef = useRef<HTMLDivElement | null>(null);
 	const sdkRef = useRef<HTMLDivElement | null>(null);
-	const [activeTab, setActiveTab] = useState<"api" | "sdk">(
-		typeof window !== "undefined" && window.location.hash === "#sdk"
-			? "sdk"
-			: "api",
-	);
 
 	// Clear Scalar's localStorage theme preference on mount to force app theme
 	useEffect(() => {
@@ -38,21 +83,21 @@ export const DocumentationPage = () => {
 
 	const configuration = useMemo(
 		() => ({
-			spec: { url: specUrl },
+			spec: {
+				url: specUrl,
+			},
 			darkMode: isDark,
-			hideTestRequestButton: true,
+			hideTestRequestButton: false,
 			hideSearch: true,
-			hideModels: true,
+			hideModels: false,
 			hideDarkModeToggle: true,
 			hideClientButton: true,
 			showSidebar: true,
 			showDeveloperTools: "never" as const,
-			showToolbar: false,
 			operationTitleSource: "summary" as const,
 			theme: "alternate" as const,
 			persistAuth: false,
 			layout: "modern" as const,
-			isEditable: false,
 			documentDownloadType: "both" as const,
 			showOperationId: false,
 			withDefaultFonts: true,
@@ -66,10 +111,6 @@ export const DocumentationPage = () => {
 			defaultHttpClient: {
 				targetKey: "js" as const,
 				clientKey: "fetch" as const,
-			},
-			// Disable routing to prevent URL changes
-			onUpdateRoute: () => {
-				// Prevent route updates
 			},
 		}),
 		[isDark],
@@ -238,46 +279,12 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 
 	return (
 		<PageTemplate title="Documentation">
-			<Div className="max-w-5xl mx-auto px-4 py-8 lg:py-12">
-				<Hero
-					title="Documentation"
-					brand="Docs"
-					subtitle="API reference, SDKs, and developer guides"
-				/>
-			</Div>
+			<Hero
+				title=""
+				brand="Documentation"
+				subtitle="API reference, SDKs, and developer guides"
+			/>
 
-			{/* Sticky tab navigation (API / SDK) */}
-			<div className="sticky top-16 z-50">
-				<div className="max-w-5xl mx-auto px-4 mb-6">
-					<nav
-						aria-label="Documentation navigation"
-						className="bg-background/80 backdrop-blur-sm border border-border rounded-md inline-flex"
-					>
-						<button
-							type="button"
-							className={`px-4 py-2 text-sm font-medium rounded-l-md transition-colors ${activeTab === "api" ? "bg-primary/10 text-primary" : "text-foreground/80 hover:text-foreground/95"}`}
-							aria-current={activeTab === "api" ? "true" : undefined}
-							onClick={() => {
-								apiRef.current?.scrollIntoView({ behavior: "smooth" });
-								setActiveTab("api");
-							}}
-						>
-							API Reference
-						</button>
-						<button
-							type="button"
-							className={`px-4 py-2 text-sm font-medium rounded-r-md transition-colors ${activeTab === "sdk" ? "bg-primary/10 text-primary" : "text-foreground/80 hover:text-foreground/95"}`}
-							aria-current={activeTab === "sdk" ? "true" : undefined}
-							onClick={() => {
-								sdkRef.current?.scrollIntoView({ behavior: "smooth" });
-								setActiveTab("sdk");
-							}}
-						>
-							SDK
-						</button>
-					</nav>
-				</div>
-			</div>
 			{/* API Section */}
 			<Div
 				id="api"
@@ -291,12 +298,16 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 				<Heading variant="section" className="mb-4">
 					API Reference
 				</Heading>
-				<Div className="scalar-wrapper rounded-xl overflow-hidden border border-border">
-					<ApiReferenceReact
-						key={`scalar-${isDark}`}
-						configuration={configuration}
-					/>
-				</Div>
+				<ScrollArea
+					className={`scalar-wrapper ${BORDERS.RADIUS.xl} border border-border ${LAYOUT.SCALAR_API}`}
+				>
+					<div className="h-full">
+						<ApiReferenceReact
+							key={`scalar-${isDark}`}
+							configuration={configuration}
+						/>
+					</div>
+				</ScrollArea>
 			</Div>
 
 			{/* SDK Section */}
@@ -307,7 +318,6 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 						HTMLDivElement & { scrollIntoView: () => void }
 					>
 				}
-				className="max-w-5xl mx-auto px-4 mb-16"
 			>
 				<Heading variant="section" className="mb-6">
 					TypeScript SDK
@@ -449,85 +459,7 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 					<Heading as="h3" variant="subsection" className="mb-4">
 						Key Features
 					</Heading>
-					<div className="grid gap-4 md:grid-cols-2">
-						<Card variant="default" fill>
-							<CardContent className="p-4">
-								<h4 className="font-semibold mb-2 flex items-center gap-2">
-									<span className="text-primary">⚡</span>
-									Type Safety
-								</h4>
-								<Text variant="small">
-									Full TypeScript support with comprehensive type definitions
-									for all API responses and requests.
-								</Text>
-							</CardContent>
-						</Card>
-
-						<Card variant="default" fill>
-							<CardContent className="p-4">
-								<h4 className="font-semibold mb-2 flex items-center gap-2">
-									<span className="text-primary">🔄</span>
-									Auto Retry
-								</h4>
-								<Text variant="small">
-									Built-in retry logic with exponential backoff to handle
-									transient failures gracefully.
-								</Text>
-							</CardContent>
-						</Card>
-
-						<Card variant="default" fill>
-							<CardContent className="p-4">
-								<h4 className="font-semibold mb-2 flex items-center gap-2">
-									<span className="text-primary">🎯</span>
-									Advanced Filtering
-								</h4>
-								<Text variant="small">
-									Powerful filtering capabilities including skills, experience
-									levels, locations, and custom criteria.
-								</Text>
-							</CardContent>
-						</Card>
-
-						<Card variant="default" fill>
-							<CardContent className="p-4">
-								<h4 className="font-semibold mb-2 flex items-center gap-2">
-									<span className="text-primary">📄</span>
-									Pagination Support
-								</h4>
-								<Text variant="small">
-									Easy-to-use pagination helpers for handling large result sets
-									efficiently.
-								</Text>
-							</CardContent>
-						</Card>
-
-						<Card variant="default" fill>
-							<CardContent className="p-4">
-								<h4 className="font-semibold mb-2 flex items-center gap-2">
-									<span className="text-primary">⚙️</span>
-									Configurable
-								</h4>
-								<Text variant="small">
-									Customize timeout, retries, base URL, and other client
-									settings to fit your needs.
-								</Text>
-							</CardContent>
-						</Card>
-
-						<Card variant="default" fill>
-							<CardContent className="p-4">
-								<h4 className="font-semibold mb-2 flex items-center gap-2">
-									<span className="text-primary">🚀</span>
-									Performance
-								</h4>
-								<Text variant="small">
-									Lightweight and optimized for performance with minimal
-									dependencies.
-								</Text>
-							</CardContent>
-						</Card>
-					</div>
+					<CardGrid items={features} maxColumns={2} gap="md" />
 				</Section>
 			</Div>
 		</PageTemplate>

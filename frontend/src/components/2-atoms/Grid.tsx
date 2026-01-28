@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
+import { GRID, SPACING } from "../1-ions";
 
 type GridVariant = "features" | "cards" | "responsive";
 
@@ -9,9 +10,9 @@ interface GridProps extends ComponentProps<"ul"> {
 }
 
 const variantClasses: Record<GridVariant, string> = {
-	features: "grid sm:grid-cols-2 gap-4 lg:gap-6 mb-8 lg:mb-12",
-	cards: "grid grid-cols-1 md:grid-cols-2 gap-6 mb-16",
-	responsive: "grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12",
+	features: `grid sm:${GRID.COLUMNS[2]} ${GRID.GAP.md} lg:${GRID.GAP.lg} ${SPACING.SECTION.sm} lg:${SPACING.SECTION.md}`,
+	cards: `grid ${GRID.COLUMNS[1]} md:${GRID.COLUMNS[2]} ${GRID.GAP.lg} mb-16`,
+	responsive: `grid ${GRID.COLUMNS[1]} md:${GRID.COLUMNS[2]} ${GRID.GAP.xl} lg:${GRID.GAP["2xl"]}`,
 };
 
 function Grid({ className, variant = "features", ...props }: GridProps) {

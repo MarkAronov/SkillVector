@@ -6,6 +6,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { SPACING } from "../1-ions";
 import { Badge } from "../2-atoms/Badge";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
@@ -112,7 +113,9 @@ export const FilterPanel = ({
 			{variant === "full" && (title || description) && (
 				<Div className="text-center mb-6">
 					{title && (
-						<Div className="flex items-baseline justify-center gap-3 mb-4">
+						<Div
+							className={`flex items-baseline justify-center ${SPACING.GAP.sm} mb-4`}
+						>
 							{icon}
 							<Heading variant="section">{title}</Heading>
 						</Div>
@@ -126,7 +129,9 @@ export const FilterPanel = ({
 						</Text>
 					)}
 					{(primaryAction || secondaryAction) && (
-						<Div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+						<Div
+							className={`flex flex-wrap items-center justify-center ${SPACING.GAP.sm} mb-6`}
+						>
 							{primaryAction && (
 								<Button asChild>
 									<a
@@ -159,7 +164,7 @@ export const FilterPanel = ({
 			)}
 
 			{/* Filter Controls */}
-			<Div className="flex flex-col lg:flex-row gap-4">
+			<Div className={`flex flex-col lg:flex-row ${SPACING.GAP.md}`}>
 				{/* Search Input */}
 				{search && (
 					<Div className="flex-1">
@@ -182,14 +187,14 @@ export const FilterPanel = ({
 
 				{/* Filter Dropdowns */}
 				{filters.length > 0 && (
-					<Div className="flex flex-wrap gap-2">
+					<Div className={`flex flex-wrap ${SPACING.GAP.sm}`}>
 						{filters.map((filter) => (
 							<Select
 								key={filter.value}
 								value={filterValues[filter.value] || filter.options[0]?.value}
 								onValueChange={(value) => onFilterChange?.(filter.value, value)}
 							>
-								<SelectTrigger className="w-[160px]">
+								<SelectTrigger className="w-40">
 									{filter.icon}
 									<SelectValue />
 								</SelectTrigger>
@@ -208,7 +213,9 @@ export const FilterPanel = ({
 
 			{/* Active Filters & Results Count */}
 			{(hasActiveFilters || resultsCount !== undefined) && (
-				<Div className="flex flex-wrap items-center gap-3 mt-4 pt-4">
+				<Div
+					className={`flex flex-wrap items-center ${SPACING.GAP.sm} mt-4 pt-4`}
+				>
 					{/* Results Count */}
 					{resultsCount !== undefined && (
 						<Text variant="small" className="text-muted-foreground">
@@ -226,12 +233,12 @@ export const FilterPanel = ({
 							<Text variant="small" className="text-muted-foreground">
 								Active filters:
 							</Text>
-							<Div className="flex flex-wrap gap-2">
+							<Div className={`flex flex-wrap ${SPACING.GAP.sm}`}>
 								{activeFilters.map((filter, index) => (
 									<Badge
 										key={`${filter.type}-${index}`}
 										variant="secondary"
-										className="gap-1 cursor-pointer hover:bg-secondary/80 transition-colors"
+										className={`${SPACING.GAP.xs} cursor-pointer hover:bg-secondary/80 transition-colors`}
 										onClick={() => onRemoveFilter?.(filter.type)}
 									>
 										{filter.label}

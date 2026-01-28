@@ -1,5 +1,6 @@
 import type { ComponentProps, ElementType, ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { GRID } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Link } from "../2-atoms/Link";
@@ -192,22 +193,77 @@ type CardGridProps = CardGridBaseProps &
 	Omit<ComponentProps<"ul">, keyof CardGridBaseProps>;
 
 const gapClasses: Record<GapSize, string> = {
-	sm: "gap-4",
-	md: "gap-6",
-	lg: "gap-8",
-	xl: "gap-12",
+	sm: GRID.GAP.md,
+	md: GRID.GAP.lg,
+	lg: GRID.GAP.xl,
+	xl: GRID.GAP["2xl"],
 };
 
-const columnClasses: Record<MaxColumns, string> = {
-	1: "grid-cols-1",
-	// Use sub-columns so the last row can be centered without breaking equal card widths.
-	// 2-column layout: 4 columns with each card spanning 2.
-	2: "grid-cols-1 md:grid-cols-4 md:[&>*]:col-span-2 md:[&>*:nth-last-child(1):nth-child(odd)]:col-start-2",
-	// 3-column layout: md uses the same 2-col centering trick; lg uses 6 columns with each card spanning 2.
-	// - remainder 1: last item starts at col 3 (center)
-	// - remainder 2: last row items start at col 2 and 4 (centered pair)
-	3: "grid-cols-1 md:grid-cols-4 lg:grid-cols-6 md:[&>*]:col-span-2 md:[&>*:nth-last-child(1):nth-child(odd)]:col-start-2 lg:[&>*]:col-span-2 lg:[&>*:nth-last-child(1):nth-child(3n+1)]:col-start-3 lg:[&>*:nth-last-child(2):nth-child(3n+1)]:col-start-2 lg:[&>*:nth-last-child(1):nth-child(3n+2)]:col-start-4",
+const baseColumnClasses: Record<MaxColumns, string> = {
+	1: GRID.COLUMNS[1],
+	// 2-column layout: 4 sub-columns, each card spans 2
+	2: `${GRID.COLUMNS[1]} md:${GRID.COLUMNS[4]}`,
+	// 3-column layout: 6 sub-columns at lg, each card spans 2
+	3: `${GRID.COLUMNS[1]} md:${GRID.COLUMNS[4]} lg:${GRID.COLUMNS[6]}`,
 };
+
+// Predefined column start classes for Tailwind to pick up
+const COL_START_CLASSES = {
+	md: {
+		2: "md:col-start-2",
+		3: "md:col-start-3",
+		4: "md:col-start-4",
+	},
+	lg: {
+		2: "lg:col-start-2",
+		3: "lg:col-start-3",
+		4: "lg:col-start-4",
+		5: "lg:col-start-5",
+		6: "lg:col-start-6",
+	},
+} as const;
+
+/**
+ * Calculate column start position for centering incomplete last rows
+ * Uses division and modulus to determine item positioning
+ */
+function getColumnStart(
+	itemIndex: number,
+	totalItems: number,
+	maxColumns: MaxColumns,
+	breakpoint: "md" | "lg",
+): string | null {
+	// For single column, no centering needed
+	if (maxColumns === 1) return null;
+
+	const cols = breakpoint === "md" && maxColumns >= 2 ? 2 : maxColumns;
+	const subCols = cols * 2; // We use double sub-columns for centering
+	const remainder = totalItems % cols;
+
+	// If evenly divisible, no centering needed
+	if (remainder === 0) return null;
+
+	// Check if this item is in the last incomplete row
+	const itemsInLastRow = remainder;
+	const isInLastRow = itemIndex >= totalItems - itemsInLastRow;
+
+	if (!isInLastRow) return null;
+
+	// Position within the last row (0-indexed)
+	const posInLastRow = itemIndex - (totalItems - itemsInLastRow);
+
+	// Calculate centered starting column
+	// For 3 cols (6 sub-cols): remainder 1 → start at 3, remainder 2 → start at 2
+	// For 2 cols (4 sub-cols): remainder 1 → start at 2
+	const offset = Math.floor((subCols - itemsInLastRow * 2) / 2) + 1;
+	const colStart = offset + posInLastRow * 2;
+
+	return (
+		COL_START_CLASSES[breakpoint][
+			colStart as keyof (typeof COL_START_CLASSES)[typeof breakpoint]
+		] || null
+	);
+}
 
 /**
  * Default card renderer based on HowItWorksPage design
@@ -429,7 +485,7 @@ function CardGrid({
 
 	const gridClasses = cn(
 		"grid",
-		columnClasses[maxColumns],
+		baseColumnClasses[maxColumns],
 		gapClasses[gap],
 		shouldStretch && "auto-rows-fr", // Equal height rows when stretchCards is true
 		containerClassName,
@@ -440,6 +496,8 @@ function CardGrid({
 	const cardRenderer =
 		renderCard ||
 		((item: CardGridItem) => defaultCardRenderer(item, enforceCustomContent));
+
+	const totalItems = items?.length || 0;
 
 	// Support backward compatibility with children
 	if (children) {
@@ -455,10 +513,33 @@ function CardGrid({
 		<Component className={gridClasses} {...props}>
 			{items?.map((item, index) => {
 				const key = item.id || item.title || index;
+
+				// Calculate column positioning for centering incomplete rows
+				const mdColStart =
+					maxColumns >= 2
+						? getColumnStart(index, totalItems, maxColumns, "md")
+						: null;
+				const lgColStart =
+					maxColumns === 3
+						? getColumnStart(index, totalItems, maxColumns, "lg")
+						: null;
+
+				// Base span class for all items
+				const spanClass = cn(
+					maxColumns >= 2 && "md:col-span-2",
+					maxColumns === 3 && "lg:col-span-2",
+					mdColStart,
+					lgColStart,
+				);
+
 				return as === "ul" ? (
-					<li key={key}>{cardRenderer(item)}</li>
+					<li key={key} className={spanClass}>
+						{cardRenderer(item)}
+					</li>
 				) : (
-					<div key={key}>{cardRenderer(item)}</div>
+					<div key={key} className={spanClass}>
+						{cardRenderer(item)}
+					</div>
 				);
 			})}
 		</Component>

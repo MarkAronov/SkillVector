@@ -1,9 +1,18 @@
 import { ApiReferenceReact } from "@scalar/api-reference-react";
 import "@scalar/api-reference-react/style.css";
+import {
+	FileText,
+	Gauge,
+	Layers,
+	RefreshCw,
+	Settings,
+	Target,
+} from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTheme } from "../../hooks/useTheme";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
+import { Icon } from "../2-atoms/Icon";
 import { Section } from "../2-atoms/Section";
 import { Card, CardContent } from "../3-molecules/Card";
 import { CodeBlock } from "../3-molecules/CodeBlock";
@@ -421,7 +430,7 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 						<Card variant="default" fill>
 							<CardContent className="p-4">
 								<h4 className="font-semibold mb-2 flex items-center gap-2">
-									<span className="text-primary">⚡</span>
+									<Icon icon={FileText} className="text-primary" />
 									Type Safety
 								</h4>
 								<p className="text-sm text-muted-foreground">
@@ -434,7 +443,7 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 						<Card variant="default" fill>
 							<CardContent className="p-4">
 								<h4 className="font-semibold mb-2 flex items-center gap-2">
-									<span className="text-primary">🔄</span>
+									<Icon icon={RefreshCw} className="text-primary" />
 									Auto Retry
 								</h4>
 								<p className="text-sm text-muted-foreground">
@@ -447,7 +456,7 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 						<Card variant="default" fill>
 							<CardContent className="p-4">
 								<h4 className="font-semibold mb-2 flex items-center gap-2">
-									<span className="text-primary">🎯</span>
+									<Icon icon={Target} className="text-primary" />
 									Advanced Filtering
 								</h4>
 								<p className="text-sm text-muted-foreground">
@@ -460,7 +469,7 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 						<Card variant="default" fill>
 							<CardContent className="p-4">
 								<h4 className="font-semibold mb-2 flex items-center gap-2">
-									<span className="text-primary">📄</span>
+									<Icon icon={Layers} className="text-primary" />
 									Pagination Support
 								</h4>
 								<p className="text-sm text-muted-foreground">
@@ -473,7 +482,7 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 						<Card variant="default" fill>
 							<CardContent className="p-4">
 								<h4 className="font-semibold mb-2 flex items-center gap-2">
-									<span className="text-primary">⚙️</span>
+									<Icon icon={Settings} className="text-primary" />
 									Configurable
 								</h4>
 								<p className="text-sm text-muted-foreground">
@@ -486,7 +495,7 @@ for await (const batch of searchWithPagination('ML Engineer', 50)) {
 						<Card variant="default" fill>
 							<CardContent className="p-4">
 								<h4 className="font-semibold mb-2 flex items-center gap-2">
-									<span className="text-primary">🚀</span>
+									<Icon icon={Gauge} className="text-primary" />
 									Performance
 								</h4>
 								<p className="text-sm text-muted-foreground">

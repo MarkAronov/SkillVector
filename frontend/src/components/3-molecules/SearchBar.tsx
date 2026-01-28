@@ -1,5 +1,6 @@
 import { Search } from "lucide-react";
 import { type KeyboardEvent, useEffect, useState } from "react";
+import { ANIMATION, BORDERS, CURSOR, OPACITY, SIZING } from "../1-ions";
 import { Glass } from "../1-ions/Glass";
 
 interface SearchBarProps {
@@ -46,7 +47,7 @@ export function SearchBar({
 				value={value}
 				onChange={(e) => setValue(e.target.value)}
 				onKeyPress={handleKeyPress}
-				className="flex-1 h-12 px-5 bg-transparent border-none outline-none text-sm lg:text-base text-foreground placeholder:text-muted-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+				className={`flex-1 h-12 px-5 bg-transparent border-none outline-none text-sm lg:text-base text-foreground placeholder:text-muted-foreground disabled:${OPACITY.muted} disabled:${CURSOR.notAllowed}`}
 				disabled={isLoading}
 			/>
 			<div className="h-8 w-px bg-border" />
@@ -54,13 +55,18 @@ export function SearchBar({
 				type="button"
 				onClick={handleSearch}
 				disabled={!value.trim() || isLoading}
-				className="h-12 px-5 flex items-center justify-center bg-transparent hover:bg-white/10 dark:hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+				className={`h-12 px-5 flex items-center justify-center bg-transparent hover:bg-white/10 dark:hover:bg-white/5 transition-colors disabled:${OPACITY.muted} disabled:${CURSOR.notAllowed}`}
 				aria-label="Search"
 			>
 				{isLoading ? (
-					<div className="h-5 w-5 border-2 border-muted-foreground border-t-transparent rounded-full animate-spin" />
+					<div
+						className={`${SIZING.ICON.md} ${BORDERS.WIDTH.thin} border-muted-foreground border-t-transparent ${BORDERS.RADIUS.full} ${ANIMATION.KEYFRAME.spin}`}
+					/>
 				) : (
-					<Search className="h-5 w-5 text-muted-foreground" aria-hidden />
+					<Search
+						className={`${SIZING.ICON.md} text-muted-foreground`}
+						aria-hidden
+					/>
 				)}
 			</button>
 		</Glass>

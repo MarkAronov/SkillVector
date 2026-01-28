@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { CURSOR } from "../1-ions";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
 
 interface TruncatedTextProps {
@@ -24,7 +25,7 @@ export function TruncatedText({
 	return (
 		<Tooltip delayDuration={200}>
 			<TooltipTrigger asChild>
-				<span className={cn("cursor-help", className)}>{displayText}</span>
+				<span className={cn(CURSOR.help, className)}>{displayText}</span>
 			</TooltipTrigger>
 			<TooltipContent>{text}</TooltipContent>
 		</Tooltip>

@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
+import { BORDERS, SPACING } from "../1-ions";
 
 /**
  * Div Component - Semantic container with common layouts
@@ -26,10 +27,10 @@ interface DivProps extends ComponentProps<"div"> {
 
 const variantClasses: Record<DivVariant, string> = {
 	default: "",
-	flex: "flex gap-4 items-start", // Common horizontal layout
+	flex: `flex ${SPACING.GAP.md} items-start`, // Common horizontal layout
 	center: "flex justify-center items-center", // Center content
-	stack: "space-y-4", // Vertical content stacking (renamed from "spacer")
-	codeBlock: "bg-muted/50 rounded-lg p-4", // Code display (renamed from "code")
+	stack: SPACING.STACK.md, // Vertical content stacking (renamed from "spacer")
+	codeBlock: `bg-muted/50 ${BORDERS.RADIUS.lg} p-4`, // Code display (renamed from "code")
 };
 
 function Div({

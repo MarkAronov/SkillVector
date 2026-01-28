@@ -1,3 +1,4 @@
+import { SPACING } from "../1-ions";
 import { Heading } from "../2-atoms/Heading";
 import { Text } from "../2-atoms/Text";
 import { ActionButton } from "./ActionButton";
@@ -40,7 +41,7 @@ export const CTACard = ({
 					{description}
 				</Text>
 				{(primaryAction || secondaryAction) && (
-					<div className="flex gap-4 justify-center flex-wrap">
+					<div className={`flex ${SPACING.GAP.md} justify-center flex-wrap`}>
 						{primaryAction && (
 							<ActionButton
 								onClick={primaryAction.onClick}

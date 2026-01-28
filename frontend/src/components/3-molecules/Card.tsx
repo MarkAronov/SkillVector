@@ -1,5 +1,6 @@
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { BORDERS, SHADOWS } from "../1-ions";
 import { Glass } from "../1-ions/Glass";
 
 /**
@@ -65,8 +66,8 @@ function Card({
 			className={cn(
 				"text-card-foreground flex flex-col",
 				"backdrop-blur-sm bg-white/40 dark:bg-black/30",
-				"rounded-2xl",
-				"shadow-lg shadow-black/5 dark:shadow-black/20",
+				BORDERS.RADIUS["2xl"],
+				`${SHADOWS.lg} shadow-black/5 dark:shadow-black/20`,
 				"border border-white/20 dark:border-white/10",
 				"relative overflow-hidden z-10",
 				variantClasses[variant],

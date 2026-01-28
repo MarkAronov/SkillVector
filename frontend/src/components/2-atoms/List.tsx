@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
+import { SPACING } from "../1-ions";
 
 type ListVariant = "default" | "disc" | "inline" | "spaced";
 
@@ -9,9 +10,9 @@ interface ListProps extends ComponentProps<"ul"> {
 
 const variantClasses: Record<ListVariant, string> = {
 	default: "",
-	disc: "list-disc list-inside space-y-2 ml-4",
-	inline: "flex flex-wrap gap-2",
-	spaced: "space-y-4",
+	disc: `list-disc list-inside ${SPACING.STACK.sm} ml-4`,
+	inline: `flex flex-wrap ${SPACING.GAP.sm}`,
+	spaced: SPACING.STACK.md,
 };
 
 function List({ className, variant = "default", ...props }: ListProps) {
@@ -24,7 +25,7 @@ interface ListItemProps extends ComponentProps<"li"> {
 
 const itemVariants = {
 	default: "",
-	bullet: "flex gap-2",
+	bullet: `flex ${SPACING.GAP.sm}`,
 	inline: "",
 };
 

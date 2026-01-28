@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { BORDERS, OPACITY, SPACING } from "../1-ions";
 
 interface ActionButtonProps {
 	variant?: "primary" | "outline";
@@ -15,11 +16,10 @@ interface ActionButtonProps {
 	ariaLabel?: string;
 }
 
-const baseStyles =
-	"inline-flex items-center gap-2 px-5 lg:px-6 py-2.5 lg:py-3 rounded-lg transition-colors font-medium text-sm lg:text-base max-w-xs justify-center";
+const baseStyles = `inline-flex items-center ${SPACING.GAP.sm} px-5 lg:px-6 py-2.5 lg:py-3 ${BORDERS.RADIUS.lg} transition-colors font-medium text-sm lg:text-base max-w-xs justify-center`;
 
 const variantStyles = {
-	primary: "bg-primary text-white hover:bg-primary/90 disabled:opacity-50",
+	primary: `bg-primary text-white hover:bg-primary/90 disabled:${OPACITY.muted}`,
 	outline: "border border-border hover:bg-white/10",
 };
 

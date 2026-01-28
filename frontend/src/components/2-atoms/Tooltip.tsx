@@ -8,6 +8,7 @@ import {
 	TooltipTrigger as ShadcnTooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { BORDERS, SIZING, Z_INDEX } from "../1-ions";
 
 /**
  * Tooltip Component
@@ -54,7 +55,7 @@ function TooltipContent({
 			{children}
 			<TooltipPrimitive.Arrow
 				className={cn(
-					"z-50 size-2.5 translate-y-[calc(-50%-2px)] rotate-45 rounded-[2px]",
+					`${Z_INDEX.tooltip} ${SIZING.ICON.xs} translate-y-[calc(-50%-2px)] rotate-45 rounded-[2px]`,
 					variant === "badge"
 						? "bg-primary fill-primary border-primary"
 						: "bg-secondary fill-secondary border-secondary",
@@ -71,7 +72,7 @@ function TooltipContent({
 				className={cn(
 					"z-9999",
 					!asChild &&
-						"animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance border",
+						`animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 w-fit origin-(--radix-tooltip-content-transform-origin) ${BORDERS.RADIUS.md} px-3 py-1.5 text-xs text-balance border`,
 					!asChild && variant === "badge"
 						? "bg-primary text-primary-foreground border-primary"
 						: !asChild &&

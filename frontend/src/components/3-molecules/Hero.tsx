@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
+import { SPACING } from "../1-ions";
 import { Heading } from "../2-atoms/Heading";
 import { Text } from "../2-atoms/Text";
 
@@ -24,7 +25,7 @@ function Hero({
 }: HeroProps) {
 	return (
 		<div
-			className={cn(centered && "text-center", "mb-16", className)}
+			className={cn(centered && "text-center", SPACING.SECTION.lg, className)}
 			{...props}
 		>
 			<Heading variant="hero">

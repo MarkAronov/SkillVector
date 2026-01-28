@@ -5,7 +5,8 @@
  * Based on Tailwind's default spacing scale (0.25rem increments)
  */
 
-export const spacing = {
+// Base numeric spacing scale
+const baseSpacing = {
 	0: "0",
 	px: "1px",
 	0.5: "0.125rem", // 2px
@@ -43,4 +44,33 @@ export const spacing = {
 	96: "24rem", // 384px
 } as const;
 
+// Semantic spacing aliases for common use cases
+export const SPACING = {
+	// Gap spacing for flexbox/grid
+	GAP: {
+		xs: "gap-1", // 4px
+		sm: "gap-2", // 8px
+		md: "gap-4", // 16px
+		lg: "gap-6", // 24px
+		xl: "gap-8", // 32px
+	},
+	// Stack spacing for vertical layouts
+	STACK: {
+		xs: "space-y-1", // 4px
+		sm: "space-y-2", // 8px
+		md: "space-y-4", // 16px
+		lg: "space-y-6", // 24px
+		xl: "space-y-8", // 32px
+	},
+	// Section spacing for page layout
+	SECTION: {
+		xs: "py-6", // 24px
+		sm: "py-8 lg:py-12", // 32-48px
+		md: "py-12 lg:py-16", // 48-64px
+		lg: "py-16 lg:py-24", // 64-96px
+		xl: "py-24 lg:py-32", // 96-128px
+	},
+} as const;
+
+export const spacing = baseSpacing;
 export type SpacingToken = keyof typeof spacing;

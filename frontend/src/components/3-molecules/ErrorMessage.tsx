@@ -1,5 +1,6 @@
 import { AlertCircle, AlertTriangle, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BORDERS, SIZING, SPACING } from "../1-ions";
 import { Text } from "../2-atoms/Text";
 import { Card, CardContent } from "./Card";
 
@@ -20,9 +21,9 @@ const variantStyles = {
 };
 
 const variantIcons = {
-	error: <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />,
-	warning: <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" />,
-	info: <Info className="h-5 w-5 shrink-0 mt-0.5" />,
+	error: <AlertCircle className={`${SIZING.ICON.md} shrink-0 mt-0.5`} />,
+	warning: <AlertTriangle className={`${SIZING.ICON.md} shrink-0 mt-0.5`} />,
+	info: <Info className={`${SIZING.ICON.md} shrink-0 mt-0.5`} />,
 };
 
 export const ErrorMessage = ({
@@ -36,10 +37,10 @@ export const ErrorMessage = ({
 		variant === "error" ? "Error" : variant === "warning" ? "Warning" : "Info";
 
 	return (
-		<div className={cn(variantStyles[variant], "rounded-lg", className)}>
+		<div className={cn(variantStyles[variant], BORDERS.RADIUS.lg, className)}>
 			<Card variant="hover">
 				<CardContent>
-					<div className="flex gap-3">
+					<div className={`flex ${SPACING.GAP.sm}`}>
 						{variantIcons[variant]}
 						<div className="flex-1">
 							<Text className="font-semibold">{title || defaultTitle}:</Text>

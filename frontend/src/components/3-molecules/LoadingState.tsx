@@ -1,3 +1,4 @@
+import { BORDERS, SIZING } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Text } from "../2-atoms/Text";
 
@@ -8,9 +9,9 @@ interface LoadingStateProps {
 }
 
 const sizeMap = {
-	sm: "h-6 w-6 border-2",
-	md: "h-8 w-8 border-4",
-	lg: "h-12 w-12 border-4",
+	sm: `${SIZING.SPINNER.md} ${BORDERS.WIDTH.thin}`,
+	md: `${SIZING.SPINNER.lg} ${BORDERS.WIDTH.thick}`,
+	lg: `${SIZING.SPINNER.xl} ${BORDERS.WIDTH.thick}`,
 };
 
 export const LoadingState = ({

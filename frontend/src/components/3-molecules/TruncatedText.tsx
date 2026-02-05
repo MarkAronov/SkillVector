@@ -65,4 +65,4 @@ export const TruncatedText = ({
 			<TooltipContent>{text}</TooltipContent>
 		</Tooltip>
 	);
-}
+};

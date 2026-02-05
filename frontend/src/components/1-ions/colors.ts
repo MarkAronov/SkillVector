@@ -34,7 +34,7 @@ export const colors = {
 	 * Used for main CTAs, links, and primary actions
 	 */
 	primary: {
-		DEFAULT: "hsl(var(--primary))",              // Primary button background
+		DEFAULT: "hsl(var(--primary))", // Primary button background
 		foreground: "hsl(var(--primary-foreground))", // Text on primary background
 	},
 
@@ -43,7 +43,7 @@ export const colors = {
 	 * Used for less prominent actions and alternative styling
 	 */
 	secondary: {
-		DEFAULT: "hsl(var(--secondary))",              // Secondary button background
+		DEFAULT: "hsl(var(--secondary))", // Secondary button background
 		foreground: "hsl(var(--secondary-foreground))", // Text on secondary background
 	},
 
@@ -52,7 +52,7 @@ export const colors = {
 	 * Used for errors, warnings, delete actions (red spectrum)
 	 */
 	destructive: {
-		DEFAULT: "hsl(var(--destructive))",              // Error background, delete buttons
+		DEFAULT: "hsl(var(--destructive))", // Error background, delete buttons
 		foreground: "hsl(var(--destructive-foreground))", // Text on destructive background
 	},
 
@@ -61,7 +61,7 @@ export const colors = {
 	 * Used for success states, confirmations (green spectrum)
 	 */
 	success: {
-		DEFAULT: "hsl(var(--success))",              // Success background, checkmarks
+		DEFAULT: "hsl(var(--success))", // Success background, checkmarks
 		foreground: "hsl(var(--success-foreground))", // Text on success background
 	},
 
@@ -70,7 +70,7 @@ export const colors = {
 	 * Used for disabled states, placeholders, subtle backgrounds
 	 */
 	muted: {
-		DEFAULT: "hsl(var(--muted))",              // Muted background, disabled elements
+		DEFAULT: "hsl(var(--muted))", // Muted background, disabled elements
 		foreground: "hsl(var(--muted-foreground))", // Text on muted background, hints
 	},
 
@@ -79,7 +79,7 @@ export const colors = {
 	 * Used for highlights, selections, special emphasis
 	 */
 	accent: {
-		DEFAULT: "hsl(var(--accent))",              // Accent background, badges
+		DEFAULT: "hsl(var(--accent))", // Accent background, badges
 		foreground: "hsl(var(--accent-foreground))", // Text on accent background
 	},
 
@@ -95,7 +95,7 @@ export const colors = {
 	 * Elevated containers and content boxes
 	 */
 	card: {
-		DEFAULT: "hsl(var(--card))",              // Card background (elevated surface)
+		DEFAULT: "hsl(var(--card))", // Card background (elevated surface)
 		foreground: "hsl(var(--card-foreground))", // Text on card background
 	},
 
@@ -104,7 +104,7 @@ export const colors = {
 	 * Floating UI elements (tooltips, dropdowns, menus)
 	 */
 	popover: {
-		DEFAULT: "hsl(var(--popover))",              // Popover background
+		DEFAULT: "hsl(var(--popover))", // Popover background
 		foreground: "hsl(var(--popover-foreground))", // Text on popover background
 	},
 
@@ -113,8 +113,8 @@ export const colors = {
 	 * Edge and focus state colors
 	 */
 	border: "hsl(var(--border))", // Default border color for all elements
-	input: "hsl(var(--input))",   // Border color for form inputs
-	ring: "hsl(var(--ring))",     // Focus ring color (keyboard navigation outline)
+	input: "hsl(var(--input))", // Border color for form inputs
+	ring: "hsl(var(--ring))", // Focus ring color (keyboard navigation outline)
 } as const;
 
 /**

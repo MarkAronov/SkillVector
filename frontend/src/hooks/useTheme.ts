@@ -9,7 +9,7 @@ const getSystemTheme = (): "light" | "dark" => {
 	return window.matchMedia("(prefers-color-scheme: dark)").matches
 		? "dark"
 		: "light";
-}
+};
 
 const applyTheme = (theme: Theme) => {
 	const root = document.documentElement;
@@ -20,7 +20,7 @@ const applyTheme = (theme: Theme) => {
 	} else {
 		root.classList.remove("dark");
 	}
-}
+};
 
 // Shared store for theme state
 let currentTheme: Theme = (() => {
@@ -37,11 +37,11 @@ const listeners = new Set<() => void>();
 const subscribe = (listener: () => void) => {
 	listeners.add(listener);
 	return () => listeners.delete(listener);
-}
+};
 
 const getSnapshot = () => {
 	return currentTheme;
-}
+};
 
 const setThemeInternal = (newTheme: Theme) => {
 	currentTheme = newTheme;
@@ -51,7 +51,7 @@ const setThemeInternal = (newTheme: Theme) => {
 	for (const listener of listeners) {
 		listener();
 	}
-}
+};
 
 // Apply initial theme
 if (typeof window !== "undefined") {
@@ -105,4 +105,4 @@ export const useTheme = () => {
 		toggleTheme,
 		isSystem: theme === "system",
 	};
-}
+};

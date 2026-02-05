@@ -22,10 +22,10 @@
  * Raw width values for CSS media queries
  */
 export const BREAKPOINTS = {
-	sm: "640px",    // 640px - Small tablets portrait
-	md: "768px",    // 768px - Tablets portrait (iPad)
-	lg: "1024px",   // 1024px - Tablets landscape, small laptops
-	xl: "1280px",   // 1280px - Desktop monitors
+	sm: "640px", // 640px - Small tablets portrait
+	md: "768px", // 768px - Tablets portrait (iPad)
+	lg: "1024px", // 1024px - Tablets landscape, small laptops
+	xl: "1280px", // 1280px - Desktop monitors
 	"2xl": "1536px", // 1536px - Large desktop displays
 } as const;
 
@@ -39,9 +39,9 @@ export const BREAKPOINTS = {
  * - "p-4 xl:p-8" - 16px padding mobile, 32px on large screens
  */
 export const RESPONSIVE_PREFIXES = {
-	sm: "sm:",      // Apply at 640px and above
-	md: "md:",      // Apply at 768px and above
-	lg: "lg:",      // Apply at 1024px and above
-	xl: "xl:",      // Apply at 1280px and above
-	"2xl": "2xl:",  // Apply at 1536px and above
+	sm: "sm:", // Apply at 640px and above
+	md: "md:", // Apply at 768px and above
+	lg: "lg:", // Apply at 1024px and above
+	xl: "xl:", // Apply at 1280px and above
+	"2xl": "2xl:", // Apply at 1536px and above
 } as const;

@@ -47,7 +47,7 @@ const Div = ({
 
 	// Apply width constraint if requested (for readable line lengths)
 	const constraintClass = constrain
-		? maxWidthClass ?? "max-w-2xl mx-auto"
+		? (maxWidthClass ?? "max-w-2xl mx-auto")
 		: "";
 
 	// Combine all classes

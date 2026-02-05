@@ -38,4 +38,3 @@ const Grid = ({ className, variant = "features", ...props }: GridProps) => {
 };
 
 export { Grid, type GridProps, type GridVariant };
-

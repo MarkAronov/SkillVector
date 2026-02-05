@@ -19,15 +19,15 @@
  */
 
 export const CURSOR = {
-	auto: "cursor-auto",                  // Browser default (context-dependent)
-	default: "cursor-default",            // Standard arrow pointer
-	pointer: "cursor-pointer",            // Hand icon (buttons, links)
-	wait: "cursor-wait",                  // Loading spinner (async operations)
-	text: "cursor-text",                  // I-beam (text fields, editable content)
-	move: "cursor-move",                  // Four arrows (drag to reposition)
-	help: "cursor-help",                  // Question mark (help available)
-	notAllowed: "cursor-not-allowed",     // Forbidden (disabled, restricted)
-	none: "cursor-none",                  // Hidden (custom cursor implementations)
-	grab: "cursor-grab",                  // Open hand (ready to drag)
-	grabbing: "cursor-grabbing",          // Closed hand (actively dragging)
+	auto: "cursor-auto", // Browser default (context-dependent)
+	default: "cursor-default", // Standard arrow pointer
+	pointer: "cursor-pointer", // Hand icon (buttons, links)
+	wait: "cursor-wait", // Loading spinner (async operations)
+	text: "cursor-text", // I-beam (text fields, editable content)
+	move: "cursor-move", // Four arrows (drag to reposition)
+	help: "cursor-help", // Question mark (help available)
+	notAllowed: "cursor-not-allowed", // Forbidden (disabled, restricted)
+	none: "cursor-none", // Hidden (custom cursor implementations)
+	grab: "cursor-grab", // Open hand (ready to drag)
+	grabbing: "cursor-grabbing", // Closed hand (actively dragging)
 } as const;

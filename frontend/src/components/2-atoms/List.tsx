@@ -59,7 +59,11 @@ const itemVariants = {
 	inline: "",
 };
 
-const ListItem = ({ className, variant = "default", ...props }: ListItemProps) => {
+const ListItem = ({
+	className,
+	variant = "default",
+	...props
+}: ListItemProps) => {
 	// Get the item style for the selected variant
 	const itemClass = itemVariants[variant];
 
@@ -70,4 +74,3 @@ const ListItem = ({ className, variant = "default", ...props }: ListItemProps) =
 };
 
 export { List, ListItem, type ListItemProps, type ListProps, type ListVariant };
-

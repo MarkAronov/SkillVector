@@ -43,7 +43,7 @@ const pathToTitle = (path: string): string => {
 				.join(" "),
 		)
 		.join(" - ");
-}
+};
 
 export const PageTemplate = ({
 	children,
@@ -98,12 +98,13 @@ export const PageTemplate = ({
 		<div className="min-h-screen flex flex-col">
 			<Header />
 			<main
-				className={`flex-1 ${contained ? `${paddingClass} ${maxWidthClass} mx-auto` : ""
-					} ${className}`}
+				className={`flex-1 ${
+					contained ? `${paddingClass} ${maxWidthClass} mx-auto` : ""
+				} ${className}`}
 			>
 				{content}
 			</main>
 			<Footer />
 		</div>
 	);
-}
+};

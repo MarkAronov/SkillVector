@@ -1,6 +1,13 @@
 import { Search } from "lucide-react";
 import { type KeyboardEvent, useEffect, useState } from "react";
-import { ANIMATION, BORDERS, CURSOR, OPACITY, SIZING, TYPOGRAPHY } from "../1-ions";
+import {
+	ANIMATION,
+	BORDERS,
+	CURSOR,
+	OPACITY,
+	SIZING,
+	TYPOGRAPHY,
+} from "../1-ions";
 import { Glass } from "../1-ions/Glass";
 import type { SearchBarProps } from "./SearchBar.types";
 
@@ -109,4 +116,4 @@ export const SearchBar = ({
 			</button>
 		</Glass>
 	);
-}
+};

@@ -50,20 +50,34 @@ export const CompactWithFilters: Story = {
 
 		const activeFilters = [
 			...(searchQuery
-				? [{ id: "search-1", type: "search", value: searchQuery, label: `"${searchQuery}"` }]
+				? [
+						{
+							id: "search-1",
+							type: "search",
+							value: searchQuery,
+							label: `"${searchQuery}"`,
+						},
+					]
 				: []),
 			...(filterType !== "all"
 				? [
-					{
-						id: "type-1",
-						type: "type",
-						value: filterType,
-						label: filterType === "stable" ? "Stable" : "Pre-releases",
-					},
-				]
+						{
+							id: "type-1",
+							type: "type",
+							value: filterType,
+							label: filterType === "stable" ? "Stable" : "Pre-releases",
+						},
+					]
 				: []),
 			...(sortOrder !== "newest"
-				? [{ id: "sort-1", type: "sort", value: sortOrder, label: "Oldest First" }]
+				? [
+						{
+							id: "sort-1",
+							type: "sort",
+							value: sortOrder,
+							label: "Oldest First",
+						},
+					]
 				: []),
 		];
 

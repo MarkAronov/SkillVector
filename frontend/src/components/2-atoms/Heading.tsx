@@ -1,6 +1,10 @@
 import { cn } from "@/lib/utils";
 import { TYPOGRAPHY } from "../1-ions";
-import type { HeadingLevel, HeadingProps, HeadingVariant } from "./Heading.types";
+import type {
+	HeadingLevel,
+	HeadingProps,
+	HeadingVariant,
+} from "./Heading.types";
 
 /**
  * Heading Component
@@ -48,4 +52,3 @@ const Heading = ({
 };
 
 export { Heading, type HeadingLevel, type HeadingProps, type HeadingVariant };
-

@@ -60,7 +60,11 @@ export const SkillsTooltip = ({
 				>
 					<div className="flex flex-wrap gap-1.5">
 						{skills.map((skill) => (
-						<Badge key={skill} variant="secondary" className={TYPOGRAPHY.FONT_SIZE.xs}>
+							<Badge
+								key={skill}
+								variant="secondary"
+								className={TYPOGRAPHY.FONT_SIZE.xs}
+							>
 								{skill}
 							</Badge>
 						))}
@@ -69,4 +73,4 @@ export const SkillsTooltip = ({
 			</TooltipContent>
 		</Tooltip>
 	);
-}
+};

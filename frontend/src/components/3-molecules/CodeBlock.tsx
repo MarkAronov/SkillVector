@@ -34,7 +34,7 @@ export const CodeBlock = ({ language, code }: CodeBlockProps) => {
 	const handleCopy = async () => {
 		await navigator.clipboard.writeText(code);
 		setCopied(true);
-		
+
 		// Reset copy feedback after 2 seconds
 		setTimeout(() => setCopied(false), 2000);
 	};

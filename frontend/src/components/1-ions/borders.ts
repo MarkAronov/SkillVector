@@ -31,10 +31,10 @@ export const BORDERS = {
 	 * Controls thickness of border lines
 	 */
 	WIDTH: {
-		none: "border-0",      // 0px - Remove border
-		thin: "border",        // 1px - Standard border (default)
-		medium: "border-2",    // 2px - Emphasized border (focus states)
-		thick: "border-4",     // 4px - Strong border (highlights)
+		none: "border-0", // 0px - Remove border
+		thin: "border", // 1px - Standard border (default)
+		medium: "border-2", // 2px - Emphasized border (focus states)
+		thick: "border-4", // 4px - Strong border (highlights)
 	},
 
 	/**
@@ -42,14 +42,14 @@ export const BORDERS = {
 	 * Controls corner rounding from sharp to circular
 	 */
 	RADIUS: {
-		none: "rounded-none",   // 0px - Sharp corners (technical)
-		sm: "rounded-sm",       // 2px - Subtle rounding (minimal)
-		md: "rounded-md",       // 6px - Standard rounding (cards, inputs)
-		lg: "rounded-lg",       // 8px - Noticeable rounding (buttons)
-		xl: "rounded-xl",       // 12px - Prominent rounding (hero cards)
-		"2xl": "rounded-2xl",   // 16px - Heavy rounding (featured)
-		"3xl": "rounded-3xl",   // 24px - Maximum rounding (special)
-		full: "rounded-full",   // 9999px - Perfect circles (avatars, pills)
+		none: "rounded-none", // 0px - Sharp corners (technical)
+		sm: "rounded-sm", // 2px - Subtle rounding (minimal)
+		md: "rounded-md", // 6px - Standard rounding (cards, inputs)
+		lg: "rounded-lg", // 8px - Noticeable rounding (buttons)
+		xl: "rounded-xl", // 12px - Prominent rounding (hero cards)
+		"2xl": "rounded-2xl", // 16px - Heavy rounding (featured)
+		"3xl": "rounded-3xl", // 24px - Maximum rounding (special)
+		full: "rounded-full", // 9999px - Perfect circles (avatars, pills)
 	},
 
 	/**
@@ -57,11 +57,11 @@ export const BORDERS = {
 	 * Applies borders to specific edges or axes
 	 */
 	SIDE: {
-		top: "border-t",       // Top edge only
-		right: "border-r",     // Right edge only
-		bottom: "border-b",    // Bottom edge only (common divider)
-		left: "border-l",      // Left edge only (sidebar accent)
-		x: "border-x",         // Horizontal edges (top + bottom)
-		y: "border-y",         // Vertical edges (left + right)
+		top: "border-t", // Top edge only
+		right: "border-r", // Right edge only
+		bottom: "border-b", // Bottom edge only (common divider)
+		left: "border-l", // Left edge only (sidebar accent)
+		x: "border-x", // Horizontal edges (top + bottom)
+		y: "border-y", // Vertical edges (left + right)
 	},
 } as const;

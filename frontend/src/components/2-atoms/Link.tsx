@@ -66,7 +66,6 @@ const Link = ({
 
 	// Internal links use TanStack Router for SPA navigation
 	return <RouterLink className={combinedClassName} {...props} />;
-}
+};
 
 export { Link, type LinkProps, type LinkVariant };
-

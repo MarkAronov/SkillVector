@@ -66,4 +66,4 @@ export const usePeople = (limit = 100, enabled = true) => {
 			return failureCount < 2;
 		},
 	});
-}
+};

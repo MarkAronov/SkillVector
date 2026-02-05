@@ -66,7 +66,7 @@ export const ContactForm = () => {
 
 	// Submission status state
 	const [status, setStatus] = useState<FormStatus>("idle");
-	
+
 	// Error message state
 	const [errorMessage, setErrorMessage] = useState("");
 
@@ -121,7 +121,7 @@ export const ContactForm = () => {
 		<form onSubmit={handleSubmit} className="space-y-6">
 			<Div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<Div className="space-y-2">
-				<Label htmlFor={nameId} className={TYPOGRAPHY.FONT_WEIGHT.medium}>
+					<Label htmlFor={nameId} className={TYPOGRAPHY.FONT_WEIGHT.medium}>
 						Name <span className="text-destructive">*</span>
 					</Label>
 					<Input
@@ -136,7 +136,7 @@ export const ContactForm = () => {
 					/>
 				</Div>
 				<Div className="space-y-2">
-				<Label htmlFor={emailId} className={TYPOGRAPHY.FONT_WEIGHT.medium}>
+					<Label htmlFor={emailId} className={TYPOGRAPHY.FONT_WEIGHT.medium}>
 						Email <span className="text-destructive">*</span>
 					</Label>
 					<Input
@@ -168,7 +168,10 @@ export const ContactForm = () => {
 			</Div>
 			{status === "error" && (
 				<Div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20">
-				<Text variant="small" className={`text-destructive ${TYPOGRAPHY.FONT_WEIGHT.medium}`}>
+					<Text
+						variant="small"
+						className={`text-destructive ${TYPOGRAPHY.FONT_WEIGHT.medium}`}
+					>
 						{errorMessage}
 					</Text>
 				</Div>

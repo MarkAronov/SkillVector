@@ -1,10 +1,10 @@
+import * as React from "react";
 import {
 	Avatar as ShadcnAvatar,
 	AvatarFallback as ShadcnAvatarFallback,
 	AvatarImage as ShadcnAvatarImage,
 } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import * as React from "react";
 import "./Avatar.css";
 import type { AvatarProps } from "./Avatar.types";
 
@@ -42,4 +42,3 @@ const AvatarImage = ShadcnAvatarImage;
 const AvatarFallback = ShadcnAvatarFallback;
 
 export { Avatar, AvatarFallback, AvatarImage, type AvatarProps };
-

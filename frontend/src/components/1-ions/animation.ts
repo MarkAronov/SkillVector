@@ -32,13 +32,13 @@ export const ANIMATION = {
 	 * Maps semantic names to Tailwind duration utilities
 	 */
 	DURATION: {
-		instant: "duration-0",      // 0ms - No transition
-		fast: "duration-100",        // 100ms - Quick feedback
-		normal: "duration-200",      // 200ms - Standard UI transitions
-		moderate: "duration-300",    // 300ms - Noticeable motion
-		slow: "duration-500",        // 500ms - Deliberate animations
-		slower: "duration-700",      // 700ms - Emphasized motion
-		slowest: "duration-1000",    // 1000ms - Long-form animations
+		instant: "duration-0", // 0ms - No transition
+		fast: "duration-100", // 100ms - Quick feedback
+		normal: "duration-200", // 200ms - Standard UI transitions
+		moderate: "duration-300", // 300ms - Noticeable motion
+		slow: "duration-500", // 500ms - Deliberate animations
+		slower: "duration-700", // 700ms - Emphasized motion
+		slowest: "duration-1000", // 1000ms - Long-form animations
 	},
 
 	/**
@@ -46,10 +46,10 @@ export const ANIMATION = {
 	 * Controls acceleration/deceleration behavior
 	 */
 	TIMING: {
-		linear: "ease-linear",    // Constant speed (mechanical motion)
-		in: "ease-in",            // Accelerate from start (exits)
-		out: "ease-out",          // Decelerate to end (entrances)
-		inOut: "ease-in-out",     // Smooth start and end (natural motion)
+		linear: "ease-linear", // Constant speed (mechanical motion)
+		in: "ease-in", // Accelerate from start (exits)
+		out: "ease-out", // Decelerate to end (entrances)
+		inOut: "ease-in-out", // Smooth start and end (natural motion)
 	},
 
 	/**
@@ -57,9 +57,9 @@ export const ANIMATION = {
 	 * Pre-defined animation patterns from Tailwind
 	 */
 	KEYFRAME: {
-		spin: "animate-spin",      // 360° rotation (1s linear infinite)
-		ping: "animate-ping",      // Scale + fade pulse (1s cubic-bezier infinite)
-		pulse: "animate-pulse",    // Opacity fade (2s cubic-bezier infinite)
-		bounce: "animate-bounce",  // Vertical bounce (1s infinite)
+		spin: "animate-spin", // 360° rotation (1s linear infinite)
+		ping: "animate-ping", // Scale + fade pulse (1s cubic-bezier infinite)
+		pulse: "animate-pulse", // Opacity fade (2s cubic-bezier infinite)
+		bounce: "animate-bounce", // Vertical bounce (1s infinite)
 	},
 } as const;

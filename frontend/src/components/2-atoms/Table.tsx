@@ -70,7 +70,14 @@ const TableCell = ({
 };
 
 export {
-	Table, TableBody, TableCaption, TableCell,
-	TableFooter, TableHead, TableHeader, TableRow, type TableCellProps, type TableProps
+	Table,
+	TableBody,
+	TableCaption,
+	TableCell,
+	TableFooter,
+	TableHead,
+	TableHeader,
+	TableRow,
+	type TableCellProps,
+	type TableProps,
 };
-

@@ -31,7 +31,11 @@ const variantClasses: Record<SectionVariant, string> = {
 	compact: SPACING.SECTION.xs,
 };
 
-const Section = ({ className, variant = "default", ...props }: SectionProps) => {
+const Section = ({
+	className,
+	variant = "default",
+	...props
+}: SectionProps) => {
 	// Get the spacing for the selected variant
 	const spacingClass = variantClasses[variant];
 
@@ -42,4 +46,3 @@ const Section = ({ className, variant = "default", ...props }: SectionProps) => 
 };
 
 export { Section, type SectionProps, type SectionVariant };
-

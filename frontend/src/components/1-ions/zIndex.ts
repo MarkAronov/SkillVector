@@ -29,14 +29,14 @@
  */
 
 export const Z_INDEX = {
-	base: "z-0",           // 0 - Default layer (document flow)
-	raised: "z-10",       // 10 - Slightly elevated (sticky elements)
-	dropdown: "z-20",     // 20 - Dropdown menus (selects, autocomplete)
-	sticky: "z-30",       // 30 - Sticky navigation (headers, filters)
-	fixed: "z-40",        // 40 - Fixed elements (floating buttons, bottom bars)
-	overlay: "z-50",      // 50 - Overlays (modal backgrounds, drawers)
-	modal: "z-60",        // 60 - Modal dialogs (confirmations, forms)
-	popover: "z-70",      // 70 - Popovers (context menus, floating UI)
-	tooltip: "z-80",      // 80 - Tooltips (help text, hints)
+	base: "z-0", // 0 - Default layer (document flow)
+	raised: "z-10", // 10 - Slightly elevated (sticky elements)
+	dropdown: "z-20", // 20 - Dropdown menus (selects, autocomplete)
+	sticky: "z-30", // 30 - Sticky navigation (headers, filters)
+	fixed: "z-40", // 40 - Fixed elements (floating buttons, bottom bars)
+	overlay: "z-50", // 50 - Overlays (modal backgrounds, drawers)
+	modal: "z-60", // 60 - Modal dialogs (confirmations, forms)
+	popover: "z-70", // 70 - Popovers (context menus, floating UI)
+	tooltip: "z-80", // 80 - Tooltips (help text, hints)
 	notification: "z-90", // 90 - Notifications (toasts, alerts) - highest layer
 } as const;

@@ -59,4 +59,3 @@ const Text = ({
 };
 
 export { Text, type TextProps, type TextVariant };
-

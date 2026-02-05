@@ -21,7 +21,6 @@ import {
 import "./DocumentationPage.css";
 import { packageManagers, sdkExamples } from "./DocumentationPage.data";
 
-
 export const DocumentationPage = () => {
 	const { effectiveTheme } = useTheme();
 	const isDark = effectiveTheme === "dark";
@@ -110,7 +109,6 @@ export const DocumentationPage = () => {
 						HTMLDivElement & { scrollIntoView: () => void }
 					>
 				}
-
 			>
 				<Heading variant="section" className="mb-6">
 					TypeScript SDK

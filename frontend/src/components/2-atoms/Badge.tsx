@@ -63,13 +63,8 @@ const Badge = ({
 	const combinedClassName = cn(badgeVariants({ variant }), className);
 
 	return (
-		<Component
-			data-slot="badge"
-			className={combinedClassName}
-			{...props}
-		/>
+		<Component data-slot="badge" className={combinedClassName} {...props} />
 	);
-}
+};
 
 export { Badge, badgeVariants };
-

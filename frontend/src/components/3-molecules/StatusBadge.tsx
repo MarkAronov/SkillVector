@@ -84,4 +84,4 @@ export const StatusBadge = ({ status, label, className }: StatusBadgeProps) => {
 			{displayLabel}
 		</span>
 	);
-}
+};

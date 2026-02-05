@@ -316,7 +316,9 @@ export const IntegrationsPage = () => {
 
 													return (
 														<TableRow key={integration.title}>
-															<TableCell className={`${TYPOGRAPHY.FONT_WEIGHT.medium} min-w-0`}>
+															<TableCell
+																className={`${TYPOGRAPHY.FONT_WEIGHT.medium} min-w-0`}
+															>
 																<Div
 																	variant="flex"
 																	className="items-center gap-3"
@@ -372,7 +374,9 @@ export const IntegrationsPage = () => {
 																	</Div>
 																</Div>
 															</TableCell>
-															<TableCell className={`hidden sm:table-cell text-muted-foreground ${TYPOGRAPHY.COMBINATIONS.small} whitespace-normal break-words`}>
+															<TableCell
+																className={`hidden sm:table-cell text-muted-foreground ${TYPOGRAPHY.COMBINATIONS.small} whitespace-normal break-words`}
+															>
 																{integration.description}
 															</TableCell>
 															<TableCell>

@@ -17,4 +17,4 @@ export const LegalTemplate = ({
 			</PageContainer>
 		</PageTemplate>
 	);
-}
+};

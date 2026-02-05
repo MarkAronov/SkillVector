@@ -38,7 +38,7 @@ const getExperienceYears = (exp: string | number | undefined): number => {
 		return match ? Number.parseInt(match[1], 10) : 0;
 	}
 	return 0;
-}
+};
 
 export const SearchPage = () => {
 	const navigate = useNavigate();
@@ -477,11 +477,7 @@ export const SearchPage = () => {
 			{/* Load More Button */}
 			{accumulatedData?.hasMore && (
 				<Div variant="center" className="mt-8">
-					<Button
-						type="button"
-						onClick={handleLoadMore}
-						disabled={isLoading}
-					>
+					<Button type="button" onClick={handleLoadMore} disabled={isLoading}>
 						{isLoading ? "Loading..." : "Load More Results"}
 					</Button>
 				</Div>
@@ -516,4 +512,4 @@ export const SearchPage = () => {
 			)}
 		</PageTemplate>
 	);
-}
+};

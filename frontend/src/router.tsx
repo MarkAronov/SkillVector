@@ -85,7 +85,7 @@ const RedirectToSearch = () => {
 		});
 	}, [navigate, location.search]);
 	return null;
-}
+};
 
 const indexRoute = createRoute({
 	getParentRoute: () => rootRoute,

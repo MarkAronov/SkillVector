@@ -113,7 +113,12 @@ const TooltipContent = ({
 				: "";
 
 	// Combine all classes
-	const combinedClassName = cn("z-9999", baseClasses, variantClasses, className);
+	const combinedClassName = cn(
+		"z-9999",
+		baseClasses,
+		variantClasses,
+		className,
+	);
 
 	return (
 		<TooltipPrimitive.Portal>
@@ -127,7 +132,6 @@ const TooltipContent = ({
 			</TooltipPrimitive.Content>
 		</TooltipPrimitive.Portal>
 	);
-}
+};
 
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger };
-

@@ -69,17 +69,23 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 						<div className="flex-1 min-w-0">
 							<div className="flex items-start justify-between gap-4">
 								<div className="min-w-0 flex-1">
-									<h3 className={`${TYPOGRAPHY.COMBINATIONS.cardHeading} leading-tight truncate`}>
+									<h3
+										className={`${TYPOGRAPHY.COMBINATIONS.cardHeading} leading-tight truncate`}
+									>
 										<TruncatedText text={p.name || "Unknown"} maxLength={25} />
 									</h3>
-									<p className={`${TYPOGRAPHY.FONT_SIZE.sm} text-muted-foreground mt-1 truncate`}>
+									<p
+										className={`${TYPOGRAPHY.FONT_SIZE.sm} text-muted-foreground mt-1 truncate`}
+									>
 										<TruncatedText
 											text={p.role || "No role specified"}
 											maxLength={30}
 										/>
 									</p>
 									{(p.location || expYears > 0) && (
-										<p className={`${TYPOGRAPHY.FONT_SIZE.xs} text-muted-foreground mt-2 truncate`}>
+										<p
+											className={`${TYPOGRAPHY.FONT_SIZE.xs} text-muted-foreground mt-2 truncate`}
+										>
 											<TruncatedText
 												text={[
 													p.location,
@@ -96,7 +102,7 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 									<div className="hidden md:flex shrink-0">
 										<Badge
 											variant="default"
-										className={`${TYPOGRAPHY.FONT_SIZE.xs} ${relevanceClass}`}
+											className={`${TYPOGRAPHY.FONT_SIZE.xs} ${relevanceClass}`}
 										>
 											{(person.score * 100).toFixed(0)}%
 										</Badge>
@@ -116,7 +122,7 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 										const badge = (
 											<Badge
 												variant="secondary"
-											className={`${TYPOGRAPHY.FONT_SIZE.xs} truncate max-w-20 h-6 py-1 select-none`}
+												className={`${TYPOGRAPHY.FONT_SIZE.xs} truncate max-w-20 h-6 py-1 select-none`}
 											>
 												{badgeContent}
 											</Badge>
@@ -143,7 +149,7 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 										<SkillsTooltip skills={skillsArray.slice(5)}>
 											<Badge
 												variant="secondary"
-											className={`${TYPOGRAPHY.FONT_SIZE.xs} cursor-help h-6 py-1`}
+												className={`${TYPOGRAPHY.FONT_SIZE.xs} cursor-help h-6 py-1`}
 											>
 												+{skillsArray.length - 5}
 											</Badge>
@@ -159,7 +165,7 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 										<TooltipTrigger asChild>
 											<Link
 												to="/support#contact"
-											className={`${TYPOGRAPHY.FONT_SIZE.xs} text-primary hover:underline truncate block`}
+												className={`${TYPOGRAPHY.FONT_SIZE.xs} text-primary hover:underline truncate block`}
 											>
 												{p.email.length > 30
 													? `${p.email.substring(0, 30)}…`
@@ -174,7 +180,10 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 					</div>
 					{person.score > 0 && (
 						<div className="md:hidden mt-3">
-						<Badge variant="default" className={`${TYPOGRAPHY.FONT_SIZE.xs} ${relevanceClass}`}>
+							<Badge
+								variant="default"
+								className={`${TYPOGRAPHY.FONT_SIZE.xs} ${relevanceClass}`}
+							>
 								{(person.score * 100).toFixed(0)}%
 							</Badge>
 						</div>
@@ -192,7 +201,9 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 				{/* Avatar overlapping header */}
 				<div className="flex justify-center -mt-8 mb-3">
 					<Avatar variant="nonagon" className="w-16 h-16">
-						<AvatarFallback className={`bg-primary dark:bg-primary text-primary-foreground ${TYPOGRAPHY.FONT_WEIGHT.semibold}`}>
+						<AvatarFallback
+							className={`bg-primary dark:bg-primary text-primary-foreground ${TYPOGRAPHY.FONT_WEIGHT.semibold}`}
+						>
 							{initials}
 						</AvatarFallback>
 					</Avatar>
@@ -203,14 +214,18 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 					<h3 className={`${TYPOGRAPHY.COMBINATIONS.cardHeading} truncate`}>
 						<TruncatedText text={p.name || "Unknown"} maxLength={25} />
 					</h3>
-					<p className={`${TYPOGRAPHY.FONT_SIZE.sm} text-muted-foreground mt-1 truncate`}>
+					<p
+						className={`${TYPOGRAPHY.FONT_SIZE.sm} text-muted-foreground mt-1 truncate`}
+					>
 						<TruncatedText
 							text={p.role || "No role specified"}
 							maxLength={30}
 						/>
 					</p>
 					{(p.location || expYears > 0) && (
-						<p className={`${TYPOGRAPHY.FONT_SIZE.xs} text-muted-foreground mt-2 truncate`}>
+						<p
+							className={`${TYPOGRAPHY.FONT_SIZE.xs} text-muted-foreground mt-2 truncate`}
+						>
 							<TruncatedText
 								text={[p.location, expYears > 0 ? `${expYears} years` : null]
 									.filter(Boolean)
@@ -259,7 +274,7 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 								<SkillsTooltip skills={skillsArray.slice(4)}>
 									<Badge
 										variant="secondary"
-									className={`${TYPOGRAPHY.FONT_SIZE.xs} cursor-help h-6 py-1`}
+										className={`${TYPOGRAPHY.FONT_SIZE.xs} cursor-help h-6 py-1`}
 									>
 										+{skillsArray.length - 4}
 									</Badge>
@@ -271,7 +286,9 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 
 				{/* Email */}
 				{p.email && (
-					<div className={`text-center ${TYPOGRAPHY.FONT_SIZE.xs} mb-4 flex-1 flex items-end justify-center`}>
+					<div
+						className={`text-center ${TYPOGRAPHY.FONT_SIZE.xs} mb-4 flex-1 flex items-end justify-center`}
+					>
 						<Tooltip delayDuration={200}>
 							<TooltipTrigger asChild>
 								<Link
@@ -289,11 +306,14 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 				)}
 				{/* Relevance */}
 				<div className="flex justify-center pt-2 border-t">
-					<Badge variant="default" className={`${TYPOGRAPHY.FONT_SIZE.xs} ${relevanceClass}`}>
+					<Badge
+						variant="default"
+						className={`${TYPOGRAPHY.FONT_SIZE.xs} ${relevanceClass}`}
+					>
 						{(person.score * 100).toFixed(0)}% Match
 					</Badge>
 				</div>
 			</div>
 		</Card>
 	);
-}
+};

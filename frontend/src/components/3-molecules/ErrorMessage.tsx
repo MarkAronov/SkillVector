@@ -55,9 +55,9 @@ const variantStyles = {
  * Assigns appropriate Lucide icon to each severity level
  */
 const variantIcons = {
-	error: <AlertCircle className={`${SIZING.ICON.md} shrink-0 mt-0.5`} />,      // Circle with X (errors)
-	warning: <AlertTriangle className={`${SIZING.ICON.md} shrink-0 mt-0.5`} />,  // Triangle with ! (warnings)
-	info: <Info className={`${SIZING.ICON.md} shrink-0 mt-0.5`} />,              // Circle with i (info)
+	error: <AlertCircle className={`${SIZING.ICON.md} shrink-0 mt-0.5`} />, // Circle with X (errors)
+	warning: <AlertTriangle className={`${SIZING.ICON.md} shrink-0 mt-0.5`} />, // Triangle with ! (warnings)
+	info: <Info className={`${SIZING.ICON.md} shrink-0 mt-0.5`} />, // Circle with i (info)
 };
 
 export const ErrorMessage = ({

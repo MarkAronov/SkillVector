@@ -94,17 +94,17 @@ export const SPACING = {
 		xl: "space-y-8", // 32px - Generous vertical spacing
 	},
 
-/**
- * Section spacing for page layout
- * Responsive vertical padding for major page sections
- */
-SECTION: {
-	xs: "py-6",             // 24px - Minimal section spacing
-	sm: "py-8 lg:py-12",   // 32px → 48px - Small sections
-	md: "py-12 lg:py-16",  // 48px → 64px - Standard sections
-	lg: "py-16 lg:py-24",  // 64px → 96px - Large sections
-	xl: "py-24 lg:py-32",  // 96px → 128px - Hero sections
-},
+	/**
+	 * Section spacing for page layout
+	 * Responsive vertical padding for major page sections
+	 */
+	SECTION: {
+		xs: "py-6", // 24px - Minimal section spacing
+		sm: "py-8 lg:py-12", // 32px → 48px - Small sections
+		md: "py-12 lg:py-16", // 48px → 64px - Standard sections
+		lg: "py-16 lg:py-24", // 64px → 96px - Large sections
+		xl: "py-24 lg:py-32", // 96px → 128px - Hero sections
+	},
 } as const;
 
 /**

@@ -51,4 +51,4 @@ export const useSearch = (
 			return failureCount < 1;
 		},
 	});
-}
+};

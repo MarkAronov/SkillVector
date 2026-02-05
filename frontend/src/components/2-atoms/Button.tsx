@@ -1,6 +1,6 @@
 import {
-    Button as ShadcnButton,
-    buttonVariants as shadcnButtonVariants,
+	Button as ShadcnButton,
+	buttonVariants as shadcnButtonVariants,
 } from "@/components/ui/button";
 
 /**
@@ -25,4 +25,3 @@ import {
  */
 
 export { ShadcnButton as Button, shadcnButtonVariants as buttonVariants };
-

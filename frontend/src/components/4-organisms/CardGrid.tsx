@@ -165,7 +165,7 @@ const getCenteringClass = (
 	}
 
 	return "";
-}
+};
 
 /**
  * Default card renderer based on HowItWorksPage design
@@ -208,7 +208,12 @@ const defaultCardRenderer = (
 								)}
 								<Div className="flex-1">
 									<Div className="flex items-baseline gap-3 mb-3">
-									<Span className={cn(`${TYPOGRAPHY.FONT_SIZE.xl} ${TYPOGRAPHY.FONT_WEIGHT.bold}`, item.color)}>
+										<Span
+											className={cn(
+												`${TYPOGRAPHY.FONT_SIZE.xl} ${TYPOGRAPHY.FONT_WEIGHT.bold}`,
+												item.color,
+											)}
+										>
 											STEP {item.step}
 										</Span>
 										<Heading as="h3" variant="card" className="mb-0">
@@ -223,7 +228,10 @@ const defaultCardRenderer = (
 
 									{item.codeExample && (
 										<Div variant="codeBlock" className="mb-4">
-										<Text variant="small" className={TYPOGRAPHY.FONT_FAMILY.mono}>
+											<Text
+												variant="small"
+												className={TYPOGRAPHY.FONT_FAMILY.mono}
+											>
 												{item.codeExample.code}
 											</Text>
 											{item.codeExample.note && (
@@ -239,14 +247,17 @@ const defaultCardRenderer = (
 
 									{item.tags && (
 										<Div variant="codeBlock" className="space-y-2">
-										<Text variant="small" className={TYPOGRAPHY.FONT_WEIGHT.semibold}>
+											<Text
+												variant="small"
+												className={TYPOGRAPHY.FONT_WEIGHT.semibold}
+											>
 												Supported AI Providers:
 											</Text>
 											<Div className="flex flex-wrap gap-2">
 												{item.tags.map((tag: string) => (
 													<Span
 														key={tag}
-													className={`px-2 py-1 bg-background rounded ${TYPOGRAPHY.FONT_SIZE.xs_sm}`}
+														className={`px-2 py-1 bg-background rounded ${TYPOGRAPHY.FONT_SIZE.xs_sm}`}
 													>
 														{tag}
 													</Span>
@@ -257,7 +268,10 @@ const defaultCardRenderer = (
 
 									{item.items && (
 										<Div variant="codeBlock">
-										<Text variant="small" className={`${TYPOGRAPHY.FONT_WEIGHT.semibold} mb-2`}>
+											<Text
+												variant="small"
+												className={`${TYPOGRAPHY.FONT_WEIGHT.semibold} mb-2`}
+											>
 												Result Quality Metrics:
 											</Text>
 											<List variant="spaced">
@@ -315,14 +329,16 @@ const defaultCardRenderer = (
 
 								{item.subsections && (
 									<Div className="space-y-3 lg:space-y-4">
-										{item.subsections.map((sub: { title: string; content: string }) => (
-											<Div key={sub.title}>
-												<Text variant="subheading" className="mb-2">
-													{sub.title}
-												</Text>
-												<Text variant="small">{sub.content}</Text>
-											</Div>
-										))}
+										{item.subsections.map(
+											(sub: { title: string; content: string }) => (
+												<Div key={sub.title}>
+													<Text variant="subheading" className="mb-2">
+														{sub.title}
+													</Text>
+													<Text variant="small">{sub.content}</Text>
+												</Div>
+											),
+										)}
 									</Div>
 								)}
 
@@ -366,7 +382,7 @@ const defaultCardRenderer = (
 			</CardContent>
 		</Card>
 	);
-}
+};
 
 const CardGrid = ({
 	items,
@@ -398,7 +414,8 @@ const CardGrid = ({
 	const Component = as as ElementType;
 	const cardRenderer =
 		renderCard ||
-		((item: CardGridItemData) => defaultCardRenderer(item, enforceCustomContent));
+		((item: CardGridItemData) =>
+			defaultCardRenderer(item, enforceCustomContent));
 
 	const totalItems = items?.length || 0;
 
@@ -447,7 +464,7 @@ const CardGrid = ({
 			})}
 		</Component>
 	);
-}
+};
 
 /**
  * CardGridItem Component
@@ -481,7 +498,9 @@ const CardGridItem = ({
 
 export { CardGrid, CardGridItem };
 export type {
-	CardGridItemData, CardGridItemProps, CardGridProps, GapSize,
-	MaxColumns
+	CardGridItemData,
+	CardGridItemProps,
+	CardGridProps,
+	GapSize,
+	MaxColumns,
 };
-

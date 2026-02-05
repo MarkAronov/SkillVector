@@ -41,12 +41,12 @@ export const Header = () => {
 		const isActive =
 			!item.external && (item.to ?? "").split("#")[0] === location.pathname;
 		const className = isMobile
-		? `${isActive ? "text-primary" : "text-muted-foreground"} hover:text-primary transition-colors ${TYPOGRAPHY.FONT_WEIGHT.medium}`
-		: `${isActive ? "text-primary" : "text-foreground/90"} hover:text-primary transition-colors ${TYPOGRAPHY.FONT_WEIGHT.medium} ${TYPOGRAPHY.FONT_SIZE.sm_base}`;
+			? `${isActive ? "text-primary" : "text-muted-foreground"} hover:text-primary transition-colors ${TYPOGRAPHY.FONT_WEIGHT.medium}`
+			: `${isActive ? "text-primary" : "text-foreground/90"} hover:text-primary transition-colors ${TYPOGRAPHY.FONT_WEIGHT.medium} ${TYPOGRAPHY.FONT_SIZE.sm_base}`;
 
-	const onClick = isMobile ? () => setMobileMenuOpen(false) : undefined;
+		const onClick = isMobile ? () => setMobileMenuOpen(false) : undefined;
 
-	if (item.external) {
+		if (item.external) {
 			return (
 				<a
 					key={item.label}
@@ -90,7 +90,9 @@ export const Header = () => {
 									className="flex items-center gap-3 hover:opacity-80 transition-opacity"
 								>
 									<Logo size="md" />
-									<span className={`${TYPOGRAPHY.COMBINATIONS.brandText} bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent`}>
+									<span
+										className={`${TYPOGRAPHY.COMBINATIONS.brandText} bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent`}
+									>
 										SkillVector
 									</span>
 								</Link>
@@ -159,4 +161,4 @@ export const Header = () => {
 			</div>
 		</div>
 	);
-}
+};

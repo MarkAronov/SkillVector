@@ -99,4 +99,4 @@ export const ActionButton = ({
 			{children}
 		</button>
 	);
-}
+};

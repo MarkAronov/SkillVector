@@ -35,22 +35,22 @@ import type { LogoProps } from "./Logo.types";
  * Uses ion sizing tokens for consistency across UI
  */
 const sizes = {
-	sm: SIZING.ICON.lg,  // 32px
-	md: SIZING.ICON.xl,  // 40px (default)
-	lg: SIZING.ICON["2xl"],  // 48px
+	sm: SIZING.ICON.lg, // 32px
+	md: SIZING.ICON.xl, // 40px (default)
+	lg: SIZING.ICON["2xl"], // 48px
 };
 
 export const Logo = ({ className = "", size = "md" }: LogoProps) => {
 	// Generate unique IDs for gradients to avoid conflicts when multiple logos render
 	const id = useId();
-	const hexGradientId = `${id}-hexGradient`;  // Main polygon background gradient
-	const gradABId = `${id}-gradAB`;  // Edge A→B gradient (top center → left)
-	const gradACId = `${id}-gradAC`;  // Edge A→C gradient (top center → right)
-	const gradBDId = `${id}-gradBD`;  // Edge B→D gradient (left → bottom-left)
-	const gradCEId = `${id}-gradCE`;  // Edge C→E gradient (right → center)
-	const gradEGId = `${id}-gradEG`;  // Edge E→G gradient (center → bottom)
-	const gradCFId = `${id}-gradCF`;  // Edge C→F gradient (right → far-right)
-	const gradGHId = `${id}-gradGH`;  // Edge G→H gradient (bottom → bottom-left)
+	const hexGradientId = `${id}-hexGradient`; // Main polygon background gradient
+	const gradABId = `${id}-gradAB`; // Edge A→B gradient (top center → left)
+	const gradACId = `${id}-gradAC`; // Edge A→C gradient (top center → right)
+	const gradBDId = `${id}-gradBD`; // Edge B→D gradient (left → bottom-left)
+	const gradCEId = `${id}-gradCE`; // Edge C→E gradient (right → center)
+	const gradEGId = `${id}-gradEG`; // Edge E→G gradient (center → bottom)
+	const gradCFId = `${id}-gradCF`; // Edge C→F gradient (right → far-right)
+	const gradGHId = `${id}-gradGH`; // Edge G→H gradient (bottom → bottom-left)
 
 	// Get size class based on size prop
 	const sizeClass = sizes[size];
@@ -72,9 +72,9 @@ export const Logo = ({ className = "", size = "md" }: LogoProps) => {
 			<defs>
 				{/* Main polygon gradient: Deep purple (bottom-left) → Bright pink (top-right) */}
 				<linearGradient id={hexGradientId} x1="0%" y1="100%" x2="100%" y2="0%">
-					<stop offset="0%" stopColor="#7c3aed" />  {/* Violet-600 */}
-					<stop offset="50%" stopColor="#c026d3" />  {/* Fuchsia-600 */}
-					<stop offset="100%" stopColor="#ec4899" />  {/* Pink-500 */}
+					<stop offset="0%" stopColor="#7c3aed" /> {/* Violet-600 */}
+					<stop offset="50%" stopColor="#c026d3" /> {/* Fuchsia-600 */}
+					<stop offset="100%" stopColor="#ec4899" /> {/* Pink-500 */}
 				</linearGradient>
 
 				{/* Edge gradients: Match vertex colors using userSpaceOnUse for alignment

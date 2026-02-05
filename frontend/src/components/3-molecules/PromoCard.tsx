@@ -77,10 +77,7 @@ export const SocialMediaCard = ({
 				{icon}
 				<Heading variant="section">{title}</Heading>
 			</Div>
-			<Text
-				variant="lead"
-				className="text-muted-foreground mb-6"
-			>
+			<Text variant="lead" className="text-muted-foreground mb-6">
 				{description}
 			</Text>
 			<Div className="flex flex-wrap items-center justify-center gap-3">

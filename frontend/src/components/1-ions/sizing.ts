@@ -53,11 +53,11 @@ export const SIZING = {
 	 * Square dimensions for icon elements
 	 */
 	ICON: {
-		xs: "size-3",    // 12px - Inline text icons
-		sm: "size-4",    // 16px - Standard inline icons
-		md: "size-5",    // 20px - Default icons
-		lg: "size-6",    // 24px - Prominent icons
-		xl: "size-8",    // 32px - Large feature icons
+		xs: "size-3", // 12px - Inline text icons
+		sm: "size-4", // 16px - Standard inline icons
+		md: "size-5", // 20px - Default icons
+		lg: "size-6", // 24px - Prominent icons
+		xl: "size-8", // 32px - Large feature icons
 		"2xl": "size-10", // 40px - Hero icons
 	},
 
@@ -66,11 +66,11 @@ export const SIZING = {
 	 * Square dimensions for profile pictures
 	 */
 	AVATAR: {
-		xs: "size-6",    // 24px - Tiny user indicators
-		sm: "size-8",    // 32px - Compact user lists
-		md: "size-10",   // 40px - Standard profile pictures
-		lg: "size-12",   // 48px - Featured users
-		xl: "size-16",   // 64px - Profile headers
+		xs: "size-6", // 24px - Tiny user indicators
+		sm: "size-8", // 32px - Compact user lists
+		md: "size-10", // 40px - Standard profile pictures
+		lg: "size-12", // 48px - Featured users
+		xl: "size-16", // 64px - Profile headers
 		"2xl": "size-20", // 80px - Hero avatars
 	},
 
@@ -79,9 +79,9 @@ export const SIZING = {
 	 * Height and horizontal padding combinations
 	 */
 	BUTTON: {
-		sm: "h-8 px-3",   // 32px height, 12px padding - Compact actions
-		md: "h-10 px-4",  // 40px height, 16px padding - Standard buttons
-		lg: "h-11 px-8",  // 44px height, 32px padding - Prominent CTAs
+		sm: "h-8 px-3", // 32px height, 12px padding - Compact actions
+		md: "h-10 px-4", // 40px height, 16px padding - Standard buttons
+		lg: "h-11 px-8", // 44px height, 32px padding - Prominent CTAs
 		xl: "h-12 px-10", // 48px height, 40px padding - Hero buttons
 	},
 
@@ -90,7 +90,7 @@ export const SIZING = {
 	 * Height and horizontal padding for form inputs
 	 */
 	INPUT: {
-		sm: "h-8 px-3",  // 32px height, 12px padding - Compact forms
+		sm: "h-8 px-3", // 32px height, 12px padding - Compact forms
 		md: "h-10 px-4", // 40px height, 16px padding - Standard inputs
 		lg: "h-12 px-6", // 48px height, 24px padding - Large forms
 	},
@@ -100,10 +100,10 @@ export const SIZING = {
 	 * Loading indicator dimensions
 	 */
 	SPINNER: {
-		xs: "size-3",  // 12px - Inline loading indicators
-		sm: "size-4",  // 16px - Button loading states
-		md: "size-6",  // 24px - Card loading
-		lg: "size-8",  // 32px - Section loading
+		xs: "size-3", // 12px - Inline loading indicators
+		sm: "size-4", // 16px - Button loading states
+		md: "size-6", // 24px - Card loading
+		lg: "size-8", // 32px - Section loading
 		xl: "size-12", // 48px - Page loading
 	},
 } as const;

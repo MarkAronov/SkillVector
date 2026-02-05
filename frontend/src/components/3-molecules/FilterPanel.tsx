@@ -122,10 +122,7 @@ export const FilterPanel = ({
 						</Div>
 					)}
 					{description && (
-						<Text
-							variant="lead"
-							className="text-muted-foreground mb-6"
-						>
+						<Text variant="lead" className="text-muted-foreground mb-6">
 							{description}
 						</Text>
 					)}

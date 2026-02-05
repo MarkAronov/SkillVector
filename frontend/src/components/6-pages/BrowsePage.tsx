@@ -72,13 +72,13 @@ export const BrowsePage = () => {
 									skills:
 										typeof person.metadata.data_skills === "string"
 											? person.metadata.data_skills
-												.split(",")
-												.map((s) => s.trim())
+													.split(",")
+													.map((s) => s.trim())
 											: [],
 									experience: String(
 										person.metadata.data_experience_years ||
-										person.metadata.data_experience ||
-										"N/A",
+											person.metadata.data_experience ||
+											"N/A",
 									),
 									description: person.metadata.data_description || "",
 									email: person.metadata.data_email || "",
@@ -104,4 +104,4 @@ export const BrowsePage = () => {
 			)}
 		</PageTemplate>
 	);
-}
+};

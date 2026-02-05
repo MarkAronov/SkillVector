@@ -38,9 +38,9 @@ import type { LoadingStateProps } from "./LoadingState.types";
  * Combines spinner size token with border width token
  */
 const sizeMap = {
-	sm: `${SIZING.SPINNER.md} ${BORDERS.WIDTH.thin}`,   // 24px, 1px border
-	md: `${SIZING.SPINNER.lg} ${BORDERS.WIDTH.thick}`,  // 32px, 4px border
-	lg: `${SIZING.SPINNER.xl} ${BORDERS.WIDTH.thick}`,  // 48px, 4px border
+	sm: `${SIZING.SPINNER.md} ${BORDERS.WIDTH.thin}`, // 24px, 1px border
+	md: `${SIZING.SPINNER.lg} ${BORDERS.WIDTH.thick}`, // 32px, 4px border
+	lg: `${SIZING.SPINNER.xl} ${BORDERS.WIDTH.thick}`, // 48px, 4px border
 };
 
 export const LoadingState = ({

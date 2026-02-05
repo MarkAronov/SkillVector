@@ -22,12 +22,12 @@
  */
 
 export const OPACITY = {
-	transparent: "opacity-0",    // 0% - Invisible (still in DOM)
-	disabled: "opacity-40",      // 40% - Disabled state (non-interactive)
-	muted: "opacity-50",         // 50% - Subtle (backgrounds, watermarks)
-	dimmed: "opacity-60",        // 60% - Reduced emphasis (hints)
-	subtle: "opacity-75",        // 75% - Mild transparency (overlays)
-	medium: "opacity-80",        // 80% - Noticeable (glass effects)
-	strong: "opacity-90",        // 90% - Nearly opaque (hover states)
-	opaque: "opacity-100",       // 100% - Fully visible (default)
+	transparent: "opacity-0", // 0% - Invisible (still in DOM)
+	disabled: "opacity-40", // 40% - Disabled state (non-interactive)
+	muted: "opacity-50", // 50% - Subtle (backgrounds, watermarks)
+	dimmed: "opacity-60", // 60% - Reduced emphasis (hints)
+	subtle: "opacity-75", // 75% - Mild transparency (overlays)
+	medium: "opacity-80", // 80% - Noticeable (glass effects)
+	strong: "opacity-90", // 90% - Nearly opaque (hover states)
+	opaque: "opacity-100", // 100% - Fully visible (default)
 } as const;

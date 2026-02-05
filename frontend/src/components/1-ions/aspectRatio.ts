@@ -14,10 +14,10 @@
  */
 
 export const ASPECT_RATIO = {
-	square: "aspect-square",        // 1:1 - Perfect square (avatars, icons)
-	video: "aspect-video",          // 16:9 - Widescreen video (YouTube, Vimeo)
-	portrait: "aspect-[3/4]",       // 3:4 - Vertical orientation (mobile cards)
-	landscape: "aspect-[4/3]",      // 4:3 - Traditional photo (camera default)
-	ultrawide: "aspect-[21/9]",     // 21:9 - Cinematic widescreen (hero images)
-	auto: "aspect-auto",            // Auto - Intrinsic content dimensions
+	square: "aspect-square", // 1:1 - Perfect square (avatars, icons)
+	video: "aspect-video", // 16:9 - Widescreen video (YouTube, Vimeo)
+	portrait: "aspect-[3/4]", // 3:4 - Vertical orientation (mobile cards)
+	landscape: "aspect-[4/3]", // 4:3 - Traditional photo (camera default)
+	ultrawide: "aspect-[21/9]", // 21:9 - Cinematic widescreen (hero images)
+	auto: "aspect-auto", // Auto - Intrinsic content dimensions
 } as const;

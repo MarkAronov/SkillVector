@@ -51,24 +51,13 @@ const Hero = ({
 	const combinedClassName = cn(centeredClass, SPACING.SECTION.lg, className);
 
 	return (
-		<div
-			className={combinedClassName}
-			{...props}
-		>
+		<div className={combinedClassName} {...props}>
 			<Heading variant="hero">
-				{title}{" "}
-				{brand && (
-					<span className={brandClass}>
-						{brand}
-					</span>
-				)}
+				{title} {brand && <span className={brandClass}>{brand}</span>}
 			</Heading>
-			<Text variant="lead">
-				{subtitle}
-			</Text>
+			<Text variant="lead">{subtitle}</Text>
 		</div>
 	);
-}
+};
 
 export { Hero, type HeroProps };
-

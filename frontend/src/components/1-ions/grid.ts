@@ -34,14 +34,14 @@ export const GRID = {
 	 * Defines number of equal-width columns in grid
 	 */
 	COLUMNS: {
-		1: "grid-cols-1",    // 1 column (mobile, full-width)
-		2: "grid-cols-2",    // 2 columns (50/50 split)
-		3: "grid-cols-3",    // 3 columns (thirds)
-		4: "grid-cols-4",    // 4 columns (quarters, cards)
-		5: "grid-cols-5",    // 5 columns (special layouts)
-		6: "grid-cols-6",    // 6 columns (complex grids)
-		8: "grid-cols-8",    // 8 columns (detailed layouts)
-		12: "grid-cols-12",  // 12 columns (maximum flexibility)
+		1: "grid-cols-1", // 1 column (mobile, full-width)
+		2: "grid-cols-2", // 2 columns (50/50 split)
+		3: "grid-cols-3", // 3 columns (thirds)
+		4: "grid-cols-4", // 4 columns (quarters, cards)
+		5: "grid-cols-5", // 5 columns (special layouts)
+		6: "grid-cols-6", // 6 columns (complex grids)
+		8: "grid-cols-8", // 8 columns (detailed layouts)
+		12: "grid-cols-12", // 12 columns (maximum flexibility)
 	},
 
 	/**
@@ -49,11 +49,11 @@ export const GRID = {
 	 * Defines number of equal-height rows in grid
 	 */
 	ROWS: {
-		1: "grid-rows-1",  // 1 row (single horizontal strip)
-		2: "grid-rows-2",  // 2 rows (top/bottom split)
-		3: "grid-rows-3",  // 3 rows (vertical thirds)
-		4: "grid-rows-4",  // 4 rows (quarters)
-		6: "grid-rows-6",  // 6 rows (complex vertical layouts)
+		1: "grid-rows-1", // 1 row (single horizontal strip)
+		2: "grid-rows-2", // 2 rows (top/bottom split)
+		3: "grid-rows-3", // 3 rows (vertical thirds)
+		4: "grid-rows-4", // 4 rows (quarters)
+		6: "grid-rows-6", // 6 rows (complex vertical layouts)
 	},
 
 	/**
@@ -61,13 +61,13 @@ export const GRID = {
 	 * Space between grid items (applies to both rows and columns)
 	 */
 	GAP: {
-		none: "gap-0",     // 0px - No spacing
-		xs: "gap-1",       // 4px - Minimal (compact lists)
-		sm: "gap-2",       // 8px - Tight (dense grids)
-		md: "gap-4",       // 16px - Standard (default spacing)
-		lg: "gap-6",       // 24px - Comfortable (feature grids)
-		xl: "gap-8",       // 32px - Generous (hero sections)
-		"2xl": "gap-12",  // 48px - Maximum (major sections)
+		none: "gap-0", // 0px - No spacing
+		xs: "gap-1", // 4px - Minimal (compact lists)
+		sm: "gap-2", // 8px - Tight (dense grids)
+		md: "gap-4", // 16px - Standard (default spacing)
+		lg: "gap-6", // 24px - Comfortable (feature grids)
+		xl: "gap-8", // 32px - Generous (hero sections)
+		"2xl": "gap-12", // 48px - Maximum (major sections)
 	},
 
 	/**
@@ -75,8 +75,8 @@ export const GRID = {
 	 * Controls how auto-placed items fill the grid
 	 */
 	FLOW: {
-		row: "grid-flow-row",            // Fill rows first (left-to-right, then down)
-		col: "grid-flow-col",            // Fill columns first (top-to-bottom, then right)
+		row: "grid-flow-row", // Fill rows first (left-to-right, then down)
+		col: "grid-flow-col", // Fill columns first (top-to-bottom, then right)
 		rowDense: "grid-flow-row-dense", // Pack rows, fill gaps (masonry)
 		colDense: "grid-flow-col-dense", // Pack columns, fill gaps (vertical masonry)
 	},

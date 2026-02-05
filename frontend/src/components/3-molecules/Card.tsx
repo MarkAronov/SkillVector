@@ -47,11 +47,11 @@ import type { CardHeaderProps, CardProps, CardVariant } from "./Card.types";
 const CARD_PADDING = "2rem"; // 32px base (p-8), 48px desktop (lg:p-12)
 
 const CARD_SPACING = {
-	padding: CARD_PADDING,               // Full padding (all sides)
-	paddingX: "px-8 lg:px-12",          // Horizontal only (32px → 48px)
-	paddingY: "py-8 lg:py-12",          // Vertical only (32px → 48px)
-	paddingTop: "pt-8 lg:pt-12",        // Top only (32px → 48px)
-	paddingBottom: "pb-8 lg:pb-12",     // Bottom only (32px → 48px)
+	padding: CARD_PADDING, // Full padding (all sides)
+	paddingX: "px-8 lg:px-12", // Horizontal only (32px → 48px)
+	paddingY: "py-8 lg:py-12", // Vertical only (32px → 48px)
+	paddingTop: "pt-8 lg:pt-12", // Top only (32px → 48px)
+	paddingBottom: "pb-8 lg:pb-12", // Bottom only (32px → 48px)
 };
 
 /**
@@ -59,9 +59,9 @@ const CARD_SPACING = {
  * Defines additional styling for card variants
  */
 const variantClasses: Record<CardVariant, string> = {
-	default: "",   // No additional styles (base card)
-	hover: "",     // Reserved for future hover effects
-	feature: "",   // Reserved for future featured styling
+	default: "", // No additional styles (base card)
+	hover: "", // Reserved for future hover effects
+	feature: "", // Reserved for future featured styling
 };
 
 /**
@@ -84,11 +84,11 @@ const Card = ({
 	// Combine all card styling
 	const combinedClassName = cn(
 		"text-card-foreground flex flex-col",
-		"backdrop-blur-sm bg-white/40 dark:bg-black/30",   // Glassmorphism background
-		BORDERS.RADIUS["2xl"],                              // 16px border radius
+		"backdrop-blur-sm bg-white/40 dark:bg-black/30", // Glassmorphism background
+		BORDERS.RADIUS["2xl"], // 16px border radius
 		`${SHADOWS.lg} shadow-black/5 dark:shadow-black/20`, // Elevated shadow
-		"border border-white/20 dark:border-white/10",      // Subtle border
-		"relative overflow-hidden z-10",                    // Stacking context
+		"border border-white/20 dark:border-white/10", // Subtle border
+		"relative overflow-hidden z-10", // Stacking context
 		variantClass,
 		fillClass,
 		minHClass,
@@ -105,7 +105,7 @@ const Card = ({
 			{children}
 		</Glass>
 	);
-}
+};
 
 /**
  * CardHeader Component
@@ -144,7 +144,7 @@ const CardHeader = ({
 			{children}
 		</Div>
 	);
-}
+};
 
 /**
  * CardTitle Component
@@ -160,7 +160,7 @@ const CardTitle = ({ className, ...props }: ComponentProps<"div">) => {
 			{...props}
 		/>
 	);
-}
+};
 
 /**
  * CardDescription Component
@@ -175,7 +175,7 @@ const CardDescription = ({ className, ...props }: ComponentProps<"div">) => {
 			{...props}
 		/>
 	);
-}
+};
 
 /**
  * CardAction Component
@@ -185,7 +185,7 @@ const CardAction = ({ className, ...props }: ComponentProps<"div">) => {
 	return (
 		<Div data-slot="card-action" className={cn("mt-2", className)} {...props} />
 	);
-}
+};
 
 /**
  * CardContent Component
@@ -208,13 +208,9 @@ const CardContent = ({
 	);
 
 	return (
-		<Div
-			data-slot="card-content"
-			className={combinedClassName}
-			{...props}
-		/>
+		<Div data-slot="card-content" className={combinedClassName} {...props} />
 	);
-}
+};
 
 /**
  * CardFooter Component
@@ -223,23 +219,26 @@ const CardContent = ({
 const CardFooter = ({ className, ...props }: ComponentProps<"div">) => {
 	// Combine footer styling
 	const combinedClassName = cn(
-		CARD_SPACING.paddingX,           // Horizontal padding
-		CARD_SPACING.paddingBottom,      // Bottom padding
-		"flex items-center",             // Horizontal flex with vertical alignment
+		CARD_SPACING.paddingX, // Horizontal padding
+		CARD_SPACING.paddingBottom, // Bottom padding
+		"flex items-center", // Horizontal flex with vertical alignment
 		className,
 	);
 
 	return (
-		<Div
-			data-slot="card-footer"
-			className={combinedClassName}
-			{...props}
-		/>
+		<Div data-slot="card-footer" className={combinedClassName} {...props} />
 	);
-}
-
-export {
-	Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, type CardHeaderProps, type CardProps,
-	type CardVariant
 };
 
+export {
+	Card,
+	CardAction,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+	type CardHeaderProps,
+	type CardProps,
+	type CardVariant,
+};

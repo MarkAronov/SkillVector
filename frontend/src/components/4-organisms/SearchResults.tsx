@@ -177,7 +177,9 @@ export const SearchResults = ({ data, isLoading }: SearchResultsProps) => {
 	if (!data.success && data.error) {
 		return (
 			<Card className="mt-8 p-6 border-red-200 text-red-700">
-				<h2 className={`${TYPOGRAPHY.COMBINATIONS.mediumHeading} mb-2`}>Error</h2>
+				<h2 className={`${TYPOGRAPHY.COMBINATIONS.mediumHeading} mb-2`}>
+					Error
+				</h2>
 				<p className="text-red-600">{data.error}</p>
 				{data.details && (
 					<Text variant="small" className="text-red-500 mt-2">
@@ -193,7 +195,9 @@ export const SearchResults = ({ data, isLoading }: SearchResultsProps) => {
 			{/* AI Answer Section */}
 			{data.answer && (
 				<Card className="p-6 border-primary/30">
-					<h2 className={`${TYPOGRAPHY.COMBINATIONS.mediumHeading} mb-2`}>AI Summary</h2>
+					<h2 className={`${TYPOGRAPHY.COMBINATIONS.mediumHeading} mb-2`}>
+						AI Summary
+					</h2>
 					<p className="text-foreground whitespace-pre-wrap">{data.answer}</p>
 				</Card>
 			)}
@@ -246,4 +250,4 @@ export const SearchResults = ({ data, isLoading }: SearchResultsProps) => {
 			</div>
 		</div>
 	);
-}
+};

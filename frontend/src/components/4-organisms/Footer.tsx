@@ -1,7 +1,7 @@
-import { SITE_CONFIG, SOCIAL_LINKS } from "@/constants/site";
 import { Link, useLocation } from "@tanstack/react-router";
 import { ExternalLink, Github, Linkedin, Mail } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { SITE_CONFIG, SOCIAL_LINKS } from "@/constants/site";
 import { TYPOGRAPHY } from "../1-ions";
 
 const footerSections = [

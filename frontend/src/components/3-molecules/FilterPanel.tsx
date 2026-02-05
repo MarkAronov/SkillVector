@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import {
 	Select,
 	SelectContent,
@@ -5,7 +6,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { X } from "lucide-react";
 import { SPACING, TYPOGRAPHY } from "../1-ions";
 import { Badge } from "../2-atoms/Badge";
 import { Button } from "../2-atoms/Button";

@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import type { ComponentProps } from "react";
+import { cn } from "@/lib/utils";
 import { BORDERS, SHADOWS, TYPOGRAPHY } from "../1-ions";
 import { Glass } from "../1-ions/Glass";
 import { Div } from "../2-atoms/Div";
@@ -240,6 +240,5 @@ export {
 	CardTitle,
 	type CardHeaderProps,
 	type CardProps,
-	type CardVariant
+	type CardVariant,
 };
-

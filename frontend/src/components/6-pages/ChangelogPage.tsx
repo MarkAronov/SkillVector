@@ -1,12 +1,4 @@
 import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
-import { EXTERNAL_LINKS } from "@/constants/site";
-import {
 	ChevronLeft,
 	ChevronRight,
 	ExternalLink,
@@ -20,6 +12,14 @@ import {
 	TrendingUp,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { EXTERNAL_LINKS } from "@/constants/site";
 import { TYPOGRAPHY } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
@@ -304,34 +304,34 @@ export const ChangelogPage = () => {
 								activeFilters={[
 									...(searchQuery
 										? [
-											{
-												id: "search",
-												type: "search",
-												value: searchQuery,
-												label: `"${searchQuery}"`,
-											},
-										]
+												{
+													id: "search",
+													type: "search",
+													value: searchQuery,
+													label: `"${searchQuery}"`,
+												},
+											]
 										: []),
 									...(filter !== "all"
 										? [
-											{
-												id: "type",
-												type: "type",
-												value: filter,
-												label:
-													filter === "stable" ? "Stable" : "Pre-releases",
-											},
-										]
+												{
+													id: "type",
+													type: "type",
+													value: filter,
+													label:
+														filter === "stable" ? "Stable" : "Pre-releases",
+												},
+											]
 										: []),
 									...(sortOrder !== "newest"
 										? [
-											{
-												id: "sort",
-												type: "sort",
-												value: sortOrder,
-												label: "Oldest First",
-											},
-										]
+												{
+													id: "sort",
+													type: "sort",
+													value: sortOrder,
+													label: "Oldest First",
+												},
+											]
 										: []),
 								]}
 								onRemoveFilter={(type) => {
@@ -456,10 +456,11 @@ export const ChangelogPage = () => {
 															key={page}
 															type="button"
 															onClick={() => goToPage(page)}
-															className={`min-w-10 h-10 rounded-lg border transition-colors ${page === currentPage
+															className={`min-w-10 h-10 rounded-lg border transition-colors ${
+																page === currentPage
 																	? "bg-primary text-primary-foreground border-primary"
 																	: "border-border"
-																}`}
+															}`}
 															aria-label={`Go to page ${page}`}
 															aria-current={
 																page === currentPage ? "page" : undefined

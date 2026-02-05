@@ -1,5 +1,5 @@
-import { Textarea as ShadcnTextarea } from "@/components/ui/textarea";
 import type { ComponentProps } from "react";
+import { Textarea as ShadcnTextarea } from "@/components/ui/textarea";
 
 /**
  * Textarea Component

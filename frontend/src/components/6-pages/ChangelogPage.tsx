@@ -20,9 +20,9 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { EXTERNAL_LINKS } from "@/constants/site";
+import { TYPOGRAPHY } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
-import { TYPOGRAPHY } from "../1-ions";
 import { Link } from "../2-atoms/Link";
 import { Section } from "../2-atoms/Section";
 import { Span } from "../2-atoms/Span";

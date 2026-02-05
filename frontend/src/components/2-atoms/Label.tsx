@@ -1,5 +1,5 @@
-import { Label as ShadcnLabel } from "@/components/ui/label";
 import type { ComponentProps } from "react";
+import { Label as ShadcnLabel } from "@/components/ui/label";
 
 /**
  * Label Component

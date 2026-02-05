@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { Glass } from "../1-ions/Glass";
 import { TYPOGRAPHY } from "../1-ions";
+import { Glass } from "../1-ions/Glass";
 import { Badge } from "../2-atoms/Badge";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
 import type { SkillsTooltipProps } from "./SkillsTooltip.types";

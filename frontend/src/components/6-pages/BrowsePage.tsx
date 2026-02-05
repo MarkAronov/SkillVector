@@ -1,5 +1,5 @@
-import { usePeople } from "@/hooks/usePeople";
 import { useEffect, useState } from "react";
+import { usePeople } from "@/hooks/usePeople";
 import { Text } from "../2-atoms/Text";
 import { ErrorMessage } from "../3-molecules/ErrorMessage";
 import { Hero } from "../3-molecules/Hero";

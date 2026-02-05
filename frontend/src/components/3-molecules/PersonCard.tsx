@@ -1,8 +1,8 @@
+import { TYPOGRAPHY } from "../1-ions";
 import { Avatar, AvatarFallback } from "../2-atoms/Avatar";
 import { Badge } from "../2-atoms/Badge";
 import { Link } from "../2-atoms/Link";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
-import { TYPOGRAPHY } from "../1-ions";
 import { Card } from "./Card";
 import type { PersonCardProps } from "./PersonCard.types";
 import { SkillsTooltip } from "./SkillsTooltip";

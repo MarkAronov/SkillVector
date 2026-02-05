@@ -10,7 +10,8 @@ import {
 import { Section } from "../2-atoms/Section";
 import { CTACard } from "../3-molecules/CTACard";
 import { Hero } from "../3-molecules/Hero";
-import { CardGrid, type CardGridItem } from "../4-organisms/CardGrid";
+import { CardGrid } from "../4-organisms/CardGrid";
+import type { CardGridItem } from "../4-organisms/CardGrid.types";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
 const features: CardGridItem[] = [
@@ -64,7 +65,12 @@ export const FeaturesPage = () => {
 
 			{/* Features Grid */}
 			<Section>
-				<CardGrid items={features} maxColumns={2} gap="lg" />
+				<CardGrid
+					items={features}
+					maxColumns={2}
+					gap="lg"
+					centerIncompleteRows
+				/>
 			</Section>
 
 			{/* Call to Action */}

@@ -1,19 +1,41 @@
-import type { ReactNode } from "react";
 import { SPACING } from "../1-ions";
 import { Heading } from "../2-atoms/Heading";
 import { Text } from "../2-atoms/Text";
 import { Card, CardContent, CardHeader } from "./Card";
+import type { IconCardProps } from "./IconCard.types";
 
-interface IconCardProps {
-	icon: ReactNode;
-	title: string;
-	description: string;
-	className?: string;
-	badge?: ReactNode;
-	actions?: ReactNode;
-	children?: ReactNode;
-	"aria-label"?: string;
-}
+/**
+ * IconCard Component
+ *
+ * Card with prominent icon display, ideal for feature highlights and service offerings.
+ * Provides two layout variants: header-based and content-based.
+ *
+ * Standard IconCard (CardHeader layout):
+ * - Icon: Displayed in centered card header with primary color
+ * - Title: Card variant heading (h3)
+ * - Badge: Optional status/category badge
+ * - Description: Muted text below title
+ * - Actions: Optional action buttons (margin-top: 16px)
+ * - Children: Additional content below description
+ *
+ * IconCardWithContent (CardContent layout):
+ * - Icon: Left-aligned with content in horizontal flex
+ * - Title: Subsection heading next to icon
+ * - Badge: Inline with title
+ * - Description: Small text variant
+ * - Flexible content and actions below
+ *
+ * Both variants:
+ * - hover variant card (interactive shadow)
+ * - h-full for consistent grid heights
+ * - Accessible aria-label support
+ *
+ * Use Cases:
+ * - Feature grids
+ * - Service offerings
+ * - Benefit highlights
+ * - Tool showcases
+ */
 
 export const IconCard = ({
 	icon,

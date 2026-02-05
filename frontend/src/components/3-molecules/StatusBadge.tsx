@@ -1,17 +1,49 @@
-type BadgeStatus =
-	| "ready"
-	| "soon"
-	| "planned"
-	| "beginner"
-	| "intermediate"
-	| "advanced";
+import { TYPOGRAPHY } from "../1-ions";
+import type { BadgeStatus, StatusBadgeProps } from "./StatusBadge.types";
 
-interface StatusBadgeProps {
-	status: BadgeStatus;
-	label?: string;
-	className?: string;
-}
+/**
+ * StatusBadge Component
+ *
+ * Small inline badge for displaying status or difficulty levels.
+ * Pre-configured color schemes for consistent status indication.
+ *
+ * Status Variants (Production):
+ * - ready: Green (success) - Production ready, stable features
+ * - soon: Blue - Coming soon, in development
+ * - planned: Gray - Future roadmap items
+ *
+ * Difficulty Variants:
+ * - beginner: Green (success) - Easy, entry-level
+ * - intermediate: Blue - Medium difficulty
+ * - advanced: Purple - High difficulty, expert level
+ *
+ * Visual Design:
+ * - Inline-block display
+ * - Rounded corners (rounded)
+ * - Small text size (text-xs)
+ * - Medium font weight (font-medium)
+ * - Padding: 8px horizontal, 2px vertical (px-2 py-0.5)
+ *
+ * Color System:
+ * - Light mode: Colored backgrounds (100 shade) with dark text (700 shade)
+ * - Dark mode: Darker backgrounds (900/30 opacity) with lighter text (300 shade)
+ * - Consistent opacity for visual harmony
+ *
+ * Label Override:
+ * - Default: Uses pre-configured label from statusConfig
+ * - Custom: Pass label prop to override default text
+ *
+ * Use Cases:
+ * - Feature status indicators
+ * - Difficulty ratings
+ * - Progress states
+ * - Availability markers
+ */
 
+/**
+ * Status configuration mapping
+ * Defines visual styling and default labels for each status type
+ */
 const statusConfig: Record<BadgeStatus, { style: string; label: string }> = {
 	ready: {
 		style: "bg-success/10 dark:bg-success/20 text-success dark:text-success",
@@ -41,13 +73,13 @@ const statusConfig: Record<BadgeStatus, { style: string; label: string }> = {
 	},
 };
 
-export function StatusBadge({ status, label, className }: StatusBadgeProps) {
+export const StatusBadge = ({ status, label, className }: StatusBadgeProps) => {
 	const config = statusConfig[status];
 	const displayLabel = label || config.label;
 
 	return (
 		<span
-			className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${config.style} ${className ?? ""}`}
+			className={`inline-block px-2 py-0.5 rounded ${TYPOGRAPHY.COMBINATIONS.badge} ${config.style} ${className ?? ""}`}
 		>
 			{displayLabel}
 		</span>

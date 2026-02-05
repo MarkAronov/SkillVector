@@ -50,19 +50,20 @@ export const CompactWithFilters: Story = {
 
 		const activeFilters = [
 			...(searchQuery
-				? [{ type: "search", value: searchQuery, label: `"${searchQuery}"` }]
+				? [{ id: "search-1", type: "search", value: searchQuery, label: `"${searchQuery}"` }]
 				: []),
 			...(filterType !== "all"
 				? [
-						{
-							type: "type",
-							value: filterType,
-							label: filterType === "stable" ? "Stable" : "Pre-releases",
-						},
-					]
+					{
+						id: "type-1",
+						type: "type",
+						value: filterType,
+						label: filterType === "stable" ? "Stable" : "Pre-releases",
+					},
+				]
 				: []),
 			...(sortOrder !== "newest"
-				? [{ type: "sort", value: sortOrder, label: "Oldest First" }]
+				? [{ id: "sort-1", type: "sort", value: sortOrder, label: "Oldest First" }]
 				: []),
 		];
 
@@ -167,8 +168,8 @@ export const WithActiveFilters: Story = {
 			type: "stable",
 		},
 		activeFilters: [
-			{ type: "search", value: "v1.0", label: '"v1.0"' },
-			{ type: "type", value: "stable", label: "Stable" },
+			{ id: "search-1", type: "search", value: "v1.0", label: '"v1.0"' },
+			{ id: "type-1", type: "type", value: "stable", label: "Stable" },
 		],
 		resultsCount: 8,
 		totalCount: 50,

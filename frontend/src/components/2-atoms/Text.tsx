@@ -1,39 +1,62 @@
-import type { ComponentProps, ElementType } from "react";
 import { cn } from "@/lib/utils";
+import { TYPOGRAPHY } from "../1-ions";
+import type { TextProps, TextVariant } from "./Text.types";
 
-type TextVariant =
-	| "body"
-	| "lead"
-	| "muted"
-	| "small"
-	| "caption"
-	| "heading"
-	| "subheading";
+/**
+ * Text Component
+ *
+ * A flexible text component that supports multiple semantic variants.
+ * Each variant has its own size, color, and spacing optimized for its purpose.
+ */
 
-interface TextProps extends ComponentProps<"p"> {
-	variant?: TextVariant;
-	as?: ElementType;
-}
-
+/**
+ * Variant styles mapping
+ * Each variant is designed for a specific use case:
+ * - body: Standard paragraph text (most common)
+ * - lead: Larger introductory or emphasized text
+ * - muted: De-emphasized secondary text
+ * - small: Compact text for metadata or captions
+ * - caption: Tiny text for image captions or footnotes
+ * - heading: Alternative heading style when you need <p> semantics
+ * - subheading: Alternative subheading style when you need <p> semantics
+ */
 const variantClasses: Record<TextVariant, string> = {
-	body: "text-sm lg:text-base text-foreground leading-relaxed",
-	lead: "text-base lg:text-xl text-muted-foreground leading-relaxed",
-	muted: "text-sm lg:text-base text-muted-foreground leading-relaxed",
-	small: "text-xs lg:text-sm text-muted-foreground leading-relaxed",
-	caption: "text-xs text-muted-foreground",
-	heading: "text-2xl lg:text-3xl font-bold",
-	subheading: "text-base lg:text-lg font-semibold",
+	// Standard body text - the default for most content (14px → 16px)
+	body: `${TYPOGRAPHY.COMBINATIONS.bodySmall} text-foreground leading-relaxed`,
+
+	// Lead paragraph - larger, attention-grabbing introductory text (16px → 20px)
+	lead: `${TYPOGRAPHY.COMBINATIONS.bodyLarge} text-muted-foreground leading-relaxed`,
+
+	// Muted text - de-emphasized secondary information (14px → 16px)
+	muted: `${TYPOGRAPHY.COMBINATIONS.bodyMuted} leading-relaxed`,
+
+	// Small text - compact for metadata, labels, or fine print (12px → 14px)
+	small: `${TYPOGRAPHY.COMBINATIONS.smallMuted} leading-relaxed`,
+
+	// Caption text - tiny text for image captions or footnotes (12px)
+	caption: TYPOGRAPHY.COMBINATIONS.caption,
+
+	// Heading style - when you need heading appearance with <p> semantics (24px → 30px)
+	heading: TYPOGRAPHY.COMBINATIONS.sectionHeading,
+
+	// Subheading style - when you need subheading appearance with <p> semantics (16px → 18px)
+	subheading: TYPOGRAPHY.COMBINATIONS.subheading,
 };
 
-function Text({
+const Text = ({
 	className,
 	variant = "body",
 	as: Component = "p",
 	...props
-}: TextProps) {
-	return (
-		<Component className={cn(variantClasses[variant], className)} {...props} />
-	);
-}
+}: TextProps) => {
+	// Get the appropriate classes for the selected variant
+	const variantClass = variantClasses[variant];
+
+	// Combine variant classes with any custom classes
+	const combinedClassName = cn(variantClass, className);
+
+	return <Component className={combinedClassName} {...props} />;
+};
 
 export { Text, type TextProps, type TextVariant };
+

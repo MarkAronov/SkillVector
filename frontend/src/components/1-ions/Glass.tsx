@@ -6,17 +6,32 @@ import { cn } from "@/lib/utils";
 /**
  * Glass Component - Pure Visual Primitive
  *
- * Provides ONLY glassmorphism effects:
- * - Backdrop blur and saturation
- * - Semi-transparent background
- * - Subtle noise texture overlay
- * - Border radius
+ * Provides glassmorphism effects for modern UI elements.
+ * A pure visual primitive that applies frosted glass aesthetics.
  *
- * Does NOT provide:
- * - Borders (components handle their own)
- * - Shadows (components handle their own)
- * - Padding (components handle their own)
- * - Layout structure (components handle their own)
+ * Visual Effects Applied:
+ * - Backdrop blur: Creates frosted glass effect behind element
+ * - Backdrop saturation: Enhances colors showing through glass
+ * - Semi-transparent background: Allows content behind to show partially
+ * - Noise texture overlay: Subtle grain for realistic glass texture
+ * - Border radius: Smooth edges (inherited from parent or custom)
+ *
+ * What Glass Does NOT Provide (component responsibility):
+ * - Borders: Components handle their own border styles
+ * - Shadows: Components control shadow depth
+ * - Padding: Components manage internal spacing
+ * - Layout structure: Components define their own layout
+ *
+ * Variants:
+ * - default: Standard glass effect (subtle blur, light transparency)
+ * - card: Optimized for card elements (medium blur, card-like opacity)
+ * - panel: For larger panel surfaces (similar to default)
+ * - pronounced: Heavy glass effect (strong blur, more transparency)
+ *
+ * Constraint Mode:
+ * - When enabled, centers element and applies max-width
+ * - Default: max-w-2xl (672px) centered
+ * - Custom: Provide maxWidthClass for different constraints
  */
 
 export interface GlassProps extends HTMLAttributes<HTMLDivElement> {
@@ -39,28 +54,43 @@ export const Glass = ({
 	children,
 	...props
 }: GlassProps) => {
+	// Choose component type: Slot (inherit parent element) or div
 	const Comp = asChild ? Slot : "div";
+
+	// Base glass effect class (applies core blur and transparency)
 	const base = "glass";
+
+	// Variant-specific glass styling
 	const variantClass =
 		variant === "card"
-			? "glass-card"
+			? "glass-card" // Card-optimized glass effect
 			: variant === "pronounced"
-				? "glass-pronounced"
-				: "";
+				? "glass-pronounced" // Heavy glass effect
+				: ""; // Default/panel use base only
+
+	// Width constraint class (centers and limits width when enabled)
 	const constraintClass = constrain
-		? (maxWidthClass ?? "max-w-2xl mx-auto")
+		? (maxWidthClass ?? "max-w-2xl mx-auto") // Default: 672px max width, centered
 		: "";
 
-	// Randomize noise background offset per-instance on client to avoid visible tiling
+	/**
+	 * Randomize noise texture offset per-instance
+	 * Prevents visible tiling patterns when multiple Glass elements render
+	 * Only runs on client to avoid hydration mismatch
+	 */
 	const [noiseVars, setNoiseVars] = useState<Record<string, string> | null>(
 		null,
 	);
 
 	useEffect(() => {
-		// Only run on client
-		const size = 800; // should match default noise-size in CSS
+		// Only run on client side (after hydration)
+		const size = 800; // Matches noise-size in CSS
+
+		// Generate random offset within texture bounds
 		const x = Math.floor(Math.random() * size);
 		const y = Math.floor(Math.random() * size);
+
+		// Set CSS custom properties for noise position
 		setNoiseVars({
 			"--noise-x": `${x}px`,
 			"--noise-y": `${y}px`,
@@ -68,15 +98,17 @@ export const Glass = ({
 		});
 	}, []);
 
+	// Combine all classes
+	const combinedClassName = cn(base, variantClass, constraintClass, className);
+
+	// Merge noise variables with any existing inline styles
+	const combinedStyle = {
+		...(props.style as CSSProperties),
+		...(noiseVars as unknown as CSSProperties),
+	};
+
 	return (
-		<Comp
-			className={cn(base, variantClass, constraintClass, className)}
-			style={{
-				...(props.style as CSSProperties),
-				...(noiseVars as unknown as CSSProperties),
-			}}
-			{...props}
-		>
+		<Comp className={combinedClassName} style={combinedStyle} {...props}>
 			{children}
 		</Comp>
 	);

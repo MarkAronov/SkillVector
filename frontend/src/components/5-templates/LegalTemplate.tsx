@@ -1,22 +1,14 @@
-import type { ReactNode } from "react";
 import { PageContainer } from "../2-atoms/PageContainer";
 import { Hero } from "../3-molecules/Hero";
+import type { LegalTemplateProps } from "./LegalTemplate.types";
 import { PageTemplate } from "./PageTemplate";
 
-interface LegalTemplateProps {
-	title: string;
-	subtitle: string;
-	children: ReactNode;
-	/** Browser tab title (defaults to title if not provided) */
-	pageTitle?: string;
-}
-
-export function LegalTemplate({
+export const LegalTemplate = ({
 	title,
 	subtitle,
 	children,
 	pageTitle,
-}: LegalTemplateProps) {
+}: LegalTemplateProps) => {
 	return (
 		<PageTemplate title={pageTitle || title} maxWidth="lg">
 			<PageContainer maxWidth="lg">

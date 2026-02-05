@@ -2,6 +2,29 @@
  * IONS: Design Tokens - Shadows
  *
  * Shadow definitions for depth and elevation in the design system.
+ * Creates visual hierarchy through layered shadow effects.
+ *
+ * Standard Shadow Scale (Elevation Levels):
+ * - xs: 1-2px - Minimal depth (subtle borders, text fields)
+ * - sm: 1-3px - Light elevation (hovering cards, buttons)
+ * - md/DEFAULT: 4-6px - Standard elevation (cards, dropdowns)
+ * - lg: 10-15px - High elevation (modals, popovers)
+ * - xl: 20-25px - Maximum elevation (dialogs, drawers)
+ * - 2xl: 25-50px - Extreme elevation (major overlays)
+ * - inner: Inset shadow - Recessed appearance (pressed buttons)
+ * - none: No shadow - Flat design
+ *
+ * Glass Shadows (Glassmorphism Effects):
+ * - light: Subtle glass effect (light backgrounds)
+ * - DEFAULT: Standard glass effect (balanced transparency)
+ * - dark: Heavy glass effect (dark backgrounds, high contrast)
+ * - card: Complex multi-layer glass (premium cards, hero elements)
+ *   Includes outer shadows + inner highlights for realistic glass
+ *
+ * Usage Pattern:
+ * - Combine with blur for glassmorphism
+ * - Use sparingly - too many shadows create visual clutter
+ * - Higher elevations should be reserved for interactive/important elements
  */
 
 const baseShadows = {

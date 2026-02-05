@@ -1,4 +1,3 @@
-import { X } from "lucide-react";
 import {
 	Select,
 	SelectContent,
@@ -6,7 +5,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { SPACING } from "../1-ions";
+import { X } from "lucide-react";
+import { SPACING, TYPOGRAPHY } from "../1-ions";
 import { Badge } from "../2-atoms/Badge";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
@@ -28,8 +28,9 @@ export interface FilterConfig {
 }
 
 export interface ActiveFilter {
+	id: string;
 	type: string;
-	value: string;
+	value: string | string[];
 	label: string;
 }
 
@@ -123,7 +124,7 @@ export const FilterPanel = ({
 					{description && (
 						<Text
 							variant="lead"
-							className="text-muted-foreground mb-6 max-w-2xl mx-auto"
+							className="text-muted-foreground mb-6"
 						>
 							{description}
 						</Text>
@@ -251,7 +252,7 @@ export const FilterPanel = ({
 									variant="ghost"
 									size="sm"
 									onClick={onClearAll}
-									className="h-7 text-xs"
+									className={`h-7 ${TYPOGRAPHY.FONT_SIZE.xs}`}
 								>
 									Clear all
 								</Button>

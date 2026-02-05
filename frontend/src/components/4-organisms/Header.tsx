@@ -1,8 +1,9 @@
+import { SOCIAL_LINKS } from "@/constants/site";
 import { Link, useLocation } from "@tanstack/react-router";
 import { Menu, Monitor, Moon, Search, Sun, X } from "lucide-react";
 import { useState } from "react";
-import { SOCIAL_LINKS } from "@/constants/site";
 import { useTheme } from "../../hooks/useTheme";
+import { TYPOGRAPHY } from "../1-ions";
 import { Glass } from "../1-ions/Glass";
 import { Logo } from "../2-atoms/Logo";
 
@@ -25,7 +26,7 @@ const themeLabels = {
 	dark: "Dark Theme",
 };
 
-export function Header() {
+export const Header = () => {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const { theme, toggleTheme } = useTheme();
 	const location = useLocation();
@@ -40,12 +41,12 @@ export function Header() {
 		const isActive =
 			!item.external && (item.to ?? "").split("#")[0] === location.pathname;
 		const className = isMobile
-			? `${isActive ? "text-primary" : "text-muted-foreground"} hover:text-primary transition-colors font-medium`
-			: `${isActive ? "text-primary" : "text-foreground/90"} hover:text-primary transition-colors font-medium text-sm lg:text-base`;
+		? `${isActive ? "text-primary" : "text-muted-foreground"} hover:text-primary transition-colors ${TYPOGRAPHY.FONT_WEIGHT.medium}`
+		: `${isActive ? "text-primary" : "text-foreground/90"} hover:text-primary transition-colors ${TYPOGRAPHY.FONT_WEIGHT.medium} ${TYPOGRAPHY.FONT_SIZE.sm_base}`;
 
-		const onClick = isMobile ? () => setMobileMenuOpen(false) : undefined;
+	const onClick = isMobile ? () => setMobileMenuOpen(false) : undefined;
 
-		if (item.external) {
+	if (item.external) {
 			return (
 				<a
 					key={item.label}
@@ -89,7 +90,7 @@ export function Header() {
 									className="flex items-center gap-3 hover:opacity-80 transition-opacity"
 								>
 									<Logo size="md" />
-									<span className="text-lg lg:text-xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
+									<span className={`${TYPOGRAPHY.COMBINATIONS.brandText} bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent`}>
 										SkillVector
 									</span>
 								</Link>
@@ -144,7 +145,7 @@ export function Header() {
 										<button
 											type="button"
 											onClick={toggleTheme}
-											className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors font-medium"
+											className={`flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors ${TYPOGRAPHY.COMBINATIONS.navLink}`}
 										>
 											<ThemeIcon className="h-5 w-5" />
 											<span>{themeLabel}</span>

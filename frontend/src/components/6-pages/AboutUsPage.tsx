@@ -11,7 +11,8 @@ import { Heading } from "../2-atoms/Heading";
 import { Section } from "../2-atoms/Section";
 import { Text } from "../2-atoms/Text";
 import { Hero } from "../3-molecules/Hero";
-import { CardGrid, type CardGridItem } from "../4-organisms/CardGrid";
+import { CardGrid } from "../4-organisms/CardGrid";
+import type { CardGridItem } from "../4-organisms/CardGrid.types";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
 const capabilities: CardGridItem[] = [
@@ -102,7 +103,12 @@ export const AboutPage = () => {
 
 			{/* Capabilities & Technology Stack */}
 			<Section>
-				<CardGrid items={capabilities} maxColumns={2} gap="lg" />
+				<CardGrid
+					items={capabilities}
+					maxColumns={2}
+					gap="lg"
+					centerIncompleteRows
+				/>
 			</Section>
 		</PageTemplate>
 	);

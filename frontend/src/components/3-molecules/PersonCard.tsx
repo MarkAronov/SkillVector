@@ -1,18 +1,14 @@
-import type { PersonSearchResult } from "@/types/search.types";
 import { Avatar, AvatarFallback } from "../2-atoms/Avatar";
 import { Badge } from "../2-atoms/Badge";
 import { Link } from "../2-atoms/Link";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
+import { TYPOGRAPHY } from "../1-ions";
 import { Card } from "./Card";
+import type { PersonCardProps } from "./PersonCard.types";
 import { SkillsTooltip } from "./SkillsTooltip";
 import { TruncatedText } from "./TruncatedText";
 
-interface PersonCardProps {
-	person: PersonSearchResult;
-	view?: "grid" | "row";
-}
-
-export function PersonCard({ person, view = "grid" }: PersonCardProps) {
+export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 	const p = person.person;
 
 	// Helper to display experience
@@ -59,7 +55,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 
 	if (view === "row") {
 		return (
-			<Card className="hover:shadow-md transition-shadow">
+			<Card fill className="hover:shadow-md transition-shadow">
 				<div className="bg-linear-to-r from-primary/5 to-primary/10 h-20 -m-6 mb-2 rounded-t-lg" />
 				<div className="p-6 -mt-16">
 					<div className="flex gap-4">
@@ -73,17 +69,17 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 						<div className="flex-1 min-w-0">
 							<div className="flex items-start justify-between gap-4">
 								<div className="min-w-0 flex-1">
-									<h3 className="font-semibold text-base leading-tight truncate">
+									<h3 className={`${TYPOGRAPHY.COMBINATIONS.cardHeading} leading-tight truncate`}>
 										<TruncatedText text={p.name || "Unknown"} maxLength={25} />
 									</h3>
-									<p className="text-sm text-muted-foreground mt-1 truncate">
+									<p className={`${TYPOGRAPHY.FONT_SIZE.sm} text-muted-foreground mt-1 truncate`}>
 										<TruncatedText
 											text={p.role || "No role specified"}
 											maxLength={30}
 										/>
 									</p>
 									{(p.location || expYears > 0) && (
-										<p className="text-xs text-muted-foreground mt-2 truncate">
+										<p className={`${TYPOGRAPHY.FONT_SIZE.xs} text-muted-foreground mt-2 truncate`}>
 											<TruncatedText
 												text={[
 													p.location,
@@ -100,7 +96,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 									<div className="hidden md:flex shrink-0">
 										<Badge
 											variant="default"
-											className={`text-xs ${relevanceClass}`}
+										className={`${TYPOGRAPHY.FONT_SIZE.xs} ${relevanceClass}`}
 										>
 											{(person.score * 100).toFixed(0)}%
 										</Badge>
@@ -120,7 +116,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 										const badge = (
 											<Badge
 												variant="secondary"
-												className="text-xs truncate max-w-20 h-6 py-1 select-none"
+											className={`${TYPOGRAPHY.FONT_SIZE.xs} truncate max-w-20 h-6 py-1 select-none`}
 											>
 												{badgeContent}
 											</Badge>
@@ -147,7 +143,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 										<SkillsTooltip skills={skillsArray.slice(5)}>
 											<Badge
 												variant="secondary"
-												className="text-xs cursor-help h-6 py-1"
+											className={`${TYPOGRAPHY.FONT_SIZE.xs} cursor-help h-6 py-1`}
 											>
 												+{skillsArray.length - 5}
 											</Badge>
@@ -163,7 +159,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 										<TooltipTrigger asChild>
 											<Link
 												to="/support#contact"
-												className="text-xs text-primary hover:underline truncate block"
+											className={`${TYPOGRAPHY.FONT_SIZE.xs} text-primary hover:underline truncate block`}
 											>
 												{p.email.length > 30
 													? `${p.email.substring(0, 30)}…`
@@ -178,7 +174,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 					</div>
 					{person.score > 0 && (
 						<div className="md:hidden mt-3">
-							<Badge variant="default" className={`text-xs ${relevanceClass}`}>
+						<Badge variant="default" className={`${TYPOGRAPHY.FONT_SIZE.xs} ${relevanceClass}`}>
 								{(person.score * 100).toFixed(0)}%
 							</Badge>
 						</div>
@@ -190,13 +186,13 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 
 	// Grid / default card
 	return (
-		<Card className="hover:shadow-md transition-shadow h-full flex flex-col">
+		<Card fill className="hover:shadow-md transition-shadow flex flex-col">
 			<div className="bg-linear-to-r from-primary/5 to-primary/10 h-12" />
 			<div className="px-6 pb-6 flex-1 flex flex-col">
 				{/* Avatar overlapping header */}
 				<div className="flex justify-center -mt-8 mb-3">
 					<Avatar variant="nonagon" className="w-16 h-16">
-						<AvatarFallback className="bg-primary dark:bg-primary text-primary-foreground font-semibold">
+						<AvatarFallback className={`bg-primary dark:bg-primary text-primary-foreground ${TYPOGRAPHY.FONT_WEIGHT.semibold}`}>
 							{initials}
 						</AvatarFallback>
 					</Avatar>
@@ -204,17 +200,17 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 
 				{/* Info */}
 				<div className="text-center mb-4">
-					<h3 className="font-semibold text-sm lg:text-base truncate">
+					<h3 className={`${TYPOGRAPHY.COMBINATIONS.cardHeading} truncate`}>
 						<TruncatedText text={p.name || "Unknown"} maxLength={25} />
 					</h3>
-					<p className="text-sm text-muted-foreground mt-1 truncate">
+					<p className={`${TYPOGRAPHY.FONT_SIZE.sm} text-muted-foreground mt-1 truncate`}>
 						<TruncatedText
 							text={p.role || "No role specified"}
 							maxLength={30}
 						/>
 					</p>
 					{(p.location || expYears > 0) && (
-						<p className="text-xs text-muted-foreground mt-2 truncate">
+						<p className={`${TYPOGRAPHY.FONT_SIZE.xs} text-muted-foreground mt-2 truncate`}>
 							<TruncatedText
 								text={[p.location, expYears > 0 ? `${expYears} years` : null]
 									.filter(Boolean)
@@ -263,7 +259,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 								<SkillsTooltip skills={skillsArray.slice(4)}>
 									<Badge
 										variant="secondary"
-										className="text-xs cursor-help h-6 py-1"
+									className={`${TYPOGRAPHY.FONT_SIZE.xs} cursor-help h-6 py-1`}
 									>
 										+{skillsArray.length - 4}
 									</Badge>
@@ -275,7 +271,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 
 				{/* Email */}
 				{p.email && (
-					<div className="text-center text-xs mb-4 flex-1 flex items-end justify-center">
+					<div className={`text-center ${TYPOGRAPHY.FONT_SIZE.xs} mb-4 flex-1 flex items-end justify-center`}>
 						<Tooltip delayDuration={200}>
 							<TooltipTrigger asChild>
 								<Link
@@ -293,7 +289,7 @@ export function PersonCard({ person, view = "grid" }: PersonCardProps) {
 				)}
 				{/* Relevance */}
 				<div className="flex justify-center pt-2 border-t">
-					<Badge variant="default" className={`text-xs ${relevanceClass}`}>
+					<Badge variant="default" className={`${TYPOGRAPHY.FONT_SIZE.xs} ${relevanceClass}`}>
 						{(person.score * 100).toFixed(0)}% Match
 					</Badge>
 				</div>

@@ -1,20 +1,38 @@
-import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 import { SPACING } from "../1-ions";
 import { Heading } from "../2-atoms/Heading";
 import { Text } from "../2-atoms/Text";
+import type { HeroProps } from "./Hero.types";
 
-interface HeroProps extends ComponentProps<"div"> {
-	title: string;
-	subtitle: string;
-	brand?: string;
-	/** Custom gradient class (defaults to brand gradient) */
-	gradientClass?: string;
-	/** Override default layout */
-	centered?: boolean;
-}
+/**
+ * Hero Component
+ *
+ * Large hero section for page headers with prominent title and subtitle.
+ * Supports optional brand text with gradient styling.
+ *
+ * Visual Elements:
+ * - Title: Hero variant heading (largest text size)
+ * - Brand: Optional highlighted text with gradient (clips to text)
+ * - Subtitle: Lead text variant (descriptive)
+ *
+ * Layout:
+ * - Default: Centered text alignment (text-center)
+ * - Spacing: Large section padding (64-96px vertical)
+ * - Width: Controlled by parent container (PageTemplate)
+ *
+ * Gradient System:
+ * - gradientClass: Custom gradient for brand text
+ * - Default: "bg-linear-to-r from-primary to-secondary"
+ * - Uses bg-clip-text for gradient text effect
+ *
+ * Use Cases:
+ * - Landing page headers
+ * - Feature section intros
+ * - Page title banners
+ * - Product launch announcements
+ */
 
-function Hero({
+const Hero = ({
 	className,
 	title,
 	subtitle,
@@ -22,21 +40,30 @@ function Hero({
 	gradientClass = "bg-linear-to-r from-primary to-secondary",
 	centered = true,
 	...props
-}: HeroProps) {
+}: HeroProps) => {
+	// Build centered class
+	const centeredClass = centered ? "text-center" : "";
+
+	// Build gradient brand class
+	const brandClass = cn(gradientClass, "bg-clip-text text-transparent");
+
+	// Combine section classes
+	const combinedClassName = cn(centeredClass, SPACING.SECTION.lg, className);
+
 	return (
 		<div
-			className={cn(centered && "text-center", SPACING.SECTION.lg, className)}
+			className={combinedClassName}
 			{...props}
 		>
 			<Heading variant="hero">
 				{title}{" "}
 				{brand && (
-					<span className={cn(gradientClass, "bg-clip-text text-transparent")}>
+					<span className={brandClass}>
 						{brand}
 					</span>
 				)}
 			</Heading>
-			<Text variant="lead" className="max-w-2xl mx-auto">
+			<Text variant="lead">
 				{subtitle}
 			</Text>
 		</div>
@@ -44,3 +71,4 @@ function Hero({
 }
 
 export { Hero, type HeroProps };
+

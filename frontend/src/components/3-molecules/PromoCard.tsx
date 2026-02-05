@@ -3,6 +3,37 @@ import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Text } from "../2-atoms/Text";
 
+/**
+ * SocialMediaCard Component
+ *
+ * Promotional card for social media links and external resources.
+ * Centered layout with icon, title, description, and action buttons.
+ *
+ * Visual Structure:
+ * - Icon + Title: Horizontal flex with 8px gap (gap-2)
+ * - Description: Lead text variant, muted color
+ * - Actions: Flex wrap buttons with 12px gap (gap-3)
+ *
+ * Action Buttons:
+ * - Primary: Default button variant with icon support
+ * - Secondary: Secondary variant button (optional)
+ * - Both: Open in new tab with security attributes (noopener noreferrer)
+ * - Icons: Optional inline icons with 8px gap (gap-2)
+ *
+ * Layout:
+ * - Text alignment: Centered (text-center)
+ * - Vertical padding: 32px (py-8)
+ * - Horizontal padding: 24px (px-6)
+ * - Width: Controlled by parent container
+ * - Buttons: Centered with flex-wrap for responsiveness
+ *
+ * Use Cases:
+ * - GitHub repository links
+ * - Social platform promotions
+ * - External resource cards
+ * - Call-to-action banners
+ */
+
 export interface SocialMediaCardProps {
 	/** Icon to display in the header */
 	icon: React.ReactNode;
@@ -48,7 +79,7 @@ export const SocialMediaCard = ({
 			</Div>
 			<Text
 				variant="lead"
-				className="text-muted-foreground mb-6 max-w-2xl mx-auto"
+				className="text-muted-foreground mb-6"
 			>
 				{description}
 			</Text>

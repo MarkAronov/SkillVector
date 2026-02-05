@@ -1,54 +1,59 @@
-import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 import { BORDERS, SPACING } from "../1-ions";
+import type { DivProps, DivVariant } from "./Div.types";
 
 /**
- * Div Component - Semantic container with common layouts
+ * Div Component
  *
- * Provides commonly-used layout patterns. For one-off custom layouts,
- * use regular <div> with Tailwind classes directly.
- *
- * Variants:
- * - default: Plain container
- * - flex: Horizontal flexbox with gap (common pattern)
- * - center: Centered content (both axes)
- * - stack: Vertical spacing (common for content)
- * - codeBlock: Code display styling
+ * A semantic container with common layout patterns.
+ * For one-off custom layouts, use regular <div> with Tailwind directly.
  */
 
-type DivVariant = "default" | "flex" | "center" | "stack" | "codeBlock";
-
-interface DivProps extends ComponentProps<"div"> {
-	variant?: DivVariant;
-	/** When true, constrains width and centers element (defaults to `max-w-2xl mx-auto`) */
-	constrain?: boolean;
-	maxWidthClass?: string;
-}
-
+/**
+ * Variant styles mapping
+ * Each variant provides a common layout pattern:
+ * - default: Plain container with no special styling
+ * - flex: Horizontal flexbox with medium gap (common pattern)
+ * - center: Centers content both horizontally and vertically
+ * - stack: Vertical spacing for content stacking
+ * - codeBlock: Styled container for code display
+ */
 const variantClasses: Record<DivVariant, string> = {
+	// Plain container - no special styling
 	default: "",
-	flex: `flex ${SPACING.GAP.md} items-start`, // Common horizontal layout
-	center: "flex justify-center items-center", // Center content
-	stack: SPACING.STACK.md, // Vertical content stacking (renamed from "spacer")
-	codeBlock: `bg-muted/50 ${BORDERS.RADIUS.lg} p-4`, // Code display (renamed from "code")
+
+	// Horizontal flexbox - common for side-by-side elements
+	flex: `flex ${SPACING.GAP.md} items-start`,
+
+	// Center layout - perfect for modals, spinners, empty states
+	center: "flex justify-center items-center",
+
+	// Vertical stack - common for content sections
+	stack: SPACING.STACK.md,
+
+	// Code block - muted background with rounded corners
+	codeBlock: `bg-muted/50 ${BORDERS.RADIUS.lg} p-4`,
 };
 
-function Div({
+const Div = ({
 	className,
 	variant = "default",
 	constrain = false,
 	maxWidthClass,
 	...props
-}: DivProps) {
+}: DivProps) => {
+	// Get the layout style for the selected variant
+	const variantClass = variantClasses[variant];
+
+	// Apply width constraint if requested (for readable line lengths)
 	const constraintClass = constrain
-		? (maxWidthClass ?? "max-w-2xl mx-auto")
+		? maxWidthClass ?? "max-w-2xl mx-auto"
 		: "";
-	return (
-		<div
-			className={cn(variantClasses[variant], constraintClass, className)}
-			{...props}
-		/>
-	);
-}
+
+	// Combine all classes
+	const combinedClassName = cn(variantClass, constraintClass, className);
+
+	return <div className={combinedClassName} {...props} />;
+};
 
 export { Div, type DivProps, type DivVariant };

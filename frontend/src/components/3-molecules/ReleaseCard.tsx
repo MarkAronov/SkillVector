@@ -1,5 +1,6 @@
 import { Calendar, ExternalLink, GitCommit, Github, Tag } from "lucide-react";
 import type React from "react";
+import { TYPOGRAPHY } from "../1-ions";
 import { Badge } from "../2-atoms/Badge";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
@@ -8,15 +9,7 @@ import { List, ListItem } from "../2-atoms/List";
 import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
 import { Card, CardContent } from "./Card";
-
-interface ReleaseCardProps {
-	version: string;
-	date: string;
-	changes: string[];
-	url: string;
-	isPrerelease: boolean;
-	isLatest?: boolean;
-}
+import type { ReleaseCardProps } from "./ReleaseCard.types";
 
 const parseMarkdownLinks = (
 	text: string,
@@ -46,7 +39,7 @@ const parseMarkdownLinks = (
 					href={match[2]}
 					external
 					variant="primary"
-					className="inline-flex items-center gap-1 font-medium"
+					className={`inline-flex items-center gap-1 ${TYPOGRAPHY.FONT_WEIGHT.medium}`}
 				>
 					{match[1]}
 					<ExternalLink className="h-3 w-3" />
@@ -62,7 +55,7 @@ const parseMarkdownLinks = (
 					href={url}
 					external
 					variant="primary"
-					className="inline-flex items-center gap-1 font-medium break-all"
+					className={`inline-flex items-center gap-1 ${TYPOGRAPHY.FONT_WEIGHT.medium} break-all`}
 				>
 					{displayUrl}
 					<ExternalLink className="h-3 w-3" />
@@ -77,7 +70,7 @@ const parseMarkdownLinks = (
 					href={`https://github.com/${username}`}
 					external
 					variant="primary"
-					className="inline-flex items-center gap-1 font-medium"
+					className={`inline-flex items-center gap-1 ${TYPOGRAPHY.FONT_WEIGHT.medium}`}
 				>
 					@{username}
 					<ExternalLink className="h-3 w-3" />

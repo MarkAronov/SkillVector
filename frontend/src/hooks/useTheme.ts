@@ -4,14 +4,14 @@ type Theme = "light" | "dark" | "system";
 
 const STORAGE_KEY = "skillvector-theme";
 
-function getSystemTheme(): "light" | "dark" {
+const getSystemTheme = (): "light" | "dark" => {
 	if (typeof window === "undefined") return "light";
 	return window.matchMedia("(prefers-color-scheme: dark)").matches
 		? "dark"
 		: "light";
 }
 
-function applyTheme(theme: Theme) {
+const applyTheme = (theme: Theme) => {
 	const root = document.documentElement;
 	const effectiveTheme = theme === "system" ? getSystemTheme() : theme;
 
@@ -34,16 +34,16 @@ let currentTheme: Theme = (() => {
 
 const listeners = new Set<() => void>();
 
-function subscribe(listener: () => void) {
+const subscribe = (listener: () => void) => {
 	listeners.add(listener);
 	return () => listeners.delete(listener);
 }
 
-function getSnapshot() {
+const getSnapshot = () => {
 	return currentTheme;
 }
 
-function setThemeInternal(newTheme: Theme) {
+const setThemeInternal = (newTheme: Theme) => {
 	currentTheme = newTheme;
 	localStorage.setItem(STORAGE_KEY, newTheme);
 	applyTheme(newTheme);
@@ -71,7 +71,7 @@ if (typeof window !== "undefined") {
 		});
 }
 
-export function useTheme() {
+export const useTheme = () => {
 	const theme = useSyncExternalStore(
 		subscribe,
 		getSnapshot,

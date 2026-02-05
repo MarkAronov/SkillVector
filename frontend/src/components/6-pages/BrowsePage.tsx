@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { usePeople } from "@/hooks/usePeople";
+import { useEffect, useState } from "react";
 import { Text } from "../2-atoms/Text";
 import { ErrorMessage } from "../3-molecules/ErrorMessage";
 import { Hero } from "../3-molecules/Hero";
@@ -9,7 +9,7 @@ import { ViewToggle } from "../3-molecules/ViewToggle";
 import { CardGrid } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
-export function BrowsePage() {
+export const BrowsePage = () => {
 	const { data, isLoading, error } = usePeople(100);
 
 	const [view, setView] = useState<"grid" | "row">(() => {
@@ -72,13 +72,13 @@ export function BrowsePage() {
 									skills:
 										typeof person.metadata.data_skills === "string"
 											? person.metadata.data_skills
-													.split(",")
-													.map((s) => s.trim())
+												.split(",")
+												.map((s) => s.trim())
 											: [],
 									experience: String(
 										person.metadata.data_experience_years ||
-											person.metadata.data_experience ||
-											"N/A",
+										person.metadata.data_experience ||
+										"N/A",
 									),
 									description: person.metadata.data_description || "",
 									email: person.metadata.data_email || "",

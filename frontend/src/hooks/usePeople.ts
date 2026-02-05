@@ -52,7 +52,7 @@ async function fetchAllPeople(limit = 100): Promise<PeopleResult> {
 	}
 }
 
-export function usePeople(limit = 100, enabled = true) {
+export const usePeople = (limit = 100, enabled = true) => {
 	return useQuery({
 		queryKey: ["people", limit],
 		queryFn: () => fetchAllPeople(limit),

@@ -2,6 +2,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { ExternalLink, Github, Linkedin, Mail } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { SITE_CONFIG, SOCIAL_LINKS } from "@/constants/site";
+import { TYPOGRAPHY } from "../1-ions";
 
 const footerSections = [
 	{
@@ -120,10 +121,10 @@ export const Footer = () => {
 								key={section.title}
 								className="space-y-2 lg:space-y-3 min-w-[140px]"
 							>
-								<h3 className="text-xs lg:text-sm font-semibold text-foreground/90">
+								<h3 className={`${TYPOGRAPHY.COMBINATIONS.footerHeading} text-foreground/90`}>
 									{section.title}
 								</h3>
-								<ul className="space-y-1.5 lg:space-y-2 text-xs lg:text-sm">
+								<ul className={`space-y-1.5 lg:space-y-2 ${TYPOGRAPHY.COMBINATIONS.footerLink}`}>
 									{section.links.map((link) => (
 										<li key={link.label}>
 											{"href" in link ? (
@@ -153,7 +154,7 @@ export const Footer = () => {
 
 					{/* Bottom section */}
 					<div className="mt-6 lg:mt-8 pt-6 lg:pt-8 flex flex-col md:flex-row justify-between items-center gap-3 lg:gap-4">
-						<p className="text-xs lg:text-sm text-foreground/80">
+						<p className={`${TYPOGRAPHY.COMBINATIONS.footerCopyright} text-foreground/80`}>
 							© {currentYear} {SITE_CONFIG.name}. All rights reserved.
 						</p>
 

@@ -1,16 +1,36 @@
 import { Check } from "lucide-react";
-import type { ReactNode } from "react";
 import { SIZING } from "../1-ions";
 import { List, ListItem } from "../2-atoms/List";
 import { Text } from "../2-atoms/Text";
+import type { FeatureListProps } from "./FeatureList.types";
 
-interface FeatureListProps {
-	features: string[];
-	icon?: ReactNode;
-	iconColor?: string;
-	variant?: "spaced" | "default";
-	className?: string;
-}
+/**
+ * FeatureList Component
+ *
+ * Displays a list of features with customizable icons.
+ * Commonly used for feature highlights, benefits lists, or capability summaries.
+ *
+ * Icon System:
+ * - Default: Check icon (primary color, indicates included/completed)
+ * - Custom: Pass any React element as icon prop
+ * - Color: Customizable via iconColor prop (default: text-primary)
+ * - Size: Medium (20px) with top alignment for multi-line items
+ *
+ * Variants:
+ * - spaced: Comfortable spacing between items (default)
+ * - compact: Tight spacing for dense lists
+ *
+ * Layout:
+ * - Each item: Icon + text in horizontal flex
+ * - Icon: Shrink-0 to prevent compression, mt-0.5 for alignment
+ * - Text: Flexible width, wraps naturally
+ *
+ * Use Cases:
+ * - Product feature lists
+ * - Pricing plan inclusions
+ * - Capability summaries
+ * - Checklist presentations
+ */
 
 export const FeatureList = ({
 	features,
@@ -19,6 +39,7 @@ export const FeatureList = ({
 	variant = "spaced",
 	className = "",
 }: FeatureListProps) => {
+	// Use custom icon or default to Check icon
 	const IconComponent = icon || (
 		<Check className={`${SIZING.ICON.md} ${iconColor} shrink-0 mt-0.5`} />
 	);

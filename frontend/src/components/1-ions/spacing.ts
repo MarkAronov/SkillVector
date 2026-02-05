@@ -2,10 +2,34 @@
  * IONS: Design Tokens - Spacing
  *
  * Consistent spacing scale used throughout the design system.
- * Based on Tailwind's default spacing scale (0.25rem increments)
+ * Based on Tailwind's default spacing scale (0.25rem / 4px increments).
+ *
+ * Base Scale Philosophy:
+ * - 0-4: Fine-grained spacing (2-16px) for tight layouts
+ * - 4-12: Standard spacing (16-48px) for most UI elements
+ * - 12-24: Large spacing (48-96px) for section separation
+ * - 24+: Major spacing (96px+) for page-level structure
+ *
+ * Semantic Categories:
+ * - GAP: Spacing between flex/grid items (horizontal and vertical)
+ * - STACK: Vertical spacing between stacked elements
+ * - SECTION: Page-level vertical spacing (responsive)
+ *
+ * Responsive Strategy:
+ * - Base values apply to mobile (< 1024px)
+ * - lg: prefix increases spacing on larger screens
+ * - Example: py-8 lg:py-12 (32px mobile, 48px desktop)
+ *
+ * Usage Examples:
+ * - Gap: <div className="flex gap-4"> (16px between items)
+ * - Stack: <div className="space-y-2"> (8px between children)
+ * - Section: <section className="py-12 lg:py-16"> (48-64px vertical padding)
  */
 
-// Base numeric spacing scale
+/**
+ * Base numeric spacing scale
+ * Raw rem/px values for Tailwind spacing utilities
+ */
 const baseSpacing = {
 	0: "0",
 	px: "1px",
@@ -46,31 +70,48 @@ const baseSpacing = {
 
 // Semantic spacing aliases for common use cases
 export const SPACING = {
-	// Gap spacing for flexbox/grid
+	/**
+	 * Gap spacing for flexbox/grid layouts
+	 * Applies spacing between items in both directions
+	 */
 	GAP: {
-		xs: "gap-1", // 4px
-		sm: "gap-2", // 8px
-		md: "gap-4", // 16px
-		lg: "gap-6", // 24px
-		xl: "gap-8", // 32px
+		xs: "gap-1", // 4px - Tight spacing
+		sm: "gap-2", // 8px - Compact spacing
+		md: "gap-4", // 16px - Standard spacing
+		lg: "gap-6", // 24px - Comfortable spacing
+		xl: "gap-8", // 32px - Generous spacing
 	},
-	// Stack spacing for vertical layouts
+
+	/**
+	 * Stack spacing for vertical layouts
+	 * Applies margin-top to all children except first
+	 */
 	STACK: {
-		xs: "space-y-1", // 4px
-		sm: "space-y-2", // 8px
-		md: "space-y-4", // 16px
-		lg: "space-y-6", // 24px
-		xl: "space-y-8", // 32px
+		xs: "space-y-1", // 4px - Tight vertical spacing
+		sm: "space-y-2", // 8px - Compact vertical spacing
+		md: "space-y-4", // 16px - Standard vertical spacing
+		lg: "space-y-6", // 24px - Comfortable vertical spacing
+		xl: "space-y-8", // 32px - Generous vertical spacing
 	},
-	// Section spacing for page layout
-	SECTION: {
-		xs: "py-6", // 24px
-		sm: "py-8 lg:py-12", // 32-48px
-		md: "py-12 lg:py-16", // 48-64px
-		lg: "py-16 lg:py-24", // 64-96px
-		xl: "py-24 lg:py-32", // 96-128px
-	},
+
+/**
+ * Section spacing for page layout
+ * Responsive vertical padding for major page sections
+ */
+SECTION: {
+	xs: "py-6",             // 24px - Minimal section spacing
+	sm: "py-8 lg:py-12",   // 32px → 48px - Small sections
+	md: "py-12 lg:py-16",  // 48px → 64px - Standard sections
+	lg: "py-16 lg:py-24",  // 64px → 96px - Large sections
+	xl: "py-24 lg:py-32",  // 96px → 128px - Hero sections
+},
 } as const;
 
+/**
+ * Export base spacing for custom usage
+ */
 export const spacing = baseSpacing;
-export type SpacingToken = keyof typeof spacing;
+
+/**
+ * Type helper for spacing token names
+ */

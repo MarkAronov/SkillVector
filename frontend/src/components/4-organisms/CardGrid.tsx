@@ -1,6 +1,6 @@
-import type { ComponentProps, ElementType, ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { GRID } from "../1-ions";
+import type { ElementType, ReactNode } from "react";
+import { GRID, TYPOGRAPHY } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Link } from "../2-atoms/Link";
@@ -8,6 +8,13 @@ import { List, ListItem } from "../2-atoms/List";
 import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
 import { Card, CardContent } from "../3-molecules/Card";
+import type {
+	CardGridItem as CardGridItemData,
+	CardGridItemProps,
+	CardGridProps,
+	GapSize,
+	MaxColumns,
+} from "./CardGrid.types";
 
 /**
  * CardGrid Component
@@ -98,100 +105,6 @@ import { Card, CardContent } from "../3-molecules/Card";
  * ```
  */
 
-type GapSize = "sm" | "md" | "lg" | "xl";
-type MaxColumns = 1 | 2 | 3;
-
-export interface CardGridItem {
-	/** Unique identifier */
-	id?: string | number;
-
-	/** Optional icon element */
-	icon?: ReactNode;
-
-	/** Card title/heading (required unless using customContent) */
-	title?: string;
-
-	/** Main description text */
-	description?: string;
-
-	/** Additional content text or React element */
-	content?: string | ReactNode;
-
-	/** List of items to display */
-	items?: string[];
-
-	/** List of subsections with title and content */
-	subsections?: { title: string; content: string }[];
-
-	/** Tags/badges to display */
-	tags?: string[];
-
-	/** Code example with label and code */
-	codeExample?: { label: string; code: string; note?: string };
-
-	/** Action button */
-	action?: {
-		text: string;
-		href: string;
-		isInternal?: boolean;
-	};
-
-	/** Icon color class */
-	color?: string;
-
-	/** Step number (for step-based designs) */
-	step?: number;
-
-	/** Custom aria-label */
-	ariaLabel?: string;
-
-	/** Custom content that completely replaces default rendering (but keeps Card wrapper) */
-	customContent?: ReactNode;
-
-	/** When true, customContent is rendered without Card wrapper (for content that's already a Card) */
-	noWrapper?: boolean;
-
-	/** Whether card content should be centered */
-	centered?: boolean;
-}
-
-interface CardGridBaseProps {
-	/** Array of items to render as cards */
-	items?: CardGridItem[];
-
-	/** Children elements (for manual card rendering) */
-	children?: ReactNode;
-
-	/** Maximum number of columns at largest breakpoint (1, 2, or 3) */
-	maxColumns?: MaxColumns;
-
-	/** Gap size between cards */
-	gap?: GapSize;
-
-	/** Custom class for the grid container */
-	containerClassName?: string;
-
-	/**
-	 * Whether cards should have the same height (true) or fit content (false).
-	 * Defaults to false for 1-column layouts, true for multi-column layouts.
-	 * Set explicitly to override automatic behavior.
-	 */
-	stretchCards?: boolean;
-
-	/** Use semantic list structure */
-	as?: "div" | "ul";
-
-	/** Custom render function for card content */
-	renderCard?: (item: CardGridItem) => ReactNode;
-
-	/** Enforce default card wrapper and baseline typography for custom content */
-	enforceCustomContent?: boolean;
-}
-
-type CardGridProps = CardGridBaseProps &
-	Omit<ComponentProps<"div">, keyof CardGridBaseProps> &
-	Omit<ComponentProps<"ul">, keyof CardGridBaseProps>;
-
 const gapClasses: Record<GapSize, string> = {
 	sm: GRID.GAP.md,
 	md: GRID.GAP.lg,
@@ -201,77 +114,66 @@ const gapClasses: Record<GapSize, string> = {
 
 const baseColumnClasses: Record<MaxColumns, string> = {
 	1: GRID.COLUMNS[1],
-	// 2-column layout: 4 sub-columns, each card spans 2
-	2: `${GRID.COLUMNS[1]} md:${GRID.COLUMNS[4]}`,
-	// 3-column layout: 6 sub-columns at lg, each card spans 2
-	3: `${GRID.COLUMNS[1]} md:${GRID.COLUMNS[4]} lg:${GRID.COLUMNS[6]}`,
+	// 2-column layout: always 2 columns with 4 sub-columns for centering
+	2: GRID.COLUMNS[4],
+	// 3-column layout: 2 cols base, 3 at large with 4->6 sub-columns for centering
+	3: `${GRID.COLUMNS[4]} lg:${GRID.COLUMNS[6]}`,
 };
 
-// Predefined column start classes for Tailwind to pick up
-const COL_START_CLASSES = {
-	md: {
-		2: "md:col-start-2",
-		3: "md:col-start-3",
-		4: "md:col-start-4",
-	},
-	lg: {
-		2: "lg:col-start-2",
-		3: "lg:col-start-3",
-		4: "lg:col-start-4",
-		5: "lg:col-start-5",
-		6: "lg:col-start-6",
-	},
-} as const;
-
 /**
- * Calculate column start position for centering incomplete last rows
- * Uses division and modulus to determine item positioning
+ * Calculate if item is in incomplete last row and should be centered
  */
-function getColumnStart(
+const getCenteringClass = (
 	itemIndex: number,
 	totalItems: number,
 	maxColumns: MaxColumns,
-	breakpoint: "md" | "lg",
-): string | null {
-	// For single column, no centering needed
-	if (maxColumns === 1) return null;
+	breakpoint: "base" | "lg",
+): string => {
+	if (maxColumns === 1) return "";
 
-	const cols = breakpoint === "md" && maxColumns >= 2 ? 2 : maxColumns;
-	const subCols = cols * 2; // We use double sub-columns for centering
+	const cols = breakpoint === "base" && maxColumns >= 2 ? 2 : maxColumns;
 	const remainder = totalItems % cols;
 
 	// If evenly divisible, no centering needed
-	if (remainder === 0) return null;
+	if (remainder === 0) return "";
 
 	// Check if this item is in the last incomplete row
-	const itemsInLastRow = remainder;
-	const isInLastRow = itemIndex >= totalItems - itemsInLastRow;
-
-	if (!isInLastRow) return null;
+	const isInLastRow = itemIndex >= totalItems - remainder;
+	if (!isInLastRow) return "";
 
 	// Position within the last row (0-indexed)
-	const posInLastRow = itemIndex - (totalItems - itemsInLastRow);
+	const posInLastRow = itemIndex - (totalItems - remainder);
 
-	// Calculate centered starting column
-	// For 3 cols (6 sub-cols): remainder 1 → start at 3, remainder 2 → start at 2
-	// For 2 cols (4 sub-cols): remainder 1 → start at 2
-	const offset = Math.floor((subCols - itemsInLastRow * 2) / 2) + 1;
+	// Calculate centered starting column for incomplete rows
+	// For 2 cols: 1 item → start at col 2 (centered)
+	// For 3 cols: 1 item → start at col 3, 2 items → start at col 2
+	const subCols = cols * 2; // Total sub-columns
+	const offset = Math.floor((subCols - remainder * 2) / 2) + 1;
 	const colStart = offset + posInLastRow * 2;
 
-	return (
-		COL_START_CLASSES[breakpoint][
-			colStart as keyof (typeof COL_START_CLASSES)[typeof breakpoint]
-		] || null
-	);
+	// Use predefined classes so Tailwind includes them
+	if (breakpoint === "base") {
+		if (colStart === 2) return "col-start-2";
+		if (colStart === 3) return "col-start-3";
+		if (colStart === 4) return "col-start-4";
+	} else {
+		if (colStart === 2) return "lg:col-start-2";
+		if (colStart === 3) return "lg:col-start-3";
+		if (colStart === 4) return "lg:col-start-4";
+		if (colStart === 5) return "lg:col-start-5";
+		if (colStart === 6) return "lg:col-start-6";
+	}
+
+	return "";
 }
 
 /**
  * Default card renderer based on HowItWorksPage design
  */
-function defaultCardRenderer(
-	item: CardGridItem,
+const defaultCardRenderer = (
+	item: CardGridItemData,
 	enforceCustomContent: boolean,
-): ReactNode {
+): ReactNode => {
 	const customContentWrapperClassName = enforceCustomContent
 		? "flex flex-col gap-6 text-sm lg:text-base [&_p]:text-sm [&_p]:lg:text-base [&_span]:text-sm [&_span]:lg:text-base [&_th]:text-xs [&_th]:lg:text-sm [&_td]:text-xs [&_td]:lg:text-sm [&_button]:text-sm [&_button]:lg:text-base [&_a]:text-sm [&_a]:lg:text-base [&>div>div>svg]:h-6 [&>div>div>svg]:w-6"
 		: undefined;
@@ -306,7 +208,7 @@ function defaultCardRenderer(
 								)}
 								<Div className="flex-1">
 									<Div className="flex items-baseline gap-3 mb-3">
-										<Span className={cn("text-xl font-bold", item.color)}>
+									<Span className={cn(`${TYPOGRAPHY.FONT_SIZE.xl} ${TYPOGRAPHY.FONT_WEIGHT.bold}`, item.color)}>
 											STEP {item.step}
 										</Span>
 										<Heading as="h3" variant="card" className="mb-0">
@@ -321,7 +223,7 @@ function defaultCardRenderer(
 
 									{item.codeExample && (
 										<Div variant="codeBlock" className="mb-4">
-											<Text variant="small" className="font-mono">
+										<Text variant="small" className={TYPOGRAPHY.FONT_FAMILY.mono}>
 												{item.codeExample.code}
 											</Text>
 											{item.codeExample.note && (
@@ -337,14 +239,14 @@ function defaultCardRenderer(
 
 									{item.tags && (
 										<Div variant="codeBlock" className="space-y-2">
-											<Text variant="small" className="font-semibold">
+										<Text variant="small" className={TYPOGRAPHY.FONT_WEIGHT.semibold}>
 												Supported AI Providers:
 											</Text>
 											<Div className="flex flex-wrap gap-2">
-												{item.tags.map((tag) => (
+												{item.tags.map((tag: string) => (
 													<Span
 														key={tag}
-														className="px-2 py-1 bg-background rounded text-xs lg:text-sm"
+													className={`px-2 py-1 bg-background rounded ${TYPOGRAPHY.FONT_SIZE.xs_sm}`}
 													>
 														{tag}
 													</Span>
@@ -355,11 +257,11 @@ function defaultCardRenderer(
 
 									{item.items && (
 										<Div variant="codeBlock">
-											<Text variant="small" className="font-semibold mb-2">
+										<Text variant="small" className={`${TYPOGRAPHY.FONT_WEIGHT.semibold} mb-2`}>
 												Result Quality Metrics:
 											</Text>
 											<List variant="spaced">
-												{item.items.map((listItem) => (
+												{item.items.map((listItem: string) => (
 													<ListItem key={listItem} variant="bullet">
 														<Span className="text-primary">•</Span>
 														<Text variant="small">{listItem}</Text>
@@ -413,7 +315,7 @@ function defaultCardRenderer(
 
 								{item.subsections && (
 									<Div className="space-y-3 lg:space-y-4">
-										{item.subsections.map((sub) => (
+										{item.subsections.map((sub: { title: string; content: string }) => (
 											<Div key={sub.title}>
 												<Text variant="subheading" className="mb-2">
 													{sub.title}
@@ -426,7 +328,7 @@ function defaultCardRenderer(
 
 								{item.items && (
 									<List variant="spaced">
-										{item.items.map((listItem) => (
+										{item.items.map((listItem: string) => (
 											<ListItem key={listItem} variant="bullet">
 												{listItem}
 											</ListItem>
@@ -466,19 +368,20 @@ function defaultCardRenderer(
 	);
 }
 
-function CardGrid({
+const CardGrid = ({
 	items,
 	children,
 	maxColumns = 3,
 	gap = "md",
 	containerClassName,
 	stretchCards,
+	centerIncompleteRows = false,
 	enforceCustomContent = false,
 	as = "div",
 	renderCard,
 	className,
 	...props
-}: CardGridProps) {
+}: CardGridProps) => {
 	// Auto-disable stretchCards for 1-column layouts (cards should fit content)
 	// For multi-column layouts, default to true (cards should align heights)
 	const shouldStretch = stretchCards ?? maxColumns > 1;
@@ -495,7 +398,7 @@ function CardGrid({
 	const Component = as as ElementType;
 	const cardRenderer =
 		renderCard ||
-		((item: CardGridItem) => defaultCardRenderer(item, enforceCustomContent));
+		((item: CardGridItemData) => defaultCardRenderer(item, enforceCustomContent));
 
 	const totalItems = items?.length || 0;
 
@@ -514,22 +417,22 @@ function CardGrid({
 			{items?.map((item, index) => {
 				const key = item.id || item.title || index;
 
-				// Calculate column positioning for centering incomplete rows
-				const mdColStart =
-					maxColumns >= 2
-						? getColumnStart(index, totalItems, maxColumns, "md")
-						: null;
-				const lgColStart =
-					maxColumns === 3
-						? getColumnStart(index, totalItems, maxColumns, "lg")
-						: null;
+				// Calculate centering for incomplete rows (only if enabled)
+				const baseCentering =
+					centerIncompleteRows && maxColumns >= 2
+						? getCenteringClass(index, totalItems, maxColumns, "base")
+						: "";
+				const lgCentering =
+					centerIncompleteRows && maxColumns === 3
+						? getCenteringClass(index, totalItems, maxColumns, "lg")
+						: "";
 
-				// Base span class for all items
+				// Each card spans 2 sub-columns
 				const spanClass = cn(
-					maxColumns >= 2 && "md:col-span-2",
+					maxColumns >= 2 && "col-span-2",
 					maxColumns === 3 && "lg:col-span-2",
-					mdColStart,
-					lgColStart,
+					baseCentering,
+					lgCentering,
 				);
 
 				return as === "ul" ? (
@@ -552,32 +455,14 @@ function CardGrid({
  * Optional wrapper for individual grid items when you need more control
  * over item-specific styles or behavior.
  */
-interface CardGridItemBaseProps {
-	/** Span multiple columns (1-3) */
-	colSpan?: 1 | 2 | 3;
-
-	/** Span multiple rows */
-	rowSpan?: number;
-
-	/** Children elements */
-	children: ReactNode;
-
-	/** Use semantic list item */
-	as?: "div" | "li";
-}
-
-type CardGridItemProps = CardGridItemBaseProps &
-	Omit<ComponentProps<"div">, keyof CardGridItemBaseProps> &
-	Omit<ComponentProps<"li">, keyof CardGridItemBaseProps>;
-
-function CardGridItem({
+const CardGridItem = ({
 	colSpan,
 	rowSpan,
 	as = "div",
 	className,
 	children,
 	...props
-}: CardGridItemProps) {
+}: CardGridItemProps) => {
 	const spanClasses = cn(
 		colSpan === 2 && "md:col-span-2",
 		colSpan === 3 && "lg:col-span-3",
@@ -592,13 +477,11 @@ function CardGridItem({
 			{children}
 		</Component>
 	);
-}
+};
 
 export { CardGrid, CardGridItem };
 export type {
-	CardGridProps,
-	CardGridItemProps,
-	GapSize,
-	MaxColumns,
-	CardGridItem as CardGridItemData,
+	CardGridItemData, CardGridItemProps, CardGridProps, GapSize,
+	MaxColumns
 };
+

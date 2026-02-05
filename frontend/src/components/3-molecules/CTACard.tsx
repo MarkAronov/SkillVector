@@ -3,25 +3,36 @@ import { Heading } from "../2-atoms/Heading";
 import { Text } from "../2-atoms/Text";
 import { ActionButton } from "./ActionButton";
 import { Card, CardContent } from "./Card";
+import type { CTACardProps } from "./CTACard.types";
 
-interface CTAAction {
-	label: string;
-	onClick?: () => void;
-	href?: string;
-	to?: string;
-	variant?: "primary" | "outline";
-	external?: boolean;
-	ariaLabel?: string;
-}
-
-interface CTACardProps {
-	title: string;
-	description: string;
-	primaryAction?: CTAAction;
-	secondaryAction?: CTAAction;
-	className?: string;
-	"aria-label"?: string;
-}
+/**
+ * CTACard Component (Call-to-Action Card)
+ *
+ * Centered card component designed to encourage user action.
+ * Combines heading, description, and up to two action buttons.
+ *
+ * Structure:
+ * - Title: Section heading (prominent)
+ * - Description: Lead text (descriptive, explanatory)
+ * - Actions: Primary and/or secondary buttons (flexible layout)
+ *
+ * Action Buttons:
+ * - primaryAction: Main CTA (default: primary variant)
+ * - secondaryAction: Alternative action (default: outline variant)
+ * - Both support onClick, href, to (router), external links
+ *
+ * Layout:
+ * - Centered content (text-center)
+ * - Hover variant card for interactivity
+ * - Flexbox action buttons with gap spacing
+ * - Wraps buttons on narrow screens
+ *
+ * Use Cases:
+ * - Newsletter signups
+ * - Feature promotions
+ * - Download/trial offers
+ * - Getting started prompts
+ */
 
 export const CTACard = ({
 	title,

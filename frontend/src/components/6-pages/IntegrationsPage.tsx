@@ -1,3 +1,4 @@
+import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
 import { useNavigate } from "@tanstack/react-router";
 import {
 	Brain,
@@ -14,10 +15,9 @@ import {
 	Sparkles,
 	SquareArrowOutUpRight,
 } from "lucide-react";
-import type { ReactNode } from "react";
-import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
+import { TYPOGRAPHY } from "../1-ions";
 import { Section } from "../2-atoms/Section";
 import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
@@ -36,25 +36,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "../ui/table";
-
-type Integration = {
-	icon: ReactNode;
-	title: string;
-	description: string;
-	status: "ready" | "soon" | "planned";
-	links?: {
-		docs?: string;
-		github?: string;
-		internal?: string;
-	};
-};
-
-type IntegrationCategory = {
-	icon: ReactNode;
-	title: string;
-	description: string;
-	integrations: Integration[];
-};
+import type { IntegrationCategory } from "./IntegrationsPage.types";
 
 const categories: IntegrationCategory[] = [
 	{
@@ -334,7 +316,7 @@ export const IntegrationsPage = () => {
 
 													return (
 														<TableRow key={integration.title}>
-															<TableCell className="font-medium min-w-0">
+															<TableCell className={`${TYPOGRAPHY.FONT_WEIGHT.medium} min-w-0`}>
 																<Div
 																	variant="flex"
 																	className="items-center gap-3"
@@ -390,7 +372,7 @@ export const IntegrationsPage = () => {
 																	</Div>
 																</Div>
 															</TableCell>
-															<TableCell className="hidden sm:table-cell text-muted-foreground text-xs lg:text-sm whitespace-normal break-words">
+															<TableCell className={`hidden sm:table-cell text-muted-foreground ${TYPOGRAPHY.COMBINATIONS.small} whitespace-normal break-words`}>
 																{integration.description}
 															</TableCell>
 															<TableCell>

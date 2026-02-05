@@ -9,7 +9,7 @@ const Papa = require("papaparse");
 
 // Using Papa.unparse provides a robust, consistent CSV output.
 
-function normalizeFile(filePath, inplace) {
+const normalizeFile = (filePath, inplace) => {
 	const content = fs.readFileSync(filePath, "utf8");
 	const parsed = Papa.parse(content, {
 		header: true,
@@ -80,7 +80,7 @@ function normalizeFile(filePath, inplace) {
 	return false;
 }
 
-function main() {
+const main = () => {
 	const args = process.argv.slice(2);
 	const inplace = args.includes("--inplace");
 	const csvDir = path.resolve(__dirname, "..", "static-data", "csv");

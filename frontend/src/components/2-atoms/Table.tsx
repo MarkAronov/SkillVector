@@ -1,4 +1,3 @@
-import type { ComponentProps } from "react";
 import {
 	Table as ShadcnTable,
 	TableBody as ShadcnTableBody,
@@ -10,16 +9,21 @@ import {
 	TableRow as ShadcnTableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import type { ComponentProps } from "react";
+import { TYPOGRAPHY } from "../1-ions";
+import type { TableCellProps } from "./Table.types";
 
 /**
  * Table Components
  *
- * Wraps shadcn/ui Table with SkillVector customizations.
- * Adds variant support for different cell styles.
+ * Semantic table elements with SkillVector styling.
+ * Wraps shadcn/ui Table and adds custom cell variants.
  */
 
+// Base table props type
 type TableProps = ComponentProps<typeof ShadcnTable>;
 
+// Re-export shadcn table components without modification
 const Table = ShadcnTable;
 const TableHeader = ShadcnTableHeader;
 const TableBody = ShadcnTableBody;
@@ -28,39 +32,45 @@ const TableHead = ShadcnTableHead;
 const TableFooter = ShadcnTableFooter;
 const TableCaption = ShadcnTableCaption;
 
-// Custom TableCell with variant support
-interface TableCellProps extends ComponentProps<typeof ShadcnTableCell> {
-	variant?: "default" | "code" | "muted";
-}
-
+/**
+ * TableCell variant styles
+ * - default: Standard table cell
+ * - code: Monospace font for code/data (12px → 14px)
+ * - muted: De-emphasized text color
+ */
 const cellVariants = {
+	// Default cell - standard text
 	default: "",
-	code: "font-mono text-xs lg:text-sm",
+
+	// Code cell - monospace for technical data
+	code: TYPOGRAPHY.PRESETS.code,
+
+	// Muted cell - secondary information
 	muted: "text-muted-foreground",
 };
 
-function TableCell({
+/**
+ * TableCell with variant support
+ *
+ * Enhanced table cell with styling variants.
+ * Use 'code' for technical data, 'muted' for less important info.
+ */
+const TableCell = ({
 	className,
 	variant = "default",
 	...props
-}: TableCellProps) {
-	return (
-		<ShadcnTableCell
-			className={cn(cellVariants[variant], className)}
-			{...props}
-		/>
-	);
-}
+}: TableCellProps) => {
+	// Get the variant styling
+	const variantClass = cellVariants[variant];
+
+	// Combine variant with custom classes
+	const combinedClassName = cn(variantClass, className);
+
+	return <ShadcnTableCell className={combinedClassName} {...props} />;
+};
 
 export {
-	Table,
-	TableHeader,
-	TableBody,
-	TableRow,
-	TableHead,
-	TableCell,
-	TableFooter,
-	TableCaption,
-	type TableProps,
-	type TableCellProps,
+	Table, TableBody, TableCaption, TableCell,
+	TableFooter, TableHead, TableHeader, TableRow, type TableCellProps, type TableProps
 };
+

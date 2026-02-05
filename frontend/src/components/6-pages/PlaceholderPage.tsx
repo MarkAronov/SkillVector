@@ -5,11 +5,7 @@ import { Text } from "../2-atoms/Text";
 import { ActionButton } from "../3-molecules/ActionButton";
 import { Card, CardContent } from "../3-molecules/Card";
 import { PageTemplate } from "../5-templates/PageTemplate";
-
-interface PlaceholderPageProps {
-	title: string;
-	description?: string;
-}
+import type { PlaceholderPageProps } from "./PlaceholderPage.types";
 
 export const PlaceholderPage = ({
 	title,
@@ -20,8 +16,6 @@ export const PlaceholderPage = ({
 			<section className="py-12 lg:py-16">
 				<Glass
 					variant="pronounced"
-					constrain
-					maxWidthClass="max-w-3xl"
 					className="text-center p-8 lg:p-12 border border-white/20 dark:border-white/10 shadow-lg"
 				>
 					<Heading variant="hero" className="mb-4">

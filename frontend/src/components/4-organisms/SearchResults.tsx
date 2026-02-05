@@ -1,17 +1,14 @@
+import type { PersonSearchResult } from "@/types/search.types";
 import { useEffect, useMemo, useState } from "react";
-import type { PersonSearchResult, SearchResult } from "@/types/search.types";
+import { TYPOGRAPHY } from "../1-ions";
 import { Text } from "../2-atoms/Text";
 import { Card } from "../3-molecules/Card";
 import { PersonCard } from "../3-molecules/PersonCard";
 import { ViewToggle } from "../3-molecules/ViewToggle";
 import { CardGrid } from "../4-organisms/CardGrid";
+import type { SearchResultsProps } from "./SearchResults.types";
 
-interface SearchResultsProps {
-	data: SearchResult;
-	isLoading?: boolean;
-}
-
-export function SearchResults({ data, isLoading }: SearchResultsProps) {
+export const SearchResults = ({ data, isLoading }: SearchResultsProps) => {
 	// Parse people from the data
 	const people = useMemo((): PersonSearchResult[] => {
 		// If we have people array from the backend (flat structure)
@@ -180,7 +177,7 @@ export function SearchResults({ data, isLoading }: SearchResultsProps) {
 	if (!data.success && data.error) {
 		return (
 			<Card className="mt-8 p-6 border-red-200 text-red-700">
-				<h2 className="text-lg lg:text-xl font-semibold mb-2">Error</h2>
+				<h2 className={`${TYPOGRAPHY.COMBINATIONS.mediumHeading} mb-2`}>Error</h2>
 				<p className="text-red-600">{data.error}</p>
 				{data.details && (
 					<Text variant="small" className="text-red-500 mt-2">
@@ -196,7 +193,7 @@ export function SearchResults({ data, isLoading }: SearchResultsProps) {
 			{/* AI Answer Section */}
 			{data.answer && (
 				<Card className="p-6 border-primary/30">
-					<h2 className="text-lg lg:text-xl font-semibold mb-2">AI Summary</h2>
+					<h2 className={`${TYPOGRAPHY.COMBINATIONS.mediumHeading} mb-2`}>AI Summary</h2>
 					<p className="text-foreground whitespace-pre-wrap">{data.answer}</p>
 				</Card>
 			)}
@@ -204,7 +201,7 @@ export function SearchResults({ data, isLoading }: SearchResultsProps) {
 			{/* Results Section */}
 			<div>
 				<div className="flex items-center justify-between mb-4">
-					<h2 className="text-lg lg:text-xl font-semibold">
+					<h2 className={TYPOGRAPHY.COMBINATIONS.mediumHeading}>
 						{uniquePeople.length > 0 ? (
 							<>
 								Found {uniquePeople.length} people

@@ -5,7 +5,8 @@ import { Section } from "../2-atoms/Section";
 import { Text } from "../2-atoms/Text";
 import { ActionButton } from "../3-molecules/ActionButton";
 import { Hero } from "../3-molecules/Hero";
-import { CardGrid, type CardGridItem } from "../4-organisms/CardGrid";
+import { CardGrid } from "../4-organisms/CardGrid";
+import type { CardGridItem } from "../4-organisms/CardGrid.types";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
 const steps: CardGridItem[] = [
@@ -71,7 +72,7 @@ export const HowItWorksPage = () => {
 
 			{/* Process Steps */}
 			<Section>
-				<CardGrid items={steps} maxColumns={1} gap="lg" />
+				<CardGrid items={steps} maxColumns={1} gap="lg" centerIncompleteRows />
 			</Section>
 
 			{/* Call to Action */}

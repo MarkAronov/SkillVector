@@ -32,10 +32,10 @@ async function searchPeople(
 	}
 }
 
-export function useSearch(
+export const useSearch = (
 	query: string,
 	options: { enabled?: boolean; limit?: number; offset?: number } = {},
-) {
+) => {
 	const { enabled = true, limit = 10, offset = 0 } = options;
 
 	return useQuery({

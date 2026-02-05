@@ -99,7 +99,7 @@ async function analyzeComponent(filePath: string): Promise<ComponentInfo> {
 	};
 }
 
-function generateStoryContent(info: ComponentInfo): string {
+const generateStoryContent = (info: ComponentInfo): string => {
 	const importPath = `./${info.name}`;
 	const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 	const categoryTitle = capitalize(info.category);

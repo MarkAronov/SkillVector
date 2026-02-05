@@ -1,5 +1,4 @@
 import { Cookie, Info, Settings, Shield } from "lucide-react";
-import type { ReactNode } from "react";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { List, ListItem } from "../2-atoms/List";
@@ -18,17 +17,7 @@ import { Card, CardContent } from "../3-molecules/Card";
 import { Hero } from "../3-molecules/Hero";
 import { CardGrid } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
-
-type CookieCategory = {
-	icon: ReactNode;
-	title: string;
-	description: string;
-	cookies: {
-		name: string;
-		purpose: string;
-		duration: string;
-	}[];
-};
+import type { CookieCategory } from "./CookiesPage.types";
 
 const cookieCategories: CookieCategory[] = [
 	{

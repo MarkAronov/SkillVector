@@ -22,6 +22,7 @@ import {
 import { EXTERNAL_LINKS } from "@/constants/site";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
+import { TYPOGRAPHY } from "../1-ions";
 import { Link } from "../2-atoms/Link";
 import { Section } from "../2-atoms/Section";
 import { Span } from "../2-atoms/Span";
@@ -34,28 +35,12 @@ import { LoadingState } from "../3-molecules/LoadingState";
 import { ReleaseCard } from "../3-molecules/ReleaseCard";
 import { StatCard } from "../3-molecules/StatCard";
 import { PageTemplate } from "../5-templates/PageTemplate";
-
-type ReleaseFilter = "all" | "stable" | "prerelease";
-type SortOrder = "newest" | "oldest";
-
-interface GitHubRelease {
-	id: number;
-	tag_name: string;
-	name: string;
-	body: string;
-	published_at: string;
-	html_url: string;
-	draft: boolean;
-	prerelease: boolean;
-}
-
-interface ParsedRelease {
-	version: string;
-	date: string;
-	changes: string[];
-	url: string;
-	isPrerelease: boolean;
-}
+import type {
+	GitHubRelease,
+	ParsedRelease,
+	ReleaseFilter,
+	SortOrder,
+} from "./ChangelogPage.types";
 
 const RELEASES_PER_PAGE = 10;
 
@@ -320,6 +305,7 @@ export const ChangelogPage = () => {
 									...(searchQuery
 										? [
 												{
+													id: "search",
 													type: "search",
 													value: searchQuery,
 													label: `"${searchQuery}"`,
@@ -329,6 +315,7 @@ export const ChangelogPage = () => {
 									...(filter !== "all"
 										? [
 												{
+													id: "type",
 													type: "type",
 													value: filter,
 													label:
@@ -339,6 +326,7 @@ export const ChangelogPage = () => {
 									...(sortOrder !== "newest"
 										? [
 												{
+													id: "sort",
 													type: "sort",
 													value: sortOrder,
 													label: "Oldest First",
@@ -387,7 +375,7 @@ export const ChangelogPage = () => {
 												setSearchQuery("");
 												setFilter("all");
 											}}
-											className="text-sm text-primary"
+											className={`${TYPOGRAPHY.FONT_SIZE.sm} text-primary`}
 										>
 											Clear filters
 										</button>

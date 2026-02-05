@@ -75,7 +75,7 @@ const BrowsePage = lazy(() =>
 const rootRoute = createRootRoute();
 
 // Define routes
-function RedirectToSearch() {
+const RedirectToSearch = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	useEffect(() => {

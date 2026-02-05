@@ -1,6 +1,7 @@
 import { Section } from "../2-atoms/Section";
 import { Hero } from "../3-molecules/Hero";
-import { CardGrid, type CardGridItem } from "../4-organisms/CardGrid";
+import { CardGrid } from "../4-organisms/CardGrid";
+import type { CardGridItem } from "../4-organisms/CardGrid.types";
 import { PageTemplate } from "../5-templates/PageTemplate";
 
 const termsSections: CardGridItem[] = [
@@ -78,7 +79,7 @@ const termsSections: CardGridItem[] = [
 
 export const TermsPage = () => {
 	return (
-		<PageTemplate>
+		<PageTemplate title="Terms of Service">
 			{/* Hero Section */}
 			<Hero
 				title="Terms"

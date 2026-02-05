@@ -1,30 +1,35 @@
 import { useMatches } from "@tanstack/react-router";
-import type { ReactNode } from "react";
 import { useEffect } from "react";
 import { Div } from "../2-atoms/Div";
 import { Footer } from "../4-organisms/Footer";
 import { Header } from "../4-organisms/Header";
+import type { PageTemplateProps } from "./PageTemplate.types";
 
-interface PageTemplateProps {
-	children: ReactNode;
-	/** Additional classes for the main content area */
-	className?: string;
-	/** Whether to include container and padding (default: true) */
-	contained?: boolean;
-	/** Page title to display in browser tab (will be prefixed with "SkillVector - ") */
-	title?: string;
-	/** Max width variant for the main container when `contained` is true */
-	maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl";
-	/** When true, use responsive paddings (px-4 sm:px-6 lg:px-8 py-12). Set to false for custom padding control. */
-	responsivePadding?: boolean;
-	/** When true, wraps children in a Div with constrain prop. Use with contained={false} for manual content control. */
-	constrain?: boolean;
-	/** Custom max-width class when using constrain prop (e.g., "max-w-5xl") */
-	constrainMaxWidth?: string;
-}
+/**
+ * PageTemplate Component
+ *
+ * Flexible page wrapper providing consistent layout structure across the application.
+ * Handles Header/Footer, width constraints, padding, and document title management.
+ *
+ * Width Control:
+ * - Default: lg (1024px) - Standard content pages
+ * - API/Docs: 2xl (1280px) - Wide layouts with sidebars
+ * - Articles: md (896px) - Optimal reading width
+ * - Full-width: "full" - No max-width constraint
+ *
+ * Padding Control:
+ * - Default: responsive - Adapts padding to screen size
+ * - Compact: Less vertical space for dense layouts
+ * - None: No padding (for custom layouts)
+ *
+ * Common Usage:
+ * - Standard: <PageTemplate title="Page Name">{content}</PageTemplate>
+ * - Wide: <PageTemplate title="Docs" maxWidth="2xl">{content}</PageTemplate>
+ * - Custom: <PageTemplate contained={false}>{customLayout}</PageTemplate>
+ */
 
 // Helper to convert path to title
-function pathToTitle(path: string): string {
+const pathToTitle = (path: string): string => {
 	if (path === "/") return "Search";
 
 	// Remove leading slash and convert kebab-case to Title Case
@@ -40,16 +45,16 @@ function pathToTitle(path: string): string {
 		.join(" - ");
 }
 
-export function PageTemplate({
+export const PageTemplate = ({
 	children,
 	className = "",
 	contained = true,
 	title,
 	maxWidth = "lg",
-	responsivePadding = true,
+	paddingVariant = "responsive",
 	constrain = false,
 	constrainMaxWidth = "max-w-5xl",
-}: PageTemplateProps) {
+}: PageTemplateProps) => {
 	const matches = useMatches();
 	const currentPath = matches[matches.length - 1]?.pathname || "/";
 
@@ -59,7 +64,7 @@ export function PageTemplate({
 		document.title = `SkillVector - ${pageTitle}`;
 	}, [title, currentPath]);
 
-	// Map simple width variants to Tailwind max-width classes
+	// Map width variants to Tailwind max-width classes
 	const maxWidthClass =
 		maxWidth === "sm"
 			? "max-w-3xl"
@@ -69,11 +74,17 @@ export function PageTemplate({
 					? "max-w-5xl"
 					: maxWidth === "xl"
 						? "max-w-6xl"
-						: "max-w-7xl";
+						: maxWidth === "2xl"
+							? "max-w-7xl"
+							: ""; // "full" = no max-width
 
-	const paddingClass = responsivePadding
-		? "px-4 sm:px-6 lg:px-8 py-12"
-		: "px-4 py-12";
+	// Map padding variants to classes
+	const paddingClass =
+		paddingVariant === "responsive"
+			? "px-4 sm:px-6 lg:px-8 py-12"
+			: paddingVariant === "compact"
+				? "px-4 py-8"
+				: ""; // "none" = no padding
 
 	const content = constrain ? (
 		<Div constrain maxWidthClass={constrainMaxWidth}>
@@ -87,9 +98,8 @@ export function PageTemplate({
 		<div className="min-h-screen flex flex-col">
 			<Header />
 			<main
-				className={`flex-1 ${
-					contained ? `${paddingClass} ${maxWidthClass} mx-auto` : ""
-				} ${className}`}
+				className={`flex-1 ${contained ? `${paddingClass} ${maxWidthClass} mx-auto` : ""
+					} ${className}`}
 			>
 				{content}
 			</main>

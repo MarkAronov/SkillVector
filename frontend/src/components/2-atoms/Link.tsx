@@ -1,37 +1,57 @@
-import { Link as RouterLink } from "@tanstack/react-router";
-import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
+import { Link as RouterLink } from "@tanstack/react-router";
+import type { LinkProps, LinkVariant } from "./Link.types";
 
-type LinkVariant = "default" | "primary" | "muted" | "underline";
+/**
+ * Link Component
+ *
+ * Unified link component handling both internal and external links.
+ * Internal links use TanStack Router, external links use native <a> tags.
+ */
 
-interface LinkProps
-	extends Omit<ComponentProps<typeof RouterLink>, "className"> {
-	className?: string;
-	variant?: LinkVariant;
-	external?: boolean;
-	href?: string;
-}
-
+/**
+ * Variant styles mapping
+ * Each variant provides different visual emphasis:
+ * - default: Standard link with hover underline
+ * - primary: Primary color link for emphasis
+ * - muted: Subtle link that brightens on hover
+ * - underline: Always underlined for maximum visibility
+ */
 const variantClasses: Record<LinkVariant, string> = {
+	// Default link - underlines on hover
 	default: "hover:underline transition-colors",
+
+	// Primary link - uses primary color for emphasis
 	primary: "text-primary hover:underline transition-colors",
+
+	// Muted link - subtle, brightens on hover
 	muted: "text-muted-foreground hover:text-primary transition-colors",
+
+	// Underline link - always visible, subtle hover effect
 	underline: "underline hover:text-muted-foreground/70 transition-colors",
 };
 
-function Link({
+const Link = ({
 	className,
 	variant = "default",
 	external = false,
 	href,
 	...props
-}: LinkProps) {
+}: LinkProps) => {
+	// Get the visual style for the selected variant
+	const variantClass = variantClasses[variant];
+
+	// Combine variant style with custom classes
+	const combinedClassName = cn(variantClass, className);
+
+	// External or href links use native <a> tag
 	if (external || href) {
 		const children = props.children;
+
 		return (
 			<a
 				href={href}
-				className={cn(variantClasses[variant], className)}
+				className={combinedClassName}
 				{...(external && {
 					target: "_blank",
 					rel: "noopener noreferrer",
@@ -44,9 +64,9 @@ function Link({
 		);
 	}
 
-	return (
-		<RouterLink className={cn(variantClasses[variant], className)} {...props} />
-	);
+	// Internal links use TanStack Router for SPA navigation
+	return <RouterLink className={combinedClassName} {...props} />;
 }
 
 export { Link, type LinkProps, type LinkVariant };
+

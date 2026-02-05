@@ -1,22 +1,50 @@
-import type * as React from "react";
 import { cn } from "@/lib/utils";
 import { Glass } from "../1-ions/Glass";
+import { TYPOGRAPHY } from "../1-ions";
 import { Badge } from "../2-atoms/Badge";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
+import type { SkillsTooltipProps } from "./SkillsTooltip.types";
 
-interface SkillsTooltipProps {
-	skills: string[];
-	children: React.ReactNode;
-	className?: string;
-	delayDuration?: number;
-}
+/**
+ * SkillsTooltip Component
+ *
+ * Displays skills list as badges in a glassmorphism tooltip.
+ * Wraps any trigger element to show skills on hover.
+ *
+ * Visual Design:
+ * - Glass card variant (frosted effect)
+ * - Badge grid with flex-wrap (adapts to content)
+ * - Secondary badge variant (subtle appearance)
+ * - Max width: 384px (max-w-xs) prevents overly wide tooltips
+ * - Subtle white border with shadow
+ *
+ * Trigger System:
+ * - asChild: Wraps children element as trigger
+ * - children: Any React element (button, text, icon, etc.)
+ * - Hover to reveal skills list
+ *
+ * Spacing:
+ * - Padding: 12px horizontal, 8px vertical (px-3 py-2)
+ * - Gap: 6px between badges (gap-1.5)
+ * - Badge size: Extra small text (text-xs)
+ *
+ * Delay:
+ * - delayDuration: Customizable hover delay (default: 200ms)
+ * - Prevents accidental tooltip triggers on quick mouse movements
+ *
+ * Use Cases:
+ * - Person cards (show all skills on hover)
+ * - Skill tags (expand abbreviated lists)
+ * - Capability indicators
+ * - Technology stacks
+ */
 
-export function SkillsTooltip({
+export const SkillsTooltip = ({
 	skills,
 	children,
 	className,
 	delayDuration = 200,
-}: SkillsTooltipProps) {
+}: SkillsTooltipProps) => {
 	return (
 		<Tooltip delayDuration={delayDuration}>
 			<TooltipTrigger asChild>{children}</TooltipTrigger>
@@ -32,7 +60,7 @@ export function SkillsTooltip({
 				>
 					<div className="flex flex-wrap gap-1.5">
 						{skills.map((skill) => (
-							<Badge key={skill} variant="secondary" className="text-xs">
+						<Badge key={skill} variant="secondary" className={TYPOGRAPHY.FONT_SIZE.xs}>
 								{skill}
 							</Badge>
 						))}

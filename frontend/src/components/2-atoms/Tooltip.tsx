@@ -1,6 +1,3 @@
-import { Slot } from "@radix-ui/react-slot";
-import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import * as React from "react";
 import {
 	Tooltip as ShadcnTooltip,
 	type TooltipContent as ShadcnTooltipContent,
@@ -8,35 +5,70 @@ import {
 	TooltipTrigger as ShadcnTooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { BORDERS, SIZING, Z_INDEX } from "../1-ions";
+import { Slot } from "@radix-ui/react-slot";
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import * as React from "react";
+import { BORDERS, SIZING, TYPOGRAPHY, Z_INDEX } from "../1-ions";
 
 /**
  * Tooltip Component
  *
  * Wraps shadcn/ui Tooltip with SkillVector customizations.
- * Adds badge variant and custom arrow styling.
+ * Provides contextual information on hover with optional variants.
+ *
+ * Variant system:
+ * - default: Secondary background with subtle border (general UI hints)
+ * - badge: Primary background with strong border (important status indicators)
  */
 
-function TooltipProvider({
+/**
+ * Tooltip Provider
+ * Manages tooltip timing and positioning context for all tooltips
+ * Default delay: 0ms (instant)
+ */
+const TooltipProvider = ({
 	delayDuration = 0,
 	...props
-}: React.ComponentProps<typeof TooltipPrimitive.Provider>) {
+}: React.ComponentProps<typeof TooltipPrimitive.Provider>) => {
 	return <ShadcnTooltipProvider delayDuration={delayDuration} {...props} />;
-}
+};
 
-function Tooltip({
+/**
+ * Tooltip Root
+ * Wraps trigger and content, automatically provides TooltipProvider context
+ */
+const Tooltip = ({
 	...props
-}: React.ComponentProps<typeof TooltipPrimitive.Root>) {
+}: React.ComponentProps<typeof TooltipPrimitive.Root>) => {
 	return (
 		<TooltipProvider>
 			<ShadcnTooltip {...props} />
 		</TooltipProvider>
 	);
-}
+};
 
+/**
+ * Tooltip Trigger
+ * Re-export of shadcn trigger component
+ * Wraps the element that displays tooltip on hover
+ */
 const TooltipTrigger = ShadcnTooltipTrigger;
 
-function TooltipContent({
+/**
+ * Tooltip Content
+ * Displays tooltip message with optional arrow and variant styling
+ *
+ * Variant styling:
+ * - default: Secondary background (bg-secondary, text-secondary-foreground)
+ * - badge: Primary background (bg-primary, text-primary-foreground)
+ *
+ * Arrow system:
+ * - Positioned with translate-y-[calc(-50%-2px)] for precise alignment
+ * - Rotated 45deg to create diamond point
+ * - Uses xs icon sizing (16px) with 2px rounded corners
+ * - Matches content background and border colors
+ */
+const TooltipContent = ({
 	className,
 	sideOffset = 0,
 	variant = "default",
@@ -46,8 +78,11 @@ function TooltipContent({
 }: React.ComponentProps<typeof ShadcnTooltipContent> & {
 	variant?: "default" | "badge";
 	asChild?: boolean;
-}) {
+}) => {
+	// Choose component type based on asChild prop
 	const Comp = asChild ? Slot : React.Fragment;
+
+	// Build content with or without arrow based on asChild
 	const content = asChild ? (
 		<Comp>{children}</Comp>
 	) : (
@@ -64,21 +99,28 @@ function TooltipContent({
 		</>
 	);
 
+	// Build base classes for default variant styling
+	const baseClasses = !asChild
+		? `animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 w-fit origin-(--radix-tooltip-content-transform-origin) ${BORDERS.RADIUS.md} px-3 py-1.5 ${TYPOGRAPHY.FONT_SIZE.xs} text-balance border`
+		: "";
+
+	// Select variant colors
+	const variantClasses =
+		!asChild && variant === "badge"
+			? "bg-primary text-primary-foreground border-primary"
+			: !asChild
+				? "bg-secondary text-secondary-foreground border-secondary"
+				: "";
+
+	// Combine all classes
+	const combinedClassName = cn("z-9999", baseClasses, variantClasses, className);
+
 	return (
 		<TooltipPrimitive.Portal>
 			<TooltipPrimitive.Content
 				data-slot="tooltip-content"
 				sideOffset={sideOffset}
-				className={cn(
-					"z-9999",
-					!asChild &&
-						`animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 w-fit origin-(--radix-tooltip-content-transform-origin) ${BORDERS.RADIUS.md} px-3 py-1.5 text-xs text-balance border`,
-					!asChild && variant === "badge"
-						? "bg-primary text-primary-foreground border-primary"
-						: !asChild &&
-								"bg-secondary text-secondary-foreground border-secondary",
-					className,
-				)}
+				className={combinedClassName}
 				{...props}
 			>
 				{content}
@@ -87,4 +129,5 @@ function TooltipContent({
 	);
 }
 
-export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger };
+

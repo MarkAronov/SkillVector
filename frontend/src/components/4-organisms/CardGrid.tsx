@@ -1,5 +1,5 @@
-import type { ElementType, ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import type { ElementType, ReactNode } from "react";
 import { GRID, TYPOGRAPHY } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
@@ -502,5 +502,6 @@ export type {
 	CardGridItemProps,
 	CardGridProps,
 	GapSize,
-	MaxColumns,
+	MaxColumns
 };
+

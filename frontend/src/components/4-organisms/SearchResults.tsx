@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
 import type { PersonSearchResult } from "@/types/search.types";
+import { useEffect, useMemo, useState } from "react";
 import { TYPOGRAPHY } from "../1-ions";
 import { Text } from "../2-atoms/Text";
 import { Card } from "../3-molecules/Card";

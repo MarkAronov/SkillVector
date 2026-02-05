@@ -1,4 +1,3 @@
-import type { ComponentProps } from "react";
 import {
 	Table as ShadcnTable,
 	TableBody as ShadcnTableBody,
@@ -10,6 +9,7 @@ import {
 	TableRow as ShadcnTableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import type { ComponentProps } from "react";
 import { TYPOGRAPHY } from "../1-ions";
 import type { TableCellProps } from "./Table.types";
 
@@ -79,5 +79,6 @@ export {
 	TableHeader,
 	TableRow,
 	type TableCellProps,
-	type TableProps,
+	type TableProps
 };
+

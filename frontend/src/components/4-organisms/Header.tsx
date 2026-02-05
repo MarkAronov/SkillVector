@@ -1,7 +1,7 @@
+import { SOCIAL_LINKS } from "@/constants/site";
 import { Link, useLocation } from "@tanstack/react-router";
 import { Menu, Monitor, Moon, Search, Sun, X } from "lucide-react";
 import { useState } from "react";
-import { SOCIAL_LINKS } from "@/constants/site";
 import { useTheme } from "../../hooks/useTheme";
 import { TYPOGRAPHY } from "../1-ions";
 import { Glass } from "../1-ions/Glass";

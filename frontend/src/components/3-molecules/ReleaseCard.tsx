@@ -107,14 +107,12 @@ export const ReleaseCard: React.FC<ReleaseCardProps> = ({
 					<Div className="flex items-start gap-4 flex-1">
 						{/* Icon */}
 						<Div
-							className={`p-3 rounded-xl shrink-0 ${
-								isPrerelease ? "bg-amber-500/10" : "bg-primary/10"
-							}`}
+							className={`p-3 rounded-xl shrink-0 ${isPrerelease ? "bg-amber-500/10" : "bg-primary/10"
+								}`}
 						>
 							<Tag
-								className={`h-6 w-6 ${
-									isPrerelease ? "text-amber-500" : "text-primary"
-								}`}
+								className={`h-6 w-6 ${isPrerelease ? "text-amber-500" : "text-primary"
+									}`}
 							/>
 						</Div>
 

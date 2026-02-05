@@ -1,3 +1,4 @@
+import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
 import { useNavigate } from "@tanstack/react-router";
 import {
 	Brain,
@@ -14,7 +15,6 @@ import {
 	Sparkles,
 	SquareArrowOutUpRight,
 } from "lucide-react";
-import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
 import { TYPOGRAPHY } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";

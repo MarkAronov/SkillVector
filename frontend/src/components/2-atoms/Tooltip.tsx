@@ -1,6 +1,3 @@
-import { Slot } from "@radix-ui/react-slot";
-import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import * as React from "react";
 import {
 	Tooltip as ShadcnTooltip,
 	type TooltipContent as ShadcnTooltipContent,
@@ -8,6 +5,9 @@ import {
 	TooltipTrigger as ShadcnTooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { Slot } from "@radix-ui/react-slot";
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import * as React from "react";
 import { BORDERS, SIZING, TYPOGRAPHY, Z_INDEX } from "../1-ions";
 
 /**

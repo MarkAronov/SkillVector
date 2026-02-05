@@ -20,7 +20,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { EXTERNAL_LINKS } from "@/constants/site";
-import { TYPOGRAPHY } from "../1-ions";
+import { BORDERS, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Link } from "../2-atoms/Link";
@@ -220,7 +220,9 @@ export const ChangelogPage = () => {
 										icon: <Package className="h-4 w-4" />,
 									}}
 								/>
-								<Div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-6 gap-6">
+								<Div
+									className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 ${SPACING.PADDING.lg} ${SPACING.GAP.xl}`}
+								>
 									<StatCard
 										icon={Tag}
 										iconColor="text-primary"
@@ -358,7 +360,7 @@ export const ChangelogPage = () => {
 					<Section>
 						{currentReleases.length === 0 ? (
 							<Card variant="hover" fill>
-								<CardContent centered className="py-16">
+								<CardContent centered className={SPACING.PADDING_Y["3xl"]}>
 									<Package className="h-12 w-12 text-muted-foreground/50 mb-4 mx-auto" />
 									<Heading as="h3" variant="section" className="mb-2">
 										No Releases Found
@@ -404,25 +406,27 @@ export const ChangelogPage = () => {
 						<Section>
 							<Card>
 								<CardContent>
-									<Div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+									<Div
+										className={`flex flex-col sm:flex-row items-center justify-between ${SPACING.GAP.md}`}
+									>
 										{/* Page Info */}
 										<Text variant="small" className="text-muted-foreground">
 											Page {currentPage} of {totalPages}
 										</Text>
 
 										{/* Pagination Controls */}
-										<Div className="flex items-center gap-2">
+										<Div className={`flex items-center ${SPACING.GAP.sm}`}>
 											<button
 												type="button"
 												onClick={() => goToPage(currentPage - 1)}
 												disabled={currentPage === 1}
-												className="p-2 rounded-lg border border-border disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+												className={`${SPACING.PADDING.sm} ${BORDERS.RADIUS.lg} border border-border disabled:opacity-50 disabled:cursor-not-allowed transition-colors`}
 												aria-label="Previous page"
 											>
 												<ChevronLeft className="h-5 w-5" />
 											</button>
 
-											<Div className="flex items-center gap-1">
+											<Div className={`flex items-center ${SPACING.GAP.xs}`}>
 												{Array.from(
 													{ length: totalPages },
 													(_, i) => i + 1,
@@ -442,7 +446,7 @@ export const ChangelogPage = () => {
 															return (
 																<Span
 																	key={page}
-																	className="px-2 text-muted-foreground"
+																	className={`${SPACING.PADDING_X.sm} text-muted-foreground`}
 																>
 																	...
 																</Span>
@@ -456,7 +460,7 @@ export const ChangelogPage = () => {
 															key={page}
 															type="button"
 															onClick={() => goToPage(page)}
-															className={`min-w-10 h-10 rounded-lg border transition-colors ${
+															className={`min-w-10 h-10 ${BORDERS.RADIUS.lg} border transition-colors ${
 																page === currentPage
 																	? "bg-primary text-primary-foreground border-primary"
 																	: "border-border"
@@ -476,7 +480,7 @@ export const ChangelogPage = () => {
 												type="button"
 												onClick={() => goToPage(currentPage + 1)}
 												disabled={currentPage === totalPages}
-												className="p-2 rounded-lg border border-border disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+												className={`${SPACING.PADDING.sm} ${BORDERS.RADIUS.lg} border border-border disabled:opacity-50 disabled:cursor-not-allowed transition-colors`}
 												aria-label="Next page"
 											>
 												<ChevronRight className="h-5 w-5" />
@@ -485,7 +489,9 @@ export const ChangelogPage = () => {
 
 										{/* Jump to page on larger screens */}
 										{totalPages > 5 && (
-											<Div className="hidden lg:flex items-center gap-2">
+											<Div
+												className={`hidden lg:flex items-center ${SPACING.GAP.sm}`}
+											>
 												<Text variant="small" className="text-muted-foreground">
 													Jump to:
 												</Text>

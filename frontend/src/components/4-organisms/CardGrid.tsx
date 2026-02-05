@@ -1,6 +1,6 @@
 import type { ElementType, ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { GRID, TYPOGRAPHY } from "../1-ions";
+import { GRID, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Link } from "../2-atoms/Link";
@@ -202,12 +202,14 @@ const defaultCardRenderer = (
 					<>
 						{/* Step-based layout (HowItWorksPage style) */}
 						{item.step && (
-							<Div className="flex flex-col md:flex-row gap-6 items-start">
+							<Div
+								className={`flex flex-col md:flex-row ${SPACING.GAP.xl} items-start`}
+							>
 								{item.icon && (
 									<Div className={cn("shrink-0", item.color)}>{item.icon}</Div>
 								)}
 								<Div className="flex-1">
-									<Div className="flex items-baseline gap-3 mb-3">
+									<Div className={`flex items-baseline ${SPACING.GAP.sm} mb-3`}>
 										<Span
 											className={cn(
 												`${TYPOGRAPHY.FONT_SIZE.xl} ${TYPOGRAPHY.FONT_WEIGHT.bold}`,
@@ -253,11 +255,11 @@ const defaultCardRenderer = (
 											>
 												Supported AI Providers:
 											</Text>
-											<Div className="flex flex-wrap gap-2">
+											<Div className={`flex flex-wrap ${SPACING.GAP.sm}`}>
 												{item.tags.map((tag: string) => (
 													<Span
 														key={tag}
-														className={`px-2 py-1 bg-background rounded ${TYPOGRAPHY.FONT_SIZE.xs_sm}`}
+														className={`${SPACING.PADDING_X.sm} py-1 bg-background rounded ${TYPOGRAPHY.FONT_SIZE.xs_sm}`}
 													>
 														{tag}
 													</Span>

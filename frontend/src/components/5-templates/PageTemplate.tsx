@@ -1,5 +1,6 @@
 import { useMatches } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { SPACING } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Footer } from "../4-organisms/Footer";
 import { Header } from "../4-organisms/Header";
@@ -81,9 +82,9 @@ export const PageTemplate = ({
 	// Map padding variants to classes
 	const paddingClass =
 		paddingVariant === "responsive"
-			? "px-4 sm:px-6 lg:px-8 py-12"
+			? `${SPACING.PADDING_X.responsive.sm} py-12`
 			: paddingVariant === "compact"
-				? "px-4 py-8"
+				? `${SPACING.PADDING_X.md} ${SPACING.PADDING_Y.xl}`
 				: ""; // "none" = no padding
 
 	const content = constrain ? (

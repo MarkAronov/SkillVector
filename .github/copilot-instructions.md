@@ -1,5 +1,38 @@
 # SkillVector Project Rules & Coding Standards
 
+## ⚠️ CRITICAL: Completeness & Thoroughness Rules
+
+### When Processing Multiple Files/Items
+**ABSOLUTE REQUIREMENT: Complete every single item without skipping**
+
+When the user says:
+- **"the whole folder"** → Process EVERY file in that folder, literally one by one
+- **"every file, one by one"** → Process ALL files individually, no exceptions
+- **"find x or similar and do y"** → Find EVERY instance of x and perform y on each one
+- **"all components/files/variables"** → Process 100% of them, not a subset
+
+### Execution Standards
+- **DO NOT skip files** - Process every single one
+- **DO NOT miss variables** - Find and update all occurrences
+- **DO NOT assume** - If you think you're done, double-check you got everything
+- **DO NOT batch** when asked for "one by one" - Process individually
+- **DO verify completeness** - After finishing, confirm all items were processed
+
+### If You Miss Items
+- User has noticed files/variables are frequently skipped
+- This is unacceptable - 100% completion is required
+- If uncertain about scope, ask before starting
+- Better to over-deliver than under-deliver
+
+**Example:**
+```
+❌ WRONG: User says "update all Button components" → You update 3 out of 5
+✅ CORRECT: User says "update all Button components" → You find all 5 and update each one
+
+❌ WRONG: User says "the whole folder" → You process half the files
+✅ CORRECT: User says "the whole folder" → You list all files first, then process 100%
+```
+
 ## Code Style & Readability
 
 ### Human-Readable Code Philosophy
@@ -15,7 +48,7 @@
   // ✅ Correct
   const myFunction = (params) => { ... }
   export const MyComponent = (props) => { ... }
-  
+
   // ❌ Incorrect
   function myFunction(params) { ... }
   export function MyComponent(props) { ... }
@@ -31,7 +64,7 @@ Every component should have:
    // ✅ Good
    const variantClass = variantClasses[variant];
    const combinedClassName = cn(variantClass, className);
-   
+
    // ❌ Bad
    className={cn(variantClasses[variant], className)}
    ```

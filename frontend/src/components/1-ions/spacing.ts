@@ -105,6 +105,64 @@ export const SPACING = {
 		lg: "py-16 lg:py-24", // 64px → 96px - Large sections
 		xl: "py-24 lg:py-32", // 96px → 128px - Hero sections
 	},
+
+	/**
+	 * Padding scale - Consistent spacing for component interiors
+	 * Use for padding inside cards, containers, buttons, etc.
+	 */
+	PADDING: {
+		none: "p-0", // 0px - No padding
+		xs: "p-1", // 4px - Minimal padding
+		sm: "p-2", // 8px - Small padding
+		md: "p-4", // 16px - Standard padding
+		lg: "p-6", // 24px - Large padding
+		xl: "p-8", // 32px - Extra large padding
+		"2xl": "p-12", // 48px - Huge padding
+		"3xl": "p-16", // 64px - Massive padding
+	},
+
+	/**
+	 * Horizontal padding - For responsive layouts
+	 */
+	PADDING_X: {
+		xs: "px-1", // 4px
+		sm: "px-2", // 8px
+		md: "px-4", // 16px
+		lg: "px-6", // 24px
+		xl: "px-8", // 32px
+		"2xl": "px-12", // 48px
+		responsive: {
+			xs: "px-3 lg:px-4", // 12px → 16px
+			sm: "px-4 sm:px-6 lg:px-8", // 16px → 24px → 32px
+		},
+	},
+
+	/**
+	 * Vertical padding - For responsive layouts
+	 */
+	PADDING_Y: {
+		xs: "py-1", // 4px
+		sm: "py-2", // 8px
+		md: "py-4", // 16px
+		lg: "py-6", // 24px
+		xl: "py-8", // 32px
+		"2xl": "py-12", // 48px
+		"3xl": "py-16", // 64px
+		responsive: {
+			xs: "py-6 lg:py-8", // 24px → 32px
+		},
+	},
+
+	/**
+	 * Responsive gap spacing
+	 */
+	GAP_RESPONSIVE: {
+		xs: "gap-1 lg:gap-1.5", // 4px → 6px
+		sm: "gap-2 lg:gap-3", // 8px → 12px
+		md: "gap-3 lg:gap-4", // 12px → 16px
+		lg: "gap-4 lg:gap-6", // 16px → 24px
+		xl: "gap-4 lg:gap-8", // 16px → 32px
+	},
 } as const;
 
 /**

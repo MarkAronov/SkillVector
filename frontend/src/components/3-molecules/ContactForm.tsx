@@ -1,6 +1,6 @@
 import { type ChangeEvent, type FormEvent, useId, useState } from "react";
 import { SITE_CONFIG } from "@/constants/site";
-import { TYPOGRAPHY } from "../1-ions";
+import { BORDERS, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
 import { Input } from "../2-atoms/Input";
@@ -119,7 +119,7 @@ export const ContactForm = () => {
 
 	return (
 		<form onSubmit={handleSubmit} className="space-y-6">
-			<Div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<Div className={`grid grid-cols-1 md:grid-cols-2 ${SPACING.GAP.xl}`}>
 				<Div className="space-y-2">
 					<Label htmlFor={nameId} className={TYPOGRAPHY.FONT_WEIGHT.medium}>
 						Name <span className="text-destructive">*</span>
@@ -167,7 +167,9 @@ export const ContactForm = () => {
 				/>
 			</Div>
 			{status === "error" && (
-				<Div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20">
+				<Div
+					className={`${SPACING.PADDING.md} ${BORDERS.RADIUS.lg} bg-destructive/10 border border-destructive/20`}
+				>
 					<Text
 						variant="small"
 						className={`text-destructive ${TYPOGRAPHY.FONT_WEIGHT.medium}`}
@@ -177,7 +179,9 @@ export const ContactForm = () => {
 				</Div>
 			)}
 			{status === "success" && (
-				<Div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20">
+				<Div
+					className={`${SPACING.PADDING.md} ${BORDERS.RADIUS.lg} bg-green-500/10 border border-green-500/20`}
+				>
 					<Text
 						variant="small"
 						className="text-green-600 dark:text-green-400 font-medium"

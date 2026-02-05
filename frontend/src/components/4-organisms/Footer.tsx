@@ -2,7 +2,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { ExternalLink, Github, Linkedin, Mail } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { SITE_CONFIG, SOCIAL_LINKS } from "@/constants/site";
-import { TYPOGRAPHY } from "../1-ions";
+import { SPACING, TYPOGRAPHY } from "../1-ions";
 
 const footerSections = [
 	{
@@ -114,8 +114,12 @@ export const Footer = () => {
 				aria-hidden="true"
 			/>
 			<footer ref={footerRef} className="mt-auto z-40 relative">
-				<div className="max-w-5xl mx-auto px-3 lg:px-4 py-6 lg:py-8">
-					<div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8 justify-items-center">
+				<div
+					className={`max-w-5xl mx-auto ${SPACING.PADDING_X.responsive.xs} ${SPACING.PADDING_Y.responsive.xs}`}
+				>
+					<div
+						className={`grid grid-cols-2 lg:grid-cols-4 ${SPACING.GAP_RESPONSIVE.xl} justify-items-center`}
+					>
 						{footerSections.map((section) => (
 							<div
 								key={section.title}
@@ -136,7 +140,7 @@ export const Footer = () => {
 													href={(link as { href: string; label: string }).href}
 													target="_blank"
 													rel="noopener noreferrer"
-													className="text-foreground/80 hover:text-foreground/95 transition-colors inline-flex items-center gap-1"
+													className={`text-foreground/80 hover:text-foreground/95 transition-colors inline-flex items-center ${SPACING.GAP.xs}`}
 												>
 													{link.label}
 													<ExternalLink className="h-3 w-3" />
@@ -157,7 +161,9 @@ export const Footer = () => {
 					</div>
 
 					{/* Bottom section */}
-					<div className="mt-6 lg:mt-8 pt-6 lg:pt-8 flex flex-col md:flex-row justify-between items-center gap-3 lg:gap-4">
+					<div
+						className={`mt-6 lg:mt-8 pt-6 lg:pt-8 flex flex-col md:flex-row justify-between items-center ${SPACING.GAP_RESPONSIVE.md}`}
+					>
 						<p
 							className={`${TYPOGRAPHY.COMBINATIONS.footerCopyright} text-foreground/80`}
 						>
@@ -165,7 +171,7 @@ export const Footer = () => {
 						</p>
 
 						{/* Social Links */}
-						<div className="flex items-center gap-3 lg:gap-4">
+						<div className={`flex items-center ${SPACING.GAP_RESPONSIVE.md}`}>
 							{socialLinks.map((social) => {
 								const Icon = social.icon;
 								return social.isInternal ? (

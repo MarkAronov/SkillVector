@@ -1,3 +1,4 @@
+import { SPACING } from "../1-ions";
 import type { SearchTemplateProps } from "./SearchTemplate.types";
 
 export const SearchTemplate = ({
@@ -7,7 +8,9 @@ export const SearchTemplate = ({
 	error,
 }: SearchTemplateProps) => {
 	return (
-		<div className="flex flex-col items-center justify-center min-h-screen p-8">
+		<div
+			className={`flex flex-col items-center justify-center min-h-screen ${SPACING.PADDING.xl}`}
+		>
 			{header}
 			{searchBar}
 			{error}

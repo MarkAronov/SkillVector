@@ -15,7 +15,7 @@ import {
 	SquareArrowOutUpRight,
 } from "lucide-react";
 import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
-import { TYPOGRAPHY } from "../1-ions";
+import { SPACING, TYPOGRAPHY } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Section } from "../2-atoms/Section";
@@ -272,8 +272,8 @@ export const IntegrationsPage = () => {
 						title: category.title,
 						centered: false,
 						customContent: (
-							<Div className="flex flex-col gap-6">
-								<Div variant="flex" className="items-start gap-4">
+							<Div className={`flex flex-col ${SPACING.GAP.xl}`}>
+								<Div variant="flex" className={`items-start ${SPACING.GAP.md}`}>
 									<Div className="text-primary shrink-0">{category.icon}</Div>
 									<Div className="min-w-0">
 										<Heading variant="card" className="mb-1">
@@ -337,7 +337,9 @@ export const IntegrationsPage = () => {
 																			{integration.description}
 																		</Text>
 																		{hasRowActions && (
-																			<Div className="mt-2 flex flex-wrap gap-1.5 sm:hidden">
+																			<Div
+																				className={`mt-2 flex flex-wrap ${SPACING.GAP.xs} sm:hidden`}
+																			>
 																				{actions.internal && (
 																					<ActionButton
 																						className="p-1.5 min-w-0"
@@ -388,7 +390,9 @@ export const IntegrationsPage = () => {
 															{hasAnyActions && (
 																<TableCell className="hidden sm:table-cell text-right">
 																	{hasRowActions ? (
-																		<Div className="flex flex-wrap justify-end gap-1.5">
+																		<Div
+																			className={`flex flex-wrap justify-end ${SPACING.GAP.xs}`}
+																		>
 																			{actions.internal && (
 																				<Tooltip delayDuration={200}>
 																					<TooltipTrigger asChild>
@@ -470,7 +474,7 @@ export const IntegrationsPage = () => {
 						SkillVector is open source and extensible. Build your own or request
 						new integrations.
 					</Text>
-					<div className="flex gap-4 justify-center flex-wrap">
+					<div className={`flex ${SPACING.GAP.md} justify-center flex-wrap`}>
 						<ActionButton
 							variant="primary"
 							href={SOCIAL_LINKS.github}

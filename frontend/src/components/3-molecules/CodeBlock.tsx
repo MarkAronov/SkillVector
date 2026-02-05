@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BORDERS, TYPOGRAPHY } from "../1-ions";
+import { BORDERS, SPACING, TYPOGRAPHY } from "../1-ions";
 import type { CodeBlockProps } from "./CodeBlock.types";
 
 /**
@@ -43,14 +43,14 @@ export const CodeBlock = ({ language, code }: CodeBlockProps) => {
 		<div className="relative">
 			{/* Allow pre to wrap on small screens while preserving whitespace, but still support horizontal scroll when desired */}
 			<pre
-				className={`bg-muted p-4 ${BORDERS.RADIUS.md} overflow-x-auto max-w-full w-full whitespace-pre-wrap wrap-break-word`}
+				className={`bg-muted ${SPACING.PADDING.md} ${BORDERS.RADIUS.md} overflow-x-auto max-w-full w-full whitespace-pre-wrap wrap-break-word`}
 			>
 				<code className={`language-${language} block w-full`}>{code}</code>
 			</pre>
 			<button
 				type="button"
 				onClick={handleCopy}
-				className={`absolute top-2 right-2 px-2 py-1 ${TYPOGRAPHY.FONT_SIZE.xs} bg-background border ${BORDERS.RADIUS.sm} hover:bg-muted`}
+				className={`absolute top-2 right-2 ${SPACING.PADDING_X.sm} py-1 ${TYPOGRAPHY.FONT_SIZE.xs} bg-background border ${BORDERS.RADIUS.sm} hover:bg-muted`}
 			>
 				{copied ? "Copied!" : "Copy"}
 			</button>

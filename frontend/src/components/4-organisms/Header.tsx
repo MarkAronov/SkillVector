@@ -3,7 +3,7 @@ import { Menu, Monitor, Moon, Search, Sun, X } from "lucide-react";
 import { useState } from "react";
 import { SOCIAL_LINKS } from "@/constants/site";
 import { useTheme } from "../../hooks/useTheme";
-import { TYPOGRAPHY } from "../1-ions";
+import { SPACING, TYPOGRAPHY } from "../1-ions";
 import { Glass } from "../1-ions/Glass";
 import { Logo } from "../2-atoms/Logo";
 
@@ -82,12 +82,14 @@ export const Header = () => {
 					className="backdrop-blur-sm bg-white/40 dark:bg-black/30 rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/20 border border-white/20 dark:border-white/10"
 				>
 					<header>
-						<nav className="container mx-auto px-3 lg:px-4">
+						<nav
+							className={`container mx-auto ${SPACING.PADDING_X.responsive.xs}`}
+						>
 							<div className="flex items-center justify-between h-12 lg:h-14">
 								{/* Logo and Brand */}
 								<Link
 									to="/"
-									className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+									className={`flex items-center ${SPACING.GAP.sm} hover:opacity-80 transition-opacity`}
 								>
 									<Logo size="md" />
 									<span
@@ -98,7 +100,9 @@ export const Header = () => {
 								</Link>
 
 								{/* Desktop Navigation */}
-								<div className="hidden md:flex items-center gap-4 lg:gap-6">
+								<div
+									className={`hidden md:flex items-center ${SPACING.GAP_RESPONSIVE.lg}`}
+								>
 									{navigationItems.map((item) => renderNavLink(item))}
 								</div>
 
@@ -116,10 +120,12 @@ export const Header = () => {
 								</div>
 
 								{/* Mobile Search and Menu */}
-								<div className="md:hidden flex items-center gap-2">
+								<div
+									className={`md:hidden flex items-center ${SPACING.GAP.sm}`}
+								>
 									<Link
 										to="/"
-										className="p-2 text-muted-foreground hover:text-primary transition-colors"
+										className={`${SPACING.PADDING.sm} text-muted-foreground hover:text-primary transition-colors`}
 										aria-label="Search"
 									>
 										<Search className="h-6 w-6" />
@@ -127,7 +133,7 @@ export const Header = () => {
 									<button
 										type="button"
 										onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-										className="p-2 text-muted-foreground"
+										className={`${SPACING.PADDING.sm} text-muted-foreground`}
 										aria-label="Toggle menu"
 									>
 										{mobileMenuOpen ? (
@@ -141,13 +147,13 @@ export const Header = () => {
 
 							{/* Mobile Navigation */}
 							{mobileMenuOpen && (
-								<div className="md:hidden py-4">
-									<div className="flex flex-col gap-4">
+								<div className={`md:hidden ${SPACING.PADDING_Y.md}`}>
+									<div className={`flex flex-col ${SPACING.GAP.md}`}>
 										{navigationItems.map((item) => renderNavLink(item, true))}
 										<button
 											type="button"
 											onClick={toggleTheme}
-											className={`flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors ${TYPOGRAPHY.COMBINATIONS.navLink}`}
+											className={`flex items-center ${SPACING.GAP.sm} text-muted-foreground hover:text-primary transition-colors ${TYPOGRAPHY.COMBINATIONS.navLink}`}
 										>
 											<ThemeIcon className="h-5 w-5" />
 											<span>{themeLabel}</span>

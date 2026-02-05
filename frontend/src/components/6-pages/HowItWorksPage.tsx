@@ -1,4 +1,5 @@
 import { Brain, Search, Upload, Zap } from "lucide-react";
+import { SPACING } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Section } from "../2-atoms/Section";
@@ -90,7 +91,9 @@ export const HowItWorksPage = () => {
 									<Text variant="lead" className="mb-6">
 										Experience semantic search in action with our live demo
 									</Text>
-									<Div className="flex gap-4 justify-center flex-wrap">
+									<Div
+										className={`flex ${SPACING.GAP.md} justify-center flex-wrap`}
+									>
 										<ActionButton to="/search" aria-label="Try Demo">
 											Try Demo
 										</ActionButton>

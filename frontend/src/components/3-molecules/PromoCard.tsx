@@ -1,6 +1,8 @@
+import { cn } from "@/lib/utils";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
+import { Link } from "../2-atoms/Link";
 import { Text } from "../2-atoms/Text";
 
 /**
@@ -72,7 +74,16 @@ export const SocialMediaCard = ({
 	className = "",
 }: SocialMediaCardProps) => {
 	return (
-		<Div className={`text-center py-8 px-6 ${className}`}>
+		<Div
+			className={cn(
+				// Layout
+				"text-center",
+				// Spacing
+				"py-8 px-6",
+				// Custom
+				className,
+			)}
+		>
 			<Div className="flex items-center justify-center gap-2 mb-4">
 				{icon}
 				<Heading variant="section">{title}</Heading>
@@ -80,29 +91,31 @@ export const SocialMediaCard = ({
 			<Text variant="lead" className="text-muted-foreground mb-6">
 				{description}
 			</Text>
+			{/* Action buttons - external links */}
 			<Div className="flex flex-wrap items-center justify-center gap-3">
+				{/* Primary action button */}
 				<Button asChild>
-					<a
+					<Link
 						href={primaryAction.href}
-						target="_blank"
-						rel="noopener noreferrer"
+						external
 						className="inline-flex items-center gap-2"
 					>
 						{primaryAction.icon}
 						{primaryAction.label}
-					</a>
+					</Link>
 				</Button>
+
+				{/* Secondary action button (optional) */}
 				{secondaryAction && (
 					<Button asChild variant="secondary">
-						<a
+						<Link
 							href={secondaryAction.href}
-							target="_blank"
-							rel="noopener noreferrer"
+							external
 							className="inline-flex items-center gap-2"
 						>
 							{secondaryAction.icon}
 							{secondaryAction.label}
-						</a>
+						</Link>
 					</Button>
 				)}
 			</Div>

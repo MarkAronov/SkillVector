@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { BORDERS, SPACING, TYPOGRAPHY } from "../1-ions";
+import { Button } from "../2-atoms/Button";
+import { Div } from "../2-atoms/Div";
 import type { CodeBlockProps } from "./CodeBlock.types";
 
 /**
@@ -40,20 +43,40 @@ export const CodeBlock = ({ language, code }: CodeBlockProps) => {
 	};
 
 	return (
-		<div className="relative">
-			{/* Allow pre to wrap on small screens while preserving whitespace, but still support horizontal scroll when desired */}
+		<Div className="relative">
+			{/* Code block - Allow pre to wrap on small screens while preserving whitespace, but still support horizontal scroll when desired */}
 			<pre
-				className={`bg-muted ${SPACING.PADDING.md} ${BORDERS.RADIUS.md} overflow-x-auto max-w-full w-full whitespace-pre-wrap wrap-break-word`}
+				className={cn(
+					// Colors
+					"bg-muted",
+					// Spacing
+					SPACING.PADDING.md,
+					// Borders
+					BORDERS.RADIUS.md,
+					// Layout
+					"overflow-x-auto max-w-full w-full whitespace-pre-wrap wrap-break-word",
+				)}
 			>
-				<code className={`language-${language} block w-full`}>{code}</code>
+				<code className={cn(`language-${language}`, "block w-full")}>
+					{code}
+				</code>
 			</pre>
-			<button
+
+			{/* Copy to clipboard button */}
+			<Button
 				type="button"
+				variant="outline"
+				size="sm"
 				onClick={handleCopy}
-				className={`absolute top-2 right-2 ${SPACING.PADDING_X.sm} py-1 ${TYPOGRAPHY.FONT_SIZE.xs} bg-background border ${BORDERS.RADIUS.sm} hover:bg-muted`}
+				className={cn(
+					// Position
+					"absolute top-2 right-2",
+					// Typography
+					TYPOGRAPHY.FONT_SIZE.xs,
+				)}
 			>
 				{copied ? "Copied!" : "Copy"}
-			</button>
-		</div>
+			</Button>
+		</Div>
 	);
 };

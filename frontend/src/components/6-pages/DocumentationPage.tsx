@@ -1,4 +1,5 @@
 import { ApiReferenceReact } from "@scalar/api-reference-react";
+import { cn } from "@/lib/utils";
 import "@scalar/api-reference-react/style.css";
 import { useEffect, useMemo, useRef } from "react";
 import { useTheme } from "../../hooks/useTheme";
@@ -90,14 +91,18 @@ export const DocumentationPage = () => {
 					API Reference
 				</Heading>
 				<ScrollArea
-					className={`scalar-wrapper ${BORDERS.RADIUS.xl} border border-border ${LAYOUT.SCALAR_API}`}
+					className={cn(
+						"scalar-wrapper border border-border",
+						BORDERS.RADIUS.xl,
+						LAYOUT.SCALAR_API,
+					)}
 				>
-					<div className="h-full">
+					<Div className="h-full">
 						<ApiReferenceReact
 							key={`scalar-${isDark}`}
 							configuration={configuration}
 						/>
-					</div>
+					</Div>
 				</ScrollArea>
 			</Div>
 

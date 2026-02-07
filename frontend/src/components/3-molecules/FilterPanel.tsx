@@ -6,12 +6,14 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import { SPACING, TYPOGRAPHY } from "../1-ions";
 import { Badge } from "../2-atoms/Badge";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Input } from "../2-atoms/Input";
+import { Link } from "../2-atoms/Link";
 import { Text } from "../2-atoms/Text";
 
 export interface FilterOption {
@@ -109,13 +111,26 @@ export const FilterPanel = ({
 	const hasActiveFilters = activeFilters.length > 0 || search?.value;
 
 	return (
-		<Div className={`py-6 px-6 ${className}`}>
+		<Div
+			className={cn(
+				// Spacing
+				"py-6 px-6",
+				// Custom
+				className,
+			)}
+		>
 			{/* Header Section */}
 			{variant === "full" && (title || description) && (
 				<Div className="text-center mb-6">
 					{title && (
 						<Div
-							className={`flex items-baseline justify-center ${SPACING.GAP.sm} mb-4`}
+							className={cn(
+								// Layout
+								"flex items-baseline justify-center",
+								// Spacing
+								SPACING.GAP.sm,
+								"mb-4",
+							)}
 						>
 							{icon}
 							<Heading variant="section">{title}</Heading>
@@ -128,32 +143,39 @@ export const FilterPanel = ({
 					)}
 					{(primaryAction || secondaryAction) && (
 						<Div
-							className={`flex flex-wrap items-center justify-center ${SPACING.GAP.sm} mb-6`}
+							className={cn(
+								// Layout
+								"flex flex-wrap items-center justify-center",
+								// Spacing
+								SPACING.GAP.sm,
+								"mb-6",
+							)}
 						>
+							{/* Primary action button */}
 							{primaryAction && (
 								<Button asChild>
-									<a
+									<Link
 										href={primaryAction.href}
-										target="_blank"
-										rel="noopener noreferrer"
+										external
 										className="inline-flex items-center gap-2"
 									>
 										{primaryAction.icon}
 										{primaryAction.label}
-									</a>
+									</Link>
 								</Button>
 							)}
+
+							{/* Secondary action button (optional) */}
 							{secondaryAction && (
 								<Button asChild variant="secondary">
-									<a
+									<Link
 										href={secondaryAction.href}
-										target="_blank"
-										rel="noopener noreferrer"
+										external
 										className="inline-flex items-center gap-2"
 									>
 										{secondaryAction.icon}
 										{secondaryAction.label}
-									</a>
+									</Link>
 								</Button>
 							)}
 						</Div>
@@ -162,30 +184,45 @@ export const FilterPanel = ({
 			)}
 
 			{/* Filter Controls */}
-			<Div className={`flex flex-col lg:flex-row ${SPACING.GAP.md}`}>
+			<Div
+				className={cn(
+					// Layout
+					"flex flex-col lg:flex-row",
+					// Spacing
+					SPACING.GAP.md,
+				)}
+			>
 				{/* Search Input */}
 				{search && (
 					<Div className="flex-1">
 						<Div className="relative">
 							{search.icon && (
-								<Div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+								<Div
+									className={cn(
+										// Positioning
+										"absolute left-3 top-1/2 -translate-y-1/2",
+										// Colors
+										"text-muted-foreground",
+									)}
+								>
 									{search.icon}
 								</Div>
 							)}
-							<Input
-								type="text"
-								placeholder={search.placeholder || "Search..."}
-								value={search.value}
-								onChange={(e) => search.onChange(e.target.value)}
-								className={`h-11 ${search.icon ? "pl-10" : ""}`}
-							/>
+							<Input />
 						</Div>
 					</Div>
 				)}
 
 				{/* Filter Dropdowns */}
 				{filters.length > 0 && (
-					<Div className={`flex flex-wrap ${SPACING.GAP.sm}`}>
+					<Div
+						className={cn(
+							// Layout
+							"flex flex-wrap",
+							// Spacing
+							SPACING.GAP.sm,
+						)}
+					>
 						{filters.map((filter) => (
 							<Select
 								key={filter.value}
@@ -212,7 +249,13 @@ export const FilterPanel = ({
 			{/* Active Filters & Results Count */}
 			{(hasActiveFilters || resultsCount !== undefined) && (
 				<Div
-					className={`flex flex-wrap items-center ${SPACING.GAP.sm} mt-4 pt-4`}
+					className={cn(
+						// Layout
+						"flex flex-wrap items-center",
+						// Spacing
+						SPACING.GAP.sm,
+						"mt-4 pt-4",
+					)}
 				>
 					{/* Results Count */}
 					{resultsCount !== undefined && (
@@ -231,12 +274,24 @@ export const FilterPanel = ({
 							<Text variant="small" className="text-muted-foreground">
 								Active filters:
 							</Text>
-							<Div className={`flex flex-wrap ${SPACING.GAP.sm}`}>
+							<Div
+								className={cn(
+									// Layout
+									"flex flex-wrap",
+									// Spacing
+									SPACING.GAP.sm,
+								)}
+							>
 								{activeFilters.map((filter, index) => (
 									<Badge
 										key={`${filter.type}-${index}`}
 										variant="secondary"
-										className={`${SPACING.GAP.xs} cursor-pointer hover:bg-secondary/80 transition-colors`}
+										className={cn(
+											// Spacing
+											SPACING.GAP.xs,
+											// States
+											"cursor-pointer hover:bg-secondary/80 transition-colors",
+										)}
 										onClick={() => onRemoveFilter?.(filter.type)}
 									>
 										{filter.label}
@@ -249,7 +304,7 @@ export const FilterPanel = ({
 									variant="ghost"
 									size="sm"
 									onClick={onClearAll}
-									className={`h-7 ${TYPOGRAPHY.FONT_SIZE.xs}`}
+									className={cn("h-7", TYPOGRAPHY.FONT_SIZE.xs)}
 								>
 									Clear all
 								</Button>

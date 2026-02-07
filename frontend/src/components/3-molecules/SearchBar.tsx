@@ -1,5 +1,6 @@
 import { Search } from "lucide-react";
 import { type KeyboardEvent, useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 import {
 	ANIMATION,
 	BORDERS,
@@ -9,6 +10,9 @@ import {
 	TYPOGRAPHY,
 } from "../1-ions";
 import { Glass } from "../1-ions/Glass";
+import { Button } from "../2-atoms/Button";
+import { Div } from "../2-atoms/Div";
+import { Input } from "../2-atoms/Input";
 import type { SearchBarProps } from "./SearchBar.types";
 
 /**
@@ -84,36 +88,90 @@ export const SearchBar = ({
 		<Glass
 			variant="card"
 			constrain
-			className="w-full flex items-center rounded-full overflow-hidden p-0 border border-white/20 dark:border-white/10 shadow-md"
+			className={cn(
+				// Layout & Sizing
+				"w-full flex items-center",
+				// Effects & Borders
+				"rounded-full overflow-hidden",
+				"border border-white/20 dark:border-white/10",
+				// Shadows
+				"shadow-md",
+				// Spacing
+				"p-0",
+			)}
 		>
-			<input
+			{/* Search input field */}
+			<Input
 				type="text"
 				placeholder={placeholder}
 				value={value}
 				onChange={(e) => setValue(e.target.value)}
 				onKeyPress={handleKeyPress}
-				className={`flex-1 h-12 px-5 bg-transparent border-none outline-none ${TYPOGRAPHY.FONT_SIZE.sm_base} text-foreground placeholder:text-muted-foreground disabled:${OPACITY.muted} disabled:${CURSOR.notAllowed}`}
+				className={cn(
+					// Layout & Sizing
+					"flex-1 h-12",
+					// Spacing
+					"px-5",
+					// Colors & Effects
+					"bg-transparent border-none outline-none",
+					// Typography
+					TYPOGRAPHY.FONT_SIZE.sm_base,
+					"text-foreground placeholder:text-muted-foreground",
+					// States
+					`disabled:${OPACITY.muted} disabled:${CURSOR.notAllowed}`,
+				)}
 				disabled={isLoading}
 			/>
-			<div className="h-8 w-px bg-border" />
-			<button
+
+			{/* Visual separator between input and button */}
+			<Div className="h-8 w-px bg-border" />
+
+			{/* Search submit button */}
+			<Button
 				type="button"
+				variant="ghost"
 				onClick={handleSearch}
 				disabled={!value.trim() || isLoading}
-				className={`h-12 px-5 flex items-center justify-center bg-transparent hover:bg-white/10 dark:hover:bg-white/5 transition-colors disabled:${OPACITY.muted} disabled:${CURSOR.notAllowed}`}
+				className={cn(
+					// Layout & Sizing
+					"h-12 px-5",
+					"flex items-center justify-center",
+					// Colors & Effects
+					"bg-transparent",
+					"hover:bg-white/10 dark:hover:bg-white/5",
+					// Transitions
+					"transition-colors",
+					// States
+					`disabled:${OPACITY.muted} disabled:${CURSOR.notAllowed}`,
+				)}
 				aria-label="Search"
 			>
+				{/* Loading state - spinning border animation */}
 				{isLoading ? (
-					<div
-						className={`${SIZING.ICON.md} ${BORDERS.WIDTH.thin} border-muted-foreground border-t-transparent ${BORDERS.RADIUS.full} ${ANIMATION.KEYFRAME.spin}`}
+					<Div
+						className={cn(
+							// Sizing
+							SIZING.ICON.md,
+							// Border
+							BORDERS.WIDTH.thin,
+							"border-muted-foreground border-t-transparent",
+							BORDERS.RADIUS.full,
+							// Animation
+							ANIMATION.KEYFRAME.spin,
+						)}
 					/>
 				) : (
 					<Search
-						className={`${SIZING.ICON.md} text-muted-foreground`}
+						className={cn(
+							// Sizing
+							SIZING.ICON.md,
+							// Colors
+							"text-muted-foreground",
+						)}
 						aria-hidden
 					/>
 				)}
-			</button>
+			</Button>
 		</Glass>
 	);
 };

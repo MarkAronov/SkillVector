@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { usePeople } from "@/hooks/usePeople";
+import { Div } from "../2-atoms/Div";
 import { Text } from "../2-atoms/Text";
 import { ErrorMessage } from "../3-molecules/ErrorMessage";
 import { Hero } from "../3-molecules/Hero";
@@ -45,18 +46,20 @@ export const BrowsePage = () => {
 			{/* People List */}
 			{data && (
 				<>
-					<div className="hidden md:flex items-center justify-between mb-6">
+					{/* Desktop: count and view toggle */}
+					<Div className="hidden md:flex items-center justify-between mb-6">
 						<Text variant="muted">
 							Found <strong>{data.count}</strong> people
 						</Text>
 						<ViewToggle view={view} onViewChange={setView} />
-					</div>
+					</Div>
 
-					<div className="md:hidden mb-6">
+					{/* Mobile: count only */}
+					<Div className="md:hidden mb-6">
 						<Text variant="muted">
 							Found <strong>{data.count}</strong> people
 						</Text>
-					</div>
+					</Div>
 
 					<CardGrid
 						maxColumns={view === "grid" ? 3 : 1}

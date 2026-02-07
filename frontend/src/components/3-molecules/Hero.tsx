@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils";
 import { SPACING } from "../1-ions";
+import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
+import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
 import type { HeroProps } from "./Hero.types";
 
@@ -51,12 +53,14 @@ const Hero = ({
 	const combinedClassName = cn(centeredClass, SPACING.SECTION.lg, className);
 
 	return (
-		<div className={combinedClassName} {...props}>
+		<Div className={combinedClassName} {...props}>
+			{/* Hero title with optional brand text */}
 			<Heading variant="hero">
-				{title} {brand && <span className={brandClass}>{brand}</span>}
+				{title} {brand && <Span className={brandClass}>{brand}</Span>}
 			</Heading>
+			{/* Hero subtitle */}
 			<Text variant="lead">{subtitle}</Text>
-		</div>
+		</Div>
 	);
 };
 

@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { CURSOR } from "../1-ions";
+import { Span } from "../2-atoms/Span";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
 
 /**
@@ -53,14 +54,16 @@ export const TruncatedText = ({
 	const isTruncated = text.length > maxLength;
 	const displayText = isTruncated ? `${text.substring(0, maxLength)}…` : text;
 
+	// Not truncated - display plain text using Span atom
 	if (!showTooltip || !isTruncated) {
-		return <span className={className}>{displayText}</span>;
+		return <Span className={className}>{displayText}</Span>;
 	}
 
+	// Truncated - display with tooltip using Span atom
 	return (
 		<Tooltip delayDuration={200}>
 			<TooltipTrigger asChild>
-				<span className={cn(CURSOR.help, className)}>{displayText}</span>
+				<Span className={cn(CURSOR.help, className)}>{displayText}</Span>
 			</TooltipTrigger>
 			<TooltipContent>{text}</TooltipContent>
 		</Tooltip>

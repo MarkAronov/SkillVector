@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import { cn } from "@/lib/utils";
 import type { PersonSearchResult } from "@/types/search.types";
-import { TYPOGRAPHY } from "../1-ions";
+import { Div } from "../2-atoms/Div";
+import { Heading } from "../2-atoms/Heading";
 import { Text } from "../2-atoms/Text";
 import { Card } from "../3-molecules/Card";
 import { PersonCard } from "../3-molecules/PersonCard";
@@ -169,18 +171,34 @@ export const SearchResults = ({ data, isLoading }: SearchResultsProps) => {
 
 	if (isLoading) {
 		return (
-			<div className="mt-4 text-center text-muted-foreground">Searching...</div>
+			<Div
+				className={cn(
+					// Spacing
+					"mt-4",
+					// Typography
+					"text-center text-muted-foreground",
+				)}
+			>
+				Searching...
+			</Div>
 		);
 	}
 
 	// Show error if search failed
 	if (!data.success && data.error) {
 		return (
-			<Card className="mt-8 p-6 border-red-200 text-red-700">
-				<h2 className={`${TYPOGRAPHY.COMBINATIONS.mediumHeading} mb-2`}>
+			<Card
+				className={cn(
+					// Spacing
+					"mt-8 p-6",
+					// Colors
+					"border-red-200 text-red-700",
+				)}
+			>
+				<Heading variant="section" className="mb-2">
 					Error
-				</h2>
-				<p className="text-red-600">{data.error}</p>
+				</Heading>
+				<Text className="text-red-600">{data.error}</Text>
 				{data.details && (
 					<Text variant="small" className="text-red-500 mt-2">
 						{data.details}
@@ -191,21 +209,36 @@ export const SearchResults = ({ data, isLoading }: SearchResultsProps) => {
 	}
 
 	return (
-		<div className="mt-8 space-y-6">
+		<Div
+			className={cn(
+				// Spacing
+				"mt-8 space-y-6",
+			)}
+		>
 			{/* AI Answer Section */}
 			{data.answer && (
 				<Card className="p-6 border-primary/30">
-					<h2 className={`${TYPOGRAPHY.COMBINATIONS.mediumHeading} mb-2`}>
+					<Heading variant="section" className="mb-2">
 						AI Summary
-					</h2>
-					<p className="text-foreground whitespace-pre-wrap">{data.answer}</p>
+					</Heading>
+					<Text className="text-foreground whitespace-pre-wrap">
+						{data.answer}
+					</Text>
 				</Card>
 			)}
 
 			{/* Results Section */}
-			<div>
-				<div className="flex items-center justify-between mb-4">
-					<h2 className={TYPOGRAPHY.COMBINATIONS.mediumHeading}>
+			<Div>
+				{/* View toggle and heading */}
+				<Div
+					className={cn(
+						// Layout
+						"flex items-center justify-between",
+						// Spacing
+						"mb-4",
+					)}
+				>
+					<Heading variant="section">
 						{uniquePeople.length > 0 ? (
 							<>
 								Found {uniquePeople.length} people
@@ -218,11 +251,11 @@ export const SearchResults = ({ data, isLoading }: SearchResultsProps) => {
 						) : (
 							"No results found"
 						)}
-					</h2>
+					</Heading>
 
 					{/* View Toggle */}
 					<ViewToggle view={view} onViewChange={setView} />
-				</div>
+				</Div>
 
 				{uniquePeople.length > 0 ? (
 					<CardGrid
@@ -241,13 +274,13 @@ export const SearchResults = ({ data, isLoading }: SearchResultsProps) => {
 					/>
 				) : (
 					<Card className="p-6 text-center text-muted-foreground">
-						<p>No people found matching your search criteria.</p>
+						<Text>No people found matching your search criteria.</Text>
 						<Text variant="small" className="mt-2">
 							Try adjusting your search terms.
 						</Text>
 					</Card>
 				)}
-			</div>
-		</div>
+			</Div>
+		</Div>
 	);
 };

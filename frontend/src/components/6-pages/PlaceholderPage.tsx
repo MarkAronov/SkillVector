@@ -1,8 +1,12 @@
 import { ArrowLeft } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { SIZING } from "../1-ions";
 import { Glass } from "../1-ions/Glass";
+import { Button } from "../2-atoms/Button";
 import { Heading } from "../2-atoms/Heading";
+import { Link } from "../2-atoms/Link";
+import { Section } from "../2-atoms/Section";
 import { Text } from "../2-atoms/Text";
-import { ActionButton } from "../3-molecules/ActionButton";
 import { Card, CardContent } from "../3-molecules/Card";
 import { PageTemplate } from "../5-templates/PageTemplate";
 import type { PlaceholderPageProps } from "./PlaceholderPage.types";
@@ -13,10 +17,19 @@ export const PlaceholderPage = ({
 }: PlaceholderPageProps) => {
 	return (
 		<PageTemplate title={title}>
-			<section className="py-12 lg:py-16">
+			<Section className="py-12 lg:py-16">
 				<Glass
 					variant="pronounced"
-					className="text-center p-8 lg:p-12 border border-white/20 dark:border-white/10 shadow-lg"
+					className={cn(
+						// Layout
+						"text-center",
+						// Spacing
+						"p-8 lg:p-12",
+						// Border
+						"border border-white/20 dark:border-white/10",
+						// Effects
+						"shadow-lg",
+					)}
 				>
 					<Heading variant="hero" className="mb-4">
 						{title}
@@ -27,22 +40,24 @@ export const PlaceholderPage = ({
 						</Text>
 					)}
 				</Glass>
-			</section>
+			</Section>
 
-			<section className="py-8 lg:py-12">
+			<Section className="py-8 lg:py-12">
 				<Card variant="hover" aria-label="Under Construction">
 					<CardContent centered>
 						<Text className="mb-6">
 							This page is currently under construction. Check back soon for
 							updates!
 						</Text>
-						<ActionButton to="/search" aria-label="Back to Search">
-							<ArrowLeft className="h-4 w-4" />
-							Back to Search
-						</ActionButton>
+						<Button asChild aria-label="Back to Search">
+							<Link to="/search">
+								<ArrowLeft className={SIZING.ICON.sm} />
+								Back to Search
+							</Link>
+						</Button>
 					</CardContent>
 				</Card>
-			</section>
+			</Section>
 		</PageTemplate>
 	);
 };

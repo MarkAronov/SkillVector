@@ -1,10 +1,12 @@
 import { type ChangeEvent, type FormEvent, useId, useState } from "react";
 import { SITE_CONFIG } from "@/constants/site";
-import { BORDERS, SPACING, TYPOGRAPHY } from "../1-ions";
+import { cn } from "@/lib/utils";
+import { BORDERS, SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
 import { Input } from "../2-atoms/Input";
 import { Label } from "../2-atoms/Label";
+import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
 import { Textarea } from "../2-atoms/Textarea";
 import type { ContactFormData, FormStatus } from "./ContactForm.types";
@@ -118,12 +120,21 @@ export const ContactForm = () => {
 	};
 
 	return (
+		// Form semantic HTML - acceptable for form submission
 		<form onSubmit={handleSubmit} className="space-y-6">
-			<Div className={`grid grid-cols-1 md:grid-cols-2 ${SPACING.GAP.xl}`}>
+			<Div
+				className={cn(
+					// Layout
+					"grid grid-cols-1 md:grid-cols-2",
+					// Spacing
+					SPACING.GAP.xl,
+				)}
+			>
 				<Div className="space-y-2">
 					<Label htmlFor={nameId} className={TYPOGRAPHY.FONT_WEIGHT.medium}>
-						Name <span className="text-destructive">*</span>
+						Name <Span className="text-destructive">*</Span>
 					</Label>
+					{/* Name input - 44px height */}
 					<Input
 						type="text"
 						id={nameId}
@@ -132,13 +143,14 @@ export const ContactForm = () => {
 						onChange={handleInputChange}
 						required
 						placeholder="John Doe"
-						className="h-11"
+						className={SIZING.INPUT.lg}
 					/>
 				</Div>
 				<Div className="space-y-2">
 					<Label htmlFor={emailId} className={TYPOGRAPHY.FONT_WEIGHT.medium}>
-						Email <span className="text-destructive">*</span>
+						Email <Span className="text-destructive">*</Span>
 					</Label>
+					{/* Email input - 44px height */}
 					<Input
 						type="email"
 						id={emailId}
@@ -147,13 +159,13 @@ export const ContactForm = () => {
 						onChange={handleInputChange}
 						required
 						placeholder="john@example.com"
-						className="h-11"
+						className={SIZING.INPUT.lg}
 					/>
 				</Div>
 			</Div>
 			<Div className="space-y-2">
 				<Label htmlFor={messageId} className="font-medium">
-					Message <span className="text-destructive">*</span>
+					Message <Span className="text-destructive">*</Span>
 				</Label>
 				<Textarea
 					id={messageId}
@@ -168,11 +180,23 @@ export const ContactForm = () => {
 			</Div>
 			{status === "error" && (
 				<Div
-					className={`${SPACING.PADDING.md} ${BORDERS.RADIUS.lg} bg-destructive/10 border border-destructive/20`}
+					className={cn(
+						// Spacing
+						SPACING.PADDING.md,
+						// Borders
+						BORDERS.RADIUS.lg,
+						// Colors
+						"bg-destructive/10 border border-destructive/20",
+					)}
 				>
 					<Text
 						variant="small"
-						className={`text-destructive ${TYPOGRAPHY.FONT_WEIGHT.medium}`}
+						className={cn(
+							// Colors
+							"text-destructive",
+							// Typography
+							TYPOGRAPHY.FONT_WEIGHT.medium,
+						)}
 					>
 						{errorMessage}
 					</Text>
@@ -180,7 +204,14 @@ export const ContactForm = () => {
 			)}
 			{status === "success" && (
 				<Div
-					className={`${SPACING.PADDING.md} ${BORDERS.RADIUS.lg} bg-green-500/10 border border-green-500/20`}
+					className={cn(
+						// Spacing
+						SPACING.PADDING.md,
+						// Borders
+						BORDERS.RADIUS.lg,
+						// Colors
+						"bg-green-500/10 border border-green-500/20",
+					)}
 				>
 					<Text
 						variant="small"
@@ -199,7 +230,7 @@ export const ContactForm = () => {
 				>
 					{status === "sending" ? (
 						<>
-							<span className="inline-block animate-spin mr-2">⏳</span>
+							<Span className="inline-block animate-spin mr-2">⏳</Span>
 							Sending...
 						</>
 					) : (

@@ -28,6 +28,27 @@
  * - ring: Focus ring color (outline on keyboard navigation)
  */
 
+/**
+ * Raw OKLCH hover color values
+ * Used for static class string composition in CVA variants
+ * References CSS custom properties for theme-aware colors
+ */
+export const HOVER_OKLCH = {
+	primary: "var(--accent)", // Pink accent for primary hover
+	destructive: "var(--destructive)", // Destructive red
+	outline: {
+		bg: "var(--accent)", // Pink accent background
+		text: "var(--accent-foreground)", // Pink accent text
+		border: "var(--accent)", // Pink accent border
+	},
+	secondary: "var(--accent)", // Pink accent for secondary
+	ghost: {
+		bg: "var(--accent)", // Pink accent background
+		text: "var(--accent-foreground)", // Pink accent text
+	},
+	link: "var(--accent)", // Pink accent for links
+} as const;
+
 export const colors = {
 	/**
 	 * Primary brand colors
@@ -115,6 +136,27 @@ export const colors = {
 	border: "hsl(var(--border))", // Default border color for all elements
 	input: "hsl(var(--input))", // Border color for form inputs
 	ring: "hsl(var(--ring))", // Focus ring color (keyboard navigation outline)
+
+	/**
+	 * Hover state colors
+	 * Red/pink tints for interactive hover states across all button variants
+	 * Automatically adapts to light/dark mode via CSS custom properties
+	 */
+	hover: {
+		primary: "oklch(var(--hover-primary))", // Red-pink hover for primary buttons
+		destructive: "oklch(var(--hover-destructive))", // Deeper red hover for destructive buttons
+		outline: {
+			bg: "oklch(var(--hover-outline-bg))", // Subtle red background for outline button hover
+			text: "oklch(var(--hover-outline-text))", // Red text for outline button hover
+			border: "oklch(var(--hover-outline-border))", // Red-tinted border for outline button hover
+		},
+		secondary: "oklch(var(--hover-secondary))", // Violet-red hover for secondary buttons
+		ghost: {
+			bg: "oklch(var(--hover-ghost-bg))", // Subtle red background for ghost button hover
+			text: "oklch(var(--hover-ghost-text))", // Red text for ghost button hover
+		},
+		link: "oklch(var(--hover-link))", // Red hover for link buttons
+	},
 } as const;
 
 /**
@@ -122,3 +164,10 @@ export const colors = {
  * Ensures type safety when referencing color keys
  */
 export type ColorToken = keyof typeof colors;
+
+/**
+ * COLORS - Exported color design tokens
+ * Use this constant to reference colors throughout the application
+ * Example: COLORS.hover.primary, COLORS.hover.outline.bg
+ */
+export const COLORS = colors;

@@ -1,4 +1,6 @@
 import type React from "react";
+import { cn } from "@/lib/utils";
+import { SPACING } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Text } from "../2-atoms/Text";
@@ -43,15 +45,52 @@ export const StatCard: React.FC<StatCardProps> = ({
 	valueColor,
 }) => {
 	return (
-		<Div className="flex items-start gap-4">
-			<Div className={`p-3 rounded-xl ${bgColor} shrink-0`}>
-				<Icon className={`h-6 w-6 ${iconColor}`} />
+		<Div
+			className={cn(
+				// Layout
+				"flex items-start",
+				// Spacing
+				SPACING.GAP.md,
+			)}
+		>
+			{/* Icon box container */}
+			<Div
+				className={cn(
+					// Spacing
+					"p-3",
+					// Effects
+					"rounded-xl",
+					// Layout
+					"shrink-0",
+					// Colors
+					bgColor,
+				)}
+			>
+				{/* Stat icon */}
+				<Icon
+					className={cn(
+						// Sizing
+						"h-6 w-6",
+						// Colors
+						iconColor,
+					)}
+				/>
 			</Div>
+			{/* Text content */}
 			<Div className="flex-1 min-w-0">
+				{/* Label text */}
 				<Text variant="small" className="text-muted-foreground mb-1">
 					{label}
 				</Text>
-				<Heading as="h3" variant="card" className={`${valueColor} mb-1`}>
+				{/* Value heading */}
+				<Heading
+					as="h3"
+					variant="card"
+					className={cn(
+						// Colors
+						valueColor,
+					)}
+				>
 					{value}
 				</Heading>
 			</Div>

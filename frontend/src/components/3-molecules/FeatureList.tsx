@@ -1,5 +1,7 @@
 import { Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { SIZING } from "../1-ions";
+import { Div } from "../2-atoms/Div";
 import { List, ListItem } from "../2-atoms/List";
 import { Text } from "../2-atoms/Text";
 import type { FeatureListProps } from "./FeatureList.types";
@@ -41,14 +43,25 @@ export const FeatureList = ({
 }: FeatureListProps) => {
 	// Use custom icon or default to Check icon
 	const IconComponent = icon || (
-		<Check className={`${SIZING.ICON.md} ${iconColor} shrink-0 mt-0.5`} />
+		<Check
+			className={cn(
+				// Sizing
+				SIZING.ICON.md,
+				// Colors
+				iconColor,
+				// Layout
+				"shrink-0 mt-0.5",
+			)}
+		/>
 	);
 
 	return (
 		<List variant={variant} className={className}>
 			{features.map((feature) => (
 				<ListItem key={feature} variant="bullet">
-					{IconComponent}
+					{/* Icon */}
+					<Div>{IconComponent}</Div>
+					{/* Feature text */}
 					<Text>{feature}</Text>
 				</ListItem>
 			))}

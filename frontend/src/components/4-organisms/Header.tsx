@@ -1,30 +1,16 @@
-import { Link, useLocation } from "@tanstack/react-router";
-import { Menu, Monitor, Moon, Search, Sun, X } from "lucide-react";
+import { Link as RouterLink, useLocation } from "@tanstack/react-router";
+import { Menu, Search, X } from "lucide-react";
 import { useState } from "react";
-import { SOCIAL_LINKS } from "@/constants/site";
+import { cn } from "@/lib/utils";
 import { useTheme } from "../../hooks/useTheme";
-import { SPACING, TYPOGRAPHY } from "../1-ions";
+import { SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Glass } from "../1-ions/Glass";
+import { Button } from "../2-atoms/Button";
+import { Div } from "../2-atoms/Div";
+import { Link } from "../2-atoms/Link";
 import { Logo } from "../2-atoms/Logo";
-
-const navigationItems = [
-	{ to: "/search", label: "Search" },
-	{ to: "/features", label: "Features" },
-	{ to: "/documentation", label: "Documentation" },
-	{ href: SOCIAL_LINKS.github, label: "GitHub", external: true },
-];
-
-const themeIcons = {
-	system: Monitor,
-	light: Sun,
-	dark: Moon,
-};
-
-const themeLabels = {
-	system: "System Theme",
-	light: "Light Theme",
-	dark: "Dark Theme",
-};
+import { Span } from "../2-atoms/Span";
+import { navigationItems, themeIcons, themeLabels } from "./Header.data.tsx";
 
 export const Header = () => {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -41,130 +27,232 @@ export const Header = () => {
 		const isActive =
 			!item.external && (item.to ?? "").split("#")[0] === location.pathname;
 		const className = isMobile
-			? `${isActive ? "text-primary" : "text-muted-foreground"} hover:text-primary transition-colors ${TYPOGRAPHY.FONT_WEIGHT.medium}`
-			: `${isActive ? "text-primary" : "text-foreground/90"} hover:text-primary transition-colors ${TYPOGRAPHY.FONT_WEIGHT.medium} ${TYPOGRAPHY.FONT_SIZE.sm_base}`;
+			? cn(
+					// Colors
+					isActive ? "text-primary" : "text-muted-foreground",
+					// States
+					"hover:text-primary transition-colors",
+					// Typography
+					TYPOGRAPHY.FONT_WEIGHT.medium,
+				)
+			: cn(
+					// Colors
+					isActive ? "text-primary" : "text-foreground/90",
+					// States
+					"hover:text-primary transition-colors",
+					// Typography
+					TYPOGRAPHY.FONT_WEIGHT.medium,
+					TYPOGRAPHY.FONT_SIZE.sm_base,
+				);
 
 		const onClick = isMobile ? () => setMobileMenuOpen(false) : undefined;
 
+		// External link - use Link atom with external prop
 		if (item.external) {
 			return (
-				<a
+				<Link
 					key={item.label}
 					href={item.href}
-					target="_blank"
-					rel="noopener noreferrer"
+					external
+					underline={false}
 					className={className}
 					onClick={onClick}
 				>
 					{item.label}
-				</a>
+				</Link>
 			);
 		}
 
+		// Internal link - use TanStack Router Link
 		return (
-			<Link
+			<RouterLink
 				key={item.label}
 				to={item.to}
 				className={className}
 				onClick={onClick}
 			>
 				{item.label}
-			</Link>
+			</RouterLink>
 		);
 	};
 
 	return (
-		<div className="w-full sticky top-0 z-50 pointer-events-none">
-			<div className="mx-auto pointer-events-auto w-[calc(100%-2rem)] max-w-5xl mt-3">
+		<Div className="w-full sticky top-0 z-50 pointer-events-none">
+			<Div
+				className={cn(
+					// Layout
+					"mx-auto pointer-events-auto",
+					// Sizing
+					"w-[calc(100%-2rem)] max-w-5xl",
+					// Spacing
+					"mt-3",
+				)}
+			>
 				<Glass
 					asChild
 					variant="panel"
-					className="backdrop-blur-sm bg-white/40 dark:bg-black/30 rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/20 border border-white/20 dark:border-white/10"
+					className={cn(
+						// Effects
+						"backdrop-blur-sm rounded-2xl",
+						// Colors
+						"bg-white/40 dark:bg-black/30",
+						// Shadows
+						"shadow-lg shadow-black/5 dark:shadow-black/20",
+						// Border
+						"border border-white/20 dark:border-white/10",
+					)}
 				>
 					<header>
 						<nav
-							className={`container mx-auto ${SPACING.PADDING_X.responsive.xs}`}
+							className={cn(
+								// Layout
+								"container mx-auto",
+								// Spacing
+								SPACING.PADDING_X.responsive.xs,
+							)}
 						>
-							<div className="flex items-center justify-between h-12 lg:h-14">
+							<Div className="flex items-center justify-between h-12 lg:h-14">
 								{/* Logo and Brand */}
-								<Link
+								<RouterLink
 									to="/"
-									className={`flex items-center ${SPACING.GAP.sm} hover:opacity-80 transition-opacity`}
+									className={cn(
+										// Layout
+										"flex items-center",
+										// Spacing
+										SPACING.GAP.sm,
+										// States
+										"hover:opacity-80 transition-opacity",
+									)}
 								>
 									<Logo size="md" />
-									<span
-										className={`${TYPOGRAPHY.COMBINATIONS.brandText} bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent`}
+									<Span
+										className={cn(
+											// Typography
+											TYPOGRAPHY.COMBINATIONS.brandText,
+											// Effects
+											"bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent",
+										)}
 									>
 										SkillVector
-									</span>
-								</Link>
+									</Span>
+								</RouterLink>
 
 								{/* Desktop Navigation */}
-								<div
-									className={`hidden md:flex items-center ${SPACING.GAP_RESPONSIVE.lg}`}
+								<Div
+									className={cn(
+										// Layout
+										"hidden md:flex items-center",
+										// Spacing
+										SPACING.GAP_RESPONSIVE.lg,
+									)}
 								>
 									{navigationItems.map((item) => renderNavLink(item))}
-								</div>
-
+								</Div>
 								{/* Theme Toggle */}
-								<div className="hidden md:flex items-center">
-									<button
+								<Div className="hidden md:flex items-center">
+									<Button
+										variant="ghost"
+										size="icon"
 										type="button"
 										onClick={toggleTheme}
-										className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
 										aria-label={`Current theme: ${theme}. Click to toggle.`}
 										title={`Theme: ${theme}`}
 									>
-										<ThemeIcon className="h-5 w-5" />
-									</button>
-								</div>
+										<ThemeIcon className={SIZING.ICON.md} />
+									</Button>
+								</Div>
 
 								{/* Mobile Search and Menu */}
-								<div
-									className={`md:hidden flex items-center ${SPACING.GAP.sm}`}
+								<Div
+									className={cn(
+										// Layout
+										"md:hidden flex items-center",
+										// Spacing
+										SPACING.GAP.sm,
+									)}
 								>
-									<Link
+									<RouterLink
 										to="/"
-										className={`${SPACING.PADDING.sm} text-muted-foreground hover:text-primary transition-colors`}
+										className={cn(
+											// Spacing
+											SPACING.PADDING.sm,
+											// Colors
+											"text-muted-foreground",
+											// States
+											"hover:text-primary transition-colors",
+										)}
 										aria-label="Search"
 									>
-										<Search className="h-6 w-6" />
-									</Link>
-									<button
+										<Search className={SIZING.ICON.lg} />
+									</RouterLink>
+									<Button
+										variant="ghost"
 										type="button"
 										onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-										className={`${SPACING.PADDING.sm} text-muted-foreground`}
+										className={cn(
+											// Spacing
+											SPACING.PADDING.sm,
+											// Colors
+											"text-muted-foreground",
+										)}
 										aria-label="Toggle menu"
 									>
 										{mobileMenuOpen ? (
-											<X className="h-6 w-6" />
+											<X className={SIZING.ICON.lg} />
 										) : (
-											<Menu className="h-6 w-6" />
+											<Menu className={SIZING.ICON.lg} />
 										)}
-									</button>
-								</div>
-							</div>
+									</Button>
+								</Div>
+							</Div>
 
 							{/* Mobile Navigation */}
 							{mobileMenuOpen && (
-								<div className={`md:hidden ${SPACING.PADDING_Y.md}`}>
-									<div className={`flex flex-col ${SPACING.GAP.md}`}>
+								<Div
+									className={cn(
+										// Layout
+										"md:hidden",
+										// Spacing
+										SPACING.PADDING_Y.md,
+									)}
+								>
+									<Div
+										className={cn(
+											// Layout
+											"flex flex-col",
+											// Spacing
+											SPACING.GAP.md,
+										)}
+									>
 										{navigationItems.map((item) => renderNavLink(item, true))}
-										<button
+										<Button
+											variant="ghost"
 											type="button"
 											onClick={toggleTheme}
-											className={`flex items-center ${SPACING.GAP.sm} text-muted-foreground hover:text-primary transition-colors ${TYPOGRAPHY.COMBINATIONS.navLink}`}
+											className={cn(
+												// Layout
+												"flex items-center",
+												// Spacing
+												SPACING.GAP.sm,
+												// Colors
+												"text-muted-foreground",
+												// States
+												"hover:text-primary transition-colors",
+												// Typography
+												TYPOGRAPHY.COMBINATIONS.navLink,
+											)}
 										>
-											<ThemeIcon className="h-5 w-5" />
-											<span>{themeLabel}</span>
-										</button>
-									</div>
-								</div>
+											{/* Mobile theme icon - 20px size */}
+											<ThemeIcon className={SIZING.ICON.md} />
+											<Span>{themeLabel}</Span>
+										</Button>
+									</Div>
+								</Div>
 							)}
 						</nav>
 					</header>
 				</Glass>
-			</div>
-		</div>
+			</Div>
+		</Div>
 	);
 };

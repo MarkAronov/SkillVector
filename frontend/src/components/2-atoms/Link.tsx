@@ -7,15 +7,19 @@ import type { LinkProps, LinkVariant } from "./Link.types";
  *
  * Unified link component handling both internal and external links.
  * Internal links use TanStack Router, external links use native <a> tags.
+ *
+ * Customization:
+ * - Set `underline={false}` to remove underline styles (useful for navigation menus)
+ * - Use variants to control color and emphasis
  */
 
 /**
  * Variant styles mapping
  * Each variant provides different visual emphasis:
- * - default: Standard link with hover underline
+ * - default: Standard link with hover underline (unless underline={false})
  * - primary: Primary color link for emphasis
  * - muted: Subtle link that brightens on hover
- * - underline: Always underlined for maximum visibility
+ * - underline: Always underlined for maximum visibility (unless underline={false})
  */
 const variantClasses: Record<LinkVariant, string> = {
 	// Default link - underlines on hover
@@ -36,13 +40,19 @@ const Link = ({
 	variant = "default",
 	external = false,
 	href,
+	underline = true,
 	...props
 }: LinkProps) => {
 	// Get the visual style for the selected variant
 	const variantClass = variantClasses[variant];
 
+	// Remove underline classes if underline prop is false
+	const processedVariantClass = underline
+		? variantClass
+		: variantClass.replace(/hover:underline|underline/g, "").trim();
+
 	// Combine variant style with custom classes
-	const combinedClassName = cn(variantClass, className);
+	const combinedClassName = cn(processedVariantClass, className);
 
 	// External or href links use native <a> tag
 	if (external || href) {

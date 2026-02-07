@@ -1,4 +1,6 @@
+import { cn } from "@/lib/utils";
 import { TYPOGRAPHY } from "../1-ions";
+import { Badge } from "../2-atoms/Badge";
 import type { BadgeStatus, StatusBadgeProps } from "./StatusBadge.types";
 
 /**
@@ -78,10 +80,19 @@ export const StatusBadge = ({ status, label, className }: StatusBadgeProps) => {
 	const displayLabel = label || config.label;
 
 	return (
-		<span
-			className={`inline-block px-2 py-0.5 rounded ${TYPOGRAPHY.COMBINATIONS.badge} ${config.style} ${className ?? ""}`}
+		<Badge
+			className={cn(
+				// Spacing
+				"px-2 py-0.5",
+				// Typography
+				TYPOGRAPHY.COMBINATIONS.badge,
+				// Variant Styling
+				config.style,
+				// Custom
+				className,
+			)}
 		>
 			{displayLabel}
-		</span>
+		</Badge>
 	);
 };

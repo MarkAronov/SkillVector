@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils";
-import { TYPOGRAPHY } from "../1-ions";
+import { SPACING, TYPOGRAPHY } from "../1-ions";
 import { Glass } from "../1-ions/Glass";
 import { Badge } from "../2-atoms/Badge";
+import { Div } from "../2-atoms/Div";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
 import type { SkillsTooltipProps } from "./SkillsTooltip.types";
 
@@ -52,13 +53,26 @@ export const SkillsTooltip = ({
 				<Glass
 					variant="card"
 					className={cn(
-						"px-3 py-2 max-w-xs z-9999",
+						// Spacing
+						"px-3 py-2",
+						// Sizing
+						"max-w-xs z-9999",
+						// Borders & Effects
 						"border border-white/20 dark:border-white/10",
 						"shadow-lg shadow-black/10 dark:shadow-black/30",
+						// Custom
 						className,
 					)}
 				>
-					<div className="flex flex-wrap gap-1.5">
+					{/* Skills badge container */}
+					<Div
+						className={cn(
+							// Layout
+							"flex flex-wrap",
+							// Spacing
+							SPACING.GAP.xs,
+						)}
+					>
 						{skills.map((skill) => (
 							<Badge
 								key={skill}
@@ -68,7 +82,7 @@ export const SkillsTooltip = ({
 								{skill}
 							</Badge>
 						))}
-					</div>
+					</Div>
 				</Glass>
 			</TooltipContent>
 		</Tooltip>

@@ -1,66 +1,15 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { ExternalLink, Github, Linkedin, Mail } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { SITE_CONFIG, SOCIAL_LINKS } from "@/constants/site";
+import { SITE_CONFIG } from "@/constants/site";
+import { cn } from "@/lib/utils";
 import { SPACING, TYPOGRAPHY } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Link as AtomLink } from "../2-atoms/Link";
 import { List, ListItem } from "../2-atoms/List";
 import { Text } from "../2-atoms/Text";
-
-const footerSections = [
-	{
-		title: "About",
-		links: [
-			{ to: "/about", label: "About Us" },
-			{ to: "/how-it-works", label: "How It Works" },
-		],
-	},
-	{
-		title: "Product",
-		links: [
-			{ to: "/search", label: "Search" },
-			{ to: "/features", label: "Features" },
-			{ to: "/integrations", label: "Integrations" },
-		],
-	},
-	{
-		title: "Resources",
-		links: [
-			{ to: "/documentation", label: "Documentation" },
-			{ to: "/support", label: "Support" },
-			{ to: "/changelog", label: "Changelog" },
-		],
-	},
-	{
-		title: "Legal",
-		links: [
-			{ to: "/privacy", label: "Privacy Policy" },
-			{ to: "/terms", label: "Terms of Service" },
-			{ to: "/cookies", label: "Cookie Policy" },
-		],
-	},
-];
-
-const socialLinks = [
-	{
-		href: SOCIAL_LINKS.github,
-		icon: Github,
-		label: "GitHub",
-	},
-	{
-		href: SOCIAL_LINKS.linkedin,
-		icon: Linkedin,
-		label: "LinkedIn",
-	},
-	{
-		href: "/support#contact",
-		icon: Mail,
-		label: "Email",
-		isInternal: true,
-	},
-];
+import { footerSections, socialLinks } from "./Footer.data.tsx";
 
 export const Footer = () => {
 	const currentYear = new Date().getFullYear();
@@ -114,30 +63,67 @@ export const Footer = () => {
 		<>
 			{/* Background tint overlay - fades in gradually when approaching bottom */}
 			<Div
-				className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-700 ease-out bg-linear-to-t from-white/40 via-transparent to-transparent dark:from-black/40 dark:via-transparent dark:to-transparent"
+				className={cn(
+					// Positioning
+					"fixed inset-0",
+					// Layout
+					"pointer-events-none z-0",
+					// Effects
+					"transition-opacity duration-700 ease-out",
+					// Gradient
+					"bg-linear-to-t from-white/40 via-transparent to-transparent",
+					"dark:from-black/40 dark:via-transparent dark:to-transparent",
+				)}
 				style={{ opacity: scrollOpacity }}
 				aria-hidden="true"
 			/>
+			{/* Footer semantic HTML - acceptable at organism level */}
 			<footer ref={footerRef} className="mt-auto z-40 relative">
 				<Div
-					className={`max-w-5xl mx-auto ${SPACING.PADDING_X.responsive.xs} ${SPACING.PADDING_Y.responsive.xs}`}
+					className={cn(
+						// Layout
+						"max-w-5xl mx-auto",
+						// Spacing
+						SPACING.PADDING_X.responsive.xs,
+						SPACING.PADDING_Y.responsive.xs,
+					)}
 				>
 					<Div
-						className={`grid grid-cols-2 lg:grid-cols-4 ${SPACING.GAP_RESPONSIVE.xl} justify-items-center`}
+						className={cn(
+							// Layout
+							"grid grid-cols-2 lg:grid-cols-4 justify-items-center",
+							// Spacing
+							SPACING.GAP_RESPONSIVE.xl,
+						)}
 					>
 						{footerSections.map((section) => (
 							<Div
 								key={section.title}
-								className="space-y-2 lg:space-y-3 min-w-[140px]"
+								className={cn(
+									// Spacing - responsive vertical stack
+									"space-y-2 lg:space-y-3",
+									// Sizing
+									"min-w-[140px]",
+								)}
 							>
 								<Heading
 									as="h3"
-									className={`${TYPOGRAPHY.COMBINATIONS.footerHeading} text-foreground/90`}
+									className={cn(
+										// Typography
+										TYPOGRAPHY.COMBINATIONS.footerHeading,
+										// Colors
+										"text-foreground/90",
+									)}
 								>
 									{section.title}
 								</Heading>
 								<List
-									className={`space-y-1.5 lg:space-y-2 ${TYPOGRAPHY.COMBINATIONS.footerLink}`}
+									className={cn(
+										// Spacing
+										"space-y-1.5 lg:space-y-2",
+										// Typography
+										TYPOGRAPHY.COMBINATIONS.footerLink,
+									)}
 								>
 									{section.links.map((link) => (
 										<ListItem key={link.label}>
@@ -145,7 +131,16 @@ export const Footer = () => {
 												<AtomLink
 													href={(link as { href: string; label: string }).href}
 													external
-													className={`text-foreground/80 hover:text-foreground/95 transition-colors inline-flex items-center ${SPACING.GAP.xs}`}
+													className={cn(
+														// Layout
+														"inline-flex items-center",
+														// Spacing
+														SPACING.GAP.xs,
+														// Colors
+														"text-foreground/80 hover:text-foreground/95",
+														// States
+														"transition-colors",
+													)}
 												>
 													{link.label}
 													<ExternalLink className="h-3 w-3" />
@@ -153,7 +148,14 @@ export const Footer = () => {
 											) : (
 												<Link
 													to={link.to}
-													className={`${(link.to ?? "").split("#")[0] === location.pathname ? "text-primary hover:text-primary/80" : "text-foreground/80 hover:text-foreground/95"} transition-colors`}
+													className={cn(
+														// Colors
+														(link.to ?? "").split("#")[0] === location.pathname
+															? "text-primary hover:text-primary/80"
+															: "text-foreground/80 hover:text-foreground/95",
+														// States
+														"transition-colors",
+													)}
 												>
 													{link.label}
 												</Link>
@@ -167,16 +169,35 @@ export const Footer = () => {
 
 					{/* Bottom section */}
 					<Div
-						className={`mt-6 lg:mt-8 pt-6 lg:pt-8 flex flex-col md:flex-row justify-between items-center ${SPACING.GAP_RESPONSIVE.md}`}
+						className={cn(
+							// Spacing
+							"mt-6 lg:mt-8 pt-6 lg:pt-8",
+							// Layout
+							"flex flex-col md:flex-row justify-between items-center",
+							// Spacing
+							SPACING.GAP_RESPONSIVE.md,
+						)}
 					>
 						<Text
-							className={`${TYPOGRAPHY.COMBINATIONS.footerCopyright} text-foreground/80`}
+							className={cn(
+								// Typography
+								TYPOGRAPHY.COMBINATIONS.footerCopyright,
+								// Colors
+								"text-foreground/80",
+							)}
 						>
 							© {currentYear} {SITE_CONFIG.name}. All rights reserved.
 						</Text>
 
 						{/* Social Links */}
-						<Div className={`flex items-center ${SPACING.GAP_RESPONSIVE.md}`}>
+						<Div
+							className={cn(
+								// Layout
+								"flex items-center",
+								// Spacing
+								SPACING.GAP_RESPONSIVE.md,
+							)}
+						>
 							{socialLinks.map((social) => {
 								const Icon = social.icon;
 								return social.isInternal ? (

@@ -84,6 +84,17 @@
 	--accent: oklch(0.656 0.241 354);
 	--accent-foreground: oklch(0.985 0 0);
 
+	/* Hover colors - Red/pink tints for interactive states */
+	--hover-primary: oklch(0.55 0.24 350); /* Red-pink for primary button hover */
+	--hover-destructive: oklch(0.52 0.26 15); /* Deeper red for destructive hover */
+	--hover-outline-bg: oklch(0.96 0.02 350); /* Subtle red background for outline hover */
+	--hover-outline-text: oklch(0.55 0.24 350); /* Red text for outline hover */
+	--hover-outline-border: oklch(0.88 0.05 350); /* Red-tinted border for outline hover */
+	--hover-secondary: oklch(0.65 0.20 340); /* Violet-red for secondary hover */
+	--hover-ghost-bg: oklch(0.96 0.02 350); /* Subtle red background for ghost hover */
+	--hover-ghost-text: oklch(0.55 0.24 350); /* Red text for ghost hover */
+	--hover-link: oklch(0.55 0.24 350); /* Red for link hover */
+
 	/* Semantic colors */
 	--destructive: oklch(0.577 0.245 27);
 	--destructive-foreground: oklch(0.985 0 0);
@@ -155,6 +166,17 @@
 	/* Accent: Lighter Pink #f472b6 */
 	--accent: oklch(0.738 0.202 354);
 	--accent-foreground: oklch(0.13 0.02 270);
+
+	/* Hover colors - Red/pink tints for interactive states (lighter for dark mode) */
+	--hover-primary: oklch(0.65 0.20 350); /* Lighter red-pink for primary button hover */
+	--hover-destructive: oklch(0.60 0.24 15); /* Lighter deep red for destructive hover */
+	--hover-outline-bg: oklch(0.20 0.04 350); /* Dark red background for outline hover */
+	--hover-outline-text: oklch(0.70 0.18 350); /* Lighter red text for outline hover */
+	--hover-outline-border: oklch(0.30 0.06 350); /* Red-tinted border for outline hover */
+	--hover-secondary: oklch(0.66 0.16 340); /* Lighter violet-red for secondary hover */
+	--hover-ghost-bg: oklch(0.20 0.04 350); /* Dark red background for ghost hover */
+	--hover-ghost-text: oklch(0.70 0.18 350); /* Lighter red text for ghost hover */
+	--hover-link: oklch(0.70 0.18 350); /* Lighter red for link hover */
 
 	/* Semantic colors - brighter for dark mode */
 	--destructive: oklch(0.704 0.191 22);

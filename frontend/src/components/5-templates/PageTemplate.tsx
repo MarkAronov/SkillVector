@@ -1,5 +1,6 @@
 import { useMatches } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { cn } from "@/lib/utils";
 import { SPACING } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Footer } from "../4-organisms/Footer";
@@ -96,16 +97,25 @@ export const PageTemplate = ({
 	);
 
 	return (
-		<div className="min-h-screen flex flex-col">
+		<Div
+			className={cn(
+				// Layout
+				"min-h-screen flex flex-col",
+			)}
+		>
 			<Header />
 			<main
-				className={`flex-1 ${
-					contained ? `${paddingClass} ${maxWidthClass} mx-auto` : ""
-				} ${className}`}
+				className={cn(
+					"flex-1",
+					contained && paddingClass,
+					contained && maxWidthClass,
+					contained && "mx-auto",
+					className,
+				)}
 			>
 				{content}
 			</main>
 			<Footer />
-		</div>
+		</Div>
 	);
 };

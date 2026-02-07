@@ -1,6 +1,7 @@
 import { AlertCircle, AlertTriangle, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BORDERS, SIZING, SPACING } from "../1-ions";
+import { Div } from "../2-atoms/Div";
 import { Text } from "../2-atoms/Text";
 import { Card, CardContent } from "./Card";
 import type { ErrorMessageProps } from "./ErrorMessage.types";
@@ -55,9 +56,36 @@ const variantStyles = {
  * Assigns appropriate Lucide icon to each severity level
  */
 const variantIcons = {
-	error: <AlertCircle className={`${SIZING.ICON.md} shrink-0 mt-0.5`} />, // Circle with X (errors)
-	warning: <AlertTriangle className={`${SIZING.ICON.md} shrink-0 mt-0.5`} />, // Triangle with ! (warnings)
-	info: <Info className={`${SIZING.ICON.md} shrink-0 mt-0.5`} />, // Circle with i (info)
+	error: (
+		<AlertCircle
+			className={cn(
+				// Sizing
+				SIZING.ICON.md,
+				// Layout
+				"shrink-0 mt-0.5",
+			)}
+		/>
+	), // Circle with X (errors)
+	warning: (
+		<AlertTriangle
+			className={cn(
+				// Sizing
+				SIZING.ICON.md,
+				// Layout
+				"shrink-0 mt-0.5",
+			)}
+		/>
+	), // Triangle with ! (warnings)
+	info: (
+		<Info
+			className={cn(
+				// Sizing
+				SIZING.ICON.md,
+				// Layout
+				"shrink-0 mt-0.5",
+			)}
+		/>
+	), // Circle with i (info)
 };
 
 export const ErrorMessage = ({
@@ -81,19 +109,29 @@ export const ErrorMessage = ({
 	const combinedClassName = cn(variantClass, BORDERS.RADIUS.lg, className);
 
 	return (
-		<div className={combinedClassName}>
+		<Div className={combinedClassName}>
 			<Card variant="hover">
 				<CardContent>
-					<div className={`flex ${SPACING.GAP.sm}`}>
+					{/* Icon and message container */}
+					<Div
+						className={cn(
+							// Layout
+							"flex",
+							// Spacing
+							SPACING.GAP.sm,
+						)}
+					>
+						{/* Icon */}
 						{variantIcon}
-						<div className="flex-1">
+						{/* Content */}
+						<Div className="flex-1">
 							<Text className="font-semibold">{title || defaultTitle}:</Text>
 							<Text className="mt-1">{message}</Text>
 							{children}
-						</div>
-					</div>
+						</Div>
+					</Div>
 				</CardContent>
 			</Card>
-		</div>
+		</Div>
 	);
 };

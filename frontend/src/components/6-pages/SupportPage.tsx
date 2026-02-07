@@ -1,8 +1,9 @@
+import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
+import { Link } from "../2-atoms/Link";
 import { Section } from "../2-atoms/Section";
 import { Text } from "../2-atoms/Text";
-import { ActionButton } from "../3-molecules/ActionButton";
 import { ContactForm } from "../3-molecules/ContactForm";
 import { Hero } from "../3-molecules/Hero";
 import { CardGrid } from "../4-organisms/CardGrid";
@@ -43,17 +44,18 @@ export const SupportPage = () => {
 								</Div>
 								<Div className="mt-auto">
 									{opt.isInternal ? (
-										<ActionButton to={opt.href} aria-label={opt.linkText}>
-											{opt.linkText}
-										</ActionButton>
+										<Button asChild aria-label={opt.linkText}>
+											<Link to={opt.href}>{opt.linkText}</Link>
+										</Button>
 									) : (
-										<ActionButton
-											href={opt.href}
-											external={!opt.href.startsWith("mailto:")}
-											aria-label={opt.linkText}
-										>
-											{opt.linkText}
-										</ActionButton>
+										<Button asChild aria-label={opt.linkText}>
+											<Link
+												href={opt.href}
+												external={!opt.href.startsWith("mailto:")}
+											>
+												{opt.linkText}
+											</Link>
+										</Button>
 									)}
 								</Div>
 							</Div>

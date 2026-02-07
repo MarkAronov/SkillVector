@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { cn } from "@/lib/utils";
 import { CURSOR } from "../1-ions";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 
@@ -18,7 +19,7 @@ export const Default: Story = {
 	render: () => (
 		<Tooltip delayDuration={200}>
 			<TooltipTrigger asChild>
-				<span className={`underline ${CURSOR.help}`}>
+				<span className={cn("underline", CURSOR.help)}>
 					Hover or long-press me
 				</span>
 			</TooltipTrigger>
@@ -31,7 +32,7 @@ export const LongContent: Story = {
 	render: () => (
 		<Tooltip delayDuration={200}>
 			<TooltipTrigger asChild>
-				<span className={`underline ${CURSOR.help}`}>
+				<span className={cn("underline", CURSOR.help)}>
 					Hover for longer text
 				</span>
 			</TooltipTrigger>
@@ -46,7 +47,7 @@ export const TopPosition: Story = {
 	render: () => (
 		<Tooltip>
 			<TooltipTrigger asChild>
-				<span className={`underline ${CURSOR.help}`}>Positioned above</span>
+				<span className={cn("underline", CURSOR.help)}>Positioned above</span>
 			</TooltipTrigger>
 			<TooltipContent>Hover me</TooltipContent>
 		</Tooltip>
@@ -57,7 +58,7 @@ export const BottomPosition: Story = {
 	render: () => (
 		<Tooltip>
 			<TooltipTrigger asChild>
-				<span className={`underline ${CURSOR.help}`}>Positioned below</span>
+				<span className={cn("underline", CURSOR.help)}>Positioned below</span>
 			</TooltipTrigger>
 			<TooltipContent>Hover me</TooltipContent>
 		</Tooltip>
@@ -68,7 +69,7 @@ export const LeftPosition: Story = {
 	render: () => (
 		<Tooltip>
 			<TooltipTrigger asChild>
-				<span className={`underline ${CURSOR.help}`}>Positioned left</span>
+				<span className={cn("underline", CURSOR.help)}>Positioned left</span>
 			</TooltipTrigger>
 			<TooltipContent>Hover me</TooltipContent>
 		</Tooltip>
@@ -79,7 +80,7 @@ export const RightPosition: Story = {
 	render: () => (
 		<Tooltip>
 			<TooltipTrigger asChild>
-				<span className={`underline ${CURSOR.help}`}>Positioned right</span>
+				<span className={cn("underline", CURSOR.help)}>Positioned right</span>
 			</TooltipTrigger>
 			<TooltipContent>Hover me</TooltipContent>
 		</Tooltip>

@@ -1,4 +1,5 @@
-import { BORDERS, SIZING } from "../1-ions";
+import { cn } from "@/lib/utils";
+import { BORDERS, SIZING, SPACING } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Text } from "../2-atoms/Text";
 import type { LoadingStateProps } from "./LoadingState.types";
@@ -49,10 +50,37 @@ export const LoadingState = ({
 	className = "",
 }: LoadingStateProps) => {
 	return (
-		<Div variant="center" className={`py-8 ${className}`}>
-			<Div className="flex flex-col items-center gap-8">
+		<Div
+			variant="center"
+			className={cn(
+				// Spacing
+				"py-8",
+				// Custom
+				className,
+			)}
+		>
+			{/* Spinner and message container */}
+			<Div
+				className={cn(
+					// Layout
+					"flex flex-col items-center",
+					// Spacing
+					SPACING.GAP.lg,
+				)}
+			>
 				<Div
-					className={`inline-block animate-spin rounded-full border-solid border-primary border-r-transparent ${sizeMap[size]}`}
+					className={cn(
+						// Layout
+						"inline-block",
+						// Effects
+						"rounded-full",
+						// Border
+						"border-solid border-primary border-r-transparent",
+						// Animation
+						"animate-spin",
+						// Sizing
+						sizeMap[size],
+					)}
 				/>
 				<Text variant="muted">{message}</Text>
 			</Div>

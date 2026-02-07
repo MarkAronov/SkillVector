@@ -1,5 +1,9 @@
 import { LayoutGrid, List as ListIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { SPACING } from "../1-ions";
 import { Button } from "../2-atoms/Button";
+import { Div } from "../2-atoms/Div";
+import { Span } from "../2-atoms/Span";
 
 /**
  * ViewToggle Component
@@ -53,7 +57,16 @@ export const ViewToggle = ({
 	className = "",
 }: ViewToggleProps) => {
 	return (
-		<div className={`flex items-center gap-2 ${className}`}>
+		<Div
+			className={cn(
+				// Layout
+				"flex items-center",
+				// Spacing
+				SPACING.GAP.sm,
+				// Custom
+				className,
+			)}
+		>
 			<Button
 				size="sm"
 				variant="ghost"
@@ -67,7 +80,7 @@ export const ViewToggle = ({
 				title="Grid view"
 			>
 				<LayoutGrid className="h-4 w-4" />
-				<span className="sr-only">Grid</span>
+				<Span className="sr-only">Grid</Span>
 			</Button>
 			<Button
 				size="sm"
@@ -82,8 +95,8 @@ export const ViewToggle = ({
 				title="List view"
 			>
 				<ListIcon className="h-4 w-4" />
-				<span className="sr-only">List</span>
+				<Span className="sr-only">List</Span>
 			</Button>
-		</div>
+		</Div>
 	);
 };

@@ -1,4 +1,6 @@
+import { cn } from "@/lib/utils";
 import { SPACING } from "../1-ions";
+import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Text } from "../2-atoms/Text";
 import { Card, CardContent, CardHeader } from "./Card";
@@ -51,16 +53,23 @@ export const IconCard = ({
 		<Card
 			variant="hover"
 			aria-label={ariaLabel || title}
-			className={`h-full ${className}`}
+			className={cn(
+				// Sizing
+				"h-full",
+				// Custom
+				className,
+			)}
 		>
 			<CardHeader icon={icon}>
 				<Heading as="h3" variant="card" className="mb-2">
 					{title}
 				</Heading>
-				{badge && <div className="mb-2">{badge}</div>}
+				{/* Badge container */}
+				{badge && <Div className="mb-2">{badge}</Div>}
 				<Text variant="muted">{description}</Text>
 				{children}
-				{actions && <div className="mt-4">{actions}</div>}
+				{/* Actions container */}
+				{actions && <Div className="mt-4">{actions}</Div>}
 			</CardHeader>
 		</Card>
 	);
@@ -80,21 +89,44 @@ export const IconCardWithContent = ({
 		<Card
 			variant="hover"
 			aria-label={ariaLabel || title}
-			className={`h-full ${className}`}
+			className={cn(
+				// Sizing
+				"h-full",
+				// Custom
+				className,
+			)}
 		>
 			<CardContent>
-				<div className={`flex items-start ${SPACING.GAP.md} mb-4`}>
-					<div className="shrink-0 text-primary">{icon}</div>
-					<div className="flex-1 min-w-0">
-						<div
-							className={`flex items-center ${SPACING.GAP.sm} mb-2 flex-wrap`}
+				{/* Icon and title row */}
+				<Div
+					className={cn(
+						// Layout
+						"flex items-start",
+						// Spacing
+						SPACING.GAP.md,
+						"mb-4",
+					)}
+				>
+					{/* Icon container */}
+					<Div className="shrink-0 text-primary">{icon}</Div>
+					{/* Text content */}
+					<Div className="flex-1 min-w-0">
+						{/* Title and badge row */}
+						<Div
+							className={cn(
+								// Layout
+								"flex items-center flex-wrap",
+								// Spacing
+								SPACING.GAP.sm,
+								"mb-2",
+							)}
 						>
 							<Heading variant="subsection">{title}</Heading>
 							{badge}
-						</div>
+						</Div>
 						<Text variant="small">{description}</Text>
-					</div>
-				</div>
+					</Div>
+				</Div>
 				{children}
 				{actions}
 			</CardContent>

@@ -3,7 +3,13 @@ export interface CTAAction {
 	onClick?: () => void;
 	href?: string;
 	to?: string;
-	variant?: "primary" | "outline";
+	variant?:
+		| "default"
+		| "destructive"
+		| "outline"
+		| "secondary"
+		| "ghost"
+		| "link";
 	external?: boolean;
 	ariaLabel?: string;
 }

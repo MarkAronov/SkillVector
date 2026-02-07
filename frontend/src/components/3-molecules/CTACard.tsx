@@ -1,7 +1,10 @@
+import { cn } from "@/lib/utils";
 import { SPACING } from "../1-ions";
+import { Button } from "../2-atoms/Button";
+import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
+import { Link } from "../2-atoms/Link";
 import { Text } from "../2-atoms/Text";
-import { ActionButton } from "./ActionButton";
 import { Card, CardContent } from "./Card";
 import type { CTACardProps } from "./CTACard.types";
 
@@ -51,33 +54,65 @@ export const CTACard = ({
 				<Text variant="lead" className="mb-6">
 					{description}
 				</Text>
+				{/* Action buttons container */}
 				{(primaryAction || secondaryAction) && (
-					<div className={`flex ${SPACING.GAP.md} justify-center flex-wrap`}>
-						{primaryAction && (
-							<ActionButton
-								onClick={primaryAction.onClick}
-								href={primaryAction.href}
-								to={primaryAction.to}
-								variant={primaryAction.variant || "primary"}
-								external={primaryAction.external}
-								aria-label={primaryAction.ariaLabel}
-							>
-								{primaryAction.label}
-							</ActionButton>
+					<Div
+						className={cn(
+							// Layout
+							"flex justify-center flex-wrap",
+							// Spacing
+							SPACING.GAP.md,
 						)}
-						{secondaryAction && (
-							<ActionButton
-								onClick={secondaryAction.onClick}
-								href={secondaryAction.href}
-								to={secondaryAction.to}
-								variant={secondaryAction.variant || "outline"}
-								external={secondaryAction.external}
-								aria-label={secondaryAction.ariaLabel}
-							>
-								{secondaryAction.label}
-							</ActionButton>
-						)}
-					</div>
+					>
+						{primaryAction &&
+							(primaryAction.to || primaryAction.href ? (
+								<Button
+									variant={primaryAction.variant || "default"}
+									aria-label={primaryAction.ariaLabel}
+									asChild
+								>
+									<Link
+										to={primaryAction.to}
+										href={primaryAction.href}
+										external={primaryAction.external}
+									>
+										{primaryAction.label}
+									</Link>
+								</Button>
+							) : (
+								<Button
+									onClick={primaryAction.onClick}
+									variant={primaryAction.variant || "default"}
+									aria-label={primaryAction.ariaLabel}
+								>
+									{primaryAction.label}
+								</Button>
+							))}
+						{secondaryAction &&
+							(secondaryAction.to || secondaryAction.href ? (
+								<Button
+									variant={secondaryAction.variant || "outline"}
+									aria-label={secondaryAction.ariaLabel}
+									asChild
+								>
+									<Link
+										to={secondaryAction.to}
+										href={secondaryAction.href}
+										external={secondaryAction.external}
+									>
+										{secondaryAction.label}
+									</Link>
+								</Button>
+							) : (
+								<Button
+									onClick={secondaryAction.onClick}
+									variant={secondaryAction.variant || "outline"}
+									aria-label={secondaryAction.ariaLabel}
+								>
+									{secondaryAction.label}
+								</Button>
+							))}
+					</Div>
 				)}
 			</CardContent>
 		</Card>

@@ -1,28 +1,16 @@
 import { useNavigate } from "@tanstack/react-router";
-import {
-	Brain,
-	Cloud,
-	Code,
-	Cpu,
-	Database,
-	FileJson,
-	FileText,
-	Github,
-	Globe,
-	Layers,
-	Server,
-	Sparkles,
-	SquareArrowOutUpRight,
-} from "lucide-react";
+import { FileText, Github, SquareArrowOutUpRight } from "lucide-react";
 import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
-import { SPACING, TYPOGRAPHY } from "../1-ions";
+import { cn } from "@/lib/utils";
+import { SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
+import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
+import { Link } from "../2-atoms/Link";
 import { Section } from "../2-atoms/Section";
 import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
-import { ActionButton } from "../3-molecules/ActionButton";
 import { Card, CardContent } from "../3-molecules/Card";
 import { Hero } from "../3-molecules/Hero";
 import { StatusBadge } from "../3-molecules/StatusBadge";
@@ -36,219 +24,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "../ui/table";
-import type { IntegrationCategory } from "./IntegrationsPage.types";
-
-const categories: IntegrationCategory[] = [
-	{
-		icon: <Brain className="h-8 w-8" />,
-		title: "AI Providers",
-		description: "Multiple AI embedding models for flexible deployment",
-		integrations: [
-			{
-				icon: <Sparkles className="h-6 w-6" />,
-				title: "OpenAI",
-				description: "Industry-leading embeddings with text-embedding-3 models",
-				status: "ready",
-				links: {
-					docs: "https://platform.openai.com/docs",
-					github: "https://github.com/openai/openai-node",
-				},
-			},
-			{
-				icon: <Sparkles className="h-6 w-6" />,
-				title: "Anthropic",
-				description:
-					"High-quality Claude embeddings with semantic understanding",
-				status: "ready",
-				links: {
-					docs: "https://docs.anthropic.com",
-					github: "https://github.com/anthropics/anthropic-sdk-typescript",
-				},
-			},
-			{
-				icon: <Sparkles className="h-6 w-6" />,
-				title: "Google Gemini",
-				description: "Google's latest embeddings with multimodal capabilities",
-				status: "ready",
-				links: {
-					docs: "https://ai.google.dev",
-					github: "https://github.com/google-gemini/generative-ai-js",
-				},
-			},
-			{
-				icon: <Sparkles className="h-6 w-6" />,
-				title: "HuggingFace",
-				description: "Access thousands of open-source embedding models",
-				status: "ready",
-				links: {
-					docs: "https://huggingface.co/docs",
-					github: "https://github.com/huggingface/huggingface.js",
-				},
-			},
-			{
-				icon: <Sparkles className="h-6 w-6" />,
-				title: "Ollama",
-				description: "Run models locally for complete data privacy",
-				status: "ready",
-				links: {
-					docs: "https://ollama.com/library",
-					github: "https://github.com/ollama/ollama",
-				},
-			},
-		],
-	},
-	{
-		icon: <Database className="h-8 w-8" />,
-		title: "Vector Database",
-		description: "High-performance vector storage and similarity search",
-		integrations: [
-			{
-				icon: <Database className="h-6 w-6" />,
-				title: "Qdrant",
-				description:
-					"Advanced filtering, HNSW indexing, and scalable architecture",
-				status: "ready",
-				links: {
-					docs: "https://qdrant.tech/documentation/",
-					github: "https://github.com/qdrant/qdrant",
-				},
-			},
-		],
-	},
-	{
-		icon: <Code className="h-8 w-8" />,
-		title: "Development Tools",
-		description: "APIs and SDKs for seamless integration",
-		integrations: [
-			{
-				icon: <Globe className="h-6 w-6" />,
-				title: "RESTful API",
-				description: "OpenAPI 3.0 spec with interactive documentation",
-				status: "ready",
-				links: {
-					internal: "/documentation#api",
-					github: SOCIAL_LINKS.github,
-				},
-			},
-			{
-				icon: <Code className="h-6 w-6" />,
-				title: "TypeScript SDK",
-				description: "Type-safe SDK with full IntelliSense support",
-				status: "ready",
-				links: {
-					internal: "/documentation#sdk",
-					github: EXTERNAL_LINKS.sdkTypescript,
-				},
-			},
-		],
-	},
-	{
-		icon: <Cloud className="h-8 w-8" />,
-		title: "Deployment Platforms",
-		description: "Deploy SkillVector anywhere",
-		integrations: [
-			{
-				icon: <Server className="h-6 w-6" />,
-				title: "Docker",
-				description: "Containerized deployment with Docker Compose",
-				status: "ready",
-				links: {
-					docs: "https://docs.docker.com/",
-					github: SOCIAL_LINKS.github,
-				},
-			},
-			{
-				icon: <Cloud className="h-6 w-6" />,
-				title: "Render",
-				description: "One-click deployment with automatic scaling",
-				status: "ready",
-				links: {
-					docs: "https://render.com/docs",
-					github: SOCIAL_LINKS.github,
-				},
-			},
-			{
-				icon: <Layers className="h-6 w-6" />,
-				title: "Kubernetes",
-				description: "Helm charts for cloud-native deployments",
-				status: "soon",
-				links: {
-					docs: "https://kubernetes.io/docs/",
-					github: SOCIAL_LINKS.github,
-				},
-			},
-		],
-	},
-	{
-		icon: <Layers className="h-8 w-8" />,
-		title: "Data Formats",
-		description: "Flexible profile data ingestion",
-		integrations: [
-			{
-				icon: <FileText className="h-6 w-6" />,
-				title: "CSV Import",
-				description: "Upload profiles with automatic field mapping",
-				status: "ready",
-				links: {
-					docs: "https://en.wikipedia.org/wiki/Comma-separated_values",
-					github: SOCIAL_LINKS.github,
-				},
-			},
-			{
-				icon: <FileJson className="h-6 w-6" />,
-				title: "JSON Import",
-				description: "Structured data with nested fields and custom schemas",
-				status: "ready",
-				links: {
-					docs: "https://www.json.org/json-en.html",
-					github: SOCIAL_LINKS.github,
-				},
-			},
-			{
-				icon: <FileText className="h-6 w-6" />,
-				title: "Plain Text",
-				description: "Intelligent parsing with AI extraction",
-				status: "ready",
-				links: {
-					docs: "https://en.wikipedia.org/wiki/Plain_text",
-					github: SOCIAL_LINKS.github,
-				},
-			},
-		],
-	},
-	{
-		icon: <Cpu className="h-8 w-8" />,
-		title: "Future Integrations",
-		description: "Upcoming integrations and features",
-		integrations: [
-			{
-				icon: <Globe className="h-6 w-6" />,
-				title: "LinkedIn API",
-				description: "Direct integration for profile synchronization",
-				status: "planned",
-				links: {
-					docs: "https://learn.microsoft.com/linkedin/",
-				},
-			},
-			{
-				icon: <Code className="h-6 w-6" />,
-				title: "GitHub API",
-				description: "Import developer profiles with contribution analysis",
-				status: "planned",
-				links: {
-					docs: "https://docs.github.com/en/rest",
-					github: "https://github.com/github/rest-api-description",
-				},
-			},
-			{
-				icon: <Layers className="h-6 w-6" />,
-				title: "ATS Systems",
-				description: "Greenhouse, Lever, and other ATS integrations",
-				status: "planned",
-			},
-		],
-	},
-];
+import { categories } from "./IntegrationsPage.data.tsx";
 
 export const IntegrationsPage = () => {
 	useNavigate();
@@ -272,8 +48,23 @@ export const IntegrationsPage = () => {
 						title: category.title,
 						centered: false,
 						customContent: (
-							<Div className={`flex flex-col ${SPACING.GAP.xl}`}>
-								<Div variant="flex" className={`items-start ${SPACING.GAP.md}`}>
+							<Div
+								className={cn(
+									// Layout
+									"flex flex-col",
+									// Spacing
+									SPACING.GAP.xl,
+								)}
+							>
+								<Div
+									variant="flex"
+									className={cn(
+										// Layout
+										"items-start",
+										// Spacing
+										SPACING.GAP.md,
+									)}
+								>
 									<Div className="text-primary shrink-0">{category.icon}</Div>
 									<Div className="min-w-0">
 										<Heading variant="card" className="mb-1">
@@ -317,7 +108,10 @@ export const IntegrationsPage = () => {
 													return (
 														<TableRow key={integration.title}>
 															<TableCell
-																className={`${TYPOGRAPHY.FONT_WEIGHT.medium} min-w-0`}
+																className={cn(
+																	TYPOGRAPHY.FONT_WEIGHT.medium,
+																	"min-w-0",
+																)}
 															>
 																<Div
 																	variant="flex"
@@ -341,35 +135,48 @@ export const IntegrationsPage = () => {
 																				className={`mt-2 flex flex-wrap ${SPACING.GAP.xs} sm:hidden`}
 																			>
 																				{actions.internal && (
-																					<ActionButton
+																					<Button
+																						asChild
 																						className="p-1.5 min-w-0"
-																						to={actions.internal}
-																						ariaLabel="Open"
+																						aria-label="Open"
 																					>
-																						<SquareArrowOutUpRight className="h-3.5 w-3.5" />
-																					</ActionButton>
+																						<Link to={actions.internal}>
+																							<SquareArrowOutUpRight
+																								className={SIZING.ICON.xs}
+																							/>
+																						</Link>
+																					</Button>
 																				)}
 																				{actions.docs && (
-																					<ActionButton
+																					<Button
+																						asChild
 																						variant="outline"
 																						className="p-1.5 min-w-0"
-																						href={actions.docs}
-																						external
-																						ariaLabel="Documentation"
+																						aria-label="Documentation"
 																					>
-																						<FileText className="h-3.5 w-3.5" />
-																					</ActionButton>
+																						<Link href={actions.docs} external>
+																							<FileText
+																								className={SIZING.ICON.xs}
+																							/>
+																						</Link>
+																					</Button>
 																				)}
 																				{actions.github && (
-																					<ActionButton
+																					<Button
+																						asChild
 																						variant="outline"
 																						className="p-1.5 min-w-0"
-																						href={actions.github}
-																						external
-																						ariaLabel="GitHub Repository"
+																						aria-label="GitHub Repository"
 																					>
-																						<Github className="h-3.5 w-3.5" />
-																					</ActionButton>
+																						<Link
+																							href={actions.github}
+																							external
+																						>
+																							<Github
+																								className={SIZING.ICON.xs}
+																							/>
+																						</Link>
+																					</Button>
 																				)}
 																			</Div>
 																		)}
@@ -377,7 +184,14 @@ export const IntegrationsPage = () => {
 																</Div>
 															</TableCell>
 															<TableCell
-																className={`hidden sm:table-cell text-muted-foreground ${TYPOGRAPHY.COMBINATIONS.small} whitespace-normal break-words`}
+																className={cn(
+																	// Layout
+																	"hidden sm:table-cell whitespace-normal break-words",
+																	// Colors
+																	"text-muted-foreground",
+																	// Typography
+																	TYPOGRAPHY.COMBINATIONS.small,
+																)}
 															>
 																{integration.description}
 															</TableCell>
@@ -391,18 +205,28 @@ export const IntegrationsPage = () => {
 																<TableCell className="hidden sm:table-cell text-right">
 																	{hasRowActions ? (
 																		<Div
-																			className={`flex flex-wrap justify-end ${SPACING.GAP.xs}`}
+																			className={cn(
+																				// Layout
+																				"flex flex-wrap justify-end",
+																				// Spacing
+																				SPACING.GAP.xs,
+																			)}
 																		>
 																			{actions.internal && (
 																				<Tooltip delayDuration={200}>
 																					<TooltipTrigger asChild>
-																						<ActionButton
+																						<Button
+																							asChild
 																							className="p-1.5 min-w-0"
-																							to={actions.internal}
-																							ariaLabel="Open"
+																							aria-label="Open"
 																						>
-																							<SquareArrowOutUpRight className="h-3.5 w-3.5" />
-																						</ActionButton>
+																							<Link to={actions.internal}>
+																								{/* Action icon - 14px size */}
+																								<SquareArrowOutUpRight
+																									className={SIZING.ICON.xs}
+																								/>
+																							</Link>
+																						</Button>
 																					</TooltipTrigger>
 																					<TooltipContent>Open</TooltipContent>
 																				</Tooltip>
@@ -410,15 +234,22 @@ export const IntegrationsPage = () => {
 																			{actions.docs && (
 																				<Tooltip delayDuration={200}>
 																					<TooltipTrigger asChild>
-																						<ActionButton
+																						<Button
+																							asChild
 																							variant="outline"
 																							className="p-1.5 min-w-0"
-																							href={actions.docs}
-																							external
-																							ariaLabel="Documentation"
+																							aria-label="Documentation"
 																						>
-																							<FileText className="h-3.5 w-3.5" />
-																						</ActionButton>
+																							<Link
+																								href={actions.docs}
+																								external
+																							>
+																								{/* Docs icon - 14px size */}
+																								<FileText
+																									className={SIZING.ICON.xs}
+																								/>
+																							</Link>
+																						</Button>
 																					</TooltipTrigger>
 																					<TooltipContent>
 																						Documentation
@@ -428,15 +259,22 @@ export const IntegrationsPage = () => {
 																			{actions.github && (
 																				<Tooltip delayDuration={200}>
 																					<TooltipTrigger asChild>
-																						<ActionButton
+																						<Button
+																							asChild
 																							variant="outline"
 																							className="p-1.5 min-w-0"
-																							href={actions.github}
-																							external
-																							ariaLabel="GitHub Repository"
+																							aria-label="GitHub Repository"
 																						>
-																							<Github className="h-3.5 w-3.5" />
-																						</ActionButton>
+																							<Link
+																								href={actions.github}
+																								external
+																							>
+																								{/* GitHub icon - 14px size */}
+																								<Github
+																									className={SIZING.ICON.xs}
+																								/>
+																							</Link>
+																						</Button>
 																					</TooltipTrigger>
 																					<TooltipContent>
 																						GitHub
@@ -474,24 +312,29 @@ export const IntegrationsPage = () => {
 						SkillVector is open source and extensible. Build your own or request
 						new integrations.
 					</Text>
-					<div className={`flex ${SPACING.GAP.md} justify-center flex-wrap`}>
-						<ActionButton
-							variant="primary"
-							href={SOCIAL_LINKS.github}
-							external
-							ariaLabel="View SkillVector on GitHub"
-						>
-							View on GitHub
-						</ActionButton>
-						<ActionButton
+					<Div
+						className={cn(
+							// Layout
+							"flex justify-center flex-wrap",
+							// Spacing
+							SPACING.GAP.md,
+						)}
+					>
+						<Button asChild aria-label="View SkillVector on GitHub">
+							<Link href={SOCIAL_LINKS.github} external>
+								View on GitHub
+							</Link>
+						</Button>
+						<Button
+							asChild
 							variant="outline"
-							href={EXTERNAL_LINKS.discussions}
-							external
-							ariaLabel="Request new integration"
+							aria-label="Request new integration"
 						>
-							Request Integration
-						</ActionButton>
-					</div>
+							<Link href={EXTERNAL_LINKS.discussions} external>
+								Request Integration
+							</Link>
+						</Button>
+					</Div>
 				</CardContent>
 			</Card>
 		</PageTemplate>

@@ -20,7 +20,9 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { EXTERNAL_LINKS } from "@/constants/site";
-import { BORDERS, SPACING, TYPOGRAPHY } from "../1-ions";
+import { cn } from "@/lib/utils";
+import { SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
+import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
 import { Link } from "../2-atoms/Link";
@@ -206,22 +208,30 @@ export const ChangelogPage = () => {
 							<CardContent className="p-0">
 								{/* Header Section */}
 								<FilterPanel
-									icon={<GitBranch className="h-6 w-6 text-primary" />}
+									icon={
+										<GitBranch className={cn(SIZING.ICON.lg, "text-primary")} />
+									}
 									title="Release Overview"
 									description="Follow our GitHub repository for the latest updates, releases, and contribute to the project"
 									primaryAction={{
 										label: "GitHub Repository",
 										href: EXTERNAL_LINKS.documentation,
-										icon: <ExternalLink className="h-4 w-4" />,
+										icon: <ExternalLink className={SIZING.ICON.sm} />,
 									}}
 									secondaryAction={{
 										label: "View All Releases",
 										href: EXTERNAL_LINKS.releases,
-										icon: <Package className="h-4 w-4" />,
+										icon: <Package className={SIZING.ICON.sm} />,
 									}}
 								/>
 								<Div
-									className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 ${SPACING.PADDING.lg} ${SPACING.GAP.xl}`}
+									className={cn(
+										// Layout
+										"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
+										// Spacing
+										SPACING.PADDING.lg,
+										SPACING.GAP.xl,
+									)}
 								>
 									<StatCard
 										icon={Tag}
@@ -269,13 +279,13 @@ export const ChangelogPage = () => {
 									value: searchQuery,
 									onChange: setSearchQuery,
 									placeholder: "Search releases by version or changes...",
-									icon: <Search className="h-5 w-5" />,
+									icon: <Search className={SIZING.ICON.md} />,
 								}}
 								filters={[
 									{
 										label: "Filter",
 										value: "type",
-										icon: <Filter className="h-4 w-4" />,
+										icon: <Filter className={SIZING.ICON.sm} />,
 										options: [
 											{ value: "all", label: "All Releases" },
 											{ value: "stable", label: "Stable Only" },
@@ -285,7 +295,7 @@ export const ChangelogPage = () => {
 									{
 										label: "Sort",
 										value: "sort",
-										icon: <SlidersHorizontal className="h-4 w-4" />,
+										icon: <SlidersHorizontal className={SIZING.ICON.sm} />,
 										options: [
 											{ value: "newest", label: "Newest First" },
 											{ value: "oldest", label: "Oldest First" },
@@ -377,7 +387,12 @@ export const ChangelogPage = () => {
 												setSearchQuery("");
 												setFilter("all");
 											}}
-											className={`${TYPOGRAPHY.FONT_SIZE.sm} text-primary`}
+											className={cn(
+												// Typography
+												TYPOGRAPHY.FONT_SIZE.sm,
+												// Colors
+												"text-primary",
+											)}
 										>
 											Clear filters
 										</button>
@@ -415,18 +430,19 @@ export const ChangelogPage = () => {
 										</Text>
 
 										{/* Pagination Controls */}
-										<Div className={`flex items-center ${SPACING.GAP.sm}`}>
-											<button
+										<Div className={cn("flex items-center", SPACING.GAP.sm)}>
+											<Button
+												variant="outline"
+												size="icon"
 												type="button"
 												onClick={() => goToPage(currentPage - 1)}
 												disabled={currentPage === 1}
-												className={`${SPACING.PADDING.sm} ${BORDERS.RADIUS.lg} border border-border disabled:opacity-50 disabled:cursor-not-allowed transition-colors`}
 												aria-label="Previous page"
 											>
-												<ChevronLeft className="h-5 w-5" />
-											</button>
+												<ChevronLeft className={SIZING.ICON.md} />
+											</Button>
 
-											<Div className={`flex items-center ${SPACING.GAP.xs}`}>
+											<Div className={cn("flex items-center", SPACING.GAP.xs)}>
 												{Array.from(
 													{ length: totalPages },
 													(_, i) => i + 1,
@@ -446,7 +462,12 @@ export const ChangelogPage = () => {
 															return (
 																<Span
 																	key={page}
-																	className={`${SPACING.PADDING_X.sm} text-muted-foreground`}
+																	className={cn(
+																		// Spacing
+																		SPACING.PADDING_X.sm,
+																		// Colors
+																		"text-muted-foreground",
+																	)}
 																>
 																	...
 																</Span>
@@ -456,41 +477,43 @@ export const ChangelogPage = () => {
 													}
 
 													return (
-														<button
+														<Button
 															key={page}
+															variant={
+																page === currentPage ? "default" : "outline"
+															}
+															size="icon"
 															type="button"
 															onClick={() => goToPage(page)}
-															className={`min-w-10 h-10 ${BORDERS.RADIUS.lg} border transition-colors ${
-																page === currentPage
-																	? "bg-primary text-primary-foreground border-primary"
-																	: "border-border"
-															}`}
 															aria-label={`Go to page ${page}`}
 															aria-current={
 																page === currentPage ? "page" : undefined
 															}
 														>
 															{page}
-														</button>
+														</Button>
 													);
 												})}
 											</Div>
 
-											<button
+											<Button
+												variant="outline"
+												size="icon"
 												type="button"
 												onClick={() => goToPage(currentPage + 1)}
 												disabled={currentPage === totalPages}
-												className={`${SPACING.PADDING.sm} ${BORDERS.RADIUS.lg} border border-border disabled:opacity-50 disabled:cursor-not-allowed transition-colors`}
 												aria-label="Next page"
 											>
-												<ChevronRight className="h-5 w-5" />
-											</button>
+												<ChevronRight className={SIZING.ICON.md} />
+											</Button>
 										</Div>
 
-										{/* Jump to page on larger screens */}
 										{totalPages > 5 && (
 											<Div
-												className={`hidden lg:flex items-center ${SPACING.GAP.sm}`}
+												className={cn(
+													"hidden lg:flex items-center",
+													SPACING.GAP.sm,
+												)}
 											>
 												<Text variant="small" className="text-muted-foreground">
 													Jump to:

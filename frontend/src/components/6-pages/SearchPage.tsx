@@ -9,6 +9,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { useSearch as useSearchAPI } from "@/hooks/useSearch";
 import type { SearchResult } from "@/types/search.types";
+import { SIZING } from "../1-ions";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
 import { Link } from "../2-atoms/Link";
@@ -374,13 +375,13 @@ export const SearchPage = () => {
 										replace: true,
 									}),
 								placeholder: "Filter by name, role, skills...",
-								icon: <Search className="h-5 w-5" />,
+								icon: <Search className={SIZING.ICON.md} />,
 							}}
 							filters={[
 								{
 									label: "Experience",
 									value: "experience",
-									icon: <Briefcase className="h-4 w-4" />,
+									icon: <Briefcase className={SIZING.ICON.sm} />,
 									options: [
 										{ value: "all", label: "All Levels" },
 										{ value: "entry", label: "Entry (0-2 years)" },
@@ -393,7 +394,7 @@ export const SearchPage = () => {
 								{
 									label: "Region",
 									value: "region",
-									icon: <MapPin className="h-4 w-4" />,
+									icon: <MapPin className={SIZING.ICON.sm} />,
 									options: [
 										{ value: "all", label: "All Regions" },
 										{ value: "north-america", label: "North America" },
@@ -407,7 +408,7 @@ export const SearchPage = () => {
 								{
 									label: "Role",
 									value: "role",
-									icon: <Star className="h-4 w-4" />,
+									icon: <Star className={SIZING.ICON.sm} />,
 									options: [
 										{ value: "all", label: "All Roles" },
 										{ value: "engineering", label: "Engineering" },
@@ -422,7 +423,7 @@ export const SearchPage = () => {
 								{
 									label: "Sort",
 									value: "sort",
-									icon: <SlidersHorizontal className="h-4 w-4" />,
+									icon: <SlidersHorizontal className={SIZING.ICON.sm} />,
 									options: [
 										{ value: "relevance", label: "Relevance" },
 										{ value: "experience-high", label: "Experience ↓" },

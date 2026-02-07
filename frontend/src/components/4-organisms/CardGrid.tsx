@@ -116,8 +116,8 @@ const baseColumnClasses: Record<MaxColumns, string> = {
 	1: GRID.COLUMNS[1],
 	// 2-column layout: always 2 columns with 4 sub-columns for centering
 	2: GRID.COLUMNS[4],
-	// 3-column layout: 2 cols base, 3 at large with 4->6 sub-columns for centering
-	3: `${GRID.COLUMNS[4]} lg:${GRID.COLUMNS[6]}`,
+	// 3-column layout: 1 col mobile, 2 cols tablet, 3 cols desktop (direct, no sub-columns)
+	3: `${GRID.COLUMNS[1]} md:${GRID.COLUMNS[2]} lg:${GRID.COLUMNS[3]}`,
 };
 
 /**
@@ -203,16 +203,30 @@ const defaultCardRenderer = (
 						{/* Step-based layout (HowItWorksPage style) */}
 						{item.step && (
 							<Div
-								className={`flex flex-col md:flex-row ${SPACING.GAP.xl} items-start`}
+								className={cn(
+									"flex flex-col md:flex-row items-start",
+									SPACING.GAP.xl,
+								)}
 							>
 								{item.icon && (
 									<Div className={cn("shrink-0", item.color)}>{item.icon}</Div>
 								)}
 								<Div className="flex-1">
-									<Div className={`flex items-baseline ${SPACING.GAP.sm} mb-3`}>
+									<Div
+										className={cn(
+											// Layout
+											"flex items-baseline",
+											// Spacing
+											SPACING.GAP.sm,
+											"mb-3",
+										)}
+									>
 										<Span
 											className={cn(
-												`${TYPOGRAPHY.FONT_SIZE.xl} ${TYPOGRAPHY.FONT_WEIGHT.bold}`,
+												// Typography
+												TYPOGRAPHY.FONT_SIZE.xl,
+												TYPOGRAPHY.FONT_WEIGHT.bold,
+												// Colors
 												item.color,
 											)}
 										>
@@ -255,11 +269,26 @@ const defaultCardRenderer = (
 											>
 												Supported AI Providers:
 											</Text>
-											<Div className={`flex flex-wrap ${SPACING.GAP.sm}`}>
+											<Div
+												className={cn(
+													// Layout
+													"flex flex-wrap",
+													// Spacing
+													SPACING.GAP.sm,
+												)}
+											>
 												{item.tags.map((tag: string) => (
 													<Span
 														key={tag}
-														className={`${SPACING.PADDING_X.sm} py-1 bg-background rounded ${TYPOGRAPHY.FONT_SIZE.xs_sm}`}
+														className={cn(
+															// Spacing
+															SPACING.PADDING_X.sm,
+															"py-1",
+															// Colors & Effects
+															"bg-background rounded",
+															// Typography
+															TYPOGRAPHY.FONT_SIZE.xs_sm,
+														)}
 													>
 														{tag}
 													</Span>
@@ -272,7 +301,12 @@ const defaultCardRenderer = (
 										<Div variant="codeBlock">
 											<Text
 												variant="small"
-												className={`${TYPOGRAPHY.FONT_WEIGHT.semibold} mb-2`}
+												className={cn(
+													// Typography
+													TYPOGRAPHY.FONT_WEIGHT.semibold,
+													// Spacing
+													"mb-2",
+												)}
 											>
 												Result Quality Metrics:
 											</Text>
@@ -293,7 +327,16 @@ const defaultCardRenderer = (
 						{/* Icon-based layout (standard card with icon) */}
 						{!item.step && item.icon && (
 							<>
-								<Div className="mb-4 text-primary flex justify-center">
+								<Div
+									className={cn(
+										// Layout
+										"flex justify-center",
+										// Spacing
+										"mb-4",
+										// Colors
+										"text-primary",
+									)}
+								>
 									{item.icon}
 								</Div>
 								<Heading variant="card" className="mb-3 text-center">
@@ -446,22 +489,22 @@ const CardGrid = ({
 						? getCenteringClass(index, totalItems, maxColumns, "lg")
 						: "";
 
-				// Each card spans 2 sub-columns
+				// Each card spans 2 sub-columns for maxColumns=2
+				// For maxColumns=3, no spanning needed (direct grid columns)
 				const spanClass = cn(
-					maxColumns >= 2 && "col-span-2",
-					maxColumns === 3 && "lg:col-span-2",
+					maxColumns === 2 && "col-span-2",
 					baseCentering,
 					lgCentering,
 				);
 
 				return as === "ul" ? (
-					<li key={key} className={spanClass}>
+					<ListItem key={key} className={spanClass}>
 						{cardRenderer(item)}
-					</li>
+					</ListItem>
 				) : (
-					<div key={key} className={spanClass}>
+					<Div key={key} className={spanClass}>
 						{cardRenderer(item)}
-					</div>
+					</Div>
 				);
 			})}
 		</Component>
@@ -483,8 +526,10 @@ const CardGridItem = ({
 	...props
 }: CardGridItemProps) => {
 	const spanClasses = cn(
+		// Layout - Column spanning
 		colSpan === 2 && "md:col-span-2",
 		colSpan === 3 && "lg:col-span-3",
+		// Layout - Row spanning
 		rowSpan && `row-span-${rowSpan}`,
 		className,
 	);

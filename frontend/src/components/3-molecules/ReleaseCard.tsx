@@ -1,6 +1,7 @@
 import { Calendar, ExternalLink, GitCommit, Github, Tag } from "lucide-react";
 import type React from "react";
-import { TYPOGRAPHY } from "../1-ions";
+import { cn } from "@/lib/utils";
+import { SPACING, TYPOGRAPHY } from "../1-ions";
 import { Badge } from "../2-atoms/Badge";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
@@ -39,7 +40,14 @@ const parseMarkdownLinks = (
 					href={match[2]}
 					external
 					variant="primary"
-					className={`inline-flex items-center gap-1 ${TYPOGRAPHY.FONT_WEIGHT.medium}`}
+					className={cn(
+						// Layout
+						"inline-flex items-center",
+						// Spacing
+						"gap-1",
+						// Typography
+						TYPOGRAPHY.FONT_WEIGHT.medium,
+					)}
 				>
 					{match[1]}
 					<ExternalLink className="h-3 w-3" />
@@ -55,7 +63,14 @@ const parseMarkdownLinks = (
 					href={url}
 					external
 					variant="primary"
-					className={`inline-flex items-center gap-1 ${TYPOGRAPHY.FONT_WEIGHT.medium} break-all`}
+					className={cn(
+						// Layout
+						"inline-flex items-center break-all",
+						// Spacing
+						"gap-1",
+						// Typography
+						TYPOGRAPHY.FONT_WEIGHT.medium,
+					)}
 				>
 					{displayUrl}
 					<ExternalLink className="h-3 w-3" />
@@ -70,7 +85,14 @@ const parseMarkdownLinks = (
 					href={`https://github.com/${username}`}
 					external
 					variant="primary"
-					className={`inline-flex items-center gap-1 ${TYPOGRAPHY.FONT_WEIGHT.medium}`}
+					className={cn(
+						// Layout
+						"inline-flex items-center",
+						// Spacing
+						"gap-1",
+						// Typography
+						TYPOGRAPHY.FONT_WEIGHT.medium,
+					)}
 				>
 					@{username}
 					<ExternalLink className="h-3 w-3" />
@@ -102,32 +124,68 @@ export const ReleaseCard: React.FC<ReleaseCardProps> = ({
 	return (
 		<Card variant="hover" fill>
 			<CardContent className="relative">
-				{/* Header */}
-				<Div className="flex items-start gap-4 mb-6 pb-6">
-					<Div className="flex items-start gap-4 flex-1">
+				{/* Header - Version and icon */}
+				<Div
+					className={cn(
+						// Layout
+						"flex items-start",
+						// Spacing
+						SPACING.GAP.md,
+						"mb-6 pb-6",
+					)}
+				>
+					{/* Content container */}
+					<Div
+						className={cn(
+							// Layout
+							"flex items-start flex-1",
+							// Spacing
+							SPACING.GAP.md,
+						)}
+					>
 						{/* Icon */}
 						<Div
-							className={`p-3 rounded-xl shrink-0 ${
-								isPrerelease ? "bg-amber-500/10" : "bg-primary/10"
-							}`}
+							className={cn(
+								// Spacing
+								"p-3",
+								// Effects
+								"rounded-xl shrink-0",
+								// Colors
+								isPrerelease ? "bg-amber-500/10" : "bg-primary/10",
+							)}
 						>
 							<Tag
-								className={`h-6 w-6 ${
-									isPrerelease ? "text-amber-500" : "text-primary"
-								}`}
+								className={cn(
+									// Sizing
+									"h-6 w-6",
+									// Colors
+									isPrerelease ? "text-amber-500" : "text-primary",
+								)}
 							/>
 						</Div>
 
 						{/* Version Info */}
 						<Div className="flex-1 min-w-0">
-							<Div className="flex flex-wrap items-center gap-2 mb-2">
+							{/* Version and badges */}
+							<Div
+								className={cn(
+									// Layout
+									"flex flex-wrap items-center",
+									// Spacing
+									SPACING.GAP.sm,
+									"mb-2",
+								)}
+							>
 								<Heading as="h2" variant="card">
 									v{version}
 								</Heading>
 								{isPrerelease && (
 									<Badge
 										variant="outline"
-										className="text-amber-500 border-amber-500/20 bg-amber-500/10"
+										className={cn(
+											// Colors
+											"text-amber-500 border-amber-500/20 bg-amber-500/10",
+										)}
 									>
 										Pre-release
 									</Badge>
@@ -162,9 +220,27 @@ export const ReleaseCard: React.FC<ReleaseCardProps> = ({
 					<Link
 						href={url}
 						external
-						className="p-2 rounded-lg hover:bg-accent transition-colors group shrink-0"
+						className={cn(
+							// Spacing
+							"p-2",
+							// Effects
+							"rounded-lg",
+							// Colors
+							"hover:bg-accent",
+							// States
+							"transition-colors group shrink-0",
+						)}
 					>
-						<Github className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+						<Github
+							className={cn(
+								// Sizing
+								"h-5 w-5",
+								// Colors
+								"text-muted-foreground group-hover:text-foreground",
+								// States
+								"transition-colors",
+							)}
+						/>
 					</Link>
 				</Div>
 

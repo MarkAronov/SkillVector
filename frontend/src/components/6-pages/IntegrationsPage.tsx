@@ -1,7 +1,7 @@
-import { useNavigate } from "@tanstack/react-router";
-import { FileText, Github, SquareArrowOutUpRight } from "lucide-react";
 import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "@tanstack/react-router";
+import { FileText, Github, SquareArrowOutUpRight } from "lucide-react";
 import { SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
@@ -17,12 +17,12 @@ import { StatusBadge } from "../3-molecules/StatusBadge";
 import { CardGrid } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
 import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "../ui/table";
 import { categories } from "./IntegrationsPage.data.tsx";
 

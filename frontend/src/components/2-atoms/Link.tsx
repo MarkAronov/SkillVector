@@ -1,5 +1,5 @@
-import { Link as RouterLink } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+import { Link as RouterLink } from "@tanstack/react-router";
 import type { LinkProps, LinkVariant } from "./Link.types";
 
 /**
@@ -22,11 +22,11 @@ import type { LinkProps, LinkVariant } from "./Link.types";
  * - underline: Always underlined for maximum visibility (unless underline={false})
  */
 const variantClasses: Record<LinkVariant, string> = {
-	// Default link - underlines on hover
-	default: "hover:underline transition-colors",
+	// Default link - no underline, color change on hover
+	default: "hover:text-accent transition-colors",
 
-	// Primary link - uses primary color for emphasis
-	primary: "text-primary hover:underline transition-colors",
+	// Primary link - uses primary color, accent on hover
+	primary: "text-primary hover:text-accent transition-colors",
 
 	// Muted link - subtle, brightens on hover
 	muted: "text-muted-foreground hover:text-primary transition-colors",

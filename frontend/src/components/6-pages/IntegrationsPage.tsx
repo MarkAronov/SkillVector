@@ -1,7 +1,7 @@
-import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
-import { cn } from "@/lib/utils";
 import { useNavigate } from "@tanstack/react-router";
 import { FileText, Github, SquareArrowOutUpRight } from "lucide-react";
+import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
+import { cn } from "@/lib/utils";
 import { SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
@@ -119,9 +119,7 @@ const IntegrationCard = ({ integration }: { integration: Integration }) => {
 										>
 											<Link to={actions.internal}>
 												{/* Open icon — 16px */}
-												<SquareArrowOutUpRight
-													className={SIZING.ICON.sm}
-												/>
+												<SquareArrowOutUpRight className={SIZING.ICON.sm} />
 											</Link>
 										</Button>
 									</TooltipTrigger>

@@ -19,10 +19,14 @@ import { cn } from "@/lib/utils";
  * - link: Text-only button styled like a link - no underline, pink on hover
  *
  * Sizes available:
- * - sm: Small button (compact)
- * - default: Standard button size
- * - lg: Large button (prominent)
- * - icon: Square button for icons only
+ * - xs: Extra small button (compact, 24px height)
+ * - sm: Small button (compact, 32px height)
+ * - default: Standard button size (36px height)
+ * - lg: Large button (prominent, 40px height)
+ * - icon: Square button for icons only (36px)
+ * - icon-xs: Extra small square icon button (24px)
+ * - icon-sm: Small square icon button (32px)
+ * - icon-lg: Large square icon button (40px)
  */
 
 const buttonVariants = cva(
@@ -38,13 +42,16 @@ const buttonVariants = cva(
 				destructive:
 					"bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
 
-				// Outline variant - secondary actions with pink accent hover
+				// Outline variant - neutral functional control (pagination, table actions)
+				// Neutral bg on hover, accent border for visual feedback
+				// dark:hover overrides needed so dark:border-input doesn't block hover state
 				outline:
-					"border border-input bg-transparent hover:bg-accent/10 hover:text-accent hover:border-accent dark:bg-input/30 dark:border-input",
+					"border border-input bg-transparent hover:bg-muted hover:border-accent dark:bg-input/30 dark:border-input dark:hover:border-accent dark:hover:bg-muted",
 
-				// Secondary variant - muted actions with pink border + background on hover
-				secondary:
-					"border border-input bg-input/5 hover:bg-accent/30 hover:text-accent-foreground hover:!border-accent",
+				// Secondary variant - CTA companion, pairs with default
+				// Light accent tint at rest so it visually belongs with primary
+				// Uses foreground color for high-contrast readable text
+				secondary: "bg-accent/10 text-foreground hover:bg-accent/20",
 
 				// Ghost variant - minimal with pink accent hover
 				ghost: "hover:bg-accent hover:text-accent-foreground",
@@ -54,9 +61,11 @@ const buttonVariants = cva(
 			},
 			size: {
 				default: "h-9 px-4 py-2 has-[>svg]:px-3",
+				xs: "h-6 gap-1 rounded-md px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
 				sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
 				lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
 				icon: "size-9",
+				"icon-xs": "size-6 rounded-md [&_svg:not([class*='size-'])]:size-3",
 				"icon-sm": "size-8",
 				"icon-lg": "size-10",
 			},

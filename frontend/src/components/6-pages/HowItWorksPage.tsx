@@ -54,7 +54,7 @@ export const HowItWorksPage = () => {
 										</Button>
 										<Button
 											asChild
-											variant="outline"
+											variant="secondary"
 											aria-label="View API Docs"
 										>
 											<Link to="/documentation#api">View API Docs</Link>

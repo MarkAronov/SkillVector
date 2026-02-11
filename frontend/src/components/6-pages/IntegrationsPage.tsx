@@ -1,7 +1,7 @@
-import { useNavigate } from "@tanstack/react-router";
-import { FileText, Github, SquareArrowOutUpRight } from "lucide-react";
 import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "@tanstack/react-router";
+import { FileText, Github, SquareArrowOutUpRight } from "lucide-react";
 import { SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
@@ -224,7 +224,7 @@ export const IntegrationsPage = () => {
 					</Div>
 
 					{/* Integration Cards Grid — responsive 2-3 column layout */}
-					<CardGrid maxColumns={3} gap="md" centerIncompleteRows>
+					<CardGrid maxColumns={3} centerIncompleteRows>
 						{category.integrations.map((integration) => (
 							<IntegrationCard
 								key={integration.title}

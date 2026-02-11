@@ -11,7 +11,7 @@ export const TermsPage = () => {
 			<Hero
 				title="Terms"
 				brand="of Service"
-				subtitle="The rules and guidelines for using SkillVector"
+				subtitle=""
 			/>
 
 			{/* Terms Sections */}

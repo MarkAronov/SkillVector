@@ -26,18 +26,6 @@
 	padding-bottom: 8px;
 }
 
-/* Hide Scalar's native scrollbars to let Radix ScrollArea take over */
-.scalar-wrapper ::-webkit-scrollbar,
-.scalar-wrapper *::-webkit-scrollbar {
-	display: none;
-}
-
-.scalar-wrapper,
-.scalar-wrapper * {
-	-ms-overflow-style: none;
-	scrollbar-width: none;
-}
-
 /* Override Scalar's default theme colors to match app theme */
 .scalar-api-reference [data-theme="dark"] {
 	--scalar-background-1: hsl(var(--background));

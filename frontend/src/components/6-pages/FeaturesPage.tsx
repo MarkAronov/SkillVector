@@ -22,12 +22,10 @@ export const FeaturesPage = () => {
 				<CardGrid
 					items={features}
 					maxColumns={2}
-					gap="lg"
 					centerIncompleteRows
 				/>
 			</Section>
 
-			{/* Call to Action */}
 			<CTACard
 				title="Ready to get started?"
 				description="Try SkillVector today and experience the future of talent search."

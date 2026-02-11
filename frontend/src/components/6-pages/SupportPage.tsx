@@ -62,7 +62,7 @@ export const SupportPage = () => {
 						),
 					}))}
 					maxColumns={2}
-					gap="lg"
+
 				/>
 			</Section>
 

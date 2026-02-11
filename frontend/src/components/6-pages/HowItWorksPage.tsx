@@ -23,7 +23,7 @@ export const HowItWorksPage = () => {
 
 			{/* Process Steps */}
 			<Section>
-				<CardGrid items={steps} maxColumns={1} gap="lg" centerIncompleteRows />
+				<CardGrid items={steps} maxColumns={1} centerIncompleteRows />
 			</Section>
 
 			{/* Call to Action */}

@@ -44,11 +44,9 @@ export const AboutPage = () => {
 						},
 					]}
 					maxColumns={1}
-					gap="lg"
 				/>
 			</Section>
 
-			{/* Capabilities & Technology Stack */}
 			<Section>
 				<CardGrid
 					items={capabilities}

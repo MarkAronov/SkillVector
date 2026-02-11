@@ -265,9 +265,13 @@ const Card = () => (
 ```
 
 ### UI Folder Exclusion
-- **NEVER modify files in `frontend/src/components/ui/` folder**
-- This folder contains shadcn/ui components - leave them as-is
+- **NEVER modify files in `frontend/src/components/ui/` folder** — no exceptions
+- This folder contains shadcn/ui components — they are vendor code, treat them as read-only
 - Only modify our custom components in atoms/molecules/organisms/templates/pages
+- **If a ui component needs customization**, wrap it in an atom (level 2) and apply changes there
+- **If a global CSS fix is needed** (e.g., table border-collapse), put it in `index.css`, never in the ui component
+- **Example**: `ScrollArea` atom wraps `@radix-ui/react-scroll-area` primitives directly with custom styling — it does NOT modify `ui/scroll-area.tsx`
+- **Example**: Table border rendering is fixed via `table { border-collapse: collapse }` in `index.css` — not by editing `ui/table.tsx`
 
 ### Component Philosophy: Streamlined & Fully-Featured
 **CRITICAL: Consistency and simplicity are paramount**

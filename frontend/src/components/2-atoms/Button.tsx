@@ -53,6 +53,9 @@ const buttonVariants = cva(
 				// Hover state: matches outlined hover (muted bg + pink accent border), keeps blue text
 				secondary:
 					"border border-primary bg-transparent text-primary hover:bg-muted hover:border-accent dark:border-primary dark:hover:border-accent dark:hover:bg-muted",
+				// Ghost variant - Subtle button with transparent background
+				// Used for icon buttons, menu items, and low-emphasis actions
+				ghost: "bg-transparent hover:bg-muted hover:text-accent-foreground",
 				link: "text-primary hover:text-accent",
 			},
 			size: {

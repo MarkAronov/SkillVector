@@ -77,15 +77,13 @@ export const Header = () => {
 	};
 
 	return (
-		<Div className="w-full sticky top-0 z-50 pointer-events-none">
+		<Div className="w-full sticky top-0 z-50 pointer-events-none pt-3">
 			<Div
 				className={cn(
 					// Layout
 					"mx-auto pointer-events-auto",
 					// Sizing
 					"w-[calc(100%-2rem)] max-w-5xl",
-					// Spacing
-					"mt-3",
 				)}
 			>
 				<Glass

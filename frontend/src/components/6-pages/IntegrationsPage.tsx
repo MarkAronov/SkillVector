@@ -89,8 +89,6 @@ const IntegrationCard = ({ integration }: { integration: Integration }) => {
 					className={cn(
 						// Layout — spread status and actions to opposite sides
 						"flex items-center justify-between",
-						// Top border for visual separation
-						"border-t border-white/10 dark:border-white/5",
 						"pt-4",
 					)}
 				>
@@ -191,11 +189,7 @@ export const IntegrationsPage = () => {
 	return (
 		<PageTemplate title="Integrations">
 			{/* Hero Section */}
-			<Hero
-				title="Integrations"
-				brand="Hub"
-				subtitle="Connect SkillVector with your favorite tools and services for seamless talent search."
-			/>
+			<Hero title="Integrations" brand="Hub" subtitle="" />
 
 			{/* Integration Categories — each category is a section with card grid */}
 			{categories.map((category) => (

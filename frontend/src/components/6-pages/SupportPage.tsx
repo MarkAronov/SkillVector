@@ -62,7 +62,6 @@ export const SupportPage = () => {
 						),
 					}))}
 					maxColumns={2}
-
 				/>
 			</Section>
 

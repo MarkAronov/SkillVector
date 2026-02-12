@@ -1,8 +1,8 @@
+import { SITE_CONFIG } from "@/constants/site";
+import { cn } from "@/lib/utils";
 import { Link, useLocation } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { SITE_CONFIG } from "@/constants/site";
-import { cn } from "@/lib/utils";
 import { SPACING, TYPOGRAPHY } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
@@ -90,7 +90,7 @@ export const Footer = () => {
 				>
 					<Div
 						className={cn(
-							// Layout
+							// Layout - grid enforces strict 2 or 4 column layout (never 3)
 							"grid grid-cols-2 lg:grid-cols-4 justify-items-center",
 							// Spacing
 							SPACING.GAP_RESPONSIVE.xl,
@@ -102,8 +102,8 @@ export const Footer = () => {
 								className={cn(
 									// Spacing - responsive vertical stack
 									"space-y-2 lg:space-y-3",
-									// Sizing
-									"min-w-[140px]",
+									// Sizing - fixed width for perfect centering within grid cell
+									"w-[100px] lg:w-[160px]",
 								)}
 							>
 								<Heading

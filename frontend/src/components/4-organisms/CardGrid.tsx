@@ -1,5 +1,5 @@
-import type { ElementType, ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import type { ElementType, ReactNode } from "react";
 import { GRID, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
@@ -202,126 +202,127 @@ const defaultCardRenderer = (
 					<>
 						{/* Step-based layout (HowItWorksPage style) */}
 						{item.step && (
-							<Div
-								className={cn(
-									"flex flex-col md:flex-row items-start",
-									SPACING.GAP.xl,
-								)}
-							>
-								{item.icon && (
-									<Div className={cn("shrink-0", item.color)}>{item.icon}</Div>
-								)}
-								<Div className="flex-1">
-									<Div
+							<>
+								{/* Icon + STEP + Title - all inline */}
+								<Div
+									className={cn(
+										// Layout - icon, STEP label, and title all on same line
+										"flex items-baseline",
+										// Spacing
+										SPACING.GAP.sm,
+										"mb-3",
+									)}
+								>
+									{item.icon && (
+										<Div className={cn("shrink-0", item.color)}>
+											{item.icon}
+										</Div>
+									)}
+									<Span
 										className={cn(
-											// Layout
-											"flex items-baseline",
-											// Spacing
-											SPACING.GAP.sm,
-											"mb-3",
+											// Typography
+											TYPOGRAPHY.FONT_SIZE.xl,
+											TYPOGRAPHY.FONT_WEIGHT.bold,
+											// Colors
+											item.color,
 										)}
 									>
-										<Span
+										STEP {item.step}
+									</Span>
+									<Heading as="h3" variant="card" className="mb-0">
+										{item.title}
+									</Heading>
+								</Div>
+
+								{/* Description - full width below title row */}
+								{item.description && (
+									<Text variant="muted" className="mb-4">
+										{item.description}
+									</Text>
+								)}
+
+								{/* Code example - full width */}
+								{item.codeExample && (
+									<Div variant="codeBlock" className="mb-4">
+										<Text
+											variant="small"
+											className={TYPOGRAPHY.FONT_FAMILY.mono}
+										>
+											{item.codeExample.code}
+										</Text>
+										{item.codeExample.note && (
+											<Text
+												variant="small"
+												className="mt-1 text-muted-foreground"
+											>
+												{item.codeExample.note}
+											</Text>
+										)}
+									</Div>
+								)}
+
+								{/* Tags - full width */}
+								{item.tags && (
+									<Div variant="codeBlock" className="space-y-2">
+										<Text
+											variant="small"
+											className={TYPOGRAPHY.FONT_WEIGHT.semibold}
+										>
+											Supported AI Providers:
+										</Text>
+										<Div
 											className={cn(
-												// Typography
-												TYPOGRAPHY.FONT_SIZE.xl,
-												TYPOGRAPHY.FONT_WEIGHT.bold,
-												// Colors
-												item.color,
+												// Layout
+												"flex flex-wrap",
+												// Spacing
+												SPACING.GAP.sm,
 											)}
 										>
-											STEP {item.step}
-										</Span>
-										<Heading as="h3" variant="card" className="mb-0">
-											{item.title}
-										</Heading>
-									</Div>
-									{item.description && (
-										<Text variant="muted" className="mb-4">
-											{item.description}
-										</Text>
-									)}
-
-									{item.codeExample && (
-										<Div variant="codeBlock" className="mb-4">
-											<Text
-												variant="small"
-												className={TYPOGRAPHY.FONT_FAMILY.mono}
-											>
-												{item.codeExample.code}
-											</Text>
-											{item.codeExample.note && (
-												<Text
-													variant="small"
-													className="mt-1 text-muted-foreground"
+											{item.tags.map((tag: string) => (
+												<Span
+													key={tag}
+													className={cn(
+														// Spacing
+														SPACING.PADDING_X.sm,
+														"py-1",
+														// Colors & Effects
+														"bg-background rounded",
+														// Typography
+														TYPOGRAPHY.FONT_SIZE.xs_sm,
+													)}
 												>
-													{item.codeExample.note}
-												</Text>
+													{tag}
+												</Span>
+											))}
+										</Div>
+									</Div>
+								)}
+
+								{/* Items list - full width */}
+								{item.items && (
+									<Div variant="codeBlock">
+										<Text
+											variant="small"
+											className={cn(
+												// Typography
+												TYPOGRAPHY.FONT_WEIGHT.semibold,
+												// Spacing
+												"mb-2",
 											)}
-										</Div>
-									)}
-
-									{item.tags && (
-										<Div variant="codeBlock" className="space-y-2">
-											<Text
-												variant="small"
-												className={TYPOGRAPHY.FONT_WEIGHT.semibold}
-											>
-												Supported AI Providers:
-											</Text>
-											<Div
-												className={cn(
-													// Layout
-													"flex flex-wrap",
-													// Spacing
-													SPACING.GAP.sm,
-												)}
-											>
-												{item.tags.map((tag: string) => (
-													<Span
-														key={tag}
-														className={cn(
-															// Spacing
-															SPACING.PADDING_X.sm,
-															"py-1",
-															// Colors & Effects
-															"bg-background rounded",
-															// Typography
-															TYPOGRAPHY.FONT_SIZE.xs_sm,
-														)}
-													>
-														{tag}
-													</Span>
-												))}
-											</Div>
-										</Div>
-									)}
-
-									{item.items && (
-										<Div variant="codeBlock">
-											<Text
-												variant="small"
-												className={cn(
-													// Typography
-													TYPOGRAPHY.FONT_WEIGHT.semibold,
-													// Spacing
-													"mb-2",
-												)}
-											>
-												Result Quality Metrics:
-											</Text>
-											<List variant="spaced">
-												{item.items.map((listItem: string) => (
-													<ListItem key={listItem} variant="bullet">
-														<Span className="text-primary">•</Span>
-														<Text variant="small">{listItem}</Text>
-													</ListItem>
-												))}
-											</List>
-										</Div>
-									)}
-								</Div>
-							</Div>
+										>
+											Result Quality Metrics:
+										</Text>
+										<List variant="spaced">
+											{item.items.map((listItem: string) => (
+												<ListItem key={listItem} variant="bullet">
+													<Span className="text-primary">•</Span>
+													<Text variant="small">{listItem}</Text>
+												</ListItem>
+											))}
+										</List>
+									</Div>
+								)}
+							</>
 						)}
 
 						{/* Icon-based layout (standard card with icon) */}

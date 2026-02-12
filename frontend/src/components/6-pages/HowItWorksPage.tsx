@@ -15,11 +15,7 @@ export const HowItWorksPage = () => {
 	return (
 		<PageTemplate title="How It Works">
 			{/* Hero Section */}
-			<Hero
-				title="How It"
-				brand="Works"
-				subtitle="Understanding the technology that powers intelligent professional search"
-			/>
+			<Hero title="How It" brand="Works" subtitle="" />
 
 			{/* Process Steps */}
 			<Section>

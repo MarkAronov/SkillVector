@@ -10,11 +10,7 @@ export const AboutPage = () => {
 	return (
 		<PageTemplate title="About">
 			{/* Hero Section */}
-			<Hero
-				title="About"
-				brand="SkillVector"
-				subtitle="Revolutionizing professional search with AI-powered semantic matching that understands skills, not just keywords."
-			/>
+			<Hero title="" brand="SkillVector" subtitle="" />
 
 			{/* Mission Section */}
 			<Section>

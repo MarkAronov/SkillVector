@@ -1,5 +1,5 @@
-import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
+import type { ComponentProps } from "react";
 import { BORDERS, SHADOWS, TYPOGRAPHY } from "../1-ions";
 import { Glass } from "../1-ions/Glass";
 import { Div } from "../2-atoms/Div";
@@ -82,13 +82,14 @@ const Card = ({
 	const variantClass = variantClasses[variant];
 
 	// Combine all card styling
+	// Glass primitive handles backdrop-filter & background-color — don't override here
 	const combinedClassName = cn(
 		"text-card-foreground flex flex-col",
 		"backdrop-blur-sm bg-white/40 dark:bg-black/30", // Glassmorphism background
 		BORDERS.RADIUS["2xl"], // 16px border radius
 		`${SHADOWS.lg} shadow-black/5 dark:shadow-black/20`, // Elevated shadow
 		"border border-white/20 dark:border-white/10", // Subtle border
-		"relative overflow-hidden z-10", // Stacking context
+		"relative z-10", // Stacking context (no overflow-hidden — preserves backdrop-filter)
 		variantClass,
 		fillClass,
 		minHClass,

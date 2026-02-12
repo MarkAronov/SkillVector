@@ -62,8 +62,7 @@ export const privacySections: CardGridItem[] = [
 	// Section 4 — How we use information
 	{
 		title: "4. How We Use Your Information",
-		content:
-			"We use the information we collect for the following purposes:",
+		content: "We use the information we collect for the following purposes:",
 		subsections: [
 			{
 				title: "4.1 Core Service Delivery",
@@ -199,7 +198,7 @@ export const privacySections: CardGridItem[] = [
 			{
 				title: "9.1 Rights Under the GDPR (EEA, UK, Switzerland)",
 				content:
-					"Right of access (Art. 15) — obtain a copy of your personal data and information about how it is processed. Right to rectification (Art. 16) — correct inaccurate or incomplete personal data. Right to erasure (Art. 17) — request deletion of your personal data (\"right to be forgotten\"). Right to restriction of processing (Art. 18) — restrict how we process your data in certain circumstances. Right to data portability (Art. 20) — receive your data in a structured, commonly used, machine-readable format. Right to object (Art. 21) — object to processing based on legitimate interests or for direct marketing. Right to withdraw consent — withdraw previously given consent at any time. Right to lodge a complaint with a supervisory authority.",
+					'Right of access (Art. 15) — obtain a copy of your personal data and information about how it is processed. Right to rectification (Art. 16) — correct inaccurate or incomplete personal data. Right to erasure (Art. 17) — request deletion of your personal data ("right to be forgotten"). Right to restriction of processing (Art. 18) — restrict how we process your data in certain circumstances. Right to data portability (Art. 20) — receive your data in a structured, commonly used, machine-readable format. Right to object (Art. 21) — object to processing based on legitimate interests or for direct marketing. Right to withdraw consent — withdraw previously given consent at any time. Right to lodge a complaint with a supervisory authority.',
 			},
 			{
 				title: "9.2 Rights Under the CCPA/CPRA (California Residents)",

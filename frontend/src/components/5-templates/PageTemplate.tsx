@@ -100,24 +100,32 @@ export const PageTemplate = ({
 	return (
 		<Div
 			className={cn(
-				// Layout — h-screen (not min-h-screen) so ScrollArea gets a bounded
-				// height and can overflow, enabling the custom Radix scrollbar
+				// Layout — h-screen so ScrollArea gets a bounded height
+				// and can overflow, enabling the custom Radix scrollbar
 				"h-screen flex flex-col",
 			)}
 		>
-			<Header />
 			<ScrollArea className="flex-1">
-				<main
-					className={cn(
-						contained && paddingClass,
-						contained && maxWidthClass,
-						contained && "mx-auto",
-						className,
-					)}
-				>
-					{content}
-				</main>
-				<Footer />
+				{/* Flex wrapper ensures footer sticks to bottom on short pages */}
+				<Div className="min-h-screen flex flex-col">
+					{/* Header inside ScrollArea so sticky positioning works
+					    within the scroll viewport — backdrop-filter can then
+					    blur content that scrolls behind it (glass effect) */}
+					<Header />
+					<main
+						className={cn(
+							// Flex grow pushes footer to bottom on short pages
+							"flex-1",
+							contained && paddingClass,
+							contained && maxWidthClass,
+							contained && "mx-auto",
+							className,
+						)}
+					>
+						{content}
+					</main>
+					<Footer />
+				</Div>
 			</ScrollArea>
 		</Div>
 	);

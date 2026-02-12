@@ -8,11 +8,7 @@ export const TermsPage = () => {
 	return (
 		<PageTemplate title="Terms of Service">
 			{/* Hero Section */}
-			<Hero
-				title="Terms"
-				brand="of Service"
-				subtitle=""
-			/>
+			<Hero title="Terms" brand="of Service" subtitle="" />
 
 			{/* Terms Sections */}
 			<Section>

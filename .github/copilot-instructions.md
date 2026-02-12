@@ -698,6 +698,7 @@ bun run lint     # Check for linting issues
 19. **Implement exceptions or "special" components** without discussing with user first
 20. **Add width/layout constraints in pages** - templates handle all layout
 21. **Make code changes without inline comments** - every change needs explanation
+22. **Guess at fixes without understanding the root cause** - diagnose first by reading code and tracing the issue, then fix with confidence. Never shotgun random changes hoping one sticks.
 
 ### ✅ ALWAYS DO:
 1. Use arrow functions for all functions/components

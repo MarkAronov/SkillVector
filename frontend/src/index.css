@@ -109,8 +109,8 @@
 	--brand-accent: oklch(0.656 0.241 354); /* Pink */
 
 	/* UI elements */
-	--border: oklch(0.92 0.008 270);
-	--input: oklch(0.92 0.008 270);
+	--border: oklch(0.85 0.008 270);
+	--input: oklch(0.85 0.008 270);
 	--ring: oklch(0.585 0.233 264);
 
 	/* Charts - Indigo palette */

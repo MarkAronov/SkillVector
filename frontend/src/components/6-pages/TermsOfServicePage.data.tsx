@@ -31,7 +31,7 @@ export const termsSections: CardGridItem[] = [
 	{
 		title: "3. License Grant and Open-Source Terms",
 		content:
-			'SkillVector is open-source software distributed under the MIT License. Subject to the terms and conditions of this Agreement and the MIT License, you are hereby granted a non-exclusive, worldwide, royalty-free license to:',
+			"SkillVector is open-source software distributed under the MIT License. Subject to the terms and conditions of this Agreement and the MIT License, you are hereby granted a non-exclusive, worldwide, royalty-free license to:",
 		subsections: [
 			{
 				title: "3.1 Permitted Uses",
@@ -41,7 +41,7 @@ export const termsSections: CardGridItem[] = [
 			{
 				title: "3.2 License Conditions",
 				content:
-					'The above copyright notice and the MIT License permission notice shall be included in all copies or substantial portions of the Software. Attribution to the original SkillVector project is required in derivative works. The license does not grant you rights to use the SkillVector name, logo, or trademarks for promotional purposes without prior written consent.',
+					"The above copyright notice and the MIT License permission notice shall be included in all copies or substantial portions of the Software. Attribution to the original SkillVector project is required in derivative works. The license does not grant you rights to use the SkillVector name, logo, or trademarks for promotional purposes without prior written consent.",
 			},
 			{
 				title: "3.3 Hosted Service Terms",

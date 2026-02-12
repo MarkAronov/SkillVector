@@ -48,15 +48,11 @@ const buttonVariants = cva(
 				outline:
 					"border border-input bg-transparent hover:bg-muted hover:border-accent dark:bg-input/30 dark:border-input dark:hover:border-accent dark:hover:bg-muted",
 
-				// Secondary variant - CTA companion, pairs with default
-				// Light accent tint at rest so it visually belongs with primary
-				// Uses foreground color for high-contrast readable text
-				secondary: "bg-accent/10 text-foreground hover:bg-accent/20",
-
-				// Ghost variant - minimal with pink accent hover
-				ghost: "hover:bg-accent hover:text-accent-foreground",
-
-				// Link variant - text-only with pink accent on hover, no underline
+				// Secondary variant - Mix of primary and outlined styles
+				// Rest state: blue border (primary) with blue text
+				// Hover state: matches outlined hover (muted bg + pink accent border), keeps blue text
+				secondary:
+					"border border-primary bg-transparent text-primary hover:bg-muted hover:border-accent dark:border-primary dark:hover:border-accent dark:hover:bg-muted",
 				link: "text-primary hover:text-accent",
 			},
 			size: {

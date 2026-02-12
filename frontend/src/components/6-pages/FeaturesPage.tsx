@@ -19,11 +19,7 @@ export const FeaturesPage = () => {
 
 			{/* Features Grid */}
 			<Section>
-				<CardGrid
-					items={features}
-					maxColumns={2}
-					centerIncompleteRows
-				/>
+				<CardGrid items={features} maxColumns={2} centerIncompleteRows />
 			</Section>
 
 			<CTACard

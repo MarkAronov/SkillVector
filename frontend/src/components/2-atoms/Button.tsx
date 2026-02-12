@@ -55,7 +55,9 @@ const buttonVariants = cva(
 					"border border-primary bg-transparent text-primary hover:bg-muted hover:border-accent dark:border-primary dark:hover:border-accent dark:hover:bg-muted",
 				// Ghost variant - Subtle button with transparent background
 				// Used for icon buttons, menu items, and low-emphasis actions
-				ghost: "bg-transparent hover:bg-muted hover:text-accent-foreground",
+				// Hover: muted background + pink accent text + pink border
+				ghost:
+					"border border-transparent bg-transparent hover:bg-muted hover:text-accent hover:border-accent",
 				link: "text-primary hover:text-accent",
 			},
 			size: {

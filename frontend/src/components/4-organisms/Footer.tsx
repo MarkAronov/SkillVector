@@ -1,4 +1,4 @@
-import { Link, useLocation } from "@tanstack/react-router";
+import { useLocation } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { SITE_CONFIG } from "@/constants/site";
@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { SPACING, TYPOGRAPHY } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Heading } from "../2-atoms/Heading";
-import { Link as AtomLink } from "../2-atoms/Link";
+import { Link } from "../2-atoms/Link";
 import { List, ListItem } from "../2-atoms/List";
 import { Text } from "../2-atoms/Text";
 import { footerSections, socialLinks } from "./Footer.data.tsx";
@@ -103,7 +103,7 @@ export const Footer = () => {
 									// Spacing - responsive vertical stack
 									"space-y-2 lg:space-y-3",
 									// Sizing - fixed width for perfect centering within grid cell
-									"w-[100px] lg:w-[160px]",
+									"w-[80px] lg:w-[160px]",
 								)}
 							>
 								<Heading
@@ -128,7 +128,7 @@ export const Footer = () => {
 									{section.links.map((link) => (
 										<ListItem key={link.label}>
 											{"href" in link ? (
-												<AtomLink
+												<Link
 													href={(link as { href: string; label: string }).href}
 													external
 													className={cn(
@@ -136,26 +136,19 @@ export const Footer = () => {
 														"inline-flex items-center",
 														// Spacing
 														SPACING.GAP.xs,
-														// Colors
-														"text-foreground/80 hover:text-foreground/95",
-														// States
-														"transition-colors",
 													)}
 												>
 													{link.label}
 													<ExternalLink className="h-3 w-3" />
-												</AtomLink>
+												</Link>
 											) : (
 												<Link
 													to={link.to}
-													className={cn(
-														// Colors
+													variant={
 														(link.to ?? "").split("#")[0] === location.pathname
-															? "text-primary hover:text-primary/80"
-															: "text-foreground/80 hover:text-foreground/95",
-														// States
-														"transition-colors",
-													)}
+															? "primary"
+															: "default"
+													}
 												>
 													{link.label}
 												</Link>
@@ -182,8 +175,6 @@ export const Footer = () => {
 							className={cn(
 								// Typography
 								TYPOGRAPHY.COMBINATIONS.footerCopyright,
-								// Colors
-								"text-foreground/80",
 							)}
 						>
 							© {currentYear} {SITE_CONFIG.name}. All rights reserved.
@@ -204,21 +195,19 @@ export const Footer = () => {
 									<Link
 										key={social.label}
 										to={social.href}
-										className="text-foreground/80 hover:text-foreground/95 transition-colors"
 										aria-label={social.label}
 									>
 										<Icon className="h-4 w-4 lg:h-5 lg:w-5" />
 									</Link>
 								) : (
-									<AtomLink
+									<Link
 										key={social.label}
 										href={social.href}
 										external
-										className="text-foreground/80 hover:text-foreground/95 transition-colors"
 										aria-label={social.label}
 									>
 										<Icon className="h-4 w-4 lg:h-5 lg:w-5" />
-									</AtomLink>
+									</Link>
 								);
 							})}
 						</Div>

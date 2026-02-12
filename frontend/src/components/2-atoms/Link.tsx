@@ -18,7 +18,7 @@ import type { LinkProps, LinkVariant } from "./Link.types";
  * Each variant provides different visual emphasis:
  * - default: Standard link with hover underline (unless underline={false})
  * - primary: Primary color link for emphasis
- * - muted: Subtle link that brightens on hover
+ * - muted: Subtle link that brightens on hover (pink accent)
  * - underline: Always underlined for maximum visibility (unless underline={false})
  */
 const variantClasses: Record<LinkVariant, string> = {
@@ -28,11 +28,11 @@ const variantClasses: Record<LinkVariant, string> = {
 	// Primary link - uses primary color, accent on hover
 	primary: "text-primary hover:text-accent transition-colors",
 
-	// Muted link - subtle, brightens on hover
-	muted: "text-muted-foreground hover:text-primary transition-colors",
+	// Muted link - subtle, brightens to pink accent on hover
+	muted: "text-muted-foreground hover:text-accent transition-colors",
 
-	// Underline link - always visible, subtle hover effect
-	underline: "underline hover:text-muted-foreground/70 transition-colors",
+	// Underline link - always visible, pink accent hover
+	underline: "underline hover:text-accent transition-colors",
 };
 
 const Link = ({

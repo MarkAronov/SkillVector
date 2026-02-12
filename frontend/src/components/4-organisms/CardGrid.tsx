@@ -114,8 +114,8 @@ const gapClasses: Record<GapSize, string> = {
 
 const baseColumnClasses: Record<MaxColumns, string> = {
 	1: GRID.COLUMNS[1],
-	// 2-column layout: always 2 columns with 4 sub-columns for centering
-	2: GRID.COLUMNS[4],
+	// 2-column layout: 1 col phones, 4 sub-columns sm+ for centering
+	2: `${GRID.COLUMNS[1]} sm:${GRID.COLUMNS[4]}`,
 	// 3-column layout: 1 col mobile, 2 cols tablet, 3 cols desktop (direct, no sub-columns)
 	3: `${GRID.COLUMNS[1]} md:${GRID.COLUMNS[2]} lg:${GRID.COLUMNS[3]}`,
 };
@@ -127,11 +127,23 @@ const getCenteringClass = (
 	itemIndex: number,
 	totalItems: number,
 	maxColumns: MaxColumns,
-	breakpoint: "base" | "lg",
+	breakpoint: "base" | "md" | "lg",
 ): string => {
 	if (maxColumns === 1) return "";
 
-	const cols = breakpoint === "base" && maxColumns >= 2 ? 2 : maxColumns;
+	// Determine actual column count at this breakpoint
+	// For maxColumns=2: base=1, md=2 (sub-columns: 4), lg=2 (sub-columns: 4)
+	// For maxColumns=3: base=1, md=2, lg=3 (direct columns, no sub-columns)
+	let cols: number;
+	if (breakpoint === "base") {
+		cols = 1; // Mobile is always 1 column
+	} else if (breakpoint === "md") {
+		cols = 2; // Tablet is 2 columns for both maxColumns=2 and maxColumns=3
+	} else {
+		// lg breakpoint
+		cols = maxColumns; // Desktop shows maxColumns
+	}
+
 	const remainder = totalItems % cols;
 
 	// If evenly divisible, no centering needed
@@ -144,25 +156,45 @@ const getCenteringClass = (
 	// Position within the last row (0-indexed)
 	const posInLastRow = itemIndex - (totalItems - remainder);
 
-	// Calculate centered starting column for incomplete rows
-	// For 2 cols: 1 item → start at col 2 (centered)
-	// For 3 cols: 1 item → start at col 3, 2 items → start at col 2
-	const subCols = cols * 2; // Total sub-columns
-	const offset = Math.floor((subCols - remainder * 2) / 2) + 1;
-	const colStart = offset + posInLastRow * 2;
+	let colStart: number;
 
-	// Use predefined classes so Tailwind includes them
-	if (breakpoint === "base") {
-		if (colStart === 2) return "col-start-2";
-		if (colStart === 3) return "col-start-3";
-		if (colStart === 4) return "col-start-4";
-	} else {
-		if (colStart === 2) return "lg:col-start-2";
-		if (colStart === 3) return "lg:col-start-3";
-		if (colStart === 4) return "lg:col-start-4";
-		if (colStart === 5) return "lg:col-start-5";
-		if (colStart === 6) return "lg:col-start-6";
+	// For maxColumns=2, use sub-column logic (4 sub-columns, span 2 each)
+	if (maxColumns === 2 && breakpoint !== "base") {
+		// 4 sub-columns total, each card spans 2
+		const subCols = 4;
+		const offset = Math.floor((subCols - remainder * 2) / 2) + 1;
+		colStart = offset + posInLastRow * 2;
 	}
+	// For maxColumns=3, use direct column positioning (no sub-columns)
+	else if (maxColumns === 3 && breakpoint === "lg") {
+		// 3 direct columns
+		// 1 item: center at col 2
+		// 2 items: start at col 1 (left-aligned looks better than trying to center)
+		if (remainder === 1) {
+			colStart = 2; // Middle column
+		} else {
+			return ""; // 2 items: left-align
+		}
+	}
+	// For tablet (md) with maxColumns=3: use 2-column centering
+	else if (maxColumns === 3 && breakpoint === "md") {
+		// 2 columns on tablet
+		if (remainder === 1) {
+			colStart = 2; // Center single item
+		} else {
+			return ""; // 2 items fills the row
+		}
+	} else {
+		return "";
+	}
+
+	// Apply appropriate prefix based on breakpoint
+	const prefix = breakpoint === "md" ? "md:" : breakpoint === "lg" ? "lg:" : "";
+
+	// Return the appropriate class
+	if (colStart === 2) return `${prefix}col-start-2`;
+	if (colStart === 3) return `${prefix}col-start-3`;
+	if (colStart === 4) return `${prefix}col-start-4`;
 
 	return "";
 };
@@ -481,20 +513,27 @@ const CardGrid = ({
 				const key = item.id || item.title || index;
 
 				// Calculate centering for incomplete rows (only if enabled)
-				const baseCentering =
-					centerIncompleteRows && maxColumns >= 2
-						? getCenteringClass(index, totalItems, maxColumns, "base")
-						: "";
-				const lgCentering =
+				// For maxColumns=2: apply from sm+ (4 sub-cols with 2-col spans)
+				// For maxColumns=3: apply from md+ (2 cols tablet) and lg+ (3 cols desktop)
+				const mdCentering =
 					centerIncompleteRows && maxColumns === 3
-						? getCenteringClass(index, totalItems, maxColumns, "lg")
+						? getCenteringClass(index, totalItems, maxColumns, "md")
 						: "";
+				const smCentering =
+					centerIncompleteRows && maxColumns === 2
+						? getCenteringClass(index, totalItems, 2, "md")
+						: "";
+				const lgCentering = centerIncompleteRows
+					? getCenteringClass(index, totalItems, maxColumns, "lg")
+					: "";
 
-				// Each card spans 2 sub-columns for maxColumns=2
+				// Each card spans 2 sub-columns for maxColumns=2 (sm+ only)
+				// On phones (<640px), grid is 1 col so no spanning needed
 				// For maxColumns=3, no spanning needed (direct grid columns)
 				const spanClass = cn(
-					maxColumns === 2 && "col-span-2",
-					baseCentering,
+					maxColumns === 2 && `sm:col-span-2`,
+					mdCentering,
+					smCentering && `sm:${smCentering}`,
 					lgCentering,
 				);
 

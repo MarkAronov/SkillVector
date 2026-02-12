@@ -1,9 +1,9 @@
+import type { ComponentProps } from "react";
 import type {
 	Table as ShadcnTable,
 	TableCell as ShadcnTableCell,
 	TableRow as ShadcnTableRow,
 } from "@/components/ui/table";
-import type { ComponentProps } from "react";
 
 /**
  * Table Component Props

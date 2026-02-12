@@ -1,3 +1,4 @@
+import { createContext, useContext } from "react";
 import {
 	Table as ShadcnTable,
 	TableBody as ShadcnTableBody,
@@ -9,7 +10,6 @@ import {
 	TableRow as ShadcnTableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { createContext, useContext } from "react";
 import { BORDERS, SPACING, TYPOGRAPHY } from "../1-ions";
 import type { TableCellProps, TableProps, TableRowProps } from "./Table.types";
 

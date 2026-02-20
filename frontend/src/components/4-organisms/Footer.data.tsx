@@ -1,5 +1,5 @@
-import { SOCIAL_LINKS } from "@/constants/site";
 import { Github, Linkedin, Mail } from "lucide-react";
+import { SOCIAL_LINKS } from "@/constants/site";
 
 export const footerSections = [
 	{

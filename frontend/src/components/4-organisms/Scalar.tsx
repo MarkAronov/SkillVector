@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
 import type { AnyApiReferenceConfiguration } from "@scalar/api-reference-react";
 import { ApiReferenceReact } from "@scalar/api-reference-react";
+import { cn } from "@/lib/utils";
 import "@scalar/api-reference-react/style.css";
 import { useEffect, useMemo } from "react";
 import { useTheme } from "../../hooks/useTheme";

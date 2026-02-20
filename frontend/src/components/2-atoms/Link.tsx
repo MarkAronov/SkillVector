@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import { Link as RouterLink } from "@tanstack/react-router";
+import { cn } from "@/lib/utils";
 import type { LinkProps, LinkVariant } from "./Link.types";
 
 /**

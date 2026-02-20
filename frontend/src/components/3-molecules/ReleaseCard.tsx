@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import {
 	Calendar,
 	ChevronDown,
@@ -10,6 +9,7 @@ import {
 } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { BORDERS, SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Badge } from "../2-atoms/Badge";
 import { Button } from "../2-atoms/Button";
@@ -278,8 +278,8 @@ export const ReleaseCard: React.FC<ReleaseCardProps> = ({
 							</>
 						) : (
 							<>
-								<ChevronDown className={cn(SIZING.ICON.xs, "mr-1")} />
-								+{changes.length - MAX_COMPACT_COLLAPSED} more
+								<ChevronDown className={cn(SIZING.ICON.xs, "mr-1")} />+
+								{changes.length - MAX_COMPACT_COLLAPSED} more
 							</>
 						)}
 					</Button>

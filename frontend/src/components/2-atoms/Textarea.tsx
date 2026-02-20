@@ -1,6 +1,6 @@
+import * as React from "react";
 import { Textarea as ShadcnTextarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import * as React from "react";
 
 /**
  * Textarea Component

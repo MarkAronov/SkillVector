@@ -1,23 +1,23 @@
-import { EXTERNAL_LINKS } from "@/constants/site";
-import { cn } from "@/lib/utils";
 import {
-  Bug,
-  ChevronLeft,
-  ChevronRight,
-  Code2,
-  ExternalLink,
-  Eye,
-  GitBranch,
-  GitCommit,
-  GitFork,
-  Package,
-  Shield,
-  Star,
-  Tag,
-  TrendingUp,
-  Users,
+	Bug,
+	ChevronLeft,
+	ChevronRight,
+	Code2,
+	ExternalLink,
+	Eye,
+	GitBranch,
+	GitCommit,
+	GitFork,
+	Package,
+	Shield,
+	Star,
+	Tag,
+	TrendingUp,
+	Users,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { EXTERNAL_LINKS } from "@/constants/site";
+import { cn } from "@/lib/utils";
 import { BORDERS, CHART_COLORS, SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Badge } from "../2-atoms/Badge";
 import { Button } from "../2-atoms/Button";
@@ -31,8 +31,8 @@ import { FilterPanel } from "../3-molecules/FilterPanel";
 import { ReleaseCard } from "../3-molecules/ReleaseCard";
 import { StatCard } from "../3-molecules/StatCard";
 import type {
-  ProductUpdatesCommit,
-  ProductUpdatesOverviewProps,
+	ProductUpdatesCommit,
+	ProductUpdatesOverviewProps,
 } from "./ProductUpdatesOverview.types";
 
 const GITHUB_API = "https://api.github.com/repos/MarkAronov/SkillVector";

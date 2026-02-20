@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { BORDERS, SIZING, SPACING } from "../1-ions";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
@@ -66,7 +66,10 @@ export const PaginationButtons = ({
 					"border-x border-border/70",
 				)}
 			>
-				<Text variant="small" className="whitespace-nowrap text-muted-foreground">
+				<Text
+					variant="small"
+					className="whitespace-nowrap text-muted-foreground"
+				>
 					{currentPage}/{totalPages}
 				</Text>
 			</Div>

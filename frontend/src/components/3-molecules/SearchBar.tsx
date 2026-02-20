@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { type KeyboardEvent, useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 import {
 	ANIMATION,
 	BORDERS,

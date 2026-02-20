@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import type React from "react";
+import { cn } from "@/lib/utils";
 
 /**
  * ScrollArea Component — Custom Radix ScrollArea wrapper

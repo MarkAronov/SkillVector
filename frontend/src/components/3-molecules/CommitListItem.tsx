@@ -1,6 +1,6 @@
+import { GitCommit } from "lucide-react";
 import { formatCompactDate, formatShortSha } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import { GitCommit } from "lucide-react";
 import { BORDERS, SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Div } from "../2-atoms/Div";
 import { Link } from "../2-atoms/Link";

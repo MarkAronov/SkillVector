@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import { GitBranch, Shield } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { BORDERS, SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Badge } from "../2-atoms/Badge";
 import { Button } from "../2-atoms/Button";

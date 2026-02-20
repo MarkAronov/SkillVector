@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { BORDERS, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";

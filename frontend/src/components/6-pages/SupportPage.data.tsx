@@ -1,5 +1,5 @@
-import { EXTERNAL_LINKS } from "@/constants/site";
 import { Book, Github, Mail, MessageCircle } from "lucide-react";
+import { EXTERNAL_LINKS } from "@/constants/site";
 import type { CardGridItem } from "../4-organisms/CardGrid.types";
 import type { SupportOption } from "./SupportPage.types";
 

@@ -1,7 +1,7 @@
+import { cn } from "@/lib/utils";
 import { Link as RouterLink, useLocation } from "@tanstack/react-router";
 import { Menu, Search, X } from "lucide-react";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 import { useTheme } from "../../hooks/useTheme";
 import { SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Glass } from "../1-ions/Glass";
@@ -26,12 +26,15 @@ export const Header = () => {
 	) => {
 		const isActive =
 			!item.external && (item.to ?? "").split("#")[0] === location.pathname;
+
+		// Match footer link behavior by using accent hover transitions
+		// and only keeping layout/typography differences per breakpoint.
 		const className = isMobile
 			? cn(
 					// Colors
 					isActive ? "text-primary" : "text-muted-foreground",
 					// States
-					"hover:text-primary transition-colors",
+					"hover:text-accent active:text-accent transition-colors",
 					// Typography
 					TYPOGRAPHY.FONT_WEIGHT.medium,
 				)
@@ -39,7 +42,7 @@ export const Header = () => {
 					// Colors
 					isActive ? "text-primary" : "text-foreground/90",
 					// States
-					"hover:text-primary transition-colors",
+					"hover:text-accent active:text-accent transition-colors",
 					// Typography
 					TYPOGRAPHY.FONT_WEIGHT.medium,
 					TYPOGRAPHY.FONT_SIZE.sm_base,
@@ -47,7 +50,7 @@ export const Header = () => {
 
 		const onClick = isMobile ? () => setMobileMenuOpen(false) : undefined;
 
-		// External link - use Link atom with external prop
+		// External link - use Link atom with shared hover behavior.
 		if (item.external) {
 			return (
 				<Link
@@ -63,21 +66,23 @@ export const Header = () => {
 			);
 		}
 
-		// Internal link - use TanStack Router Link
+		// Internal link - use Link atom so header and footer share the same hover model.
 		return (
-			<RouterLink
+			<Link
 				key={item.label}
 				to={item.to}
+				variant={isActive ? "primary" : "default"}
+				underline={false}
 				className={className}
 				onClick={onClick}
 			>
 				{item.label}
-			</RouterLink>
+			</Link>
 		);
 	};
 
 	return (
-		<Div className="w-full sticky top-0 z-50 pointer-events-none pt-3">
+		<Div className="w-full sticky top-0 z-[999999999999] pointer-events-none pt-3">
 			<Div
 				className={cn(
 					// Layout
@@ -149,14 +154,22 @@ export const Header = () => {
 								{/* Theme Toggle */}
 								<Div className="hidden md:flex items-center">
 									<Button
-										variant="ghost"
-										size="icon"
+										// Use link-like button styling so the icon behaves like footer social icons.
+										variant="link"
+										size={null}
 										type="button"
 										onClick={toggleTheme}
+										className={cn(
+											// Reset button box so it visually matches footer icon links.
+											"h-auto p-0",
+											// Match header navigation resting color while keeping link-style hover.
+											"text-foreground/90",
+										)}
 										aria-label={`Current theme: ${theme}. Click to toggle.`}
 										title={`Theme: ${theme}`}
 									>
-										<ThemeIcon className={SIZING.ICON.md} />
+										{/* Match footer social icon sizes: 16px mobile-like baseline, 20px at desktop. */}
+										<ThemeIcon className="h-4 w-4 lg:h-5 lg:w-5" />
 									</Button>
 								</Div>
 
@@ -169,6 +182,7 @@ export const Header = () => {
 										SPACING.GAP.sm,
 									)}
 								>
+									{/* Mobile search icon - match footer-style icon hover behavior. */}
 									<RouterLink
 										to="/"
 										className={cn(
@@ -177,14 +191,18 @@ export const Header = () => {
 											// Colors
 											"text-muted-foreground",
 											// States
-											"hover:text-primary transition-colors",
+											"hover:text-accent active:text-accent transition-colors",
 										)}
 										aria-label="Search"
 									>
-										<Search className={SIZING.ICON.lg} />
+										{/* Match footer icon scale on mobile (16px). */}
+										<Search className={SIZING.ICON.sm} />
 									</RouterLink>
+
+									{/* Mobile menu icon button - remove ghost background and use footer-like text hover states. */}
 									<Button
-										variant="ghost"
+										variant="link"
+										size={null}
 										type="button"
 										onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
 										className={cn(
@@ -196,9 +214,9 @@ export const Header = () => {
 										aria-label="Toggle menu"
 									>
 										{mobileMenuOpen ? (
-											<X className={SIZING.ICON.lg} />
+											<X className={SIZING.ICON.sm} />
 										) : (
-											<Menu className={SIZING.ICON.lg} />
+											<Menu className={SIZING.ICON.sm} />
 										)}
 									</Button>
 								</Div>
@@ -235,13 +253,13 @@ export const Header = () => {
 												// Colors
 												"text-muted-foreground",
 												// States
-												"hover:text-primary transition-colors",
+												"hover:text-accent active:text-accent transition-colors",
 												// Typography
 												TYPOGRAPHY.COMBINATIONS.navLink,
 											)}
 										>
-											{/* Mobile theme icon - 20px size */}
-											<ThemeIcon className={SIZING.ICON.md} />
+											{/* Mobile theme icon - align with footer icon baseline size (16px). */}
+											<ThemeIcon className={SIZING.ICON.sm} />
 											<Span>{themeLabel}</Span>
 										</Button>
 									</Div>

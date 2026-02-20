@@ -1,5 +1,5 @@
-import { Link as RouterLink } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+import { Link as RouterLink } from "@tanstack/react-router";
 import type { LinkProps, LinkVariant } from "./Link.types";
 
 /**
@@ -22,17 +22,19 @@ import type { LinkProps, LinkVariant } from "./Link.types";
  * - underline: Always underlined for maximum visibility (unless underline={false})
  */
 const variantClasses: Record<LinkVariant, string> = {
-	// Default link - no underline, color change on hover
-	default: "hover:text-accent transition-colors",
+	// Default link - no underline, color change on hover/active (mobile tap)
+	default: "hover:text-accent active:text-accent transition-colors",
 
-	// Primary link - uses primary color, accent on hover
-	primary: "text-primary hover:text-accent transition-colors",
+	// Primary link - uses primary color, accent on hover/active
+	primary:
+		"text-primary hover:text-accent active:text-accent transition-colors",
 
-	// Muted link - subtle, brightens to pink accent on hover
-	muted: "text-muted-foreground hover:text-accent transition-colors",
+	// Muted link - subtle, brightens to pink accent on hover/active
+	muted:
+		"text-muted-foreground hover:text-accent active:text-accent transition-colors",
 
-	// Underline link - always visible, pink accent hover
-	underline: "underline hover:text-accent transition-colors",
+	// Underline link - always visible, pink accent on hover/active
+	underline: "underline hover:text-accent active:text-accent transition-colors",
 };
 
 const Link = ({

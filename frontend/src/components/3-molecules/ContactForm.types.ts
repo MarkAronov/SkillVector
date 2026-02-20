@@ -5,3 +5,9 @@ export interface ContactFormData {
 	email: string;
 	message: string;
 }
+
+export interface ValidationErrors {
+	name?: string;
+	email?: string;
+	message?: string;
+}

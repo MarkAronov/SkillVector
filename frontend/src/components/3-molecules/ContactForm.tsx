@@ -1,6 +1,6 @@
-import { type ChangeEvent, type FormEvent, useId, useState } from "react";
 import { SITE_CONFIG } from "@/constants/site";
 import { cn } from "@/lib/utils";
+import { type ChangeEvent, type FormEvent, useId, useState } from "react";
 import { BORDERS, SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
@@ -9,12 +9,16 @@ import { Label } from "../2-atoms/Label";
 import { Span } from "../2-atoms/Span";
 import { Text } from "../2-atoms/Text";
 import { Textarea } from "../2-atoms/Textarea";
-import type { ContactFormData, FormStatus } from "./ContactForm.types";
+import type {
+	ContactFormData,
+	FormStatus,
+	ValidationErrors,
+} from "./ContactForm.types";
 
 /**
  * ContactForm Component
  *
- * Full-featured contact form with validation, submission, and status feedback.
+ * Full-featured contact form with inline validation, submission, and status feedback.
  * Handles form state management and API communication.
  *
  * Form Fields:
@@ -35,9 +39,12 @@ import type { ContactFormData, FormStatus } from "./ContactForm.types";
  * - Input height: 44px (h-11) for comfortable interaction
  *
  * Validation:
- * - HTML5 required attributes
- * - Email type validation
- * - Client-side trim check before submission
+ * - Custom inline validation (no browser popups)
+ * - Real-time error clearing when user types
+ * - Red border highlight on invalid fields using destructive color
+ * - Inline error messages below each field in red text
+ * - Email format validation with regex
+ * - Trim check for all required fields
  *
  * API Integration:
  * - POST to /contact endpoint
@@ -72,23 +79,73 @@ export const ContactForm = () => {
 	// Error message state
 	const [errorMessage, setErrorMessage] = useState("");
 
+	// Validation errors state - inline field-level errors
+	const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
+		{},
+	);
+
+	/**
+	 * Validate form fields
+	 * Returns true if valid, false if errors found
+	 * Updates validationErrors state with specific field errors
+	 */
+	const validateForm = (): boolean => {
+		const errors: ValidationErrors = {};
+
+		// Validate name - required, trimmed
+		if (!formData.name.trim()) {
+			errors.name = "Name is required";
+		}
+
+		// Validate email - required, basic email format
+		if (!formData.email.trim()) {
+			errors.email = "Email is required";
+		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+			errors.email = "Please enter a valid email address";
+		}
+
+		// Validate message - required, trimmed
+		if (!formData.message.trim()) {
+			errors.message = "Message is required";
+		}
+
+		setValidationErrors(errors);
+		return Object.keys(errors).length === 0;
+	};
+
 	/**
 	 * Handle input/textarea changes
 	 * Updates formData state with new values
+	 * Clears validation error for the field being edited
 	 */
 	const handleInputChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({ ...prev, [name]: value }));
+
+		// Clear validation error for this field when user starts typing
+		if (validationErrors[name as keyof ValidationErrors]) {
+			setValidationErrors((prev) => {
+				const updated = { ...prev };
+				delete updated[name as keyof ValidationErrors];
+				return updated;
+			});
+		}
 	};
 
 	/**
 	 * Handle form submission
-	 * Sends form data to contact API endpoint
+	 * Validates form, then sends data to contact API endpoint
 	 */
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
+
+		// Validate form before submission
+		if (!validateForm()) {
+			return; // Stop if validation fails
+		}
+
 		setStatus("sending");
 		setErrorMessage("");
 
@@ -106,6 +163,7 @@ export const ContactForm = () => {
 				// Success: Clear form and show success message
 				setStatus("success");
 				setFormData({ name: "", email: "", message: "" });
+				setValidationErrors({});
 			} else {
 				// Error: Parse error message and display
 				const error = await response.json();
@@ -120,8 +178,8 @@ export const ContactForm = () => {
 	};
 
 	return (
-		// Form semantic HTML - acceptable for form submission
-		<form onSubmit={handleSubmit} className="space-y-6">
+		// Form semantic HTML - noValidate to use custom validation instead of browser popups
+		<form onSubmit={handleSubmit} noValidate className="space-y-6">
 			<Div
 				className={cn(
 					// Layout
@@ -141,10 +199,27 @@ export const ContactForm = () => {
 						name="name"
 						value={formData.name}
 						onChange={handleInputChange}
-						required
 						placeholder="John Doe"
-						className={SIZING.INPUT.lg}
+						className={cn(
+							SIZING.INPUT.lg,
+							// Red border if validation error
+							validationErrors.name &&
+								"border-destructive focus:ring-destructive",
+						)}
 					/>
+					{/* Inline validation error message */}
+					{validationErrors.name && (
+						<Text
+							variant="small"
+							className={cn(
+								// Destructive color from ions
+								"text-destructive",
+								TYPOGRAPHY.FONT_WEIGHT.medium,
+							)}
+						>
+							{validationErrors.name}
+						</Text>
+					)}
 				</Div>
 				<Div className="space-y-2">
 					<Label htmlFor={emailId} className={TYPOGRAPHY.FONT_WEIGHT.medium}>
@@ -157,10 +232,27 @@ export const ContactForm = () => {
 						name="email"
 						value={formData.email}
 						onChange={handleInputChange}
-						required
 						placeholder="john@example.com"
-						className={SIZING.INPUT.lg}
+						className={cn(
+							SIZING.INPUT.lg,
+							// Red border if validation error
+							validationErrors.email &&
+								"border-destructive focus:ring-destructive",
+						)}
 					/>
+					{/* Inline validation error message */}
+					{validationErrors.email && (
+						<Text
+							variant="small"
+							className={cn(
+								// Destructive color from ions
+								"text-destructive",
+								TYPOGRAPHY.FONT_WEIGHT.medium,
+							)}
+						>
+							{validationErrors.email}
+						</Text>
+					)}
 				</Div>
 			</Div>
 			<Div className="space-y-2">
@@ -172,11 +264,28 @@ export const ContactForm = () => {
 					name="message"
 					value={formData.message}
 					onChange={handleInputChange}
-					required
 					rows={6}
 					placeholder="Tell us how we can help you..."
-					className="resize-none"
+					className={cn(
+						"resize-none",
+						// Red border if validation error
+						validationErrors.message &&
+							"border-destructive focus:ring-destructive",
+					)}
 				/>
+				{/* Inline validation error message */}
+				{validationErrors.message && (
+					<Text
+						variant="small"
+						className={cn(
+							// Destructive color from ions
+							"text-destructive",
+							TYPOGRAPHY.FONT_WEIGHT.medium,
+						)}
+					>
+						{validationErrors.message}
+					</Text>
+				)}
 			</Div>
 			{status === "error" && (
 				<Div

@@ -1,7 +1,7 @@
-import { useNavigate } from "@tanstack/react-router";
-import { FileText, Github, SquareArrowOutUpRight } from "lucide-react";
 import { EXTERNAL_LINKS, SOCIAL_LINKS } from "@/constants/site";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "@tanstack/react-router";
+import { FileText, Github, SquareArrowOutUpRight } from "lucide-react";
 import { SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
@@ -9,7 +9,6 @@ import { Heading } from "../2-atoms/Heading";
 import { Link } from "../2-atoms/Link";
 import { Section } from "../2-atoms/Section";
 import { Text } from "../2-atoms/Text";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../2-atoms/Tooltip";
 import { Card, CardContent } from "../3-molecules/Card";
 import { Hero } from "../3-molecules/Hero";
 import { StatusBadge } from "../3-molecules/StatusBadge";
@@ -107,62 +106,47 @@ const IntegrationCard = ({ integration }: { integration: Integration }) => {
 						>
 							{/* Internal link — opens in-app route */}
 							{actions.internal && (
-								<Tooltip delayDuration={200}>
-									<TooltipTrigger asChild>
-										<Button
-											asChild
-											size="icon-sm"
-											variant="ghost"
-											aria-label={`Open ${integration.title}`}
-										>
-											<Link to={actions.internal}>
-												{/* Open icon — 16px */}
-												<SquareArrowOutUpRight className={SIZING.ICON.sm} />
-											</Link>
-										</Button>
-									</TooltipTrigger>
-									<TooltipContent>Open</TooltipContent>
-								</Tooltip>
+								<Button
+									asChild
+									size="icon-sm"
+									variant="ghost"
+									aria-label={`Open ${integration.title}`}
+								>
+									<Link to={actions.internal}>
+										{/* Open icon — 16px */}
+										<SquareArrowOutUpRight className={SIZING.ICON.sm} />
+									</Link>
+								</Button>
 							)}
 
 							{/* Documentation link — opens external docs */}
 							{actions.docs && (
-								<Tooltip delayDuration={200}>
-									<TooltipTrigger asChild>
-										<Button
-											asChild
-											size="icon-sm"
-											variant="ghost"
-											aria-label={`${integration.title} Documentation`}
-										>
-											<Link href={actions.docs} external>
-												{/* Docs icon — 16px */}
-												<FileText className={SIZING.ICON.sm} />
-											</Link>
-										</Button>
-									</TooltipTrigger>
-									<TooltipContent>Documentation</TooltipContent>
-								</Tooltip>
+								<Button
+									asChild
+									size="icon-sm"
+									variant="ghost"
+									aria-label={`${integration.title} Documentation`}
+								>
+									<Link href={actions.docs} external>
+										{/* Docs icon — 16px */}
+										<FileText className={SIZING.ICON.sm} />
+									</Link>
+								</Button>
 							)}
 
 							{/* GitHub link — opens repository */}
 							{actions.github && (
-								<Tooltip delayDuration={200}>
-									<TooltipTrigger asChild>
-										<Button
-											asChild
-											size="icon-sm"
-											variant="ghost"
-											aria-label={`${integration.title} GitHub`}
-										>
-											<Link href={actions.github} external>
-												{/* GitHub icon — 16px */}
-												<Github className={SIZING.ICON.sm} />
-											</Link>
-										</Button>
-									</TooltipTrigger>
-									<TooltipContent>GitHub</TooltipContent>
-								</Tooltip>
+								<Button
+									asChild
+									size="icon-sm"
+									variant="ghost"
+									aria-label={`${integration.title} GitHub`}
+								>
+									<Link href={actions.github} external>
+										{/* GitHub icon — 16px */}
+										<Github className={SIZING.ICON.sm} />
+									</Link>
+								</Button>
 							)}
 						</Div>
 					)}
@@ -189,7 +173,7 @@ export const IntegrationsPage = () => {
 	return (
 		<PageTemplate title="Integrations">
 			{/* Hero Section */}
-			<Hero title="Integrations" brand="Hub" subtitle="" />
+			<Hero title="" brand="Integrations" subtitle="" />
 
 			{/* Integration Categories — each category is a section with card grid */}
 			{categories.map((category) => (

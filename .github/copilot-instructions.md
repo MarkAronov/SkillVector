@@ -610,6 +610,59 @@ Example:
 
 ## File Organization
 
+### Data Separation - Presentation vs Content
+**CRITICAL: Separate data/content from presentation logic**
+
+**All text content, configuration, and data MUST live in separate files:**
+- Page content → `.data.tsx` files
+- Environment variables → `.env` files
+- Configuration → `config/` directory or dedicated config files
+- Constants → `constants/` directory
+
+**❌ NEVER hardcode in component files:**
+- Text paragraphs, descriptions, marketing copy
+- Lists of features, FAQs, steps
+- Button labels, section headings (unless truly one-off)
+- URLs, external links, social links
+- Email addresses, phone numbers
+- API endpoints, environment-specific values
+- Any content that might change or be reused
+
+**✅ ALWAYS extract to data files:**
+```typescript
+// ✅ CORRECT - Data in .data.tsx file
+export const missionContent = {
+  title: "Our Mission",
+  paragraphs: [
+    "SkillVector was built to solve...",
+    "By leveraging advanced AI...",
+  ],
+};
+
+// Page file uses the data
+import { missionContent } from "./AboutUsPage.data.tsx";
+<Heading>{missionContent.title}</Heading>
+{missionContent.paragraphs.map(p => <Text>{p}</Text>)}
+
+// ❌ WRONG - Hardcoded text in component
+<Heading>Our Mission</Heading>
+<Text>SkillVector was built to solve...</Text>
+```
+
+**Why This Matters:**
+- **Maintainability** - Update content without touching component logic
+- **Reusability** - Same data can be used in multiple places
+- **Testability** - Mock data easily for testing
+- **Localization** - Easier to translate when content is centralized
+- **Separation of Concerns** - Designers/writers can update content without touching code
+- **Version Control** - Content changes don't clutter component diffs
+
+**Exceptions (OK to hardcode):**
+- Truly one-off UI labels that won't change ("Skip to content", "Menu")
+- Semantic HTML attributes (`aria-label` on icons)
+- Developer-facing debug messages
+- Component prop defaults that are part of the component API
+
 ### Imports Order
 1. External libraries (React, etc.)
 2. Internal hooks
@@ -699,6 +752,7 @@ bun run lint     # Check for linting issues
 20. **Add width/layout constraints in pages** - templates handle all layout
 21. **Make code changes without inline comments** - every change needs explanation
 22. **Guess at fixes without understanding the root cause** - diagnose first by reading code and tracing the issue, then fix with confidence. Never shotgun random changes hoping one sticks.
+23. **Hardcode text content, URLs, or configuration in components** - extract to `.data.tsx`, `.env`, or config files
 
 ### ✅ ALWAYS DO:
 1. Use arrow functions for all functions/components
@@ -722,6 +776,7 @@ bun run lint     # Check for linting issues
 19. **Discuss with user** if a component seems to need special treatment or exceptions
 20. **Keep pages simple** - use `<PageTemplate title="Page Name">` with only title prop unless instructed otherwise
 21. **Add comments when refactoring** - explain the purpose of each logical group
+22. **Separate content from presentation** - extract text/data to `.data.tsx` files, config to `.env` or config files
 7. Maintain generous vertical spacing
 8. Explain WHY, not just WHAT
 9. Break down complex expressions into readable steps
@@ -760,6 +815,7 @@ Before considering any component complete:
 - [ ] **Respects atomic hierarchy** - only uses components from previous levels
 - [ ] **No reinvented components** - checked for existing lower-level components first
 - [ ] **Pages are lightweight** - templates handle layout, pages contain only content
+- [ ] **Content separated from presentation** - text/data in `.data.tsx`, config in `.env` files
 
 ## Philosophy
 

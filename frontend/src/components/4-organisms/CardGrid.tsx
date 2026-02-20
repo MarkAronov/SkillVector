@@ -12,8 +12,10 @@ import type {
 	CardGridItem as CardGridItemData,
 	CardGridItemProps,
 	CardGridProps,
+	ColumnCount,
 	GapSize,
 	MaxColumns,
+	ResponsiveColumns,
 } from "./CardGrid.types";
 
 /**
@@ -30,7 +32,7 @@ import type {
  *
  * SMART HEIGHT BEHAVIOR:
  * - 1-column layouts (maxColumns={1}): Cards fit content by default (stretchCards=false)
- * - Multi-column layouts (maxColumns={2|3}): Cards have equal heights by default (stretchCards=true)
+ * - Multi-column layouts (maxColumns={2-8}): Cards have equal heights by default (stretchCards=true)
  * - Override: Set stretchCards explicitly to override automatic behavior
  *
  * CUSTOM CONTENT STANDARDS (CRITICAL - MUST FOLLOW):
@@ -83,7 +85,12 @@ import type {
  * Automatically adapts to viewport width:
  * - Mobile (< 768px): 1 column
  * - Tablet (768px - 1023px): 2 columns
- * - Desktop (>= 1024px): 3 columns (or maxColumns)
+ * - Desktop (>= 1024px): maxColumns (1-8)
+ *
+ * Or use the `columns` prop for full per-breakpoint control:
+ * ```tsx
+ * <CardGrid columns={{ base: 2, md: 3, lg: 6 }} />
+ * ```
  *
  * Features:
  * - Data-driven card generation
@@ -118,6 +125,73 @@ const baseColumnClasses: Record<MaxColumns, string> = {
 	2: `${GRID.COLUMNS[1]} sm:${GRID.COLUMNS[4]}`,
 	// 3-column layout: 1 col mobile, 2 cols tablet, 3 cols desktop (direct, no sub-columns)
 	3: `${GRID.COLUMNS[1]} md:${GRID.COLUMNS[2]} lg:${GRID.COLUMNS[3]}`,
+	// 4-column layout: 1 col mobile, 2 cols tablet, 4 cols desktop
+	4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4",
+	// 5-column layout: 1 col mobile, 2 cols tablet, 5 cols desktop
+	5: "grid-cols-1 md:grid-cols-2 lg:grid-cols-5",
+	// 6-column layout: 1 col mobile, 2 cols tablet, 6 cols desktop
+	6: "grid-cols-1 md:grid-cols-2 lg:grid-cols-6",
+	// 7-column layout: 1 col mobile, 2 cols tablet, 4 cols desktop, 7 cols xl
+	7: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7",
+	// 8-column layout: 1 col mobile, 2 cols tablet, 4 cols desktop, 8 cols xl
+	8: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8",
+};
+
+/**
+ * Column class lookup for each breakpoint prefix
+ * Maps a column count to its Tailwind class at a given breakpoint
+ */
+const columnClassMap: Record<ColumnCount, string> = {
+	1: "grid-cols-1",
+	2: "grid-cols-2",
+	3: "grid-cols-3",
+	4: "grid-cols-4",
+	5: "grid-cols-5",
+	6: "grid-cols-6",
+	7: "grid-cols-7",
+	8: "grid-cols-8",
+};
+
+/**
+ * Breakpoint prefixes for Tailwind responsive classes
+ * "base" has no prefix (mobile-first default)
+ */
+const breakpointPrefixes: Record<keyof ResponsiveColumns, string> = {
+	base: "",
+	sm: "sm:",
+	md: "md:",
+	lg: "lg:",
+	xl: "xl:",
+	"2xl": "2xl:",
+};
+
+/**
+ * Build responsive grid column classes from a ResponsiveColumns config.
+ * Only generates classes for breakpoints that are explicitly specified.
+ *
+ * @example
+ * buildResponsiveColumnClasses({ base: 2, md: 3, lg: 6 })
+ * // → "grid-cols-2 md:grid-cols-3 lg:grid-cols-6"
+ */
+const buildResponsiveColumnClasses = (columns: ResponsiveColumns): string => {
+	// Ordered breakpoints from smallest to largest
+	const breakpoints: (keyof ResponsiveColumns)[] = [
+		"base",
+		"sm",
+		"md",
+		"lg",
+		"xl",
+		"2xl",
+	];
+
+	return breakpoints
+		.filter((bp) => columns[bp] !== undefined)
+		.map((bp) => {
+			const count = columns[bp] as ColumnCount;
+			const prefix = breakpointPrefixes[bp];
+			return `${prefix}${columnClassMap[count]}`;
+		})
+		.join(" ");
 };
 
 /**
@@ -227,7 +301,8 @@ const defaultCardRenderer = (
 		<Card aria-label={item.ariaLabel || item.title} fill>
 			<CardContent centered={item.centered ?? !item.step}>
 				{item.customContent ? (
-					<Div className={customContentWrapperClassName}>
+					// Wrapper maintains h-full chain for mt-auto behavior in flex layouts
+					<Div className={cn("h-full", customContentWrapperClassName)}>
 						{item.customContent}
 					</Div>
 				) : (
@@ -465,6 +540,7 @@ const defaultCardRenderer = (
 const CardGrid = ({
 	items,
 	children,
+	columns,
 	maxColumns = 3,
 	gap = "md",
 	containerClassName,
@@ -476,13 +552,26 @@ const CardGrid = ({
 	className,
 	...props
 }: CardGridProps) => {
+	// Determine effective max columns for stretch/centering logic
+	// When using responsive columns, use the largest specified breakpoint value
+	const effectiveMaxColumns: MaxColumns = columns
+		? (Math.max(
+				...(Object.values(columns).filter(Boolean) as number[]),
+			) as MaxColumns)
+		: maxColumns;
+
 	// Auto-disable stretchCards for 1-column layouts (cards should fit content)
 	// For multi-column layouts, default to true (cards should align heights)
-	const shouldStretch = stretchCards ?? maxColumns > 1;
+	const shouldStretch = stretchCards ?? effectiveMaxColumns > 1;
+
+	// Build grid column classes — responsive `columns` prop takes priority over `maxColumns`
+	const columnClasses = columns
+		? buildResponsiveColumnClasses(columns)
+		: baseColumnClasses[maxColumns];
 
 	const gridClasses = cn(
 		"grid",
-		baseColumnClasses[maxColumns],
+		columnClasses,
 		gapClasses[gap],
 		shouldStretch && "auto-rows-fr", // Equal height rows when stretchCards is true
 		containerClassName,
@@ -515,6 +604,7 @@ const CardGrid = ({
 				// Calculate centering for incomplete rows (only if enabled)
 				// For maxColumns=2: apply from sm+ (4 sub-cols with 2-col spans)
 				// For maxColumns=3: apply from md+ (2 cols tablet) and lg+ (3 cols desktop)
+				// For maxColumns=4-8: centering is not auto-computed here (custom layouts can handle it)
 				const mdCentering =
 					centerIncompleteRows && maxColumns === 3
 						? getCenteringClass(index, totalItems, maxColumns, "md")
@@ -569,6 +659,11 @@ const CardGridItem = ({
 		// Layout - Column spanning
 		colSpan === 2 && "md:col-span-2",
 		colSpan === 3 && "lg:col-span-3",
+		colSpan === 4 && "lg:col-span-4",
+		colSpan === 5 && "lg:col-span-5",
+		colSpan === 6 && "lg:col-span-6",
+		colSpan === 7 && "xl:col-span-7",
+		colSpan === 8 && "xl:col-span-8",
 		// Layout - Row spanning
 		rowSpan && `row-span-${rowSpan}`,
 		className,
@@ -588,6 +683,8 @@ export type {
 	CardGridItemData,
 	CardGridItemProps,
 	CardGridProps,
+	ColumnCount,
 	GapSize,
 	MaxColumns,
+	ResponsiveColumns,
 };

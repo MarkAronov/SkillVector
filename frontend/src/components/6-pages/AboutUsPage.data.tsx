@@ -9,6 +9,16 @@ import {
 } from "lucide-react";
 import type { CardGridItem } from "../4-organisms/CardGrid.types";
 
+// Mission section content
+export const missionContent = {
+	title: "Our Mission",
+	paragraphs: [
+		"SkillVector was built to solve a fundamental problem in talent discovery: traditional keyword-based search fails to capture the nuanced relationships between skills, experiences, and expertise.",
+		"By leveraging advanced AI embeddings and vector similarity search, we enable organizations to find the right professionals based on what they can do, not just what keywords appear in their profiles.",
+	],
+};
+
+// Capabilities/features grid
 export const capabilities: CardGridItem[] = [
 	{
 		icon: <Target className="h-6 w-6" />,

@@ -160,6 +160,23 @@ export const colors = {
 } as const;
 
 /**
+ * Chart / Data Visualization colors
+ * Used for charts, language bars, progress indicators, and other data displays.
+ * Maps to CSS custom properties (--chart-1 through --chart-5) for theme support.
+ * Returns color values for use in inline styles (CSS vars already include oklch() wrapper).
+ * Use `CHART_COLORS[index % CHART_COLORS.length]` for cycling through colors.
+ *
+ * Example: `style={{ backgroundColor: CHART_COLORS[0] }}`
+ */
+export const CHART_COLORS = [
+	"var(--chart-1)", // Chart 1 — Indigo-blue
+	"var(--chart-2)", // Chart 2 — Violet
+	"var(--chart-3)", // Chart 3 — Pink-magenta
+	"var(--chart-4)", // Chart 4 — Green-teal
+	"var(--chart-5)", // Chart 5 — Amber-gold
+] as const;
+
+/**
  * Type helper for color token names
  * Ensures type safety when referencing color keys
  */

@@ -1,4 +1,3 @@
-import { X } from "lucide-react";
 import {
 	Select,
 	SelectContent,
@@ -7,6 +6,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { X } from "lucide-react";
 import { SPACING, TYPOGRAPHY } from "../1-ions";
 import { Badge } from "../2-atoms/Badge";
 import { Button } from "../2-atoms/Button";
@@ -114,7 +114,7 @@ export const FilterPanel = ({
 		<Div
 			className={cn(
 				// Spacing
-				"py-6 px-6",
+				"px-4 py-4 sm:px-6 sm:py-6",
 				// Custom
 				className,
 			)}
@@ -187,14 +187,14 @@ export const FilterPanel = ({
 			<Div
 				className={cn(
 					// Layout
-					"flex flex-col lg:flex-row",
+					"flex flex-col lg:flex-row min-w-0",
 					// Spacing
 					SPACING.GAP.md,
 				)}
 			>
 				{/* Search Input */}
 				{search && (
-					<Div className="flex-1">
+					<Div className="flex-1 min-w-0">
 						<Div className="relative">
 							{search.icon && (
 								<Div
@@ -218,7 +218,7 @@ export const FilterPanel = ({
 					<Div
 						className={cn(
 							// Layout
-							"flex flex-wrap",
+							"flex w-full flex-wrap lg:w-auto",
 							// Spacing
 							SPACING.GAP.sm,
 						)}
@@ -229,7 +229,8 @@ export const FilterPanel = ({
 								value={filterValues[filter.value] || filter.options[0]?.value}
 								onValueChange={(value) => onFilterChange?.(filter.value, value)}
 							>
-								<SelectTrigger className="w-40">
+								{/* Full-width on small screens, fixed token width on larger screens */}
+								<SelectTrigger className="w-full sm:w-40">
 									{filter.icon}
 									<SelectValue />
 								</SelectTrigger>

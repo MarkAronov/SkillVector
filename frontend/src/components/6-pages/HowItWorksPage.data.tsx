@@ -1,6 +1,24 @@
 import { Brain, Search, Upload, Zap } from "lucide-react";
 import type { CardGridItem } from "../4-organisms/CardGrid.types";
 
+// Call-to-action section content
+export const ctaContent = {
+	title: "Ready to Try It?",
+	description: "Experience semantic search in action with our live demo",
+	primaryButton: {
+		label: "Try Demo",
+		to: "/search",
+		ariaLabel: "Try Demo",
+	},
+	secondaryButton: {
+		label: "View API Docs",
+		to: "/documentation#api",
+		variant: "secondary" as const,
+		ariaLabel: "View API Docs",
+	},
+};
+
+// Process steps
 export const steps: CardGridItem[] = [
 	{
 		step: 1,

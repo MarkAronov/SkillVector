@@ -8,7 +8,7 @@ import { ContactForm } from "../3-molecules/ContactForm";
 import { Hero } from "../3-molecules/Hero";
 import { CardGrid } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
-import { faqs, supportOptions } from "./SupportPage.data.tsx";
+import { faqs, pageContent, supportOptions } from "./SupportPage.data.tsx";
 
 export const SupportPage = () => {
 	return (
@@ -68,7 +68,7 @@ export const SupportPage = () => {
 			{/* FAQ Section */}
 			<Section>
 				<Heading variant="section" className="mb-8 text-center">
-					Frequently Asked Questions
+					{pageContent.faqSection.title}
 				</Heading>
 				<CardGrid items={faqs} maxColumns={1} />
 			</Section>
@@ -76,11 +76,10 @@ export const SupportPage = () => {
 			{/* Contact Form Section */}
 			<Section id="contact">
 				<Heading variant="section" className="mb-4 text-center">
-					Get in Touch
+					{pageContent.contactSection.title}
 				</Heading>
 				<Text variant="lead" className="text-center mb-8 text-muted-foreground">
-					Have a question or need assistance? Send us a message and we'll
-					respond as soon as possible.
+					{pageContent.contactSection.description}
 				</Text>
 				<CardGrid
 					items={[

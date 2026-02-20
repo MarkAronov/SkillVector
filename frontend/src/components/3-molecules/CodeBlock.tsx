@@ -1,8 +1,10 @@
-import { useState } from "react";
 import { cn } from "@/lib/utils";
+import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
+import { useState } from "react";
 import { BORDERS, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
+import { ScrollAreaScrollbar } from "../2-atoms/ScrollArea";
 import type { CodeBlockProps } from "./CodeBlock.types";
 
 /**
@@ -32,48 +34,88 @@ export const CodeBlock = ({ language, code }: CodeBlockProps) => {
 	const [copied, setCopied] = useState(false);
 
 	/**
-	 * Copy code to clipboard and show feedback
+	 * Copy code to clipboard and show feedback.
+	 * Uses navigator.clipboard with an execCommand fallback for mobile browsers
+	 * that don't support the async clipboard API.
+	 * Blurs the button after tap to prevent the stuck-hover issue on touch devices.
 	 */
-	const handleCopy = async () => {
-		await navigator.clipboard.writeText(code);
+	const handleCopy = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		try {
+			// Modern clipboard API — works on HTTPS desktop & most mobile browsers
+			await navigator.clipboard.writeText(code);
+		} catch {
+			// Fallback for mobile browsers that block navigator.clipboard
+			const textarea = document.createElement("textarea");
+			textarea.value = code;
+			// Keep off-screen so it doesn't cause a layout shift
+			textarea.style.cssText =
+				"position:fixed;top:-9999px;left:-9999px;opacity:0";
+			document.body.appendChild(textarea);
+			textarea.focus();
+			textarea.select();
+			document.execCommand("copy");
+			document.body.removeChild(textarea);
+		}
+
 		setCopied(true);
 
-		// Reset copy feedback after 2 seconds
-		setTimeout(() => setCopied(false), 2000);
+		// Blur the button to release the stuck :hover state on touch devices
+		(e.currentTarget as HTMLButtonElement).blur();
+
+		// Reset copy feedback after 3 seconds
+		setTimeout(() => setCopied(false), 3000);
 	};
 
 	return (
-		<Div className="relative">
-			{/* Code block - Allow pre to wrap on small screens while preserving whitespace, but still support horizontal scroll when desired */}
-			<pre
-				className={cn(
-					// Colors
-					"bg-muted",
-					// Spacing
-					SPACING.PADDING.md,
-					// Borders
-					BORDERS.RADIUS.md,
-					// Layout
-					"overflow-x-auto max-w-full w-full whitespace-pre-wrap wrap-break-word",
-				)}
+		// Outer grid div: display:grid constrains the block to parent width (grid tracks are
+		// sized by the parent, not by children) and provides the positioning context for the
+		// Copy button. It must NOT have overflow-hidden so the button is never clipped.
+		<Div className="relative grid">
+			{/* ScrollAreaPrimitive.Root: overflow-hidden clips the <pre> inside the
+			    grid-constrained track so it cannot push the layout wider */}
+			<ScrollAreaPrimitive.Root
+				className={cn("overflow-hidden", BORDERS.RADIUS.md)}
 			>
-				<code className={cn(`language-${language}`, "block w-full")}>
-					{code}
-				</code>
-			</pre>
+				{/* Viewport: Radix sets overflow:scroll here; whitespace-pre lets long lines
+				    overflow horizontally so the horizontal scrollbar actually activates */}
+				<ScrollAreaPrimitive.Viewport className="w-full rounded-[inherit]">
+					<pre
+						className={cn(
+							// Colors
+							"bg-muted",
+							// Spacing — pr-20 (80px) reserves space so code never slides under the
+							// absolutely-positioned Copy button; pb-5 clears the horizontal scrollbar
+							SPACING.PADDING.md,
+							"pr-20 pb-5",
+							// Preserve formatting — horizontal overflow is handled by ScrollArea
+							"whitespace-pre",
+						)}
+					>
+						<code className={cn(`language-${language}`, "block")}>{code}</code>
+					</pre>
+				</ScrollAreaPrimitive.Viewport>
 
-			{/* Copy to clipboard button */}
+				{/* Horizontal scrollbar — atom's auto-fade thumb, positioned bottom of Root */}
+				<ScrollAreaScrollbar orientation="horizontal" />
+
+				<ScrollAreaPrimitive.Corner />
+			</ScrollAreaPrimitive.Root>
+
+			{/* Copy button — sibling of Root, not inside overflow-hidden, so it is never clipped.
+			    Positioned absolute relative to the outer grid div. */}
 			<Button
 				type="button"
-				variant="outline"
+				variant="default"
 				size="sm"
-				onClick={handleCopy}
+				// touch-manipulation removes the 300ms tap delay on mobile
 				className={cn(
+					"touch-manipulation",
 					// Position
-					"absolute top-2 right-2",
+					"absolute top-2 right-2 z-10",
 					// Typography
 					TYPOGRAPHY.FONT_SIZE.xs,
 				)}
+				onClick={handleCopy}
 			>
 				{copied ? "Copied!" : "Copy"}
 			</Button>

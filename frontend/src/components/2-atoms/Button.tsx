@@ -34,31 +34,32 @@ const buttonVariants = cva(
 	{
 		variants: {
 			variant: {
-				// Default variant - primary action with pink accent hover
+				// Default variant - primary action with pink accent hover/active
 				default:
-					"bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground",
+					"bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent active:text-accent-foreground",
 
 				// Destructive variant - dangerous actions
 				destructive:
-					"bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+					"bg-destructive text-white hover:bg-destructive/90 active:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
 
 				// Outline variant - neutral functional control (pagination, table actions)
-				// Neutral bg on hover, accent border for visual feedback
-				// dark:hover overrides needed so dark:border-input doesn't block hover state
+				// Keep transparent background at rest and on hover/active, only border changes for feedback
+				// Important modifiers prevent external utility collisions from reintroducing background tints
 				outline:
-					"border border-input bg-transparent hover:bg-muted hover:border-accent dark:bg-input/30 dark:border-input dark:hover:border-accent dark:hover:bg-muted",
+					"border border-input !bg-transparent hover:!bg-transparent hover:border-accent active:!bg-transparent active:border-accent dark:border-input dark:hover:border-accent dark:hover:!bg-transparent dark:active:border-accent dark:active:!bg-transparent",
 
 				// Secondary variant - Mix of primary and outlined styles
 				// Rest state: blue border (primary) with blue text
-				// Hover state: matches outlined hover (muted bg + pink accent border), keeps blue text
+				// Hover/active state: keep background transparent, update border for visual feedback
+				// Important modifiers prevent external utility collisions from reintroducing background tints
 				secondary:
-					"border border-primary bg-transparent text-primary hover:bg-muted hover:border-accent dark:border-primary dark:hover:border-accent dark:hover:bg-muted",
+					"border border-primary !bg-transparent text-primary hover:!bg-transparent hover:border-accent active:!bg-transparent active:border-accent dark:border-primary dark:hover:border-accent dark:hover:!bg-transparent dark:active:border-accent dark:active:!bg-transparent",
 				// Ghost variant - Subtle button with transparent background
 				// Used for icon buttons, menu items, and low-emphasis actions
-				// Hover: muted background + pink accent text + pink border
+				// Hover/active: muted background + pink accent text + pink border
 				ghost:
-					"border border-transparent bg-transparent hover:bg-muted hover:text-accent hover:border-accent",
-				link: "text-primary hover:text-accent",
+					"border border-transparent bg-transparent hover:bg-muted hover:text-accent hover:border-accent active:bg-muted active:text-accent active:border-accent",
+				link: "text-primary hover:text-accent active:text-accent",
 			},
 			size: {
 				default: "h-9 px-4 py-2 has-[>svg]:px-3",

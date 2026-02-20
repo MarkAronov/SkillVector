@@ -1,74 +1,32 @@
-import { ApiReferenceReact } from "@scalar/api-reference-react";
 import { cn } from "@/lib/utils";
-import "@scalar/api-reference-react/style.css";
-import { useEffect, useMemo, useRef } from "react";
-import { useTheme } from "../../hooks/useTheme";
-import { BORDERS, LAYOUT } from "../1-ions";
-import { Div } from "../2-atoms/Div";
-import { Heading } from "../2-atoms/Heading";
-import { ScrollArea } from "../2-atoms/ScrollArea";
-import { Section } from "../2-atoms/Section";
-import { Text } from "../2-atoms/Text";
-import { Card, CardContent } from "../3-molecules/Card";
-import { CodeBlock } from "../3-molecules/CodeBlock";
-import { Hero } from "../3-molecules/Hero";
-import { PageTemplate } from "../5-templates/PageTemplate";
+import { Code, FileText } from "lucide-react";
+import { useRef } from "react";
+import { SPACING } from "../1-ions";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "../ui/accordion";
-import "./DocumentationPage.css";
-import { packageManagers, sdkExamples } from "./DocumentationPage.data";
+} from "../2-atoms/Accordion";
+import { Div } from "../2-atoms/Div";
+import { Heading } from "../2-atoms/Heading";
+import { Section } from "../2-atoms/Section";
+import { Text } from "../2-atoms/Text";
+import { Card, CardContent } from "../3-molecules/Card";
+import { CodeBlock } from "../3-molecules/CodeBlock";
+import { Hero } from "../3-molecules/Hero";
+import { Scalar } from "../4-organisms/Scalar";
+import { PageTemplate } from "../5-templates/PageTemplate";
+import {
+	packageManagers,
+	quickStartCode,
+	sdkExamples,
+	sdkInfo,
+} from "./DocumentationPage.data";
 
 export const DocumentationPage = () => {
-	const { effectiveTheme } = useTheme();
-	const isDark = effectiveTheme === "dark";
 	const apiRef = useRef<HTMLDivElement | null>(null);
 	const sdkRef = useRef<HTMLDivElement | null>(null);
-
-	// Clear Scalar's localStorage theme preference on mount to force app theme
-	useEffect(() => {
-		localStorage.removeItem("colorMode");
-	}, []);
-
-	const specUrl = "/openapi.json";
-
-	const configuration = useMemo(
-		() => ({
-			spec: {
-				url: specUrl,
-			},
-			darkMode: isDark,
-			hideTestRequestButton: false,
-			hideSearch: true,
-			hideModels: false,
-			hideDarkModeToggle: true,
-			hideClientButton: true,
-			showSidebar: true,
-			showDeveloperTools: "never" as const,
-			operationTitleSource: "summary" as const,
-			theme: "alternate" as const,
-			persistAuth: false,
-			layout: "modern" as const,
-			documentDownloadType: "both" as const,
-			showOperationId: false,
-			withDefaultFonts: true,
-			defaultOpenAllTags: false,
-			expandAllModelSections: false,
-			expandAllResponses: false,
-			orderSchemaPropertiesBy: "alpha" as const,
-			orderRequiredPropertiesFirst: true,
-			hideDownloadButton: false,
-			hiddenClients: [] as string[],
-			defaultHttpClient: {
-				targetKey: "js" as const,
-				clientKey: "fetch" as const,
-			},
-		}),
-		[isDark],
-	);
 
 	return (
 		<PageTemplate title="Documentation">
@@ -77,80 +35,115 @@ export const DocumentationPage = () => {
 				brand="Documentation"
 				subtitle="API reference, SDKs, and developer guides"
 			/>
-
-			{/* API Section */}
-			<Div
-				id="api"
-				ref={
-					apiRef as React.RefObject<HTMLDivElement> as React.RefObject<
-						HTMLDivElement & { scrollIntoView: () => void }
-					>
-				}
-			>
-				<Heading variant="section" className="mb-4">
-					API Reference
-				</Heading>
-				<ScrollArea
-					className={cn(
-						"scalar-wrapper border border-border",
-						BORDERS.RADIUS.xl,
-						LAYOUT.SCALAR_API,
-					)}
+			<Section>
+				{/* API Section */}
+				<Div
+					id="api"
+					ref={
+						apiRef as React.RefObject<HTMLDivElement> as React.RefObject<
+							HTMLDivElement & { scrollIntoView: () => void }
+						>
+					}
 				>
-					<Div className="h-full">
-						<ApiReferenceReact
-							key={`scalar-${isDark}`}
-							configuration={configuration}
-						/>
-					</Div>
-				</ScrollArea>
-			</Div>
-
-			{/* SDK Section */}
-			<Div
-				id="sdk"
-				ref={
-					sdkRef as React.RefObject<HTMLDivElement> as React.RefObject<
-						HTMLDivElement & { scrollIntoView: () => void }
+					<Div
+						variant="flex"
+						className={cn("items-start", SPACING.GAP.md, "mb-6")}
 					>
-				}
-			>
-				<Heading variant="section" className="mb-6">
-					TypeScript SDK
-				</Heading>
+						<Div className="text-primary shrink-0">
+							<FileText size={24} />
+						</Div>
+						<Div className="min-w-0">
+							<Heading variant="card" className="mb-1">
+								API Reference
+							</Heading>
+							<Text variant="muted">
+								Complete API documentation and interactive reference
+							</Text>
+						</Div>
+					</Div>
+					<Scalar />
+				</Div>
+			</Section>
+			<Section>
+				{/* SDK Section — unified card with installation at top, examples at bottom */}
+				<Div
+					id="sdk"
+					ref={
+						sdkRef as React.RefObject<HTMLDivElement> as React.RefObject<
+							HTMLDivElement & { scrollIntoView: () => void }
+						>
+					}
+				>
+					<Div
+						variant="flex"
+						className={cn("items-start", SPACING.GAP.md, "mb-6")}
+					>
+						<Div className="text-primary shrink-0">
+							<Code size={24} />
+						</Div>
+						<Div className="min-w-0">
+							<Heading variant="card" className="mb-1">
+								TypeScript SDK
+							</Heading>
+							<Text variant="muted">{sdkInfo.description}</Text>
+						</Div>
+					</Div>
 
-				<Section>
+					{/* Single unified card for all SDK content */}
 					<Card variant="hover" fill>
 						<CardContent>
-							<Heading as="h2" variant="card" className="mb-4">
+							{/* ─── Installation ─── */}
+							<Heading as="h2" variant="card" className="mb-3">
 								Installation
 							</Heading>
 							<Text variant="small" className="mb-4">
 								Choose your preferred package manager:
 							</Text>
-							<Accordion type="single" collapsible className="w-full">
-								{packageManagers.map((pm) => (
-									<AccordionItem key={pm.id} value={pm.id}>
-										<AccordionTrigger>{pm.name}</AccordionTrigger>
-										<AccordionContent>
-											<CodeBlock language="bash" code={pm.command} />
-										</AccordionContent>
-									</AccordionItem>
-								))}
-							</Accordion>
-						</CardContent>
-					</Card>
-				</Section>
 
-				<Section>
-					<Heading as="h3" variant="subsection" className="mb-4">
-						Usage Examples
-					</Heading>
-					<Card variant="hover" fill>
-						<CardContent>
-							<Accordion type="single" collapsible className="w-full">
+							{/* Package manager installation commands */}
+							<Div className="flex flex-col gap-4 mb-8">
+								{packageManagers.map((pm) => (
+									<Div key={pm.id}>
+										<Text variant="small" className="mb-2 font-medium">
+											{pm.name}
+										</Text>
+										<CodeBlock language="bash" code={pm.command} />
+									</Div>
+								))}
+							</Div>
+
+							{/* ─── Quick Start ─── */}
+							<Heading as="h3" variant="subsection" className="mb-3">
+								Quick Start
+							</Heading>
+							<Text variant="small" className="mb-4">
+								Get up and running in seconds:
+							</Text>
+							<Div className="mb-8">
+								<CodeBlock language="ts" code={quickStartCode} />
+							</Div>
+
+							{/* ─── Requirements ─── */}
+							<Text variant="small" className="mb-8 text-muted-foreground">
+								<strong>Requirements:</strong> {sdkInfo.requirements}
+							</Text>
+
+							{/* ─── Usage Examples ─── */}
+							<Heading as="h3" variant="subsection" className="mb-3">
+								Usage Examples
+							</Heading>
+							<Text variant="small" className="mb-4">
+								Explore common patterns and advanced usage:
+							</Text>
+
+							{/* Island-style accordion items — no dividing lines */}
+							<Accordion type="multiple" className="flex flex-col gap-2">
 								{sdkExamples.map((example) => (
-									<AccordionItem key={example.id} value={example.id}>
+									<AccordionItem
+										key={example.id}
+										value={example.id}
+										className="border rounded-lg border-border px-3 last:border-b"
+									>
 										<AccordionTrigger>{example.title}</AccordionTrigger>
 										<AccordionContent>
 											<Text variant="small" className="mb-3">
@@ -163,8 +156,8 @@ export const DocumentationPage = () => {
 							</Accordion>
 						</CardContent>
 					</Card>
-				</Section>
-			</Div>
+				</Div>
+			</Section>
 		</PageTemplate>
 	);
 };

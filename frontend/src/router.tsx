@@ -16,9 +16,9 @@ const AboutPage = lazy(() =>
 	})),
 );
 
-const ChangelogPage = lazy(() =>
-	import("./components/6-pages/ChangelogPage").then((m) => ({
-		default: m.ChangelogPage,
+const ProductUpdatesPage = lazy(() =>
+	import("./components/6-pages/ProductUpdatesPage").then((m) => ({
+		default: m.ProductUpdatesPage,
 	})),
 );
 
@@ -138,10 +138,10 @@ const supportRoute = createRoute({
 	component: SupportPage,
 });
 
-const changelogRoute = createRoute({
+const productUpdatesRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/changelog",
-	component: ChangelogPage,
+	path: "/product-updates",
+	component: ProductUpdatesPage,
 });
 
 const privacyRoute = createRoute({
@@ -179,7 +179,7 @@ const routeTree = rootRoute.addChildren([
 	howItWorksRoute,
 	integrationsRoute,
 	supportRoute,
-	changelogRoute,
+	productUpdatesRoute,
 	privacyRoute,
 	termsRoute,
 	cookiesRoute,

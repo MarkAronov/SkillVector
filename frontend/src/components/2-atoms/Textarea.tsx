@@ -1,15 +1,17 @@
-import type { ComponentProps } from "react";
 import { Textarea as ShadcnTextarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+import * as React from "react";
 
 /**
  * Textarea Component
  *
  * Multi-line text input for longer form content.
- * Re-exports shadcn/ui Textarea with SkillVector customizations.
+ * Wraps shadcn/ui Textarea with SkillVector customizations.
  *
  * Features:
+ * - Pinkish accent border and ring on focus (matches Input theming)
  * - Automatic resize disabled by default (add resize class to enable)
- * - Consistent border and focus states
+ * - Consistent border and focus states with Input component
  * - Disabled state styling
  * - Error state with aria-invalid support
  * - Minimum height of 80px for comfortable input
@@ -21,5 +23,22 @@ import { Textarea as ShadcnTextarea } from "@/components/ui/textarea";
  * ```
  */
 
-export { ShadcnTextarea as Textarea };
-export type TextareaProps = ComponentProps<typeof ShadcnTextarea>;
+export const Textarea = React.forwardRef<
+	HTMLTextAreaElement,
+	React.ComponentProps<typeof ShadcnTextarea>
+>(({ className, ...props }, ref) => {
+	return (
+		<ShadcnTextarea
+			ref={ref}
+			className={cn(
+				// Pink accent border on focus, no ring glow (matches Input)
+				"focus-visible:!border-accent",
+				"focus-visible:!ring-0",
+				className,
+			)}
+			{...props}
+		/>
+	);
+});
+
+Textarea.displayName = "Textarea";

@@ -1,8 +1,21 @@
-import { Book, Github, Mail, MessageCircle } from "lucide-react";
 import { EXTERNAL_LINKS } from "@/constants/site";
+import { Book, Github, Mail, MessageCircle } from "lucide-react";
 import type { CardGridItem } from "../4-organisms/CardGrid.types";
 import type { SupportOption } from "./SupportPage.types";
 
+// Page section headers and content
+export const pageContent = {
+	faqSection: {
+		title: "Frequently Asked Questions",
+	},
+	contactSection: {
+		title: "Get in Touch",
+		description:
+			"Have a question or need assistance? Send us a message and we'll respond as soon as possible.",
+	},
+};
+
+// Support options grid
 export const supportOptions: SupportOption[] = [
 	{
 		icon: <Book className="h-6 w-6" />,

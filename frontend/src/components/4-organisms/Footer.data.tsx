@@ -1,5 +1,5 @@
-import { Github, Linkedin, Mail } from "lucide-react";
 import { SOCIAL_LINKS } from "@/constants/site";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 export const footerSections = [
 	{
@@ -22,7 +22,7 @@ export const footerSections = [
 		links: [
 			{ to: "/documentation", label: "Documentation" },
 			{ to: "/support", label: "Support" },
-			{ to: "/changelog", label: "Changelog" },
+			{ to: "/product-updates", label: "Product Updates" },
 		],
 	},
 	{

@@ -12,7 +12,7 @@ export const FeaturesPage = () => {
 		<PageTemplate title="Features">
 			{/* Hero Section */}
 			<Hero
-				title="Powerful "
+				title=""
 				brand="Features"
 				subtitle="Leverage cutting-edge AI and vector search technology to find the perfect candidates faster than ever."
 			/>

@@ -4,37 +4,38 @@ import { Text } from "../2-atoms/Text";
 import { Hero } from "../3-molecules/Hero";
 import { CardGrid } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
-import { capabilities } from "./AboutUsPage.data.tsx";
+import { capabilities, missionContent } from "./AboutUsPage.data.tsx";
 
 export const AboutPage = () => {
 	return (
 		<PageTemplate title="About">
 			{/* Hero Section */}
-			<Hero title="" brand="SkillVector" subtitle="" />
+			<Hero title="About" brand="Us" subtitle="" />
 
 			{/* Mission Section */}
 			<Section>
 				<CardGrid
 					items={[
 						{
-							title: "Our Mission",
+							title: missionContent.title,
 							customContent: (
 								<>
 									<Heading variant="section" className="mb-4">
-										Our Mission
+										{missionContent.title}
 									</Heading>
-									<Text variant="body" className="mb-4">
-										SkillVector was built to solve a fundamental problem in
-										talent discovery: traditional keyword-based search fails to
-										capture the nuanced relationships between skills,
-										experiences, and expertise.
-									</Text>
-									<Text variant="body">
-										By leveraging advanced AI embeddings and vector similarity
-										search, we enable organizations to find the right
-										professionals based on what they can do, not just what
-										keywords appear in their profiles.
-									</Text>
+									{missionContent.paragraphs.map((paragraph, index) => (
+										<Text
+											key={paragraph.substring(0, 50)}
+											variant="body"
+											className={
+												index < missionContent.paragraphs.length - 1
+													? "mb-4"
+													: ""
+											}
+										>
+											{paragraph}
+										</Text>
+									))}
 								</>
 							),
 						},

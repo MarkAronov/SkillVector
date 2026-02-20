@@ -1,7 +1,27 @@
 /**
  * Documentation Page Data
- * Code examples and installation commands for SDK documentation
+ * Code examples, SDK info, and installation commands for SDK documentation
  */
+
+// SDK metadata for the overview section
+export const sdkInfo = {
+	description:
+		"Official TypeScript/JavaScript client for the SkillVector API. Fully typed, lightweight, and designed for both Node.js and browser environments.",
+	requirements: "Node.js 18+ or any modern browser with ES2020 support",
+	repository: "https://github.com/MarkAronov/SkillVector",
+} as const;
+
+// Quick start snippet shown before the detailed examples
+export const quickStartCode = `import { SkillVectorClient } from '@skillvector/sdk';
+
+// Initialize the client
+const client = new SkillVectorClient({
+  baseUrl: 'https://api.skillvector.com',
+});
+
+// Perform a semantic search
+const results = await client.search('TypeScript developer', 10, 0);
+console.log(results);`;
 
 export const packageManagers = [
 	{ id: "npm", name: "npm", command: `npm install @skillvector/sdk` },
@@ -17,8 +37,8 @@ export const sdkExamples = [
 		description: "Perform a simple search with query, limit, and offset:",
 		code: `import { SkillVectorClient } from '@skillvector/sdk';
 
-    const client = new SkillVectorClient({ 
-      baseUrl: 'https://api.skillvector.com' 
+    const client = new SkillVectorClient({
+      baseUrl: 'https://api.skillvector.com'
     });
 
     const results = await client.search('TypeScript developer', 10, 0);
@@ -30,13 +50,13 @@ export const sdkExamples = [
 		description: "Apply filters for skills, experience, and location:",
 		code: `import { SkillVectorClient } from '@skillvector/sdk';
 
-const client = new SkillVectorClient({ 
-  baseUrl: 'https://api.skillvector.com' 
+const client = new SkillVectorClient({
+  baseUrl: 'https://api.skillvector.com'
 });
 
 const filtered = await client.searchWithFilters({
   query: 'Full Stack Engineer',
-  filters: { 
+  filters: {
     skills: ['React', 'Node.js', 'TypeScript'],
     experience: { min: 3, max: 7 },
     location: ['Remote', 'New York']
@@ -51,14 +71,14 @@ const filtered = await client.searchWithFilters({
 		description: "Handle paginated results across multiple requests:",
 		code: `import { SkillVectorClient } from '@skillvector/sdk';
 
-const client = new SkillVectorClient({ 
-  baseUrl: 'https://api.skillvector.com' 
+const client = new SkillVectorClient({
+  baseUrl: 'https://api.skillvector.com'
 });
 
 // Fetch first page
 const page1 = await client.search('Data Scientist', 20, 0);
 
-// Fetch second page  
+// Fetch second page
 const page2 = await client.search('Data Scientist', 20, 20);
 
 // Fetch third page
@@ -70,7 +90,7 @@ const page3 = await client.search('Data Scientist', 20, 40);`,
 		description: "Properly handle errors and implement retry logic:",
 		code: `import { SkillVectorClient } from '@skillvector/sdk';
 
-const client = new SkillVectorClient({ 
+const client = new SkillVectorClient({
   baseUrl: 'https://api.skillvector.com',
   timeout: 5000,
   retries: 3
@@ -111,13 +131,13 @@ const client = new SkillVectorClient({
 		description: "Execute multiple search queries in parallel:",
 		code: `import { SkillVectorClient } from '@skillvector/sdk';
 
-const client = new SkillVectorClient({ 
-  baseUrl: 'https://api.skillvector.com' 
+const client = new SkillVectorClient({
+  baseUrl: 'https://api.skillvector.com'
 });
 
 const queries = [
   'Frontend Developer',
-  'Backend Developer', 
+  'Backend Developer',
   'DevOps Engineer',
   'Data Scientist'
 ];
@@ -137,8 +157,8 @@ results.forEach((result, index) => {
 			"Advanced filtering with multiple criteria and post-processing:",
 		code: `import { SkillVectorClient } from '@skillvector/sdk';
 
-            const client = new SkillVectorClient({ 
-              baseUrl: 'https://api.skillvector.com' 
+            const client = new SkillVectorClient({
+              baseUrl: 'https://api.skillvector.com'
             });
 
             const results = await client.searchWithFilters({
@@ -166,8 +186,8 @@ results.forEach((result, index) => {
 		description: "Stream large result sets using async generators:",
 		code: `import { SkillVectorClient } from '@skillvector/sdk';
 
-            const client = new SkillVectorClient({ 
-              baseUrl: 'https://api.skillvector.com' 
+            const client = new SkillVectorClient({
+              baseUrl: 'https://api.skillvector.com'
             });
 
             async function* searchWithPagination(query: string, pageSize: number = 20) {
@@ -176,7 +196,7 @@ results.forEach((result, index) => {
 
               while (hasMore) {
                 const results = await client.search(query, pageSize, offset);
-                
+
                 if (results.length === 0) {
                   hasMore = false;
                   break;

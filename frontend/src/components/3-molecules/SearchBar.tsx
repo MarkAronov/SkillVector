@@ -1,6 +1,6 @@
+import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { type KeyboardEvent, useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
 import {
 	ANIMATION,
 	BORDERS,
@@ -98,6 +98,9 @@ export const SearchBar = ({
 				"shadow-md",
 				// Spacing
 				"p-0",
+				// Focus ring - highlight the whole bar when input is focused
+				// Matches Button atom focus style (ring-[3px] ring-ring/50)
+				"focus-within:ring-[3px] focus-within:ring-ring/50",
 			)}
 		>
 			{/* Search input field */}
@@ -113,7 +116,8 @@ export const SearchBar = ({
 					// Spacing
 					"px-5",
 					// Colors & Effects
-					"bg-transparent border-none outline-none",
+					// Force transparent bg in both modes - overrides shadcn's dark:bg-input/30
+					"bg-transparent dark:!bg-transparent border-none outline-none",
 					// Typography
 					TYPOGRAPHY.FONT_SIZE.sm_base,
 					"text-foreground placeholder:text-muted-foreground",
@@ -126,19 +130,20 @@ export const SearchBar = ({
 			{/* Visual separator between input and button */}
 			<Div className="h-8 w-px bg-border" />
 
-			{/* Search submit button */}
+			{/* Search submit button - follows footer/header icon pattern */}
+			{/* variant="link" + size={null} removes all background/padding defaults */}
 			<Button
 				type="button"
-				variant="ghost"
+				variant="link"
+				size={null}
 				onClick={handleSearch}
 				disabled={!value.trim() || isLoading}
 				className={cn(
 					// Layout & Sizing
 					"h-12 px-5",
 					"flex items-center justify-center",
-					// Colors & Effects
-					"bg-transparent",
-					"hover:bg-white/10 dark:hover:bg-white/5",
+					// Colors - muted at rest, accent on hover/active (matches footer/header icons)
+					"text-muted-foreground hover:text-accent active:text-accent",
 					// Transitions
 					"transition-colors",
 					// States
@@ -163,10 +168,9 @@ export const SearchBar = ({
 				) : (
 					<Search
 						className={cn(
-							// Sizing
+							// Sizing only - color inherited from parent Button via currentColor
+							// This lets hover:text-accent on the button propagate to the icon
 							SIZING.ICON.md,
-							// Colors
-							"text-muted-foreground",
 						)}
 						aria-hidden
 					/>

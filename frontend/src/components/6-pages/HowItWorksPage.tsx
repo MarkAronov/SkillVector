@@ -9,7 +9,7 @@ import { Text } from "../2-atoms/Text";
 import { Hero } from "../3-molecules/Hero";
 import { CardGrid } from "../4-organisms/CardGrid";
 import { PageTemplate } from "../5-templates/PageTemplate";
-import { steps } from "./HowItWorksPage.data.tsx";
+import { ctaContent, steps } from "./HowItWorksPage.data.tsx";
 
 export const HowItWorksPage = () => {
 	return (
@@ -27,15 +27,15 @@ export const HowItWorksPage = () => {
 				<CardGrid
 					items={[
 						{
-							title: "Ready to Try It?",
+							title: ctaContent.title,
 							centered: true,
 							customContent: (
 								<>
 									<Heading variant="section" className="mb-4">
-										Ready to Try It?
+										{ctaContent.title}
 									</Heading>
 									<Text variant="lead" className="mb-6">
-										Experience semantic search in action with our live demo
+										{ctaContent.description}
 									</Text>
 									<Div
 										className={cn(
@@ -45,15 +45,22 @@ export const HowItWorksPage = () => {
 											SPACING.GAP.md,
 										)}
 									>
-										<Button asChild aria-label="Try Demo">
-											<Link to="/search">Try Demo</Link>
+										<Button
+											asChild
+											aria-label={ctaContent.primaryButton.ariaLabel}
+										>
+											<Link to={ctaContent.primaryButton.to}>
+												{ctaContent.primaryButton.label}
+											</Link>
 										</Button>
 										<Button
 											asChild
-											variant="secondary"
-											aria-label="View API Docs"
+											variant={ctaContent.secondaryButton.variant}
+											aria-label={ctaContent.secondaryButton.ariaLabel}
 										>
-											<Link to="/documentation#api">View API Docs</Link>
+											<Link to={ctaContent.secondaryButton.to}>
+												{ctaContent.secondaryButton.label}
+											</Link>
 										</Button>
 									</Div>
 								</>

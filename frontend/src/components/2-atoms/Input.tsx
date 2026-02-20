@@ -1,12 +1,15 @@
 import { Input as ShadcnInput } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import * as React from "react";
 
 /**
  * Input Component
  *
  * Text input field for forms and user data entry.
- * Re-exports shadcn/ui Input with SkillVector customizations.
+ * Wraps shadcn/ui Input with SkillVector customizations.
  *
  * Features:
+ * - Pinkish accent border and ring on focus (overrides default)
  * - Consistent border and focus states
  * - Disabled state styling
  * - Error state with aria-invalid support
@@ -19,4 +22,22 @@ import { Input as ShadcnInput } from "@/components/ui/input";
  * ```
  */
 
-export { ShadcnInput as Input };
+export const Input = React.forwardRef<
+	HTMLInputElement,
+	React.ComponentProps<typeof ShadcnInput>
+>(({ className, ...props }, ref) => {
+	return (
+		<ShadcnInput
+			ref={ref}
+			className={cn(
+				// Pink accent border on focus, no ring glow
+				"focus-visible:!border-accent",
+				"focus-visible:!ring-0",
+				className,
+			)}
+			{...props}
+		/>
+	);
+});
+
+Input.displayName = "Input";

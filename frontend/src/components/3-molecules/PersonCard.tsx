@@ -61,6 +61,9 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 		return (
 			<Card fill className="hover:shadow-md transition-shadow">
 				{/* Header gradient background */}
+				{/* No negative margin - Card has no built-in padding so -m-6 would push */}
+				{/* the gradient completely outside the card bounds (the list mode bug). */}
+				{/* rounded-t-2xl matches Card's own border radius so corners align cleanly. */}
 				<Div
 					className={cn(
 						// Colors & Effects
@@ -68,10 +71,9 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 						// Layout & Sizing
 						"h-20",
 						// Spacing
-						"-m-6",
 						"mb-2",
-						// Effects
-						"rounded-t-lg",
+						// Round top corners to match Card's rounded-2xl
+						"rounded-t-2xl",
 					)}
 				/>
 				{/* Main content container */}
@@ -271,8 +273,9 @@ export const PersonCard = ({ person, view = "grid" }: PersonCardProps) => {
 	// Grid / default card
 	return (
 		<Card fill className="hover:shadow-md transition-shadow flex flex-col">
-			{/* Header gradient background */}
-			<Div className="bg-linear-to-r from-primary/5 to-primary/10 h-12" />
+			{/* Header gradient background - rounded-t-2xl matches Card's border radius */}
+			{/* Without this, the gradient corners bleed past the card's rounded corners */}
+			<Div className="bg-linear-to-r from-primary/5 to-primary/10 h-12 rounded-t-2xl" />
 			{/* Main content container */}
 			<Div className={cn("px-6", "pb-6", "flex-1 flex flex-col")}>
 				{/* Avatar overlapping header */}

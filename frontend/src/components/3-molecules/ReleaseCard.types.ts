@@ -5,4 +5,5 @@ export interface ReleaseCardProps {
 	url: string;
 	isPrerelease: boolean;
 	isLatest?: boolean;
+	compact?: boolean;
 }

@@ -1,0 +1,17 @@
+import type { Meta, StoryObj } from "@storybook/react";
+import { TermsPage } from "./TermsOfServicePage";
+
+const meta: Meta<typeof TermsPage> = {
+	title: "Pages/TermsPage",
+	component: TermsPage,
+	parameters: {
+		layout: "centered",
+	},
+};
+
+export default meta;
+type Story = StoryObj<typeof TermsPage>;
+
+export const Default: Story = {
+	render: () => <TermsPage />,
+};

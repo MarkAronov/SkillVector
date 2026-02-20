@@ -1,0 +1,88 @@
+/* Scoped styles for Scalar organism */
+.scalar-api-reference {
+	/* Keep browser color-scheme in sync with Scalar's dark/light rendering */
+	color-scheme: light dark;
+}
+
+/* Contain Scalar width and height so it never bleeds outside page layout */
+.scalar-wrapper {
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	overflow: hidden;
+	position: relative;
+	max-height: 80vh;
+}
+
+/* Ensure viewport fills available area for smooth scrolling */
+.scalar-wrapper [data-radix-scroll-area-viewport] {
+	height: 100%;
+	width: 100%;
+}
+
+/* Force nested Scalar layout containers to respect the parent width */
+.scalar-wrapper .scalar-api-reference,
+.scalar-wrapper [class*="scalar-app"],
+.scalar-wrapper [class*="references"],
+.scalar-wrapper > div,
+.scalar-wrapper section {
+	width: 100% !important;
+	max-width: 100% !important;
+	min-width: 0 !important;
+	box-sizing: border-box !important;
+}
+
+/* Keep Scalar document filling the scroll container naturally */
+.scalar-wrapper .scalar-api-reference {
+	min-height: 100%;
+	height: auto;
+}
+
+/* Normalize additional Scalar wrappers that can expand unexpectedly */
+.scalar-wrapper #scalar-client,
+.scalar-wrapper [class*="layout"],
+.scalar-wrapper [class*="container"],
+.scalar-wrapper [class*="wrapper"] {
+	width: 100% !important;
+	max-width: 100% !important;
+	min-width: 0 !important;
+	height: 100%;
+}
+
+/* Safety clamp for all descendants to prevent horizontal overflow */
+.scalar-wrapper * {
+	max-width: 100% !important;
+}
+
+/* Keep custom scrollbar clear from rounded edges */
+.scalar-wrapper [data-slot="scroll-area-scrollbar"] {
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+/* Map Scalar dark theme tokens to app theme variables */
+.scalar-api-reference [data-theme="dark"] {
+	--scalar-background-1: hsl(var(--background));
+	--scalar-background-2: hsl(var(--card));
+	--scalar-background-3: hsl(var(--muted));
+	--scalar-color-1: hsl(var(--foreground));
+	--scalar-color-2: hsl(var(--muted-foreground));
+	--scalar-color-3: hsl(var(--muted-foreground) / 0.6);
+	--scalar-border-color: hsl(var(--border));
+}
+
+/* Map Scalar light theme tokens to app theme variables */
+.scalar-api-reference [data-theme="light"] {
+	--scalar-background-1: hsl(var(--background));
+	--scalar-background-2: hsl(var(--card));
+	--scalar-background-3: hsl(var(--muted));
+	--scalar-color-1: hsl(var(--foreground));
+	--scalar-color-2: hsl(var(--muted-foreground));
+	--scalar-color-3: hsl(var(--muted-foreground) / 0.6);
+	--scalar-border-color: hsl(var(--border));
+}
+
+/* Hide sticky tabs rendered by Scalar inside docs area */
+.scalar-wrapper .sticky.top-16.z-50 {
+	display: none;
+}

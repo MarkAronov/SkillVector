@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+// Empty-string fallback → relative path, so Vite dev proxy handles the request
+// from any device on the network. In production, set VITE_API_URL explicitly.
+const API_URL = import.meta.env.VITE_API_URL || "";
 
 export interface PersonDocument {
 	id: string | number;
@@ -52,7 +54,7 @@ async function fetchAllPeople(limit = 100): Promise<PeopleResult> {
 	}
 }
 
-export function usePeople(limit = 100, enabled = true) {
+export const usePeople = (limit = 100, enabled = true) => {
 	return useQuery({
 		queryKey: ["people", limit],
 		queryFn: () => fetchAllPeople(limit),
@@ -66,4 +68,4 @@ export function usePeople(limit = 100, enabled = true) {
 			return failureCount < 2;
 		},
 	});
-}
+};

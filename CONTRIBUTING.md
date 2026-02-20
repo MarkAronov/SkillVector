@@ -73,6 +73,64 @@ Please review our [Code of Conduct](CODE_OF_CONDUCT.md) and follow it when contr
    git commit -m "feat: add description of your changes"
    ```
 
+### Pre-commit and Pre-push Hooks
+
+This project uses Husky to run automated checks before commits and pushes:
+
+- **Pre-commit**: Runs linting, type checking, and secrets scanning with gitleaks
+- **Pre-push**: Runs comprehensive checks including tests, builds, security audits, and vulnerability scanning with Nuclei
+
+If you prefer not to install security tools locally (gitleaks, nuclei), you can skip them:
+- Skip gitleaks: `SKIP_GITLEAKS=1 git commit`
+- Skip Nuclei: `SKIP_NUCLEI=1 git push`
+
+By default the pre-push hook runs quick checks plus builds locally (OpenAPI generation, linting, type checking, tests, and builds). To run the full set of long checks locally (security audits, Docker validation, and Nuclei scans), set the `FULL_PRE_PUSH` environment variable when pushing:
+
+- Bash (macOS/Linux/WSL/Git Bash): `FULL_PRE_PUSH=1 git push`
+- PowerShell: `$env:FULL_PRE_PUSH=1; git push`
+- CMD: `set FULL_PRE_PUSH=1 && git push`
+
+You can also control workflow runs using commit message markers or workflow_dispatch inputs. Add any of the following markers to a commit message to skip specific jobs or run partial/full workflows:
+
+- `[skip-backend]` - skip backend CI
+- `[skip-frontend]` - skip frontend CI and storybook
+- `[skip-sdk]` - skip SDK CI
+- `[skip-gitleaks]` - skip secrets scan in Security workflow
+- `[skip-docker-scan]` - skip Docker scans in Security workflow
+- `[skip-codeql]` - skip CodeQL analysis in Security workflow
+- `[skip-dependency-review]` - skip Dependency Review (PRs)
+- `[skip-nuclei]` - skip Nuclei scan in Security workflow
+- `[skip-deploy]` - skip deploy steps
+- `[run-partial]` - run only CI + Deploy; skips long security scans
+- `[run-full]` - force full pipeline via workflow_dispatch
+
+You can trigger these manually by adding the marker to your commit message, or use `workflow_dispatch` with the corresponding inputs in the Actions UI.
+
+Dockerized security tools
+
+- Hooks can fall back to Dockerized tools if native binaries are missing. To force Docker usage in hooks set:
+  - `USE_DOCKER_TOOLS=1` (force Docker for all supported tools)
+  - `DOCKER_GITLEAKS=1` (force Docker for gitleaks)
+  - `DOCKER_NUCLEI=1` (force Docker for nuclei)
+
+Examples:
+- gitleaks (Docker): `docker run --rm -v "$(pwd)":/repo -w /repo ghcr.io/gitleaks/gitleaks:latest protect --staged --verbose --redact`
+- nuclei (Docker): `docker run --rm -v "$(pwd)/security/nuclei-templates":/templates projectdiscovery/nuclei:latest -u http://host.docker.internal:3001 -t /templates -severity high,critical -stats`
+
+Notes:
+- On Windows/macOS use `host.docker.internal:3001` to let the container reach your local dev server; on Linux you can use `--network host` and `localhost`.
+- Hooks prefer a native binary, then fallback to Docker when available (unless forced via `DOCKER_*` env vars).
+- You can also run the provided npm scripts:
+  - `npm run security:gitleaks:docker`
+  - `npm run security:nuclei:docker`
+  - `npm run security:trivy:docker`
+
+Convenience npm scripts:
+- `npm run push:full` → runs full pre-push locally (`FULL_PRE_PUSH=1 git push`)
+- `npm run push:partial` → creates a temporary empty commit with `[run-partial]`, pushes, and then reverts the local commit (convenience helper)
+
+CI/CD will still run the full checks on pull requests and merges to `main`.
+
 ### Pull Request Process
 
 1. Push your branch to GitHub

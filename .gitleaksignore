@@ -1,0 +1,23 @@
+# Gitleaks ignore patterns
+# Add known false positives here
+
+# Example patterns (uncomment and customize as needed):
+# *.env.example:generic-api-key
+# package-lock.json:npm-access-token
+# bun.lock:*
+
+# Test fixtures and example files
+**/*.test.ts:*
+**/*.spec.ts:*
+**/fixtures/**:*
+**/examples/**:*
+
+# Documentation
+README.md:*
+*.md:generic-api-key
+
+# Lighthouse reports (contain UUIDs that look like secrets)
+frontend/lighthouse/**:*
+
+# Storybook static build (may contain hashed values)
+frontend/storybook-static/**:*

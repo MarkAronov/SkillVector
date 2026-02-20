@@ -132,6 +132,7 @@ app.use("/*", generalRateLimiter);
 let isInitialized = false;
 let initializationPromise: Promise<void> | null = null;
 
+// biome-ignore lint/suspicious/useAwait: Returns Promise for async initialization flow
 const runInitialization = async (): Promise<void> => {
 	if (isInitialized || initializationPromise) {
 		return initializationPromise || Promise.resolve();
@@ -189,9 +190,12 @@ const runInitialization = async (): Promise<void> => {
 			separator();
 			// Log raw error for debugging (outside logger system for critical failures)
 			if (error instanceof Error) {
+				// biome-ignore lint/suspicious/noConsole: Critical initialization error needs direct console output
 				console.error(`Error: ${error.message}`);
+				// biome-ignore lint/suspicious/noConsole: Critical initialization error needs direct console output
 				console.error(error.stack);
 			} else {
+				// biome-ignore lint/suspicious/noConsole: Critical initialization error needs direct console output
 				console.error(error);
 			}
 		}

@@ -2,75 +2,71 @@ import {
 	createRootRoute,
 	createRoute,
 	createRouter,
+	useLocation,
+	useNavigate,
 } from "@tanstack/react-router";
-import { lazy } from "react";
-import { SearchPage } from "./components/pages/SearchPage";
+import { lazy, useEffect } from "react";
+import { SearchPage } from "./components/6-pages/SearchPage";
 
 // Lazy load pages for code splitting
 // SearchPage is eagerly loaded since it's the main landing page
 const AboutPage = lazy(() =>
-	import("./components/pages/AboutPage").then((m) => ({
+	import("./components/6-pages/AboutUsPage").then((m) => ({
 		default: m.AboutPage,
 	})),
 );
-// ApiPage is the largest chunk (Scalar) - definitely lazy load
-const ApiPage = lazy(() =>
-	import("./components/pages/ApiPage").then((m) => ({ default: m.ApiPage })),
-);
-const ChangelogPage = lazy(() =>
-	import("./components/pages/ChangelogPage").then((m) => ({
-		default: m.ChangelogPage,
+
+const ProductUpdatesPage = lazy(() =>
+	import("./components/6-pages/ProductUpdatesPage").then((m) => ({
+		default: m.ProductUpdatesPage,
 	})),
 );
-const ContactPage = lazy(() =>
-	import("./components/pages/ContactPage").then((m) => ({
-		default: m.ContactPage,
+
+const DocumentationPage = lazy(() =>
+	import("./components/6-pages/DocumentationPage").then((m) => ({
+		default: m.DocumentationPage,
 	})),
 );
 const CookiesPage = lazy(() =>
-	import("./components/pages/CookiesPage").then((m) => ({
+	import("./components/6-pages/CookiesPage").then((m) => ({
 		default: m.CookiesPage,
 	})),
 );
 const FeaturesPage = lazy(() =>
-	import("./components/pages/FeaturesPage").then((m) => ({
+	import("./components/6-pages/FeaturesPage").then((m) => ({
 		default: m.FeaturesPage,
 	})),
 );
-const SdkDocsPage = lazy(() =>
-	import("./components/pages/SdkDocsPage").then((m) => ({
-		default: m.SdkDocsPage,
-	})),
-);
+
 const HowItWorksPage = lazy(() =>
-	import("./components/pages/HowItWorksPage").then((m) => ({
+	import("./components/6-pages/HowItWorksPage").then((m) => ({
 		default: m.HowItWorksPage,
 	})),
 );
 const IntegrationsPage = lazy(() =>
-	import("./components/pages/IntegrationsPage").then((m) => ({
+	import("./components/6-pages/IntegrationsPage").then((m) => ({
 		default: m.IntegrationsPage,
 	})),
 );
 const PrivacyPage = lazy(() =>
-	import("./components/pages/PrivacyPage").then((m) => ({
+	import("./components/6-pages/PrivacyPage").then((m) => ({
 		default: m.PrivacyPage,
 	})),
 );
 const SupportPage = lazy(() =>
-	import("./components/pages/SupportPage").then((m) => ({
+	import("./components/6-pages/SupportPage").then((m) => ({
 		default: m.SupportPage,
 	})),
 );
 const TermsPage = lazy(() =>
-	import("./components/pages/TermsPage").then((m) => ({
+	import("./components/6-pages/TermsOfServicePage").then((m) => ({
 		default: m.TermsPage,
 	})),
 );
 
 // Hidden route - browse all people
 const BrowsePage = lazy(() =>
-	import("./components/pages/BrowsePage").then((m) => ({
+	import("./components/6-pages/BrowsePage").then((m) => ({
 		default: m.BrowsePage,
 	})),
 );
@@ -79,9 +75,27 @@ const BrowsePage = lazy(() =>
 const rootRoute = createRootRoute();
 
 // Define routes
+const RedirectToSearch = () => {
+	const navigate = useNavigate();
+	const location = useLocation();
+	useEffect(() => {
+		navigate({
+			to: "/search",
+			search: location.search as Record<string, unknown>,
+		});
+	}, [navigate, location.search]);
+	return null;
+};
+
 const indexRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/",
+	component: RedirectToSearch,
+});
+
+const searchRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/search",
 	component: SearchPage,
 	validateSearch: (search: Record<string, unknown>): { q?: string } => ({
 		q: (search.q as string) || undefined,
@@ -94,19 +108,12 @@ const featuresRoute = createRoute({
 	component: FeaturesPage,
 });
 
-const apiRoute = createRoute({
+const documentationRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/api",
-	component: ApiPage,
+	path: "/documentation",
+	component: DocumentationPage,
 });
 
-const contactRoute = createRoute({
-	getParentRoute: () => rootRoute,
-	path: "/contact",
-	component: ContactPage,
-});
-
-// Placeholder routes
 const aboutRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/about",
@@ -131,10 +138,10 @@ const supportRoute = createRoute({
 	component: SupportPage,
 });
 
-const changelogRoute = createRoute({
+const productUpdatesRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/changelog",
-	component: ChangelogPage,
+	path: "/product-updates",
+	component: ProductUpdatesPage,
 });
 
 const privacyRoute = createRoute({
@@ -155,12 +162,6 @@ const cookiesRoute = createRoute({
 	component: CookiesPage,
 });
 
-const sdkRoute = createRoute({
-	getParentRoute: () => rootRoute,
-	path: "/sdk",
-	component: SdkDocsPage,
-});
-
 // Hidden route - browse all people (not in nav)
 const browseRoute = createRoute({
 	getParentRoute: () => rootRoute,
@@ -171,18 +172,17 @@ const browseRoute = createRoute({
 // Create route tree
 const routeTree = rootRoute.addChildren([
 	indexRoute,
+	searchRoute,
 	featuresRoute,
-	apiRoute,
-	contactRoute,
+	documentationRoute,
 	aboutRoute,
 	howItWorksRoute,
 	integrationsRoute,
 	supportRoute,
-	changelogRoute,
+	productUpdatesRoute,
 	privacyRoute,
 	termsRoute,
 	cookiesRoute,
-	sdkRoute,
 	browseRoute,
 ]);
 

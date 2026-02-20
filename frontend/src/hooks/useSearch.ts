@@ -3,7 +3,9 @@ import axios, { AxiosError } from "axios";
 
 import type { SearchResult } from "@/types/search.types";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+// Empty-string fallback → relative path, so Vite dev proxy handles the request
+// from any device on the network. In production, set VITE_API_URL explicitly.
+const API_URL = import.meta.env.VITE_API_URL || "";
 
 interface RateLimitError {
 	error: string;
@@ -32,10 +34,10 @@ async function searchPeople(
 	}
 }
 
-export function useSearch(
+export const useSearch = (
 	query: string,
 	options: { enabled?: boolean; limit?: number; offset?: number } = {},
-) {
+) => {
 	const { enabled = true, limit = 10, offset = 0 } = options;
 
 	return useQuery({
@@ -51,4 +53,4 @@ export function useSearch(
 			return failureCount < 1;
 		},
 	});
-}
+};

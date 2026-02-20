@@ -80,17 +80,22 @@ export const parseAndValidateJson = (
 
 		return result;
 	} catch (error) {
-		console.warn("        ⚠ JSON parsing/validation failed:");
+		// biome-ignore lint/suspicious/noConsole: Validation error display for debugging
+		console.warn("        ! JSON parsing/validation failed:");
 		if (error instanceof z.ZodError) {
+			// biome-ignore lint/suspicious/noConsole: Schema validation error details
 			console.warn("          Schema validation errors:");
 			for (const issue of error.issues) {
+				// biome-ignore lint/suspicious/noConsole: Individual validation error
 				console.warn(`          - ${issue.path.join(".")}: ${issue.message}`);
 			}
 		} else {
+			// biome-ignore lint/suspicious/noConsole: Generic parsing error
 			console.warn(
 				`          ${error instanceof Error ? error.message : "Unknown error"}`,
 			);
 		}
+		// biome-ignore lint/suspicious/noConsole: Fallback data usage warning
 		console.warn(
 			"          Using fallback data with empty values for all keys",
 		);

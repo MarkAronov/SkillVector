@@ -7,7 +7,9 @@ export const SITE_CONFIG = {
 	name: "SkillVector",
 	description: "AI-powered semantic search for professional talent discovery",
 	version: "1.0.0",
-	apiBaseUrl: import.meta.env.VITE_API_BASE_URL || "http://localhost:3000",
+	// Empty-string fallback → relative path via Vite proxy in dev.
+	// Must be set explicitly in production via VITE_API_BASE_URL.
+	apiBaseUrl: import.meta.env.VITE_API_BASE_URL || "",
 } as const;
 
 export const CONTACT = {

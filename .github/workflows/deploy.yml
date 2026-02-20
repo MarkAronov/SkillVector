@@ -4,6 +4,11 @@ on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      skip-deploy:
+        description: 'Skip deploy steps'
+        required: false
+        default: 'false'
 
 permissions:
   contents: write
@@ -12,9 +17,30 @@ permissions:
 
 jobs:
   # ------------------------------------------------------------------
+  # FLAG PARSING (commit message / dispatch inputs)
+  # ------------------------------------------------------------------
+  flags:
+    name: Determine Flags
+    runs-on: ubuntu-latest
+    outputs:
+      skip_deploy: ${{ steps.set.outputs.skip_deploy }}
+    steps:
+      - name: Set flags from commit message or workflow inputs
+        id: set
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const msg = (context.payload.head_commit && context.payload.head_commit.message) || ''
+            const inps = context.payload.inputs || {}
+            const has = (token, key) => (msg && msg.includes(token)) || (inps[key] === 'true')
+            return { skip_deploy: has('[skip-deploy]', 'skip-deploy') ? 'true' : 'false' }
+
+  # ------------------------------------------------------------------
   # STORYBOOK DEPLOYMENT
   # ------------------------------------------------------------------
   deploy-storybook:
+    needs: flags
+    if: ${{ needs.flags.outputs.skip_deploy != 'true' }}
     name: Deploy Storybook to GitHub Pages
     runs-on: ubuntu-latest
     concurrency:
@@ -41,6 +67,8 @@ jobs:
   # OPENAPI GENERATION
   # ------------------------------------------------------------------
   generate-openapi:
+    needs: flags
+    if: ${{ needs.flags.outputs.skip_deploy != 'true' }}
     name: Generate & Commit OpenAPI Spec
     runs-on: ubuntu-latest
     steps:

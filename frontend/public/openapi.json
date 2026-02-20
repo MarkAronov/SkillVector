@@ -295,7 +295,33 @@
                     "people": {
                       "type": "array",
                       "items": {
-                        "type": "object"
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "role": {
+                            "type": "string"
+                          },
+                          "location": {
+                            "type": "string"
+                          },
+                          "skills": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "experience": {
+                            "type": "string"
+                          },
+                          "relevanceScore": {
+                            "type": "number"
+                          }
+                        }
                       }
                     },
                     "count": {

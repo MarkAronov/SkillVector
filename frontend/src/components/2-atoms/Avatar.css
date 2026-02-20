@@ -1,0 +1,35 @@
+/* Avatar Component Styles */
+
+/* Nonagon (9-sided polygon) variant matching site logo outline */
+.avatar-nonagon {
+	/* Use the same 9-point polygon as the logo path (percent coords) */
+	clip-path: polygon(
+		50% 3%,
+		80.195% 13.998%,
+		96.248% 41.842%,
+		90.702% 73.5%,
+		66.07% 94.167%,
+		33.926% 94.167%,
+		9.298% 73.5%,
+		3.752% 41.842%,
+		19.805% 13.998%
+	);
+	-webkit-clip-path: polygon(
+		50% 3%,
+		80.195% 13.998%,
+		96.248% 41.842%,
+		90.702% 73.5%,
+		66.07% 94.167%,
+		33.926% 94.167%,
+		9.298% 73.5%,
+		3.752% 41.842%,
+		19.805% 13.998%
+	);
+	display: inline-grid;
+	place-items: center;
+}
+
+/* Fallback for older browsers - preserve rounded look */
+.avatar-nonagon.fallback {
+	border-radius: 0.5rem;
+}

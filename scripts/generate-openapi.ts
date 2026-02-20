@@ -240,7 +240,21 @@ const spec = {
 								schema: {
 									type: "object",
 									properties: {
-										people: { type: "array", items: { type: "object" } },
+										people: {
+											type: "array",
+											items: {
+												type: "object",
+												properties: {
+													id: { type: "string" },
+													name: { type: "string" },
+													role: { type: "string" },
+													location: { type: "string" },
+													skills: { type: "array", items: { type: "string" } },
+													experience: { type: "string" },
+													relevanceScore: { type: "number" },
+												},
+											},
+										},
 										count: { type: "number" },
 									},
 								},
@@ -258,8 +272,10 @@ try {
 		"./frontend/public/openapi.json",
 		JSON.stringify(spec, null, 2),
 	);
-	console.log("✓ OpenAPI spec generated at frontend/public/openapi.json");
+	process.stdout.write(
+		"✓ OpenAPI spec generated at frontend/public/openapi.json\n",
+	);
 } catch (error) {
-	console.error("✗ Failed to generate OpenAPI spec:", error);
+	process.stderr.write(`✗ Failed to generate OpenAPI spec: ${error}\n`);
 	process.exit(1);
 }

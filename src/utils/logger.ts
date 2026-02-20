@@ -692,6 +692,7 @@ export const log = (
 	const message = LOG_MESSAGES[messageKey];
 
 	if (!message) {
+		// biome-ignore lint/suspicious/noConsole: Intentional warning for development debugging
 		console.warn(`Unknown log message key: ${messageKey}`);
 		return;
 	}
@@ -704,12 +705,15 @@ export const log = (
 
 	switch (message.level) {
 		case "error":
+			// biome-ignore lint/suspicious/noConsole: Core logger function
 			console.error(fullMessage);
 			break;
 		case "warning":
+			// biome-ignore lint/suspicious/noConsole: Core logger function
 			console.warn(fullMessage);
 			break;
 		default:
+			// biome-ignore lint/suspicious/noConsole: Core logger function
 			console.log(fullMessage);
 	}
 };
@@ -719,6 +723,7 @@ export const log = (
  */
 export const logData = (data: unknown, indentLevel: number = 0): void => {
 	const output = indentLevel > 0 ? indent(String(data), indentLevel) : data;
+	// biome-ignore lint/suspicious/noConsole: Core logger function for data output
 	console.log(output);
 };
 
@@ -738,12 +743,15 @@ export const logCustom = (
 
 	switch (level) {
 		case "error":
+			// biome-ignore lint/suspicious/noConsole: Core logger function
 			console.error(fullMessage);
 			break;
 		case "warning":
+			// biome-ignore lint/suspicious/noConsole: Core logger function
 			console.warn(fullMessage);
 			break;
 		default:
+			// biome-ignore lint/suspicious/noConsole: Core logger function
 			console.log(fullMessage);
 	}
 };
@@ -752,8 +760,11 @@ export const logCustom = (
  * Log a section header
  */
 export const logSection = (title: string): void => {
+	// biome-ignore lint/suspicious/noConsole: Core logger function for section headers
 	console.log(`\n${separator()}`);
+	// biome-ignore lint/suspicious/noConsole: Core logger function for section headers
 	console.log(title);
+	// biome-ignore lint/suspicious/noConsole: Core logger function for section headers
 	console.log(separator());
 };
 
@@ -761,6 +772,7 @@ export const logSection = (title: string): void => {
  * Log a subsection
  */
 export const logSubsection = (title: string): void => {
+	// biome-ignore lint/suspicious/noConsole: Core logger function for subsection headers
 	console.log(`\n${title}`);
 };
 

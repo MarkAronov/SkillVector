@@ -59,32 +59,45 @@ export const logCurrentConfiguration = () => {
 	separator();
 
 	// Available AI Providers
+	// biome-ignore lint/suspicious/noConsole: Intentional configuration display at startup
 	console.log("\n[AI] Available AI Providers:");
 	Object.entries(config.api_keys).forEach(([provider, available]) => {
 		const model = config.ai_models[provider as keyof typeof config.ai_models];
 		const status = available ? "[OK]" : "[X]";
+		// biome-ignore lint/suspicious/noConsole: Intentional configuration display
 		console.log(`    ${status} ${provider.toUpperCase()}: ${model}`);
 	});
 
 	// Embedding Models
+	// biome-ignore lint/suspicious/noConsole: Intentional configuration display at startup
 	console.log("\n[SEARCH] Embedding Models:");
+	// biome-ignore lint/suspicious/noConsole: Intentional configuration display
 	console.log(`    OpenAI Small: ${config.embedding_models.openai_small}`);
+	// biome-ignore lint/suspicious/noConsole: Intentional configuration display
 	console.log(`    OpenAI Large: ${config.embedding_models.openai_large}`);
+	// biome-ignore lint/suspicious/noConsole: Intentional configuration display
 	console.log(`    Ollama Local: ${config.embedding_models.ollama}`);
+	// biome-ignore lint/suspicious/noConsole: Intentional configuration display
 	console.log(`    Hugging Face: ${config.embedding_models.huggingface}`);
+	// biome-ignore lint/suspicious/noConsole: Intentional configuration display
 	console.log(`    Google: ${config.embedding_models.google}`);
 
 	// Qdrant Configuration
+	// biome-ignore lint/suspicious/noConsole: Intentional configuration display at startup
 	console.log("\n[DB] Vector Database:");
+	// biome-ignore lint/suspicious/noConsole: Intentional configuration display
 	console.log(
 		`    Qdrant: ${config.qdrant.protocol}://${config.qdrant.host}:${config.qdrant.port}`,
 	);
+	// biome-ignore lint/suspicious/noConsole: Intentional configuration display
 	console.log(
 		`    API Key: ${config.qdrant.has_api_key ? "[OK] Configured" : "[X] Not set"}`,
 	);
 
 	// Startup Options
+	// biome-ignore lint/suspicious/noConsole: Intentional configuration display at startup
 	console.log("\n[*] Startup Options:");
+	// biome-ignore lint/suspicious/noConsole: Intentional configuration display
 	console.log(
 		`    Skip Static Data: ${config.options.skip_static_data ? "[OK] Yes" : "[X] No"}`,
 	);

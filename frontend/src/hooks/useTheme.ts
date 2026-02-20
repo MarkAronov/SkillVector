@@ -4,14 +4,14 @@ type Theme = "light" | "dark" | "system";
 
 const STORAGE_KEY = "skillvector-theme";
 
-function getSystemTheme(): "light" | "dark" {
+const getSystemTheme = (): "light" | "dark" => {
 	if (typeof window === "undefined") return "light";
 	return window.matchMedia("(prefers-color-scheme: dark)").matches
 		? "dark"
 		: "light";
-}
+};
 
-function applyTheme(theme: Theme) {
+const applyTheme = (theme: Theme) => {
 	const root = document.documentElement;
 	const effectiveTheme = theme === "system" ? getSystemTheme() : theme;
 
@@ -20,7 +20,7 @@ function applyTheme(theme: Theme) {
 	} else {
 		root.classList.remove("dark");
 	}
-}
+};
 
 // Shared store for theme state
 let currentTheme: Theme = (() => {
@@ -34,16 +34,16 @@ let currentTheme: Theme = (() => {
 
 const listeners = new Set<() => void>();
 
-function subscribe(listener: () => void) {
+const subscribe = (listener: () => void) => {
 	listeners.add(listener);
 	return () => listeners.delete(listener);
-}
+};
 
-function getSnapshot() {
+const getSnapshot = () => {
 	return currentTheme;
-}
+};
 
-function setThemeInternal(newTheme: Theme) {
+const setThemeInternal = (newTheme: Theme) => {
 	currentTheme = newTheme;
 	localStorage.setItem(STORAGE_KEY, newTheme);
 	applyTheme(newTheme);
@@ -51,7 +51,7 @@ function setThemeInternal(newTheme: Theme) {
 	for (const listener of listeners) {
 		listener();
 	}
-}
+};
 
 // Apply initial theme
 if (typeof window !== "undefined") {
@@ -71,7 +71,7 @@ if (typeof window !== "undefined") {
 		});
 }
 
-export function useTheme() {
+export const useTheme = () => {
 	const theme = useSyncExternalStore(
 		subscribe,
 		getSnapshot,
@@ -105,4 +105,4 @@ export function useTheme() {
 		toggleTheme,
 		isSystem: theme === "system",
 	};
-}
+};

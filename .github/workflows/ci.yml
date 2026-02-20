@@ -5,6 +5,28 @@ on:
     branches: [ "main", "develop", "feature/*" ]
   pull_request:
     branches: [ "main", "develop" ]
+  workflow_dispatch:
+    inputs:
+      run-full:
+        description: 'Run the full pipeline'
+        required: false
+        default: 'false'
+      run-partial:
+        description: 'Run partial pipeline (CI + Deploy)'
+        required: false
+        default: 'false'
+      skip-backend:
+        description: 'Skip backend jobs'
+        required: false
+        default: 'false'
+      skip-frontend:
+        description: 'Skip frontend jobs'
+        required: false
+        default: 'false'
+      skip-sdk:
+        description: 'Skip SDK jobs'
+        required: false
+        default: 'false'
 
 jobs:
   # ------------------------------------------------------------------
@@ -37,11 +59,40 @@ jobs:
               - '.github/workflows/**'
 
   # ------------------------------------------------------------------
+  # FLAG PARSING (commit message / dispatch inputs)
+  # ------------------------------------------------------------------
+  flags:
+    name: Determine Flags
+    runs-on: ubuntu-latest
+    outputs:
+      skip_backend: ${{ steps.set.outputs.skip_backend }}
+      skip_frontend: ${{ steps.set.outputs.skip_frontend }}
+      skip_sdk: ${{ steps.set.outputs.skip_sdk }}
+      run_full: ${{ steps.set.outputs.run_full }}
+      run_partial: ${{ steps.set.outputs.run_partial }}
+    steps:
+      - name: Set flags from commit message or workflow inputs
+        id: set
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const msg = (context.payload.head_commit && context.payload.head_commit.message) || ''
+            const inps = context.payload.inputs || {}
+            const has = (token, key) => (msg && msg.includes(token)) || (inps[key] === 'true')
+            return {
+              skip_backend: has('[skip-backend]', 'skip-backend') ? 'true' : 'false',
+              skip_frontend: has('[skip-frontend]', 'skip-frontend') ? 'true' : 'false',
+              skip_sdk: has('[skip-sdk]', 'skip-sdk') ? 'true' : 'false',
+              run_full: has('[run-full]', 'run-full') ? 'true' : 'false',
+              run_partial: has('[run-partial]', 'run-partial') ? 'true' : 'false'
+            }
+
+  # ------------------------------------------------------------------
   # BACKEND JOBS
   # ------------------------------------------------------------------
   backend-ci:
-    needs: changes
-    if: ${{ needs.changes.outputs.backend == 'true' }}
+    needs: [changes, flags]
+    if: ${{ needs.changes.outputs.backend == 'true' && needs.flags.outputs.skip_backend != 'true' }}
     name: Backend CI
     runs-on: ubuntu-latest
     steps:
@@ -62,8 +113,8 @@ jobs:
   # FRONTEND JOBS
   # ------------------------------------------------------------------
   frontend-ci:
-    needs: changes
-    if: ${{ needs.changes.outputs.frontend == 'true' }}
+    needs: [changes, flags]
+    if: ${{ needs.changes.outputs.frontend == 'true' && needs.flags.outputs.skip_frontend != 'true' }}
     name: Frontend CI
     runs-on: ubuntu-latest
     steps:
@@ -86,8 +137,8 @@ jobs:
         continue-on-error: true
 
   frontend-storybook-build:
-    needs: changes
-    if: ${{ needs.changes.outputs.frontend == 'true' }}
+    needs: [changes, flags]
+    if: ${{ needs.changes.outputs.frontend == 'true' && needs.flags.outputs.skip_frontend != 'true' }}
     name: Frontend Storybook Build
     runs-on: ubuntu-latest
     steps:
@@ -109,8 +160,8 @@ jobs:
   # SDK JOBS
   # ------------------------------------------------------------------
   sdk-ci:
-    needs: changes
-    if: ${{ needs.changes.outputs.sdk == 'true' }}
+    needs: [changes, flags]
+    if: ${{ needs.changes.outputs.sdk == 'true' && needs.flags.outputs.skip_sdk != 'true' }}
     name: SDK CI
     runs-on: ubuntu-latest
     defaults:

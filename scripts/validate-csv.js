@@ -7,12 +7,12 @@ const Papa = require("papaparse");
 
 const CSV_DIR = path.resolve(__dirname, "..", "static-data", "csv");
 
-function isEmail(s) {
+const isEmail = (s) => {
 	if (!s) return false;
 	return /^\S+@\S+\.\S+$/.test(s);
 }
 
-function validateFile(filePath) {
+const validateFile = (filePath) => {
 	const content = fs.readFileSync(filePath, "utf8");
 	const parsed = Papa.parse(content, {
 		header: true,
@@ -103,7 +103,7 @@ function validateFile(filePath) {
 	return { ok: errors.length === 0, errors };
 }
 
-function main() {
+const main = () => {
 	const files = fs.readdirSync(CSV_DIR).filter((f) => f.endsWith(".csv"));
 	let totalErrors = 0;
 	files.forEach((f) => {

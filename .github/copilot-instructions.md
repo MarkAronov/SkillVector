@@ -1,4 +1,4 @@
-# SkillVector Project Rules & Coding Standards
+# SkillVector — Coding Standards, Guidelines, & Rules
 
 ## 🎯 PROFESSIONAL GUIDANCE PROTOCOL
 
@@ -16,7 +16,7 @@
 - ✅ **ALWAYS** when discussing best practices or "what professionals do"
 - ✅ **ALWAYS** when comparing approaches or debating solutions
 - ✅ **ALWAYS** for framework-specific conventions (Storybook, React, TypeScript, etc.)
-- ❌ **SKIP** only when you have definitive, up-to-date knowledge in your training data
+- ❌ **SKIP** only when you have definitive, up-to-date knowledge in your training data if you know what's current versions are
 
 ### Authoritative Programming Sources ONLY:
 

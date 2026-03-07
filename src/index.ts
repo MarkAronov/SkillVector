@@ -1,23 +1,23 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { initializeAIService } from "./ai";
-import { createBestAvailable } from "./ai/providers/provider-factory";
-import aiRouter from "./ai/routes";
 import {
 	logCurrentConfiguration,
 	validateEnvironment,
 } from "./config/env.config";
 import { createLangChainVectorStore, initQdrant } from "./database";
 import { generalRateLimiter } from "./middleware/rate-limiter";
+import aiRouter from "./modules/ai/ai.route";
+import { initializeAIService } from "./modules/ai/ai.service";
+import { createBestAvailable } from "./modules/ai/providers/provider-factory";
+import contactRouter from "./modules/contact/contact.route";
+import { checkApplicationHealth } from "./modules/health/health.service";
+import parserApp from "./modules/parser/parser.route";
 import {
 	processFiles,
 	scanStaticDataFolder,
 	storeProcessedData,
-} from "./parser";
-import parserApp from "./parser/routes";
-import type { ProcessedFile } from "./parser/types";
-import contactRouter from "./routes/contact";
-import { checkApplicationHealth } from "./services/health";
+} from "./modules/parser/parser.service";
+import type { ProcessedFile } from "./modules/parser/parser.types";
 import { log, separator } from "./utils/logger";
 
 /**

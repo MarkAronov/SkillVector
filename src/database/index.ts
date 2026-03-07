@@ -1,8 +1,9 @@
 import { Document } from "@langchain/core/documents";
 import { QdrantVectorStore } from "@langchain/qdrant";
 import { QdrantClient } from "@qdrant/js-client-rest";
-import type { VectorStore } from "../ai/types";
+import type { VectorStore } from "../modules/ai/ai.types";
 import { log } from "../utils/logger";
+import type { CollectionStatus, QdrantResponse } from "./database.types";
 // Note: Using generic types here to match the original implementation
 import {
 	createEmbeddingProvider,
@@ -10,7 +11,6 @@ import {
 	getBestAvailableEmbedding,
 	getEmbeddingDimensions,
 } from "./embedding-factory";
-import type { CollectionStatus, QdrantResponse } from "./types";
 
 // Global Qdrant client instance
 let qdrantClient: QdrantClient | null = null;

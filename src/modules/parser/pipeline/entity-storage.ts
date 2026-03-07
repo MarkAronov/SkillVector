@@ -1,13 +1,13 @@
-import { documentExistsByHash, storeDocument } from "../database";
-import type { Person, PersonMetadata } from "../types/person";
-import { generatePersonHash } from "../types/person";
-import { log } from "../utils/logger";
+import { documentExistsByHash, storeDocument } from "../../../database";
+import type { Person, PersonMetadata } from "../../../types/person";
+import { generatePersonHash } from "../../../types/person";
+import { log } from "../../../utils/logger";
+import type { EntityResult, ProcessedFile, RunContext } from "../parser.types";
 import {
 	createPersonContent,
 	enhancePersonData,
 	validatePersonData,
 } from "./person-extractor";
-import type { EntityResult, ProcessedFile, RunContext } from "./types";
 
 /**
  * Entity storage service - handles extraction and storage of entities

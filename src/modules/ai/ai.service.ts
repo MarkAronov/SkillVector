@@ -1,13 +1,13 @@
 import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { hybridSearch } from "../database";
-import { parsePersonFromContent } from "../parser/person-extractor";
+import { hybridSearch } from "../../database";
 import {
 	createZodSchemaFromKeys,
 	extractKeysFromInterface,
 	parseAndValidateJson,
-} from "../utils/interface-parser";
-import { log } from "../utils/logger";
-import type { AIProvider, SearchResult, TextToJsonResult } from "./types";
+} from "../../utils/interface-parser";
+import { log } from "../../utils/logger";
+import { parsePersonFromContent } from "../parser/pipeline/person-extractor";
+import type { AIProvider, SearchResult, TextToJsonResult } from "./ai.types";
 
 /**
  * Main AI Service - handles the 2 core tasks using LangChain:

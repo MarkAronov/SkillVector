@@ -1,34 +1,34 @@
-import { ChatAnthropic } from "@langchain/anthropic";
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
-import type { AIProvider, CompletionOptions } from "../types";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import type { AIProvider, CompletionOptions } from "../ai.types";
 
 /**
- * Anthropic Claude Provider Implementation using LangChain
- * Supports Claude 3.5 Sonnet, Claude 3 Opus, Claude 3 Haiku
+ * Google Gemini Provider Implementation using LangChain
+ * Supports Gemini Pro, Gemini Flash, and other Google AI models
  */
 
 /**
- * Create Anthropic Claude provider instance using LangChain's ChatAnthropic
+ * Create Google Gemini provider instance using LangChain's ChatGoogleGenerativeAI
  */
-export const createAnthropicProvider = (
-	model = "claude-3-5-sonnet-20241022",
+export const createGeminiProvider = (
+	model = "gemini-1.5-pro",
 	apiKey?: string,
 ): AIProvider => {
-	const anthropicKey = apiKey || process.env.ANTHROPIC_API_KEY;
+	const googleApiKey = apiKey || process.env.GOOGLE_API_KEY;
 
-	if (!anthropicKey) {
-		throw new Error("Anthropic API key not provided");
+	if (!googleApiKey) {
+		throw new Error("Google API key not provided");
 	}
 
-	const languageModel = new ChatAnthropic({
+	const languageModel = new ChatGoogleGenerativeAI({
 		model: model,
-		apiKey: anthropicKey,
+		apiKey: googleApiKey,
 		temperature: 0.7,
-		maxTokens: 1000,
+		maxOutputTokens: 1000,
 	});
 
 	return {
-		name: "Anthropic",
+		name: "Google Gemini",
 		model: model,
 		languageModel,
 		generateCompletion: (prompt: string, options?: CompletionOptions) =>
@@ -39,18 +39,18 @@ export const createAnthropicProvider = (
 };
 
 /**
- * Generate completion using LangChain's ChatAnthropic
+ * Generate completion using LangChain's ChatGoogleGenerativeAI
  */
 const generateCompletion = async (
-	model: ChatAnthropic,
+	model: ChatGoogleGenerativeAI,
 	prompt: string,
 	options?: CompletionOptions,
 ): Promise<string> => {
 	// Create a new model instance with options if provided
-	const configuredModel = new ChatAnthropic({
+	const configuredModel = new ChatGoogleGenerativeAI({
 		...model,
 		temperature: options?.temperature ?? 0.7,
-		maxTokens: options?.maxTokens ?? 1000,
+		maxOutputTokens: options?.maxTokens ?? 1000,
 		stopSequences: options?.stopSequences,
 	});
 
@@ -66,18 +66,18 @@ const generateCompletion = async (
 };
 
 /**
- * Generate streaming completion using LangChain's ChatAnthropic
+ * Generate streaming completion using LangChain's ChatGoogleGenerativeAI
  */
 const generateStream = async function* (
-	model: ChatAnthropic,
+	model: ChatGoogleGenerativeAI,
 	prompt: string,
 	options?: CompletionOptions,
 ): AsyncGenerator<string> {
 	// Create a new model instance with options if provided
-	const configuredModel = new ChatAnthropic({
+	const configuredModel = new ChatGoogleGenerativeAI({
 		...model,
 		temperature: options?.temperature ?? 0.7,
-		maxTokens: options?.maxTokens ?? 1000,
+		maxOutputTokens: options?.maxTokens ?? 1000,
 		stopSequences: options?.stopSequences,
 	});
 

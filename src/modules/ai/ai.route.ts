@@ -1,8 +1,8 @@
 import type { Context } from "hono";
 import { Hono } from "hono";
-import { getAllDocuments } from "../database";
-import { aiRateLimiter } from "../middleware/rate-limiter";
-import { handleSearchRequest } from "./index";
+import { getAllDocuments } from "../../database";
+import { aiRateLimiter } from "../../middleware/rate-limiter";
+import { handleSearchRequest } from "./ai.service";
 
 const AIRouter = new Hono();
 

@@ -1,5 +1,5 @@
-import { log } from "../../utils/logger";
-import type { AIProvider } from "../types";
+import { log } from "../../../utils/logger";
+import type { AIProvider } from "../ai.types";
 import { createAnthropicProvider } from "./anthropic.provider.js";
 import { createGeminiProvider } from "./gemini.provider.js";
 import { createHuggingFaceProvider } from "./huggingface.provider.js";

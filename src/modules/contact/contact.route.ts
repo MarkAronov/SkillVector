@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { sendContactEmail } from "../services/contact";
+import { sendContactEmail } from "./contact.service";
 
 const contactRouter = new Hono();
 

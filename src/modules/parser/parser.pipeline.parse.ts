@@ -1,9 +1,9 @@
 import * as Papa from "papaparse";
-import { log } from "../../../utils/logger";
-import type { CsvRow } from "../parser.types";
+import { log } from "../../utils/logger";
+import type { CsvRow } from "./parser.types";
 
 /**
- * File parsers service - handles parsing of different file formats
+ * File parsers - handles parsing of different file formats
  * (CSV, JSON) into structured data
  */
 

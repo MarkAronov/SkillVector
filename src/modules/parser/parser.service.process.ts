@@ -1,13 +1,13 @@
 import { extractKeysFromInterface } from "../../utils/interface-parser";
 import { log } from "../../utils/logger";
 import { convertTextToJson } from "../ai/ai.service";
-import type { FileInfo, ProcessedFile, RunContext } from "./parser.types";
-import { extractAndStoreEntities } from "./pipeline/entity-storage";
-import { parseCSV, parseJSON } from "./pipeline/file-parsers";
+import { parseCSV, parseJSON } from "./parser.pipeline.parse";
+import { extractAndStoreEntities } from "./parser.pipeline.store";
 import {
 	validateFileContent,
 	validateFileType,
-} from "./pipeline/file-validators";
+} from "./parser.pipeline.validate";
+import type { FileInfo, ProcessedFile, RunContext } from "./parser.types";
 
 /**
  * Main parser service - orchestrates file processing pipeline
@@ -160,17 +160,17 @@ export const processFiles = async (
 	return processedFiles;
 };
 
-// Re-export functions from other services for backward compatibility
+export { parseCSV, parseJSON } from "./parser.pipeline.parse";
+export { scanStaticDataFolder } from "./parser.pipeline.scan";
+// Re-export pipeline functions for backward compatibility
 export {
 	getDataStoreStats,
 	storeProcessedData,
-} from "./pipeline/entity-storage";
-export { parseCSV, parseJSON } from "./pipeline/file-parsers";
-export { scanStaticDataFolder } from "./pipeline/file-scanner";
+} from "./parser.pipeline.store";
 export {
 	validateFileContent,
 	validateFileType,
-} from "./pipeline/file-validators";
+} from "./parser.pipeline.validate";
 
 /**
  * Complete file upload handler with validation and processing

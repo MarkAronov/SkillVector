@@ -1,10 +1,10 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import { log } from "../../../utils/logger";
-import type { FileInfo } from "../parser.types";
+import { log } from "../../utils/logger";
+import type { FileInfo } from "./parser.types";
 
 /**
- * File scanner service - handles static file system operations
+ * File scanner - handles static file system operations
  * for scanning and loading files from the static-data directory
  */
 

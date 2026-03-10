@@ -1,33 +1,34 @@
+import { ChatAnthropic } from "@langchain/anthropic";
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
-import { ChatOpenAI } from "@langchain/openai";
-import type { AIProvider, CompletionOptions } from "../ai.types";
+import type { AIProvider, CompletionOptions } from "./ai.types";
 
 /**
- * OpenAI Provider Implementation using LangChain
+ * Anthropic Claude Provider Implementation using LangChain
+ * Supports Claude 3.5 Sonnet, Claude 3 Opus, Claude 3 Haiku
  */
 
 /**
- * Create OpenAI provider instance using LangChain's ChatOpenAI
+ * Create Anthropic Claude provider instance using LangChain's ChatAnthropic
  */
-export const createOpenAIProvider = (
-	model = "gpt-4o-mini",
+export const createAnthropicProvider = (
+	model = "claude-3-5-sonnet-20241022",
 	apiKey?: string,
 ): AIProvider => {
-	const openAIKey = apiKey || process.env.OPENAI_API_KEY;
+	const anthropicKey = apiKey || process.env.ANTHROPIC_API_KEY;
 
-	if (!openAIKey) {
-		throw new Error("OpenAI API key not provided");
+	if (!anthropicKey) {
+		throw new Error("Anthropic API key not provided");
 	}
 
-	const languageModel = new ChatOpenAI({
+	const languageModel = new ChatAnthropic({
 		model: model,
-		apiKey: openAIKey,
+		apiKey: anthropicKey,
 		temperature: 0.7,
 		maxTokens: 1000,
 	});
 
 	return {
-		name: "OpenAI",
+		name: "Anthropic",
 		model: model,
 		languageModel,
 		generateCompletion: (prompt: string, options?: CompletionOptions) =>
@@ -38,19 +39,19 @@ export const createOpenAIProvider = (
 };
 
 /**
- * Generate completion using LangChain's ChatOpenAI
+ * Generate completion using LangChain's ChatAnthropic
  */
 const generateCompletion = async (
-	model: ChatOpenAI,
+	model: ChatAnthropic,
 	prompt: string,
 	options?: CompletionOptions,
 ): Promise<string> => {
 	// Create a new model instance with options if provided
-	const configuredModel = new ChatOpenAI({
+	const configuredModel = new ChatAnthropic({
 		...model,
 		temperature: options?.temperature ?? 0.7,
 		maxTokens: options?.maxTokens ?? 1000,
-		stop: options?.stopSequences,
+		stopSequences: options?.stopSequences,
 	});
 
 	// Format prompt with system message if provided
@@ -65,19 +66,19 @@ const generateCompletion = async (
 };
 
 /**
- * Generate streaming completion using LangChain's ChatOpenAI
+ * Generate streaming completion using LangChain's ChatAnthropic
  */
 const generateStream = async function* (
-	model: ChatOpenAI,
+	model: ChatAnthropic,
 	prompt: string,
 	options?: CompletionOptions,
 ): AsyncGenerator<string> {
 	// Create a new model instance with options if provided
-	const configuredModel = new ChatOpenAI({
+	const configuredModel = new ChatAnthropic({
 		...model,
 		temperature: options?.temperature ?? 0.7,
 		maxTokens: options?.maxTokens ?? 1000,
-		stop: options?.stopSequences,
+		stopSequences: options?.stopSequences,
 	});
 
 	// Format prompt with system message if provided

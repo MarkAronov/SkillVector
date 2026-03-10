@@ -1,6 +1,7 @@
 import { Hono } from "hono";
-import { sendContactEmail } from "./contact.service";
+import { sendContactEmail } from "./contact.service.send";
 
+// Contact send route - POST /contact
 const contactRouter = new Hono();
 
 contactRouter.post("/", async (c) => {

@@ -1,34 +1,33 @@
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-import type { AIProvider, CompletionOptions } from "../ai.types";
+import { ChatOpenAI } from "@langchain/openai";
+import type { AIProvider, CompletionOptions } from "./ai.types";
 
 /**
- * Google Gemini Provider Implementation using LangChain
- * Supports Gemini Pro, Gemini Flash, and other Google AI models
+ * OpenAI Provider Implementation using LangChain
  */
 
 /**
- * Create Google Gemini provider instance using LangChain's ChatGoogleGenerativeAI
+ * Create OpenAI provider instance using LangChain's ChatOpenAI
  */
-export const createGeminiProvider = (
-	model = "gemini-1.5-pro",
+export const createOpenAIProvider = (
+	model = "gpt-4o-mini",
 	apiKey?: string,
 ): AIProvider => {
-	const googleApiKey = apiKey || process.env.GOOGLE_API_KEY;
+	const openAIKey = apiKey || process.env.OPENAI_API_KEY;
 
-	if (!googleApiKey) {
-		throw new Error("Google API key not provided");
+	if (!openAIKey) {
+		throw new Error("OpenAI API key not provided");
 	}
 
-	const languageModel = new ChatGoogleGenerativeAI({
+	const languageModel = new ChatOpenAI({
 		model: model,
-		apiKey: googleApiKey,
+		apiKey: openAIKey,
 		temperature: 0.7,
-		maxOutputTokens: 1000,
+		maxTokens: 1000,
 	});
 
 	return {
-		name: "Google Gemini",
+		name: "OpenAI",
 		model: model,
 		languageModel,
 		generateCompletion: (prompt: string, options?: CompletionOptions) =>
@@ -39,19 +38,19 @@ export const createGeminiProvider = (
 };
 
 /**
- * Generate completion using LangChain's ChatGoogleGenerativeAI
+ * Generate completion using LangChain's ChatOpenAI
  */
 const generateCompletion = async (
-	model: ChatGoogleGenerativeAI,
+	model: ChatOpenAI,
 	prompt: string,
 	options?: CompletionOptions,
 ): Promise<string> => {
 	// Create a new model instance with options if provided
-	const configuredModel = new ChatGoogleGenerativeAI({
+	const configuredModel = new ChatOpenAI({
 		...model,
 		temperature: options?.temperature ?? 0.7,
-		maxOutputTokens: options?.maxTokens ?? 1000,
-		stopSequences: options?.stopSequences,
+		maxTokens: options?.maxTokens ?? 1000,
+		stop: options?.stopSequences,
 	});
 
 	// Format prompt with system message if provided
@@ -66,19 +65,19 @@ const generateCompletion = async (
 };
 
 /**
- * Generate streaming completion using LangChain's ChatGoogleGenerativeAI
+ * Generate streaming completion using LangChain's ChatOpenAI
  */
 const generateStream = async function* (
-	model: ChatGoogleGenerativeAI,
+	model: ChatOpenAI,
 	prompt: string,
 	options?: CompletionOptions,
 ): AsyncGenerator<string> {
 	// Create a new model instance with options if provided
-	const configuredModel = new ChatGoogleGenerativeAI({
+	const configuredModel = new ChatOpenAI({
 		...model,
 		temperature: options?.temperature ?? 0.7,
-		maxOutputTokens: options?.maxTokens ?? 1000,
-		stopSequences: options?.stopSequences,
+		maxTokens: options?.maxTokens ?? 1000,
+		stop: options?.stopSequences,
 	});
 
 	// Format prompt with system message if provided

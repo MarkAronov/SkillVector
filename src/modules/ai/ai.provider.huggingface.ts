@@ -1,5 +1,5 @@
 import { HuggingFaceInference } from "@langchain/community/llms/hf";
-import type { AIProvider, CompletionOptions } from "../ai.types";
+import type { AIProvider, CompletionOptions } from "./ai.types";
 
 /**
  * Hugging Face Provider Implementation using LangChain

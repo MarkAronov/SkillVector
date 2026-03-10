@@ -1,5 +1,5 @@
 /**
- * File validators service - handles validation of file types and content
+ * File validators - handles validation of file types and content
  * to ensure files match their declared types
  */
 

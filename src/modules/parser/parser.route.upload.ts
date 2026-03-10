@@ -1,14 +1,14 @@
 import { Hono } from "hono";
 import { log } from "../../utils/logger";
-import { processFileUpload } from "./parser.service";
+import { processFileUpload } from "./parser.service.process";
 
 /**
- * Consolidated parser routes - single upload endpoint for all file types
+ * Parser upload route - single upload endpoint for all file types
  */
-const parserApp = new Hono();
+const parserRouter = new Hono();
 
 // Single upload endpoint that handles CSV, JSON, and Text files
-parserApp.post("/upload", async (c) => {
+parserRouter.post("/upload", async (c) => {
 	try {
 		const formData = await c.req.formData();
 		const file = formData.get("file") as File;
@@ -61,4 +61,4 @@ parserApp.post("/upload", async (c) => {
 	}
 });
 
-export default parserApp;
+export default parserRouter;

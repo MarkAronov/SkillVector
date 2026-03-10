@@ -1,16 +1,16 @@
-import { documentExistsByHash, storeDocument } from "../../../database";
-import type { Person, PersonMetadata } from "../../../types/person";
-import { generatePersonHash } from "../../../types/person";
-import { log } from "../../../utils/logger";
-import type { EntityResult, ProcessedFile, RunContext } from "../parser.types";
+import { documentExistsByHash, storeDocument } from "../../database";
+import type { Person, PersonMetadata } from "../../types/person";
+import { generatePersonHash } from "../../types/person";
+import { log } from "../../utils/logger";
 import {
 	createPersonContent,
 	enhancePersonData,
 	validatePersonData,
-} from "./person-extractor";
+} from "./parser.pipeline.extract";
+import type { EntityResult, ProcessedFile, RunContext } from "./parser.types";
 
 /**
- * Entity storage service - handles extraction and storage of entities
+ * Entity storage - handles extraction and storage of entities
  * to the vector database (Qdrant)
  */
 

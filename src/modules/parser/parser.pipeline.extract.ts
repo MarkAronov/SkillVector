@@ -1,8 +1,8 @@
-import type { Person } from "../../../types/person";
-import { normalizePerson, validatePerson } from "../../../types/person";
+import type { Person } from "../../types/person";
+import { normalizePerson, validatePerson } from "../../types/person";
 
 /**
- * Person extractor service - handles extraction and enhancement of person data
+ * Person extractor - handles extraction and enhancement of person data
  * from various text sources and formats
  */
 

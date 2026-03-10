@@ -1,10 +1,10 @@
-import { log } from "../../../utils/logger";
-import type { AIProvider } from "../ai.types";
-import { createAnthropicProvider } from "./anthropic.provider.js";
-import { createGeminiProvider } from "./gemini.provider.js";
-import { createHuggingFaceProvider } from "./huggingface.provider.js";
-import { createOllamaProvider } from "./ollama.provider.js";
-import { createOpenAIProvider } from "./openai.provider.js";
+import { log } from "../../utils/logger";
+import { createAnthropicProvider } from "./ai.provider.anthropic";
+import { createGeminiProvider } from "./ai.provider.gemini";
+import { createHuggingFaceProvider } from "./ai.provider.huggingface";
+import { createOllamaProvider } from "./ai.provider.ollama";
+import { createOpenAIProvider } from "./ai.provider.openai";
+import type { AIProvider } from "./ai.types";
 
 /**
  * Get model from environment variables with fallbacks

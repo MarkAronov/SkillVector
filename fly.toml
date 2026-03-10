@@ -1,46 +1,39 @@
-# Fly.io configuration for SkillVector backend
-# Docs: https://fly.io/docs/reference/configuration/
+# fly.toml app configuration file generated for skillvector-api on 2026-03-10T07:06:17+02:00
 #
-# Deploy:  flyctl launch --config fly.toml
-# Secrets: flyctl secrets set OPENAI_API_KEY=... QDRANT_HOST=... etc.
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "skillvector-api"
-primary_region = "lax"  # Change to closest region to your Qdrant Cloud instance
-                         # Options: iad (US East), lax (US West), lhr (London),
-                         #          fra (Frankfurt), sin (Singapore), nrt (Tokyo)
+app = 'skillvector-api'
+primary_region = 'ams'
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
 
 [env]
-  PORT            = "3000"
-  NODE_ENV        = "production"
-  SKIP_STATIC_DATA = "true"
+  NODE_ENV = 'production'
+  PORT = '3000'
+  SKIP_STATIC_DATA = 'true'
 
-# Scale to zero: VM stops after 5 min of no traffic, wakes on next request
-# Cold start: ~1–3s (image is cached, just resuming the VM)
-# To keep always-on (for demos): set min_machines_running = 1
 [http_service]
-  internal_port       = 3000
-  force_https         = true
-  auto_stop_machines  = "stop"   # Stop VM when idle
-  auto_start_machines = true     # Wake on incoming request
-  min_machines_running = 0       # Allow full scale-to-zero
-  processes           = ["app"]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
   [http_service.concurrency]
-    type       = "connections"
+    type = 'connections'
     hard_limit = 25
     soft_limit = 20
 
-[[vm]]
-  size   = "shared-cpu-2x"  # 2 shared vCPUs
-  memory = "512mb"
+  [[http_service.checks]]
+    interval = '15s'
+    timeout = '5s'
+    grace_period = '10s'
+    method = 'GET'
+    path = '/health'
 
-# Health check — Fly uses this to know when the VM is ready after a cold start
-[[http_service.checks]]
-  grace_period = "10s"
-  interval     = "15s"
-  method       = "GET"
-  path         = "/health"
-  timeout      = "5s"
+[[vm]]
+  size = 'shared-cpu-2x'
+  memory = '512mb'

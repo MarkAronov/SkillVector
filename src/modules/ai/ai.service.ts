@@ -6,7 +6,7 @@ import {
 	parseAndValidateJson,
 } from "../../utils/interface-parser";
 import { log } from "../../utils/logger";
-import { parsePersonFromContent } from "../parser/pipeline/person-extractor";
+import { parsePersonFromContent } from "../parser/parser.pipeline.extract";
 import type { AIProvider, SearchResult, TextToJsonResult } from "./ai.types";
 
 /**

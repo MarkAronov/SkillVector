@@ -678,10 +678,332 @@ import { missionContent } from "./AboutUsPage.data.tsx";
 
 ## Backend Standards
 
-### Already Following Best Practices
-- Backend (`src/`) already uses arrow functions ✅
-- Maintains clean separation of concerns ✅
-- Uses proper TypeScript interfaces ✅
+### Architecture: Thin Routes, Fat Services
+**Routes are HTTP adapters — business logic belongs in services.**
+
+- **Routes** only: parse request → call service → return response
+- **Services** contain all: validation, business rules, data transformation
+- **Database layer** only: queries, vector ops, data mapping — no business logic
+
+```typescript
+// ✅ CORRECT - Thin route, fat service
+router.post("/search", async (c) => {
+  const body = await c.req.json();
+  const result = await searchService.search(body);
+  if (!result.success) return c.json({ error: result.error }, 400);
+  return c.json(result.data, 200);
+});
+
+// ❌ WRONG - Business logic leaking into route
+router.post("/search", async (c) => {
+  const body = await c.req.json();
+  if (!body.query || body.query.length < 3) return c.json({ error: "..." }, 400);
+  const embedding = await embed(body.query);  // Should be in service
+  const results = await qdrant.search(embedding); // Should be in service
+  return c.json(results, 200);
+});
+```
+
+### Error Handling — Consistent Result Type
+**All services MUST return a typed result object. Never throw to routes.**
+
+```typescript
+// ✅ CORRECT - Service returns result object
+const search = async (query: string): Promise<ServiceResult<SearchResult[]>> => {
+  try {
+    const results = await vectorSearch(query);
+    return { success: true, data: results };
+  } catch (error) {
+    logger.error("SEARCH_FAILED", { error });
+    return { success: false, error: "Search failed" }; // Generic message to caller
+  }
+};
+
+// ❌ WRONG - Throwing from a service
+const search = async (query: string) => {
+  const results = await vectorSearch(query); // Throws on error — unhandled!
+  return results;
+};
+```
+
+**HTTP Status Code Rules:**
+- `200` — success
+- `400` — bad request (client error: missing/invalid input)
+- `401` — unauthenticated
+- `403` — forbidden (authenticated but not allowed)
+- `404` — not found
+- `422` — unprocessable entity (valid JSON but fails business validation)
+- `429` — rate limited
+- `500` — internal server error (unexpected failure)
+
+**Never expose internal error details to clients:**
+```typescript
+// ✅ CORRECT
+return c.json({ error: "Internal server error" }, 500);
+logger.error("DB_QUERY_FAILED", { error, userId }); // Log the real error internally
+
+// ❌ WRONG - Leaks internal details
+return c.json({ error: error.message, stack: error.stack }, 500);
+```
+
+### Typed Results — Discriminated Unions (2026 Standard)
+**Use proper discriminated unions instead of `{ success: boolean; data?: T }`.**
+
+The plain boolean flag approach compiles, but TypeScript can't narrow `data` after checking `success`. With a discriminated union, after branching on `ok`, TypeScript *guarantees* the type with zero `!` assertions.
+
+```typescript
+// ✅ CORRECT — define once in types/result.ts, reuse everywhere
+type Ok<T> = { ok: true; value: T };
+type Err = { ok: false; error: string; code?: string };
+export type Result<T> = Ok<T> | Err;
+
+// Helper constructors (eliminates repetitive object literals)
+export const ok = <T>(value: T): Ok<T> => ({ ok: true, value });
+export const err = (error: string, code?: string): Err => ({ ok: false, error, code });
+
+// Service — fully narrowed return type
+const search = async (query: string): Promise<Result<SearchResult[]>> => {
+  try {
+    const results = await vectorSearch(query);
+    return ok(results);                // TypeScript knows value is SearchResult[]
+  } catch (e) {
+    logger.error("SEARCH_FAILED", { e });
+    return err("Search failed", "SEARCH_ERROR");
+  }
+};
+
+// Route — TypeScript narrows after the branch, no ?. or ! needed
+const result = await search(query);
+if (!result.ok) return c.json({ error: result.error }, 400);
+result.value; // ✅ TypeScript knows this is SearchResult[], not SearchResult[] | undefined
+
+// ❌ OLD PATTERN — compiles but data is always T | undefined after the check
+type ServiceResult<T> = { success: boolean; data?: T; error?: string };
+const result = await search(query);
+if (result.success) {
+  result.data; // ⚠️ Still typed as SearchResult[] | undefined — TypeScript can't narrow optional fields
+}
+```
+
+**Rules:**
+- Define `Result<T>`, `ok()`, and `err()` once in `src/types/result.ts` — import from there everywhere
+- Use `ok` / `err` as the field name (industry convention; aligns with Rust, Effect-ts)
+- Add an optional `code` string to `Err` for machine-readable error categories (useful for client-side branching)
+- Never mix the old `{ success, data?, error? }` shape with the new one in the same codebase
+
+### Validation with Zod — API Boundaries Only
+**Validate ALL external input at the route/service boundary with Zod. Trust nothing from outside.**
+
+```typescript
+// ✅ CORRECT - Zod schema at boundary
+const SearchSchema = z.object({
+  query: z.string().min(1).max(500),
+  limit: z.number().int().min(1).max(50).optional().default(10),
+});
+
+const search = async (body: unknown): Promise<ServiceResult<SearchResult[]>> => {
+  // Parse and validate input at the entry point
+  const parsed = SearchSchema.safeParse(body);
+  if (!parsed.success) {
+    return { success: false, error: parsed.error.issues[0].message };
+  }
+  // Proceed with typed, safe data
+  return searchVectors(parsed.data.query, parsed.data.limit);
+};
+
+// ❌ WRONG - No validation, trusting raw input
+const search = async (body: any) => {
+  return searchVectors(body.query, body.limit);
+};
+```
+
+**Zod schemas serve as both runtime validation and TypeScript types:**
+```typescript
+// ✅ Use z.infer<> to avoid duplicating types
+const ContactSchema = z.object({ ... });
+type ContactInput = z.infer<typeof ContactSchema>; // Type derived from schema
+```
+
+### Type Safety — No `any`, No `unknown` Without Narrowing
+```typescript
+// ✅ CORRECT - Explicit types, narrowing unknown
+const handleError = (error: unknown): string => {
+  if (error instanceof Error) return error.message;
+  return "Unknown error occurred";
+};
+
+// ❌ WRONG - Silencing TypeScript
+const handleError = (error: any) => error.message; // Crashes if error isn't Error
+```
+
+**Rules:**
+- **Never use `any`** — use `unknown` and narrow it, or define a proper type
+- **Define interfaces before implementation** — types drive design
+- **Types in `.types.ts` files** — co-located with the module that owns them (`ai/types.ts`, `database/types.ts`, etc.)
+- **Avoid type assertions** (`as SomeType`) except when you can guarantee correctness
+- **Use `satisfies` over `as`** when checking config objects against interfaces
+
+### Logging — Structured, Never Raw `console.log`
+**Use the project's structured `logger.ts` for all server-side output. Never use `console.log` in business logic.**
+
+```typescript
+// ✅ CORRECT - Structured log with category and context
+logger.info("SEARCH_COMPLETE", { resultCount: results.length, duration_ms: elapsed });
+logger.error("DB_INIT_FAILED", { error: error.message, collection });
+logger.warn("RATE_LIMIT_APPROACHING", { ip, requestsRemaining });
+
+// ❌ WRONG
+console.log("search done", results); // Unstructured, hard to filter/parse
+console.error(error);                // Raw errors may leak sensitive info
+```
+
+**Never log PII or secrets:**
+```typescript
+// ❌ WRONG - PII in logs
+logger.info("USER_SEARCH", { query, userEmail, apiKey }); // Never log email/keys
+
+// ✅ CORRECT
+logger.info("USER_SEARCH", { queryLength: query.length, userId }); // Anonymized
+```
+
+### Environment & Config — Fail Fast, Centralize
+**Validate all environment variables at startup. Never access `process.env` scattered throughout the codebase.**
+
+```typescript
+// ✅ CORRECT - Central config with validation at startup
+// src/config/index.ts
+const requiredEnvVars = ["QDRANT_URL", "OPENAI_API_KEY"] as const;
+const missingVars = requiredEnvVars.filter(v => !process.env[v]);
+if (missingVars.length > 0) {
+  throw new Error(`Missing required env vars: ${missingVars.join(", ")}`);
+}
+
+export const config = {
+  qdrantUrl: process.env.QDRANT_URL!,
+  openaiKey: process.env.OPENAI_API_KEY!,
+  port: Number(process.env.PORT ?? 3000),
+} as const;
+
+// ❌ WRONG - process.env used anywhere and everywhere
+const client = new DatabaseClient({ url: process.env.DATABASE_URL }); // Silently undefined
+```
+
+**Rules:**
+- All `process.env` access lives in `src/config/` — nowhere else
+- Validate presence and format at startup — fail fast with a clear error message
+- Never hardcode ports, URLs, API keys, or service URLs
+- Use `.env.example` to document required variables (never commit `.env`)
+
+### Security Rules
+Specific to this backend — see also OWASP Top 10 in the general security requirements:
+
+- **Rate limit all endpoints** — use a tiered rate limiting strategy (general → AI-specific → strict). Add new sensitive endpoints to the strictest tier.
+- **Validate Content-Type** — reject malformed or unexpected MIME types on POST endpoints
+- **Sanitize inputs before passing to Qdrant/LangChain** — filter unexpected fields via Zod `.strict()` where appropriate
+- **AI prompt injection** — treat AI-generated content as untrusted; never directly return raw LLM output as executable instructions
+- **No secrets in source code** — API keys, connection strings, and tokens live in `.env` only
+- **CORS is intentional** — do not use `origin: "*"` in production; always scope to trusted domains
+
+### Performance Rules
+- **Lazy initialization** — expensive clients (Qdrant, embedding models) are initialized once at startup, not on every request
+- **Module-level singletons** — share initialized clients across requests using module-level `let` variables guarded by an init promise
+- **Never block the event loop** — all I/O must be `await`'d; never use synchronous fs methods (`fs.readFileSync`) in a request path
+- **Batch over loops** — when processing multiple items, batch API calls rather than making sequential awaits in a loop
+
+```typescript
+// ✅ CORRECT - Batch processing
+const embeddings = await embeddingModel.embedDocuments(texts); // One call
+
+// ❌ WRONG - Sequential awaits in a loop
+for (const text of texts) {
+  embeddings.push(await embeddingModel.embedQuery(text)); // N API calls
+}
+```
+
+### Code Style (Backend-Specific)
+- **Arrow functions everywhere** — already enforced
+- **Early returns / guard clauses** — avoid deeply nested if-else
+- **`async/await` over `.then()`** — more readable, easier to debug
+- **Meaningful names** — `personHash` not `h`, `searchResults` not `res`
+- **No magic strings** — extract repeated strings to constants
+
+```typescript
+// ✅ CORRECT - Early return guard clauses
+const processResult = async (input: unknown) => {
+  const parsed = Schema.safeParse(input);
+  if (!parsed.success) return { success: false, error: "Invalid input" };
+
+  const record = await db.find(parsed.data.id);
+  if (!record) return { success: false, error: "Not found" };
+
+  return { success: true, data: transform(record) };
+};
+
+// ❌ WRONG - Deeply nested
+const processResult = async (input: unknown) => {
+  const parsed = Schema.safeParse(input);
+  if (parsed.success) {
+    const record = await db.find(parsed.data.id);
+    if (record) {
+      return { success: true, data: transform(record) };
+    } else { return { success: false, error: "Not found" }; }
+  } else { return { success: false, error: "Invalid input" }; }
+};
+```
+
+### File Organization (Backend) — Hybrid Architecture
+
+The backend uses a **hybrid** of two patterns. Choose based on domain complexity:
+
+**Every feature — regardless of size — lives in its own folder.** Route, service, and types for a feature are co-located, never split across a global `routes/` or `services/` directory.
+
+**Dependency Direction — the one rule that must never break:**
+- Routes → Services → Shared infrastructure (one-way, no cycles)
+- Services can import from shared database, utilities, and types
+- Shared infrastructure cannot import from feature modules
+- Services cannot import from routes
+- Feature modules cannot cross-import each other
+
+### File Naming Conventions
+
+Consistent naming is mandatory. One suffix convention per role:
+
+| Role | Convention | Example |
+|---|---|
+---|
+| Route handler | `<feature>.route.ts` | `contact.route.ts`, `ai.route.ts`, `parser.route.ts` |
+| Service / business logic | `<feature>.service.ts` | `contact.service.ts`, `health.service.ts`, `ai.service.ts` |
+| Types only (no logic) | `<feature>.types.ts` | `ai.types.ts`, `parser.types.ts`, `database.types.ts` |
+| Config / env | `<purpose>.config.ts` | `env.config.ts` |
+| Factory function | `<thing>-factory.ts` | `embedding-factory.ts`, `provider-factory.ts` |
+| Pure utility | `<verb>-<noun>.ts` | `interface-parser.ts` |
+| Zod schemas | co-locate with the service that owns them | inside `contact.service.ts` |
+
+**Rules:**
+- **Every feature gets its own folder** — never split a feature's route and service into separate global `routes/` / `services/` directories
+- **Never use `health.services.ts` style** — one suffix only: `health.service.ts`
+- **Never put logic in `types/`** — if a file contains functions, it belongs in its feature folder or `utils/`
+- **No circular imports** — services do not import from routes; database does not import from services
+- **Barrel exports** — each directory exposes a clean `index.ts` for external imports
+- **Test files co-located** — `contact/contact.service.test.ts` lives next to `contact/contact.service.ts`
+
+### API Design Conventions
+- **Consistent response envelope** — every endpoint returns the same shape:
+  ```typescript
+  // Success
+  { data: T, meta?: { total: number, page: number } }
+  // Error
+  { error: string }
+  ```
+- **RESTful methods** — `GET` for reads, `POST` for creates/complex queries, `PUT`/`PATCH` for updates, `DELETE` for removal
+- **Prefix all routes with `/api`** — already doing; helps future proxying and versioning
+- **Health endpoint** — expose a health check route that checks all dependencies; return `healthy / degraded / unhealthy`
+
+### After Making Backend Changes
+```bash
+bun run build   # Confirm TypeScript compiles without errors
+bun run lint    # Catch style/quality violations (biome enforces no console.log, etc.)
+```
 
 ## Scripts & Tooling
 
@@ -753,6 +1075,17 @@ bun run lint     # Check for linting issues
 21. **Make code changes without inline comments** - every change needs explanation
 22. **Guess at fixes without understanding the root cause** - diagnose first by reading code and tracing the issue, then fix with confidence. Never shotgun random changes hoping one sticks.
 23. **Hardcode text content, URLs, or configuration in components** - extract to `.data.tsx`, `.env`, or config files
+24. **Put business logic in routes** - routes are HTTP adapters only; logic belongs in services
+25. **Throw errors from services to routes** - services return `{ success, data?, error? }` result objects
+26. **Use `any` type in backend code** - use `unknown` and narrow, or define a proper interface
+27. **Access `process.env` outside of `src/config/`** - all env var access is centralized
+28. **Use `console.log` in backend business logic** - use the structured `logger.ts` utility
+29. **Log PII, secrets, or API keys** - strip sensitive data before logging
+30. **Expose raw error messages or stack traces to API clients** - log internally, return generic message
+31. **Skip Zod validation on incoming API request bodies** - validate all external input at service boundary
+32. **Use synchronous fs or blocking operations in request handlers** - all I/O must be `await`'d
+33. **Initialize expensive clients (Qdrant, LLM) on every request** - use module-level singletons initialized at startup
+34. **Use `origin: "*"` for CORS in production** - always scope to trusted domains
 
 ### ✅ ALWAYS DO:
 1. Use arrow functions for all functions/components
@@ -777,24 +1110,15 @@ bun run lint     # Check for linting issues
 20. **Keep pages simple** - use `<PageTemplate title="Page Name">` with only title prop unless instructed otherwise
 21. **Add comments when refactoring** - explain the purpose of each logical group
 22. **Separate content from presentation** - extract text/data to `.data.tsx` files, config to `.env` or config files
-7. Maintain generous vertical spacing
-8. Explain WHY, not just WHAT
-9. Break down complex expressions into readable steps
-10. Follow atomic design hierarchy
-11. **Use Bun as package manager** (both frontend & backend)
-12. **Run `bun run build` and `bun run lint` after frontend changes**
-13. **Keep output concise** - avoid creating unnecessary files
-14. **Extract reusable logic** into shared utilities/hooks/components
-15. **Use variant systems** instead of creating duplicate components
-16. **Apply DRY principle** - Don't Repeat Yourself
-17. **Build from lower levels** - use existing atoms in molecules, molecules in organisms
-18. **Check for existing components** before creating new ones at any level
-19. **Discuss with user** if a component seems to need special treatment or exceptions
-20. **Keep pages simple** - use `<PageTemplate title="Page Name">` with only title prop unless instructed otherwise
+23. **Return consistent result objects from services** - `{ success: boolean; data?: T; error?: string }`
+24. **Validate all incoming API request bodies with Zod** - trust nothing from outside
+25. **Run `bun run build` and `bun run lint` after backend changes** - same discipline as frontend
+26. **Use structured logger** for all backend output — never raw `console.log`
+27. **Centralize env access in `src/config/`** - validate all vars at startup, fail fast
 
 ## Quality Checklist
 
-Before considering any component complete:
+### Frontend — Before Considering a Component Complete:
 - [ ] Uses arrow functions
 - [ ] **Has inline comments explaining all code changes**
 - [ ] Has component-level documentation
@@ -817,6 +1141,23 @@ Before considering any component complete:
 - [ ] **Pages are lightweight** - templates handle layout, pages contain only content
 - [ ] **Content separated from presentation** - text/data in `.data.tsx`, config in `.env` files
 
+### Backend — Before Considering a Route/Service Complete:
+- [ ] Route only parses request → calls service → returns response (no business logic)
+- [ ] Service returns `{ success: boolean; data?: T; error?: string }` — never throws to routes
+- [ ] All incoming request bodies validated with Zod at the service boundary
+- [ ] Uses `unknown` (not `any`) for external inputs, narrowed before use
+- [ ] No `process.env` accessed outside `src/config/`
+- [ ] No `console.log` — uses structured `logger.ts` with a message key and context object
+- [ ] No PII, secrets, or stack traces in log output
+- [ ] Raw internal error details never returned to API clients
+- [ ] Correct HTTP status codes used (400 for client errors, 404 for missing, 500 for server errors)
+- [ ] All I/O is `await`'d — no blocking synchronous calls in the request path
+- [ ] Expensive clients (Qdrant, LLM) not re-initialized per request — use startup singletons
+- [ ] **`bun run build` passes** (root-level, not frontend)
+- [ ] **`bun run lint` passes** (biome enforces no `console.log`, `any`, etc.)
+- [ ] Types defined in co-located `.types.ts` files
+- [ ] No circular imports (services don't import routes, db doesn't import services)
+
 ## Philosophy
 
 > "Code should be written for humans first, machines second. Every future developer (including yourself) should be able to understand the code's purpose and decisions at a glance. Clarity and maintainability trump brevity every time."
@@ -827,6 +1168,6 @@ Before considering any component complete:
 
 ---
 
-**Last Updated:** February 4, 2026
+**Last Updated:** March 5, 2026
 **Maintained By:** Development Team
 **Applies To:** All code in SkillVector repository except `frontend/src/components/ui/`

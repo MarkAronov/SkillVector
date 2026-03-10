@@ -4,7 +4,7 @@
  */
 
 import { qdrantStatus } from "../../database";
-import { getDataStoreStats } from "../parser/parser.service";
+import { getDataStoreStats } from "../parser/parser.service.process";
 
 export interface HealthStatus {
 	status: "healthy" | "degraded" | "unhealthy";

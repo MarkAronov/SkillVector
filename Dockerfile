@@ -1,6 +1,7 @@
 # Dockerfile for SkillVector Backend with Bun
 # Bun runs TypeScript directly — no compilation step needed, single stage is sufficient
-FROM oven/bun:1
+# Pin to 1.3 to match the text-based bun.lock format (introduced in 1.2.0)
+FROM oven/bun:1.3
 WORKDIR /app
 
 # Install dependencies first (separate layer for Docker cache efficiency)

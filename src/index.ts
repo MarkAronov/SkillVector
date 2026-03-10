@@ -3,21 +3,22 @@ import { cors } from "hono/cors";
 import {
 	logCurrentConfiguration,
 	validateEnvironment,
-} from "./config/env.config";
+} from "./config/config.env";
 import { createLangChainVectorStore, initQdrant } from "./database";
 import { generalRateLimiter } from "./middleware/rate-limiter";
-import aiRouter from "./modules/ai/ai.route";
-import { initializeAIService } from "./modules/ai/ai.service";
-import { createBestAvailable } from "./modules/ai/providers/provider-factory";
-import contactRouter from "./modules/contact/contact.route";
-import { checkApplicationHealth } from "./modules/health/health.service";
-import parserApp from "./modules/parser/parser.route";
+import aiRouter, {
+	createBestAvailable,
+	initializeAIService,
+} from "./modules/ai";
+import { contactRouter } from "./modules/contact";
+import { checkApplicationHealth } from "./modules/health";
+import type { ProcessedFile } from "./modules/parser";
 import {
+	parserRouter as parserApp,
 	processFiles,
 	scanStaticDataFolder,
 	storeProcessedData,
-} from "./modules/parser/parser.service";
-import type { ProcessedFile } from "./modules/parser/parser.types";
+} from "./modules/parser";
 import { log, separator } from "./utils/logger";
 
 /**
@@ -174,13 +175,18 @@ const runInitialization = async (): Promise<void> => {
 			separator();
 			log("APP_READY");
 
-			// Determine the actual server URL based on environment
+			// Determine the actual server URL based on environment:
+			// FLY_APP_NAME is auto-set by Fly.io, VERCEL_URL by Vercel, RENDER_EXTERNAL_URL by Render
 			const port = process.env.PORT || 3000;
-			const serverUrl = process.env.RENDER_EXTERNAL_URL
-				? process.env.RENDER_EXTERNAL_URL
-				: process.env.NODE_ENV === "production" && process.env.BACKEND_URL
-					? process.env.BACKEND_URL
-					: `http://localhost:${port}`;
+			const serverUrl = process.env.FLY_APP_NAME
+				? `https://${process.env.FLY_APP_NAME}.fly.dev`
+				: process.env.VERCEL_URL
+					? `https://${process.env.VERCEL_URL}`
+					: process.env.RENDER_EXTERNAL_URL
+						? process.env.RENDER_EXTERNAL_URL
+						: process.env.NODE_ENV === "production" && process.env.BACKEND_URL
+							? process.env.BACKEND_URL
+							: `http://localhost:${port}`;
 
 			log("SERVER_URL", { url: serverUrl }, 1);
 			separator();

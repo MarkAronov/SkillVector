@@ -1,31 +1,17 @@
 # Dockerfile for SkillVector Backend with Bun
-FROM oven/bun:1 AS base
+# Bun runs TypeScript directly — no compilation step needed, single stage is sufficient
+FROM oven/bun:1
 WORKDIR /app
 
-# Install dependencies
-FROM base AS install
-RUN mkdir -p /temp/dev
-COPY package.json bun.lock /temp/dev/
-RUN cd /temp/dev && bun install --frozen-lockfile
+# Install dependencies first (separate layer for Docker cache efficiency)
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
 
-# Copy production dependencies
-RUN mkdir -p /temp/prod
-COPY package.json bun.lock /temp/prod/
-RUN cd /temp/prod && bun install --frozen-lockfile
+# Copy source code
+COPY src ./src
+COPY tsconfig.json ./
 
-# Copy source code and build
-FROM base AS prerelease
-COPY --from=install /temp/dev/node_modules node_modules
-COPY . .
-
-# Production image
-FROM base AS release
-COPY --from=install /temp/prod/node_modules node_modules
-COPY --from=prerelease /app/src ./src
-COPY --from=prerelease /app/package.json .
-COPY --from=prerelease /app/tsconfig.json .
-
-# Create non-root user
+# Create non-root user for security
 RUN groupadd --system --gid 1001 nodejs && \
     useradd --system --uid 1001 --gid nodejs bunuser
 USER bunuser

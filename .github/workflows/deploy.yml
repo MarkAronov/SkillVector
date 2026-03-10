@@ -64,6 +64,25 @@ jobs:
         uses: actions/deploy-pages@v4
 
   # ------------------------------------------------------------------
+  # BACKEND DEPLOY — Fly.io (scales to zero, EU / ams region)
+  # ------------------------------------------------------------------
+  deploy-backend:
+    needs: flags
+    if: ${{ needs.flags.outputs.skip_deploy != 'true' }}
+    name: Deploy Backend to Fly.io
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy to Fly.io
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  # ------------------------------------------------------------------
   # OPENAPI GENERATION
   # ------------------------------------------------------------------
   generate-openapi:

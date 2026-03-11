@@ -71,6 +71,7 @@
 		"cross-env": "^7.0.3"
 	},
 	"lint-staged": {
+		"package.json": "bash -c 'bun install && git add bun.lock'",
 		"src/**/*.{ts,tsx,js,jsx}": [
 			"biome format --write",
 			"biome check --fix"

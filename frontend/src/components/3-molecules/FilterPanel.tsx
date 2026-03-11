@@ -1,5 +1,3 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { X } from "lucide-react";
 import {
 	Select,
 	SelectContent,
@@ -8,6 +6,8 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { X } from "lucide-react";
 import { BORDERS, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Badge } from "../2-atoms/Badge";
 import { Button } from "../2-atoms/Button";
@@ -297,7 +297,7 @@ export const FilterPanel = ({
 									SPACING.GAP.sm,
 								)}
 							>
-									{/* Animate each badge in/out for smooth filter feedback */}
+								{/* Animate each badge in/out for smooth filter feedback */}
 								<AnimatePresence mode="popLayout">
 									{activeFilters.map((filter) => (
 										<motion.div

@@ -1,8 +1,8 @@
+import { cn } from "@/lib/utils";
 import { Link as RouterLink, useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, Search, X } from "lucide-react";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 import { useTheme } from "../../hooks/useTheme";
 import { SIZING, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Glass } from "../1-ions/Glass";
@@ -222,7 +222,6 @@ export const Header = () => {
 									</Button>
 								</Div>
 							</Div>
-
 						</nav>
 					</header>
 				</Glass>
@@ -263,9 +262,7 @@ export const Header = () => {
 											SPACING.GAP.md,
 										)}
 									>
-										{navigationItems.map((item) =>
-											renderNavLink(item, true),
-										)}
+										{navigationItems.map((item) => renderNavLink(item, true))}
 										<Button
 											variant="ghost"
 											type="button"

@@ -1,3 +1,5 @@
+import { useSearch as useSearchAPI } from "@/hooks/useSearch";
+import type { SearchResult } from "@/types/search.types";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
 	Briefcase,
@@ -7,8 +9,6 @@ import {
 	Star,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { useSearch as useSearchAPI } from "@/hooks/useSearch";
-import type { SearchResult } from "@/types/search.types";
 import { SIZING } from "../1-ions";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
@@ -147,11 +147,7 @@ export const SearchPage = () => {
 		if (regionFilter !== "all") {
 			filtered = filtered.filter((person) => {
 				// Combine all location-related fields so city-only or country-only records match correctly
-				const locationStr = [
-					person.location,
-					person.country,
-					person.city,
-				]
+				const locationStr = [person.location, person.country, person.city]
 					.filter(Boolean)
 					.join(" ")
 					.toLowerCase();

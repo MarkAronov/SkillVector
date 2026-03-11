@@ -1,18 +1,12 @@
-# fly.toml app configuration file generated for skillvector-api on 2026-03-10T07:06:17+02:00
+# fly.toml app configuration file generated for skillvector on 2026-03-11T02:03:37Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'skillvector-api'
-primary_region = 'ams'
+app = 'skillvector'
+primary_region = 'iad'
 
 [build]
-  dockerfile = 'Dockerfile'
-
-[env]
-  NODE_ENV = 'production'
-  PORT = '3000'
-  SKIP_STATIC_DATA = 'true'
 
 [http_service]
   internal_port = 3000
@@ -22,18 +16,8 @@ primary_region = 'ams'
   min_machines_running = 0
   processes = ['app']
 
-  [http_service.concurrency]
-    type = 'connections'
-    hard_limit = 25
-    soft_limit = 20
-
-  [[http_service.checks]]
-    interval = '15s'
-    timeout = '5s'
-    grace_period = '10s'
-    method = 'GET'
-    path = '/health'
-
 [[vm]]
-  size = 'shared-cpu-2x'
-  memory = '512mb'
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 1024

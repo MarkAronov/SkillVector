@@ -1,4 +1,5 @@
 import { Link as RouterLink, useLocation } from "@tanstack/react-router";
+import { AnimatePresence, motion } from "framer-motion";
 import { Menu, Search, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -85,8 +86,8 @@ export const Header = () => {
 		<Div className="w-full sticky top-0 z-[999999999999] pointer-events-none pt-3">
 			<Div
 				className={cn(
-					// Layout
-					"mx-auto pointer-events-auto",
+					// Layout — relative so the absolute dropdown is anchored here
+					"mx-auto pointer-events-auto relative",
 					// Sizing
 					"w-[calc(100%-2rem)] max-w-5xl",
 				)}
@@ -222,25 +223,49 @@ export const Header = () => {
 								</Div>
 							</Div>
 
-							{/* Mobile Navigation */}
-							{mobileMenuOpen && (
-								<Div
-									className={cn(
-										// Layout
-										"md:hidden",
-										// Spacing
-										SPACING.PADDING_Y.md,
-									)}
-								>
+						</nav>
+					</header>
+				</Glass>
+
+				{/* Mobile Navigation Dropdown
+				    Positioned absolutely below the pill so the header height never changes.
+				    AnimatePresence drives the slide-in / slide-out transition. */}
+				<AnimatePresence>
+					{mobileMenuOpen && (
+						<motion.div
+							initial={{ opacity: 0, y: -8, scale: 0.97 }}
+							animate={{ opacity: 1, y: 0, scale: 1 }}
+							exit={{ opacity: 0, y: -8, scale: 0.97 }}
+							transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+							// Float directly below the pill without pushing page content
+							className="absolute top-full left-0 right-0 mt-2 md:hidden"
+						>
+							<Glass
+								variant="panel"
+								className={cn(
+									// Effects
+									"backdrop-blur-sm rounded-2xl",
+									// Colors — match the main pill
+									"bg-white/40 dark:bg-black/30",
+									// Shadows
+									"shadow-lg shadow-black/5 dark:shadow-black/20",
+									// Border
+									"border border-white/20 dark:border-white/10",
+								)}
+							>
+								<nav>
 									<Div
 										className={cn(
 											// Layout
 											"flex flex-col",
-											// Spacing
+											// Spacing — horizontal padding + vertical padding + gap between items
+											"px-4 py-4",
 											SPACING.GAP.md,
 										)}
 									>
-										{navigationItems.map((item) => renderNavLink(item, true))}
+										{navigationItems.map((item) =>
+											renderNavLink(item, true),
+										)}
 										<Button
 											variant="ghost"
 											type="button"
@@ -263,11 +288,11 @@ export const Header = () => {
 											<Span>{themeLabel}</Span>
 										</Button>
 									</Div>
-								</Div>
-							)}
-						</nav>
-					</header>
-				</Glass>
+								</nav>
+							</Glass>
+						</motion.div>
+					)}
+				</AnimatePresence>
 			</Div>
 		</Div>
 	);

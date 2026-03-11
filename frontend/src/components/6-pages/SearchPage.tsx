@@ -146,22 +146,44 @@ export const SearchPage = () => {
 		// Apply region filter
 		if (regionFilter !== "all") {
 			filtered = filtered.filter((person) => {
-				const location = (
-					person.location ||
-					person.country ||
-					""
-				).toLowerCase();
+				// Combine all location-related fields so city-only or country-only records match correctly
+				const locationStr = [
+					person.location,
+					person.country,
+					person.city,
+				]
+					.filter(Boolean)
+					.join(" ")
+					.toLowerCase();
+
 				const regionMap: Record<string, string[]> = {
 					"north-america": [
 						"usa",
 						"canada",
 						"mexico",
 						"united states",
+						"u.s.",
+						"u.s.a",
 						"america",
-						"us",
+						// US major cities — many records only store the city
+						"new york",
+						"california",
+						"texas",
+						"seattle",
+						"chicago",
+						"san francisco",
+						"los angeles",
+						"boston",
+						"austin",
+						// Canadian cities
+						"toronto",
+						"vancouver",
+						"montreal",
 					],
 					europe: [
 						"uk",
+						"united kingdom",
+						"england",
 						"germany",
 						"france",
 						"spain",
@@ -169,32 +191,222 @@ export const SearchPage = () => {
 						"poland",
 						"netherlands",
 						"europe",
+						"sweden",
+						"norway",
+						"denmark",
+						"finland",
+						"switzerland",
+						"austria",
+						"belgium",
+						"portugal",
+						"ireland",
+						"czech",
+						"greece",
+						"romania",
+						"hungary",
+						"ukraine",
+						"russia",
+						"turkey",
+						// Major EU cities
+						"london",
+						"berlin",
+						"paris",
+						"amsterdam",
+						"madrid",
+						"rome",
+						"warsaw",
+						"stockholm",
 					],
-					asia: ["india", "china", "japan", "korea", "singapore", "asia"],
-					"south-america": ["brazil", "argentina", "chile", "colombia"],
-					africa: ["south africa", "egypt", "nigeria", "kenya", "africa"],
-					oceania: ["australia", "new zealand", "oceania"],
+					asia: [
+						"india",
+						"china",
+						"japan",
+						"korea",
+						"singapore",
+						"asia",
+						"vietnam",
+						"thailand",
+						"indonesia",
+						"philippines",
+						"malaysia",
+						"taiwan",
+						"hong kong",
+						"bangladesh",
+						"pakistan",
+						"sri lanka",
+						// Major Asian cities
+						"mumbai",
+						"delhi",
+						"bangalore",
+						"hyderabad",
+						"chennai",
+						"beijing",
+						"tokyo",
+						"seoul",
+						"shanghai",
+						"shenzhen",
+					],
+					"south-america": [
+						"brazil",
+						"argentina",
+						"chile",
+						"colombia",
+						"peru",
+						"venezuela",
+						"ecuador",
+						"uruguay",
+						"bolivia",
+						"south america",
+						// Major SA cities
+						"sao paulo",
+						"buenos aires",
+						"bogota",
+						"lima",
+					],
+					africa: [
+						"south africa",
+						"egypt",
+						"nigeria",
+						"kenya",
+						"africa",
+						"ethiopia",
+						"ghana",
+						"tanzania",
+						"morocco",
+						"algeria",
+						"mozambique",
+						// Major African cities
+						"johannesburg",
+						"cairo",
+						"lagos",
+						"nairobi",
+						"cape town",
+					],
+					oceania: [
+						"australia",
+						"new zealand",
+						"oceania",
+						"pacific",
+						// Major Oceania cities
+						"sydney",
+						"melbourne",
+						"brisbane",
+						"perth",
+						"auckland",
+					],
 				};
 				const keywords = regionMap[regionFilter] || [];
-				return keywords.some((k) => location.includes(k));
+				return keywords.some((k) => locationStr.includes(k));
 			});
 		}
 
 		// Apply role filter
 		if (roleFilter !== "all") {
 			filtered = filtered.filter((person) => {
-				const role = (person.role || "").toLowerCase();
+				// Search role and description for broader coverage
+				const roleText = [person.role, person.description]
+					.filter(Boolean)
+					.join(" ")
+					.toLowerCase();
 				const roleMap: Record<string, string[]> = {
-					engineering: ["engineer", "developer", "programmer", "software"],
-					design: ["designer", "ux", "ui"],
-					product: ["product manager", "product owner", "pm"],
-					data: ["data scientist", "data analyst", "analytics"],
-					management: ["manager", "director", "lead", "cto", "ceo"],
-					marketing: ["marketing", "growth"],
-					sales: ["sales", "account executive"],
+					engineering: [
+						"engineer",
+						"developer",
+						"programmer",
+						"software",
+						"frontend",
+						"front-end",
+						"front end",
+						"backend",
+						"back-end",
+						"back end",
+						"fullstack",
+						"full-stack",
+						"full stack",
+						"devops",
+						"dev ops",
+						"sre",
+						"infrastructure",
+						"platform",
+						"architect",
+						"mobile",
+						"android",
+						"ios",
+						"cloud",
+						"embedded",
+						"systems",
+						"web developer",
+					],
+					design: [
+						"designer",
+						"ux",
+						"ui",
+						"ux/ui",
+						"ui/ux",
+						"graphic",
+						"visual",
+						"creative",
+						"interaction",
+						"product designer",
+					],
+					product: [
+						"product manager",
+						"product owner",
+						"pm",
+						"scrum master",
+						"agile coach",
+						// Avoid matching "product engineer" etc — keep short tokens last
+						"product lead",
+					],
+					data: [
+						"data scientist",
+						"data analyst",
+						"data engineer",
+						"analytics",
+						"machine learning",
+						"ml engineer",
+						"deep learning",
+						"artificial intelligence",
+						"ai engineer",
+						"researcher",
+						"bi analyst",
+						"business intelligence",
+						"statistician",
+					],
+					management: [
+						"manager",
+						"director",
+						"team lead",
+						"lead",
+						"cto",
+						"ceo",
+						"coo",
+						"vp",
+						"vice president",
+						"head of",
+						"principal",
+						"chief",
+					],
+					marketing: [
+						"marketing",
+						"growth",
+						"content",
+						"copywriter",
+						"seo",
+						"brand",
+						"communications",
+						"social media",
+					],
+					sales: [
+						"sales",
+						"account executive",
+						"account manager",
+						"business development",
+						"revenue",
+					],
 				};
 				const keywords = roleMap[roleFilter] || [];
-				return keywords.some((k) => role.includes(k));
+				return keywords.some((k) => roleText.includes(k));
 			});
 		}
 

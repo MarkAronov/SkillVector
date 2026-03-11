@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import {
 	Select,
@@ -7,7 +8,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { SPACING, TYPOGRAPHY } from "../1-ions";
+import { BORDERS, SPACING, TYPOGRAPHY } from "../1-ions";
 import { Badge } from "../2-atoms/Badge";
 import { Button } from "../2-atoms/Button";
 import { Div } from "../2-atoms/Div";
@@ -208,7 +209,13 @@ export const FilterPanel = ({
 									{search.icon}
 								</Div>
 							)}
-							<Input />
+							<Input
+								value={search.value}
+								onChange={(e) => search.onChange(e.target.value)}
+								placeholder={search.placeholder}
+								// Shift text right when icon is present so it doesn't overlap
+								className={search.icon ? "pl-9" : undefined}
+							/>
 						</Div>
 					</Div>
 				)}
@@ -230,7 +237,14 @@ export const FilterPanel = ({
 								onValueChange={(value) => onFilterChange?.(filter.value, value)}
 							>
 								{/* Full-width on small screens, fixed token width on larger screens */}
-								<SelectTrigger className="w-full sm:w-40">
+								<SelectTrigger
+									className={cn(
+										"w-full sm:w-40",
+										// Echo the same accent-border hover as other interactive controls
+										"transition-colors",
+										BORDERS.INTERACTIVE.hoverAccent,
+									)}
+								>
 									{filter.icon}
 									<SelectValue />
 								</SelectTrigger>
@@ -283,22 +297,32 @@ export const FilterPanel = ({
 									SPACING.GAP.sm,
 								)}
 							>
-								{activeFilters.map((filter, index) => (
-									<Badge
-										key={`${filter.type}-${index}`}
-										variant="secondary"
-										className={cn(
-											// Spacing
-											SPACING.GAP.xs,
-											// States
-											"cursor-pointer hover:bg-secondary/80 transition-colors",
-										)}
-										onClick={() => onRemoveFilter?.(filter.type)}
-									>
-										{filter.label}
-										<X className="h-3 w-3" />
-									</Badge>
-								))}
+									{/* Animate each badge in/out for smooth filter feedback */}
+								<AnimatePresence mode="popLayout">
+									{activeFilters.map((filter) => (
+										<motion.div
+											key={filter.type}
+											initial={{ opacity: 0, scale: 0.85 }}
+											animate={{ opacity: 1, scale: 1 }}
+											exit={{ opacity: 0, scale: 0.85 }}
+											transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+										>
+											<Badge
+												variant="secondary"
+												className={cn(
+													// Spacing
+													SPACING.GAP.xs,
+													// States
+													"cursor-pointer hover:bg-secondary/80 transition-colors",
+												)}
+												onClick={() => onRemoveFilter?.(filter.type)}
+											>
+												{filter.label}
+												<X className="h-3 w-3" />
+											</Badge>
+										</motion.div>
+									))}
+								</AnimatePresence>
 							</Div>
 							{onClearAll && (
 								<Button

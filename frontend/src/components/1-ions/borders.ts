@@ -64,4 +64,36 @@ export const BORDERS = {
 		x: "border-x", // Horizontal edges (top + bottom)
 		y: "border-y", // Vertical edges (left + right)
 	},
+
+	/**
+	 * Border color tokens
+	 * Semantic color states for bordered elements.
+	 * Reference CSS custom properties so colors adapt to light/dark themes.
+	 */
+	COLOR: {
+		default: "border-border", // Standard resting border
+		muted: "border-border/50", // Subtle low-emphasis border
+		strong: "border-border/80", // Emphasized border
+		focus: "border-accent", // Focus / active state (accent pink)
+		transparent: "border-transparent", // No visible border
+	},
+
+	/**
+	 * Interactive border state tokens
+	 * Pre-combined pseudo-class utilities for common interactive patterns
+	 * so every input/control shares identical focus+hover behaviour.
+	 */
+	INTERACTIVE: {
+		/**
+		 * Standard input focus:
+		 * - swap border to accent pink on keyboard focus
+		 * - suppress the default ring glow (keeps the look clean)
+		 * Uses `!important` modifiers to override shadcn/ui defaults.
+		 */
+		inputFocus: "focus-visible:!border-accent focus-visible:!ring-0",
+		/** Subtle hover feedback — darken default border slightly */
+		hover: "hover:border-border/80",
+		/** Accent-coloured hover — for controls that should echo the focus colour on hover */
+		hoverAccent: "hover:border-accent",
+	},
 } as const;

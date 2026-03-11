@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Input as ShadcnInput } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { BORDERS } from "../1-ions";
 
 /**
  * Input Component
@@ -30,9 +31,8 @@ export const Input = React.forwardRef<
 		<ShadcnInput
 			ref={ref}
 			className={cn(
-				// Pink accent border on focus, no ring glow
-				"focus-visible:!border-accent",
-				"focus-visible:!ring-0",
+				// Use ion token: accent border on focus, suppress ring glow (clean look)
+				BORDERS.INTERACTIVE.inputFocus,
 				className,
 			)}
 			{...props}

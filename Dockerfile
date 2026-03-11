@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 # Dockerfile for SkillVector Backend with Bun
 # Bun runs TypeScript directly — no compilation step needed, single stage is sufficient
 # Pin to 1.3 to match the text-based bun.lock format (introduced in 1.2.0)
@@ -6,7 +7,10 @@ WORKDIR /app
 
 # Install dependencies first (separate layer for Docker cache efficiency)
 COPY package.json bun.lock ./
-RUN bun install --frozen-lockfile
+# Install dependencies with BuildKit cache mount so packages are reused between builds
+# instead of downloading from scratch every time
+RUN --mount=type=cache,target=/root/.bun/install/cache \
+    bun install --frozen-lockfile
 
 # Copy source code
 COPY src ./src
